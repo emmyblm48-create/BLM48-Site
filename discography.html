@@ -22,7 +22,6 @@
 
     body {
       font-family: var(--font-body);
-      background: #fffefb;
       color: var(--blm-ink);
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
@@ -41,7 +40,10 @@
     }
 
     .filter-tabs label {
-      background: var(--blm-cream);
+      background: var(--glass-cream);
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.5);
       font-family: var(--font-body);
       font-size: 14px;
       font-weight: 700;
@@ -54,14 +56,15 @@
       text-align: center;
     }
 
-    .filter-tabs label:hover { background: var(--blm-gold); }
+    .filter-tabs label:hover { background: var(--glass-gold); }
 
     #all:checked ~ .filter-tabs label[for="all"],
     #single:checked ~ .filter-tabs label[for="single"],
     #album:checked ~ .filter-tabs label[for="album"],
     #special:checked ~ .filter-tabs label[for="special"],
     #concert:checked ~ .filter-tabs label[for="concert"] {
-      background: var(--blm-gold);
+      background: var(--glass-gold);
+      border-color: rgba(253, 222, 92, 0.7);
     }
 
     /* --- Main Grid View --- */

@@ -21,7 +21,6 @@
 
     body {
       font-family: var(--font-body);
-      background: #fffefb;
       color: var(--blm-ink);
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
@@ -36,7 +35,10 @@
     }
 
     .news-item {
-      background: var(--blm-cream);
+      background: var(--glass-cream);
+      -webkit-backdrop-filter: blur(14px);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.5);
       border-radius: var(--radius-lg);
       padding: 20px 24px;
       display: flex;
@@ -46,7 +48,7 @@
       transition: all 0.25s ease;
     }
     .news-item:hover {
-      background: var(--blm-gold);
+      background: var(--glass-gold);
       transform: translateX(6px);
     }
 

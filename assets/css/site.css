@@ -44,14 +44,58 @@
 
   --header-h: 72px;
   --ticker-h: 36px;
+
+  /* ---------------- Glassmorphism surfaces ---------------- */
+  --glass-blur: blur(20px) saturate(160%);
+  --glass-bg: rgba(255, 255, 255, 0.45);
+  --glass-bg-strong: rgba(255, 255, 255, 0.62);
+  --glass-bg-soft: rgba(255, 255, 255, 0.30);
+  --glass-border: 1px solid rgba(255, 255, 255, 0.55);
+  --glass-shadow: 0 8px 32px rgba(150, 120, 20, 0.14);
+  --glass-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+
+  --glass-gold: rgba(253, 222, 92, 0.38);
+  --glass-pink: rgba(250, 219, 225, 0.42);
+  --glass-cream: rgba(251, 244, 205, 0.45);
+  --glass-mint: rgba(223, 251, 248, 0.48);
+
+  --glass-dark-bg: rgba(51, 44, 32, 0.55);
+  --glass-dark-bg-strong: rgba(51, 44, 32, 0.72);
+  --glass-dark-border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 /* ---------------- Global base ---------------- */
+html {
+  background: #fdfcf6;
+}
 body {
   font-family: var(--font-body);
   color: var(--blm-ink);
   padding-top: calc(var(--header-h) + var(--ticker-h));
   position: relative;
+  background-color: #fdfcf6;
+  background-image:
+    radial-gradient(40vw 40vw at 92% -6%, rgba(253, 222, 92, 0.55), transparent 70%),
+    radial-gradient(36vw 36vw at -8% 16%, rgba(250, 219, 225, 0.55), transparent 70%),
+    radial-gradient(28vw 28vw at 58% 48%, rgba(223, 251, 248, 0.55), transparent 70%),
+    radial-gradient(24vw 24vw at 12% 96%, rgba(245, 233, 171, 0.5), transparent 70%);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+
+/* ---------------- Reusable glass utility ---------------- */
+.glass-surface {
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border: var(--glass-border);
+  box-shadow: var(--glass-shadow), var(--glass-highlight);
+}
+.glass-dark {
+  background: var(--glass-dark-bg);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border: var(--glass-dark-border);
 }
 
 /* Soft decorative blobs instead of a busy pattern — grand but quiet */
@@ -124,9 +168,12 @@ h1, h2, h3, .font-display {
   max-width: 1400px;
   width: 94%;
   margin: 28px auto;
-  background: var(--blm-white);
+  background: var(--glass-bg-strong);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border: var(--glass-border);
   border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-soft);
+  box-shadow: var(--glass-shadow), var(--glass-highlight);
   padding: clamp(28px, 5vw, 56px);
 }
 .page-hero {
@@ -156,7 +203,9 @@ h1, h2, h3, .font-display {
   left: 0;
   width: 100%;
   height: var(--ticker-h);
-  background: var(--blm-ink);
+  background: var(--glass-dark-bg-strong);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
   display: flex;
   align-items: stretch;
   overflow: hidden;
@@ -214,9 +263,11 @@ h1, h2, h3, .font-display {
   left: 0;
   width: 100%;
   height: var(--header-h);
-  background: rgba(255, 255, 255, 0.94);
-  backdrop-filter: blur(8px);
-  border-bottom: 1px solid var(--blm-line);
+  background: var(--glass-bg-strong);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border-bottom: var(--glass-border);
+  box-shadow: 0 8px 24px rgba(150, 120, 20, 0.08);
   z-index: 3000;
 }
 
@@ -288,8 +339,10 @@ h1, h2, h3, .font-display {
   display: flex;
   align-items: center;
   gap: 5px;
-  background: var(--blm-cream);
-  border: none;
+  background: var(--glass-cream);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
   color: var(--blm-ink);
   font-family: var(--font-body);
   font-size: 12.5px;
@@ -300,7 +353,7 @@ h1, h2, h3, .font-display {
   cursor: pointer;
   transition: 0.2s;
 }
-.lang-btn:hover { background: var(--blm-gold); }
+.lang-btn:hover { background: var(--glass-gold); }
 .lang-btn .lang-caret {
   font-size: 9px;
   transition: transform 0.2s;
@@ -313,7 +366,10 @@ h1, h2, h3, .font-display {
   top: calc(100% + 10px);
   right: 0;
   min-width: 130px;
-  background: var(--blm-white);
+  background: var(--glass-bg-strong);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border: var(--glass-border);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-hover);
   padding: 6px;
@@ -356,8 +412,10 @@ h1, h2, h3, .font-display {
   gap: 5px;
   width: 42px;
   height: 42px;
-  background: var(--blm-cream);
-  border: none;
+  background: var(--glass-cream);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
   border-radius: var(--radius-pill);
   cursor: pointer;
   padding: 0;
@@ -392,7 +450,10 @@ h1, h2, h3, .font-display {
   width: 82%;
   max-width: 360px;
   height: 100%;
-  background: var(--blm-ink);
+  background: var(--glass-dark-bg-strong);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border-left: var(--glass-dark-border);
   z-index: 4000;
   padding: 90px 36px 40px;
   display: flex;
@@ -473,7 +534,10 @@ h1, h2, h3, .font-display {
 
 /* ---------------- Footer (dark bookend, bottom) ---------------- */
 .ske-footer {
-  background: var(--blm-ink);
+  background: var(--glass-dark-bg-strong);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border-top: var(--glass-dark-border);
   color: var(--blm-on-dark);
   padding: 56px 20px 30px;
   position: relative;
@@ -502,7 +566,8 @@ h1, h2, h3, .font-display {
 }
 .social-btn-icon {
   color: var(--blm-on-dark);
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.10);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -555,8 +620,8 @@ h1, h2, h3, .font-display {
 }
 .page-top-btn {
   text-decoration: none;
-  background: rgba(255,255,255,0.08);
-  border: none;
+  background: rgba(255,255,255,0.10);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   font-family: var(--font-body);
   color: var(--blm-on-dark);
   font-size: 12px;

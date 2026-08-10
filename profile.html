@@ -22,7 +22,6 @@
 
     body {
       font-family: var(--font-body);
-      background: #fffefb;
       color: var(--blm-ink);
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
@@ -56,8 +55,10 @@
       flex-wrap: wrap;
     }
     .tab-btn {
-      background: var(--blm-cream);
-      border: none;
+      background: var(--glass-cream);
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.5);
       font-family: var(--font-body);
       font-size: 14px;
       font-weight: 700;
@@ -68,7 +69,7 @@
       transition: all 0.2s ease;
       border-radius: var(--radius-pill);
     }
-    .tab-btn.active, .tab-btn:hover { background: var(--blm-gold); }
+    .tab-btn.active, .tab-btn:hover { background: var(--glass-gold); }
 
     /* --- Main Grid View --- */
     #main-view { display: none; }
@@ -193,13 +194,16 @@
       width: 42px;
       height: 42px;
       border-radius: 50%;
-      background: var(--blm-cream);
+      background: var(--glass-cream);
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.5);
       color: var(--blm-ink);
       font-size: 18px;
       text-decoration: none;
       transition: all 0.3s ease;
     }
-    .social-link:hover { background: var(--blm-gold); transform: translateY(-3px); }
+    .social-link:hover { background: var(--glass-gold); transform: translateY(-3px); }
 
     @media (max-width: 768px) {
       .detail-layout { flex-direction: column; align-items: center; }

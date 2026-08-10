@@ -21,7 +21,6 @@
 
     body {
       font-family: var(--font-body);
-      background: #fffefb;
       color: var(--blm-ink);
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
@@ -50,7 +49,11 @@
     }
 
     .admin-card {
-      background: var(--blm-cream);
+      background: var(--glass-cream);
+      -webkit-backdrop-filter: var(--glass-blur);
+      backdrop-filter: var(--glass-blur);
+      border: var(--glass-border);
+      box-shadow: var(--glass-highlight);
       border-radius: var(--radius-xl);
       padding: 30px 24px 24px;
       width: clamp(240px, 80vw, 280px);
@@ -121,10 +124,13 @@
 
     .card {
       position: relative;
-      background: var(--blm-white);
+      background: var(--glass-bg-strong);
+      -webkit-backdrop-filter: var(--glass-blur);
+      backdrop-filter: var(--glass-blur);
+      border: var(--glass-border);
       border-radius: var(--radius-lg);
       overflow: hidden;
-      box-shadow: var(--shadow-soft);
+      box-shadow: var(--glass-shadow), var(--glass-highlight);
       transition: 0.3s cubic-bezier(0.22, 1, 0.36, 1);
     }
     @media (hover: hover) {
@@ -141,7 +147,7 @@
 
     .info {
       padding: 14px 10px;
-      background: var(--blm-white);
+      background: transparent;
       text-align: center;
       width: 100%;
       box-sizing: border-box;

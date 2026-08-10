@@ -21,7 +21,6 @@
 
     body {
       font-family: var(--font-body);
-      background: #fffefb;
       color: var(--blm-ink);
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
@@ -36,7 +35,10 @@
     }
 
     .day-card {
-      background: var(--blm-cream);
+      background: var(--glass-cream);
+      -webkit-backdrop-filter: blur(14px);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.5);
       border-radius: var(--radius-lg);
       padding: 22px 26px;
       display: flex;
@@ -44,7 +46,7 @@
       gap: 22px;
       transition: all 0.25s ease;
     }
-    .day-card:hover { background: var(--blm-pink); }
+    .day-card:hover { background: var(--glass-pink); }
 
     .date-box {
       min-width: 92px;
