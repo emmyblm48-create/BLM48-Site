@@ -31,11 +31,12 @@
       max-width: 760px;
       margin: 0 auto;
       padding: clamp(30px, 6vw, 56px) clamp(20px, 5vw, 56px);
-      background: #ffffff;
-      border: 1px solid var(--blm-line);
-      border-top: 3px solid var(--blm-gold);
-      box-shadow: var(--shadow-flat);
-      border-radius: var(--radius-flat);
+      background: var(--glass-cream);
+      -webkit-backdrop-filter: var(--glass-blur);
+      backdrop-filter: var(--glass-blur);
+      border: var(--glass-border);
+      box-shadow: var(--glass-shadow), var(--glass-highlight);
+      border-radius: var(--radius-xl);
       text-align: center;
     }
 
@@ -87,7 +88,7 @@
       font-size: clamp(1.05rem, 3vw, 1.25rem);
       font-weight: 500;
       padding-top: 24px;
-      border-top: 2px solid var(--blm-line);
+      border-top: 2px solid var(--blm-white);
     }
 
     @media (max-width: 680px) {
