@@ -29,29 +29,26 @@
     .schedule-container {
       display: flex;
       flex-direction: column;
-      gap: 14px;
       max-width: 840px;
       margin: 0 auto;
+      border-top: 1px solid var(--blm-line);
     }
 
     .day-card {
-      background: var(--glass-cream);
-      -webkit-backdrop-filter: blur(14px);
-      backdrop-filter: blur(14px);
-      border: 1px solid rgba(255, 255, 255, 0.5);
-      border-radius: var(--radius-lg);
-      padding: 22px 26px;
+      background: transparent;
+      border-bottom: 1px solid var(--blm-line);
+      padding: 18px 6px;
       display: flex;
       align-items: center;
       gap: 22px;
-      transition: all 0.25s ease;
+      transition: background 0.2s ease;
     }
-    .day-card:hover { background: var(--glass-pink); }
+    .day-card:hover { background: var(--blm-cream); }
 
     .date-box {
       min-width: 92px;
       text-align: center;
-      border-right: 2px solid var(--blm-white);
+      border-right: 1px solid var(--blm-line);
       padding-right: 20px;
       flex-shrink: 0;
     }
@@ -67,7 +64,7 @@
       .day-card { flex-direction: column; align-items: flex-start; padding: 20px; gap: 12px; }
       .date-box {
         border-right: none;
-        border-bottom: 2px solid var(--blm-white);
+        border-bottom: 1px solid var(--blm-line);
         padding-right: 0;
         padding-bottom: 10px;
         min-width: 100%;
@@ -105,7 +102,7 @@
           <div class="event-time"><i class="far fa-clock"></i> 19:00 (ICT)</div>
           <div class="event-title">BLM48 Concert This Letter Says "Marry Me"</div>
         </div>
-        <span class="pill pill-cream status-tag" data-i18n="badge_event">EVENT</span>
+        <span class="tag-flat cream status-tag" data-i18n="badge_event">EVENT</span>
       </div>
 
       <div class="day-card">
@@ -117,7 +114,7 @@
           <div class="event-time"><i class="far fa-clock"></i> 19:00 (ICT)</div>
           <div class="event-title">BLM48 Hi-Live : Tanabata พรเอ๋ยจงเป็นจริง🎋⭐️</div>
         </div>
-        <span class="pill pill-pink status-tag" data-i18n="badge_live">LIVE</span>
+        <span class="tag-flat pink status-tag" data-i18n="badge_live">LIVE</span>
       </div>
       
       <div class="day-card">
@@ -129,7 +126,7 @@
           <div class="event-time"><i class="far fa-clock"></i> 19:00 (ICT)</div>
           <div class="event-title">BLM48 Play Fest! EP.4</div>
         </div>
-        <span class="pill pill-pink status-tag" data-i18n="badge_live">LIVE</span>
+        <span class="tag-flat pink status-tag" data-i18n="badge_live">LIVE</span>
       </div>
       
       <div class="day-card">
@@ -141,7 +138,7 @@
           <div class="event-time"><i class="far fa-clock"></i> 19:00 (ICT)</div>
           <div class="event-title">BLM48 Hi-Live : เหลี่ยมทุกดอก แล้วบอกนักสืบ EP.2</div>
         </div>
-        <span class="pill pill-pink status-tag" data-i18n="badge_live">LIVE</span>
+        <span class="tag-flat pink status-tag" data-i18n="badge_live">LIVE</span>
       </div>
       
       <div class="day-card">
@@ -153,7 +150,7 @@
           <div class="event-time"><i class="far fa-clock"></i> 19:00 (ICT)</div>
           <div class="event-title">BLM48 Hi-Live : ตอนเด็กชอบตุ๊กตา โตมาชอบเธอ 👉🏻👈🏻</div>
         </div>
-        <span class="pill pill-pink status-tag" data-i18n="badge_live">LIVE</span>
+        <span class="tag-flat pink status-tag" data-i18n="badge_live">LIVE</span>
       </div>   
       
       <div class="day-card">
@@ -165,7 +162,7 @@
           <div class="event-time"><i class="far fa-clock"></i> 20:30 (ICT)</div>
           <div class="event-title">BLM48 10th Single “ Sustainable “ Roadshow</div>
         </div>
-        <span class="pill pill-pink status-tag" data-i18n="badge_live">LIVE</span>
+        <span class="tag-flat pink status-tag" data-i18n="badge_live">LIVE</span>
       </div>   
       
       <div class="day-card">
@@ -177,7 +174,7 @@
           <div class="event-time"><i class="far fa-clock"></i> 19:00 (ICT)</div>
           <div class="event-title">BLM48 Hi-Live : เหลี่ยมทุกดอก แล้วบอกนักสืบ! EP.1</div>
         </div>
-        <span class="pill pill-pink status-tag" data-i18n="badge_live">LIVE</span>
+        <span class="tag-flat pink status-tag" data-i18n="badge_live">LIVE</span>
       </div>        
 
       <div class="day-card">
@@ -189,7 +186,7 @@
           <div class="event-time"><i class="far fa-clock"></i> 19:00 (ICT)</div>
           <div class="event-title">My Last Letter - "ยินดีที่ได้รู้จักนะ"” –Hero’s Graduation Ceremony–</div>
         </div>
-        <span class="pill pill-pink status-tag" data-i18n="badge_live">LIVE</span>
+        <span class="tag-flat pink status-tag" data-i18n="badge_live">LIVE</span>
       </div>
 
       <div class="day-card">
@@ -201,7 +198,7 @@
           <div class="event-time"><i class="far fa-clock"></i> 19:00 (ICT)</div>
           <div class="event-title">BLM48 x NTL48 Natsu Expo 2026</div>
         </div>
-        <span class="pill pill-pink status-tag" data-i18n="badge_live">LIVE</span>
+        <span class="tag-flat pink status-tag" data-i18n="badge_live">LIVE</span>
       </div>
 
       <div class="day-card">
@@ -213,7 +210,7 @@
           <div class="event-time"><i class="far fa-clock"></i> 19:00 (ICT)</div>
           <div class="event-title">BLM48 10th Single "Sustainable" First Performance</div>
         </div>
-        <span class="pill pill-pink status-tag" data-i18n="badge_live">LIVE</span>
+        <span class="tag-flat pink status-tag" data-i18n="badge_live">LIVE</span>
       </div>
 
       <div class="day-card">
@@ -225,7 +222,7 @@
           <div class="event-time"><i class="far fa-clock"></i> 19:00 (ICT)</div>
           <div class="event-title">ประกวดหนูน้อยสงแกรนด์ Universe ประจำปี ๒๕๖๙</div>
         </div>
-        <span class="pill pill-pink status-tag" data-i18n="badge_live">LIVE</span>
+        <span class="tag-flat pink status-tag" data-i18n="badge_live">LIVE</span>
       </div>
 
       <div class="day-card">
@@ -237,7 +234,7 @@
           <div class="event-time"><i class="far fa-clock"></i> 19:00 (ICT)</div>
           <div class="event-title">BLM48 3rd Generation Graduation Ceremony “REBORN Re-Me”</div>
         </div>
-        <span class="pill pill-pink status-tag" data-i18n="badge_live">LIVE</span>
+        <span class="tag-flat pink status-tag" data-i18n="badge_live">LIVE</span>
       </div>
 
     </div>

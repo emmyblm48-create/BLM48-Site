@@ -49,19 +49,17 @@
     }
 
     .admin-card {
-      background: var(--glass-cream);
-      -webkit-backdrop-filter: var(--glass-blur);
-      backdrop-filter: var(--glass-blur);
-      border: var(--glass-border);
-      box-shadow: var(--glass-highlight);
-      border-radius: var(--radius-xl);
+      background: #ffffff;
+      border: 1px solid var(--blm-line);
+      box-shadow: var(--shadow-flat);
+      border-radius: var(--radius-flat);
       padding: 30px 24px 24px;
       width: clamp(240px, 80vw, 280px);
       text-align: center;
       position: relative;
     }
 
-    .admin-card .pill {
+    .admin-card .tag-flat {
       position: absolute;
       top: -12px;
       left: 50%;
@@ -71,12 +69,11 @@
     .admin-card img {
       width: 110px;
       height: 110px;
-      border-radius: 50%;
-      border: 4px solid var(--blm-gold);
+      border-radius: var(--radius-flat-sm);
+      border: 1px solid var(--blm-line);
       object-fit: cover;
       margin-bottom: 16px;
     }
-    .admin-card:nth-child(2) img { border-color: var(--blm-pink); }
 
     .admin-card .name {
       font-family: var(--font-display);
@@ -101,7 +98,7 @@
       color: var(--blm-ink);
       margin: 46px 0 24px;
       padding-bottom: 12px;
-      border-bottom: 3px solid var(--blm-cream);
+      border-bottom: 2px solid var(--blm-ink);
       display: flex;
       align-items: center;
       gap: 10px;
@@ -124,17 +121,15 @@
 
     .card {
       position: relative;
-      background: var(--glass-bg-strong);
-      -webkit-backdrop-filter: var(--glass-blur);
-      backdrop-filter: var(--glass-blur);
-      border: var(--glass-border);
-      border-radius: var(--radius-lg);
+      background: #ffffff;
+      border: 1px solid var(--blm-line);
+      border-radius: var(--radius-flat);
       overflow: hidden;
-      box-shadow: var(--glass-shadow), var(--glass-highlight);
+      box-shadow: var(--shadow-flat);
       transition: 0.3s cubic-bezier(0.22, 1, 0.36, 1);
     }
     @media (hover: hover) {
-      .card:hover { transform: translateY(-8px); box-shadow: var(--shadow-hover); }
+      .card:hover { transform: translateY(-8px); box-shadow: var(--shadow-flat-hover); }
     }
 
     .card img {
@@ -178,7 +173,7 @@
       background: var(--blm-gold);
       color: var(--blm-on-gold);
       padding: 4px 12px;
-      border-radius: var(--radius-pill);
+      border-radius: var(--radius-flat-sm);
       font-size: 0.63rem;
       font-weight: 800;
       letter-spacing: 1px;
@@ -210,13 +205,13 @@
     <!-- Shihainin Section -->
     <div class="management-zone">
       <div class="admin-card">
-        <span class="pill pill-gold">OFFICIAL</span>
+        <span class="tag-flat gold">OFFICIAL</span>
         <img src="https://lh3.googleusercontent.com/d/1zXgJmp6jmNjMcnZbc_f4gU9qisrrz0Jq=s400" alt="Gino">
         <div class="name">Gino</div>
         <div class="pos" data-i18n="pos_shihainin">Shihainin</div>
       </div>
       <div class="admin-card">
-        <span class="pill pill-gold">OFFICIAL</span>
+        <span class="tag-flat gold">OFFICIAL</span>
         <img src="https://lh3.googleusercontent.com/d/1FZNJQWvzZxUi4ZfCdTmhWLMTfDtUTZ3p=s400" alt="Emmy">
         <div class="name">Emmy</div>
         <div class="pos" data-i18n="pos_vice_shihainin">Vice Shihainin</div>

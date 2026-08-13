@@ -57,7 +57,6 @@
     if (!mount) return;
 
     mount.innerHTML =
-      '<div class="blm-bg-decor"><span class="b1"></span><span class="b2"></span><span class="b3"></span><span class="b4"></span></div>' +
       '<div class="site-ticker">' +
         '<span class="ticker-label" data-i18n="ticker_label">TODAY\'S SCHEDULE</span>' +
         '<div class="ticker-track-wrap"><div class="ticker-track">' + tickerTrackHTML() + '</div></div>' +

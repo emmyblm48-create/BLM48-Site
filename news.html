@@ -29,27 +29,23 @@
     .news-list {
       display: flex;
       flex-direction: column;
-      gap: 14px;
       max-width: 840px;
       margin: 0 auto;
+      border-top: 1px solid var(--blm-line);
     }
 
     .news-item {
-      background: var(--glass-cream);
-      -webkit-backdrop-filter: blur(14px);
-      backdrop-filter: blur(14px);
-      border: 1px solid rgba(255, 255, 255, 0.5);
-      border-radius: var(--radius-lg);
-      padding: 20px 24px;
+      background: transparent;
+      border-bottom: 1px solid var(--blm-line);
+      padding: 18px 6px;
       display: flex;
       align-items: center;
       gap: 20px;
       text-decoration: none;
-      transition: all 0.25s ease;
+      transition: background 0.2s ease;
     }
     .news-item:hover {
-      background: var(--glass-gold);
-      transform: translateX(6px);
+      background: var(--blm-cream);
     }
 
     .news-date-group {
@@ -64,22 +60,23 @@
 
     .news-title {
       color: var(--blm-ink);
-      font-size: 15px;
+      font-size: 14.5px;
       font-weight: 600;
       line-height: 1.4;
       flex-grow: 1;
+      transition: color 0.2s;
     }
+    .news-item:hover .news-title { color: var(--blm-gold-deep); }
 
     .news-arrow {
-      color: var(--blm-ink);
-      font-size: 18px;
-      opacity: 0.4;
+      color: var(--blm-ink-soft);
+      font-size: 14px;
       transition: 0.2s;
     }
-    .news-item:hover .news-arrow { opacity: 1; transform: translateX(4px); }
+    .news-item:hover .news-arrow { color: var(--blm-gold-deep); transform: translateX(4px); }
 
     @media (max-width: 600px) {
-      .news-item { flex-direction: column; align-items: flex-start; gap: 10px; padding: 18px; }
+      .news-item { flex-direction: column; align-items: flex-start; gap: 8px; padding: 16px 4px; }
       .news-date-group { min-width: auto; }
       .news-title { font-size: 14px; }
       .news-arrow { display: none; }
@@ -102,7 +99,7 @@
 
       <a href="https://youtu.be/rdWq9BKqpBU?si=LefsrZ5m9pwW8N0T" class="news-item">
         <div class="news-date-group">
-          <span class="pill pill-gold" data-i18n="badge_release">RELEASE</span>
+          <span class="tag-flat gold" data-i18n="badge_release">RELEASE</span>
           <span class="news-date">2026.06.12</span>
         </div>
         <div class="news-title">「Rapsodi」 SENBATSU ANNOUNCEMENT</div>
@@ -111,7 +108,7 @@
 
       <a href="https://www.instagram.com/p/DXj-1-EiaBr/?img_index=1" class="news-item">
         <div class="news-date-group">
-          <span class="pill pill-cream" data-i18n="badge_event">EVENT</span>
+          <span class="tag-flat cream" data-i18n="badge_event">EVENT</span>
           <span class="news-date">2026.04.26</span>
         </div>
         <div class="news-title">BLM48 Original Stage Setlist</div>
@@ -120,7 +117,7 @@
 
       <a href="https://youtu.be/rdWq9BKqpBU?si=LefsrZ5m9pwW8N0T" class="news-item">
         <div class="news-date-group">
-          <span class="pill pill-cream" data-i18n="badge_event">EVENT</span>
+          <span class="tag-flat cream" data-i18n="badge_event">EVENT</span>
           <span class="news-date">2026.04.26</span>
         </div>
         <div class="news-title">BLM48 3rd Album C/W Senbatsu Announcement</div>
@@ -129,7 +126,7 @@
 
       <a href="https://youtube.com/playlist?list=PLIZN3HRIc9-Bj8Cdm_Tdy9_KtZpkT0Za7&si=6UwLTvKL6XiG9Ryg" class="news-item">
         <div class="news-date-group">
-          <span class="pill pill-gold" data-i18n="badge_release">RELEASE</span>
+          <span class="tag-flat gold" data-i18n="badge_release">RELEASE</span>
           <span class="news-date">2026.04.25</span>
         </div>
         <div class="news-title">BLM48 10th Single "Sustainable" MV Out Now!</div>
@@ -138,7 +135,7 @@
 
       <a href="https://www.instagram.com/p/DXj_bnLiYls/" class="news-item">
         <div class="news-date-group">
-          <span class="pill pill-mint" data-i18n="badge_media">MEDIA</span>
+          <span class="tag-flat mint" data-i18n="badge_media">MEDIA</span>
           <span class="news-date">2026.04.25</span>
         </div>
         <div class="news-title">New Logo BLM48 The Campus</div>
@@ -147,7 +144,7 @@
 
       <a href="https://www.instagram.com/p/DXj_JcWiU5O/" class="news-item">
         <div class="news-date-group">
-          <span class="pill pill-mint" data-i18n="badge_media">MEDIA</span>
+          <span class="tag-flat mint" data-i18n="badge_media">MEDIA</span>
           <span class="news-date">2026.04.25</span>
         </div>
         <div class="news-title">BLM48 Original Stage Setlist &amp; BLM48 Shuffle Team</div>
@@ -156,7 +153,7 @@
 
       <a href="https://www.instagram.com/p/DXj-1-EiaBr/?img_index=1" class="news-item">
         <div class="news-date-group">
-          <span class="pill pill-cream" data-i18n="badge_event">EVENT</span>
+          <span class="tag-flat cream" data-i18n="badge_event">EVENT</span>
           <span class="news-date">2026.04.25</span>
         </div>
         <div class="news-title">BLM48 Concert This Letter Says "Marry Me"</div>
@@ -165,7 +162,7 @@
 
       <a href="https://youtu.be/RWxewbwau4k?si=EprRIZYCUP5oiuRj" class="news-item">
         <div class="news-date-group">
-          <span class="pill pill-mint" data-i18n="badge_media">MEDIA</span>
+          <span class="tag-flat mint" data-i18n="badge_media">MEDIA</span>
           <span class="news-date">2026.04.05</span>
         </div>
         <div class="news-title">BLM48 10th Single Senbatsu Members Announcement</div>
@@ -174,7 +171,7 @@
 
       <a href="https://youtu.be/TAPlWWZMGFQ?si=JLMr92GyvgipOn88" class="news-item">
         <div class="news-date-group">
-          <span class="pill pill-gold" data-i18n="badge_release">RELEASE</span>
+          <span class="tag-flat gold" data-i18n="badge_release">RELEASE</span>
           <span class="news-date">2026.04.04</span>
         </div>
         <div class="news-title">BLM48 3rd Generation Special Single "Celebration" Release!</div>
@@ -183,7 +180,7 @@
 
       <a href="https://youtube.com/playlist?list=PLIZN3HRIc9-DaI6E3Q9uJp4vSXAXBbNaV&si=W3_Pdej1Hj3xHsXA" class="news-item">
         <div class="news-date-group">
-          <span class="pill pill-gold" data-i18n="badge_release">RELEASE</span>
+          <span class="tag-flat gold" data-i18n="badge_release">RELEASE</span>
           <span class="news-date">2026.01.31</span>
         </div>
         <div class="news-title">9th Single "BINGO!" - Official Music Video &amp; Digital Release.</div>

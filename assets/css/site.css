@@ -39,6 +39,14 @@
   --shadow-hover: 0 20px 44px rgba(150, 120, 20, 0.16);
   --shadow-pink: 0 14px 30px rgba(224, 150, 170, 0.20);
 
+  /* ---------------- Classic editorial tokens (idol-site redesign) ---------------- */
+  --radius-flat: 4px;
+  --radius-flat-sm: 2px;
+  --shadow-flat: 0 1px 2px rgba(51, 44, 32, 0.06);
+  --shadow-flat-hover: 0 6px 18px rgba(51, 44, 32, 0.12);
+  --content-max: 1200px;
+  --sidebar-w: 300px;
+
   --font-display: 'Fredoka', 'Kanit', sans-serif;
   --font-body: 'Quicksand', 'Kanit', sans-serif;
 
@@ -66,21 +74,14 @@
 
 /* ---------------- Global base ---------------- */
 html {
-  background: #fdfcf6;
+  background: #fdfcf9;
 }
 body {
   font-family: var(--font-body);
   color: var(--blm-ink);
   padding-top: calc(var(--header-h) + var(--ticker-h));
   position: relative;
-  background-color: #fdfcf6;
-  background-image:
-    radial-gradient(40vw 40vw at 92% -6%, rgba(253, 222, 92, 0.55), transparent 70%),
-    radial-gradient(36vw 36vw at -8% 16%, rgba(250, 219, 225, 0.55), transparent 70%),
-    radial-gradient(28vw 28vw at 58% 48%, rgba(223, 251, 248, 0.55), transparent 70%),
-    radial-gradient(24vw 24vw at 12% 96%, rgba(245, 233, 171, 0.5), transparent 70%);
-  background-attachment: fixed;
-  background-repeat: no-repeat;
+  background-color: #fdfcf9;
 }
 
 /* ---------------- Reusable glass utility ---------------- */
@@ -98,13 +99,9 @@ body {
   border: var(--glass-dark-border);
 }
 
-/* Soft decorative blobs instead of a busy pattern — grand but quiet */
+/* Legacy glass-blob decoration — retired in the classic editorial redesign */
 .blm-bg-decor {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  overflow: hidden;
-  pointer-events: none;
+  display: none;
 }
 .blm-bg-decor span {
   position: absolute;
@@ -141,6 +138,24 @@ h1, h2, h3, .font-display {
 .pill-mint { background: var(--blm-mint); color: var(--blm-ink); }
 .pill-outline { background: transparent; color: var(--blm-ink-soft); border: 1.5px solid var(--blm-line); }
 
+/* Classic idol-site tag look: flat rectangular, not pill-shaped */
+.tag-flat {
+  display: inline-flex;
+  align-items: center;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  padding: 3px 10px;
+  border-radius: var(--radius-flat-sm);
+  line-height: 1.6;
+  white-space: nowrap;
+}
+.tag-flat.gold { background: var(--blm-gold); color: var(--blm-on-gold); }
+.tag-flat.pink { background: var(--blm-pink); color: var(--blm-on-pink); }
+.tag-flat.cream { background: var(--blm-cream-deep); color: var(--blm-ink); }
+.tag-flat.mint { background: var(--blm-mint-deep); color: var(--blm-ink); }
+.tag-flat.line { background: transparent; color: var(--blm-ink-soft); border: 1px solid var(--blm-line); }
+
 /* ---------------- Shared: arrow link (replaces icon-font arrows) ---------------- */
 .arrow-link {
   text-decoration: none;
@@ -165,16 +180,14 @@ h1, h2, h3, .font-display {
 
 /* ---------------- Shared: page hero header (subpages) ---------------- */
 .page-shell {
-  max-width: 1400px;
+  max-width: var(--content-max);
   width: 94%;
   margin: 28px auto;
-  background: var(--glass-bg-strong);
-  -webkit-backdrop-filter: var(--glass-blur);
-  backdrop-filter: var(--glass-blur);
-  border: var(--glass-border);
-  border-radius: var(--radius-xl);
-  box-shadow: var(--glass-shadow), var(--glass-highlight);
-  padding: clamp(28px, 5vw, 56px);
+  background: #ffffff;
+  border: 1px solid var(--blm-line);
+  border-radius: var(--radius-flat);
+  box-shadow: var(--shadow-flat);
+  padding: clamp(24px, 5vw, 48px);
 }
 .page-hero {
   text-align: center;
@@ -203,9 +216,7 @@ h1, h2, h3, .font-display {
   left: 0;
   width: 100%;
   height: var(--ticker-h);
-  background: var(--glass-dark-bg-strong);
-  -webkit-backdrop-filter: blur(14px);
-  backdrop-filter: blur(14px);
+  background: var(--blm-ink);
   display: flex;
   align-items: stretch;
   overflow: hidden;
@@ -263,11 +274,9 @@ h1, h2, h3, .font-display {
   left: 0;
   width: 100%;
   height: var(--header-h);
-  background: var(--glass-bg-strong);
-  -webkit-backdrop-filter: var(--glass-blur);
-  backdrop-filter: var(--glass-blur);
-  border-bottom: var(--glass-border);
-  box-shadow: 0 8px 24px rgba(150, 120, 20, 0.08);
+  background: #ffffff;
+  border-bottom: 1px solid var(--blm-line);
+  box-shadow: var(--shadow-flat);
   z-index: 3000;
 }
 
@@ -318,13 +327,25 @@ h1, h2, h3, .font-display {
   font-size: 13.5px;
   font-weight: 700;
   letter-spacing: 0.5px;
-  padding: 8px 14px;
-  border-radius: var(--radius-pill);
-  transition: color 0.2s, background 0.2s;
+  padding: 8px 12px;
+  transition: color 0.2s;
   white-space: nowrap;
 }
-.site-nav a:hover { color: var(--blm-ink); background: var(--blm-cream); }
-.site-nav a.active { color: var(--blm-on-gold); background: var(--blm-gold); }
+.site-nav a::after {
+  content: '';
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 2px;
+  height: 2px;
+  background: var(--blm-gold-deep);
+  transform: scaleX(0);
+  transition: transform 0.2s ease;
+}
+.site-nav a:hover { color: var(--blm-ink); }
+.site-nav a:hover::after { transform: scaleX(1); }
+.site-nav a.active { color: var(--blm-ink); }
+.site-nav a.active::after { transform: scaleX(1); }
 
 .header-actions {
   display: flex;
@@ -339,21 +360,19 @@ h1, h2, h3, .font-display {
   display: flex;
   align-items: center;
   gap: 5px;
-  background: var(--glass-cream);
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  background: #ffffff;
+  border: 1px solid var(--blm-line);
   color: var(--blm-ink);
   font-family: var(--font-body);
   font-size: 12.5px;
   font-weight: 700;
   letter-spacing: 0.5px;
   padding: 8px 14px;
-  border-radius: var(--radius-pill);
+  border-radius: var(--radius-flat-sm);
   cursor: pointer;
   transition: 0.2s;
 }
-.lang-btn:hover { background: var(--glass-gold); }
+.lang-btn:hover { background: var(--blm-cream); border-color: var(--blm-gold-deep); }
 .lang-btn .lang-caret {
   font-size: 9px;
   transition: transform 0.2s;
@@ -366,12 +385,10 @@ h1, h2, h3, .font-display {
   top: calc(100% + 10px);
   right: 0;
   min-width: 130px;
-  background: var(--glass-bg-strong);
-  -webkit-backdrop-filter: var(--glass-blur);
-  backdrop-filter: var(--glass-blur);
-  border: var(--glass-border);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-hover);
+  background: #ffffff;
+  border: 1px solid var(--blm-line);
+  border-radius: var(--radius-flat);
+  box-shadow: var(--shadow-flat-hover);
   padding: 6px;
   opacity: 0;
   visibility: hidden;
@@ -412,11 +429,9 @@ h1, h2, h3, .font-display {
   gap: 5px;
   width: 42px;
   height: 42px;
-  background: var(--glass-cream);
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  border-radius: var(--radius-pill);
+  background: #ffffff;
+  border: 1px solid var(--blm-line);
+  border-radius: var(--radius-flat-sm);
   cursor: pointer;
   padding: 0;
 }
@@ -435,7 +450,6 @@ h1, h2, h3, .font-display {
   position: fixed;
   inset: 0;
   background: rgba(51, 44, 32, 0.45);
-  backdrop-filter: blur(2px);
   opacity: 0;
   visibility: hidden;
   transition: 0.35s;
@@ -450,17 +464,15 @@ h1, h2, h3, .font-display {
   width: 82%;
   max-width: 360px;
   height: 100%;
-  background: var(--glass-dark-bg-strong);
-  -webkit-backdrop-filter: var(--glass-blur);
-  backdrop-filter: var(--glass-blur);
-  border-left: var(--glass-dark-border);
+  background: var(--blm-ink);
+  border-left: 1px solid rgba(255, 255, 255, 0.12);
   z-index: 4000;
   padding: 90px 36px 40px;
   display: flex;
   flex-direction: column;
   gap: 40px;
-  transition: right 0.45s cubic-bezier(0.25, 1, 0.5, 1);
-  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.2);
+  transition: right 0.35s ease;
+  box-shadow: -6px 0 20px rgba(0, 0, 0, 0.15);
 }
 .mobile-nav-panel.open { right: 0; }
 
@@ -534,15 +546,12 @@ h1, h2, h3, .font-display {
 
 /* ---------------- Footer (dark bookend, bottom) ---------------- */
 .ske-footer {
-  background: var(--glass-dark-bg-strong);
-  -webkit-backdrop-filter: var(--glass-blur);
-  backdrop-filter: var(--glass-blur);
-  border-top: var(--glass-dark-border);
+  background: var(--blm-ink);
+  border-top: 3px solid var(--blm-gold);
   color: var(--blm-on-dark);
-  padding: 56px 20px 30px;
+  padding: 48px 20px 24px;
   position: relative;
   margin-top: 70px;
-  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
 }
 .footer-inner {
   max-width: 1500px;

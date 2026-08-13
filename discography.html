@@ -40,31 +40,29 @@
     }
 
     .filter-tabs label {
-      background: var(--glass-cream);
-      -webkit-backdrop-filter: blur(10px);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.5);
+      background: #ffffff;
+      border: 1px solid var(--blm-line);
       font-family: var(--font-body);
       font-size: 14px;
       font-weight: 700;
       color: var(--blm-ink);
       cursor: pointer;
       letter-spacing: 0.5px;
-      padding: 11px 30px;
+      padding: 10px 28px;
       transition: all 0.2s ease;
-      border-radius: var(--radius-pill);
+      border-radius: var(--radius-flat-sm);
       text-align: center;
     }
 
-    .filter-tabs label:hover { background: var(--glass-gold); }
+    .filter-tabs label:hover { background: var(--blm-cream); }
 
     #all:checked ~ .filter-tabs label[for="all"],
     #single:checked ~ .filter-tabs label[for="single"],
     #album:checked ~ .filter-tabs label[for="album"],
     #special:checked ~ .filter-tabs label[for="special"],
     #concert:checked ~ .filter-tabs label[for="concert"] {
-      background: var(--glass-gold);
-      border-color: rgba(253, 222, 92, 0.7);
+      background: var(--blm-gold);
+      border-color: var(--blm-gold-deep);
     }
 
     /* --- Main Grid View --- */
@@ -108,8 +106,9 @@
       background: var(--blm-cream);
       margin-bottom: 14px;
       cursor: pointer;
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-soft);
+      border-radius: var(--radius-flat);
+      box-shadow: var(--shadow-flat);
+      border: 1px solid var(--blm-line);
       position: relative;
     }
 
@@ -138,7 +137,7 @@
       font-size: 12px;
       letter-spacing: 1px;
       text-transform: uppercase;
-      border-radius: var(--radius-pill);
+      border-radius: var(--radius-flat-sm);
       transform: translateY(10px);
       transition: all 0.4s ease;
     }
@@ -169,7 +168,7 @@
     .tag-single, .tag-special, .tag-album, .tag-concert {
       font-size: 10px;
       padding: 3px 10px;
-      border-radius: var(--radius-pill);
+      border-radius: var(--radius-flat-sm);
       text-transform: uppercase;
       font-weight: 700;
     }

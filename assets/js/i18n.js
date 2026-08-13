@@ -40,6 +40,7 @@
       group_title: "เครือข่าย AKB48 Group",
       members_title: "สมาชิก",
       members_cta: "ดูสมาชิกทั้งหมด",
+      pickup_label: "ข่าวเด่น",
 
       about_header: "เกี่ยวกับเรา",
       about_p1: "BLM48 คือกลุ่มคัฟเวอร์ไอดอลชายและหญิงของเครือข่าย AKB48Group",
@@ -114,6 +115,7 @@
       group_title: "AKB48 Group",
       members_title: "MEMBERS",
       members_cta: "SEE ALL MEMBERS",
+      pickup_label: "PICK UP",
 
       about_header: "ABOUT",
       about_p1: "BLM48 is The Male & Female Cover Group of AKB48Group.",
@@ -188,6 +190,7 @@
       group_title: "AKB48グループ",
       members_title: "メンバー",
       members_cta: "メンバー一覧を見る",
+      pickup_label: "ピックアップ",
 
       about_header: "概要",
       about_p1: "BLM48は、AKB48グループの男女混合カバーグループです。",
