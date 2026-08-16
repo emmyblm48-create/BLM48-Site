@@ -1,249 +1,179 @@
 <!DOCTYPE html>
-<html lang="th">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BLM48 Official - SCHEDULE</title>
+  <title>BLM48 Official - Schedule</title>
   <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1flevUZLFmIodF1RHG0QgRJkCMpgW1KM7=s1000">
 
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Kanit:wght@300;400;500;600;700&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="assets/css/site.css">
 
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
+    body { font-family: var(--font-body); color: var(--blm-ink); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
 
-    body {
-      font-family: var(--font-body);
-      color: var(--blm-ink);
-      overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    .schedule-container {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      max-width: 840px;
-      margin: 0 auto;
-    }
-
+    .schedule-list { max-width: 860px; margin: 0 auto; }
     .day-card {
-      background: var(--glass-cream);
-      -webkit-backdrop-filter: blur(14px);
-      backdrop-filter: blur(14px);
-      border: 1px solid rgba(255, 255, 255, 0.5);
-      border-radius: var(--radius-lg);
-      padding: 22px 26px;
-      display: flex;
-      align-items: center;
-      gap: 22px;
-      transition: all 0.25s ease;
+      display: flex; align-items: center; gap: 26px;
+      padding: 22px 4px;
+      border-bottom: 1px solid var(--blm-line);
+      transition: background 0.2s, padding 0.2s;
     }
-    .day-card:hover { background: var(--glass-pink); }
+    .day-card:first-child { padding-top: 4px; }
+    .day-card:hover { background: var(--blm-paper-soft); padding-left: 16px; padding-right: 16px; }
 
-    .date-box {
-      min-width: 92px;
-      text-align: center;
-      border-right: 2px solid var(--blm-white);
-      padding-right: 20px;
-      flex-shrink: 0;
-    }
-
-    .date-day { font-family: var(--font-display); font-size: 19px; font-weight: 600; color: var(--blm-ink); display: block; }
-    .date-num { font-size: 12px; color: var(--blm-ink-soft); font-weight: 600; text-transform: uppercase; }
+    .date-box { min-width: 82px; text-align: left; flex-shrink: 0; }
+    .date-day { font-family: var(--font-display); font-size: 22px; font-weight: 800; color: var(--blm-ink); display: block; line-height: 1.1; }
+    .date-num { font-size: 11px; color: var(--blm-ink-faint); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
 
     .event-info { flex-grow: 1; }
-    .event-time { font-size: 13px; color: var(--blm-ink-soft); font-weight: 600; margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
-    .event-title { font-size: 15.5px; color: var(--blm-ink); font-weight: 600; line-height: 1.4; }
+    .event-time { font-size: 12px; color: var(--blm-ink-faint); font-weight: 600; margin-bottom: 5px; display: flex; align-items: center; gap: 6px; }
+    .event-title { font-size: 15.5px; color: var(--blm-ink); font-weight: 700; line-height: 1.4; }
 
     @media (max-width: 600px) {
-      .day-card { flex-direction: column; align-items: flex-start; padding: 20px; gap: 12px; }
-      .date-box {
-        border-right: none;
-        border-bottom: 2px solid var(--blm-white);
-        padding-right: 0;
-        padding-bottom: 10px;
-        min-width: 100%;
-        text-align: left;
-        display: flex;
-        align-items: baseline;
-        gap: 10px;
-      }
-      .date-day { font-size: 22px; }
+      .day-card { flex-wrap: wrap; padding: 18px 4px; }
+      .date-box { min-width: auto; display: flex; align-items: baseline; gap: 10px; }
       .event-title { font-size: 14.5px; }
-      .status-tag { align-self: flex-end; margin-top: -6px; }
+      .status-tag { margin-left: auto; }
     }
   </style>
 </head>
 <body>
 
   <div id="site-header"></div>
-  <script src="assets/js/i18n.js"></script>
   <script src="assets/js/nav.js"></script>
 
   <main class="page-shell">
     <div class="page-hero">
-      <h1 class="page-hero-title" data-i18n="schedule_title">SCHEDULE</h1>
-      <div class="page-hero-underline"></div>
+      <span class="eyebrow">What's Coming Up</span>
+      <h1 class="page-hero-title">Schedule</h1>
     </div>
 
-    <div class="schedule-container">
+    <div class="schedule-list">
 
       <div class="day-card">
-        <div class="date-box">
-          <span class="date-day">SAT</span>
-          <span class="date-num">SEP 26</span>
-        </div>
+        <div class="date-box"><span class="date-day">Sat</span><span class="date-num">26 Sep 26</span></div>
         <div class="event-info">
           <div class="event-time"><i class="far fa-clock"></i> 19:00 (ICT)</div>
           <div class="event-title">BLM48 Concert This Letter Says "Marry Me"</div>
         </div>
-        <span class="pill pill-cream status-tag" data-i18n="badge_event">EVENT</span>
+        <span class="kicker kicker-outline status-tag">Event</span>
       </div>
 
       <div class="day-card">
-        <div class="date-box">
-          <span class="date-day">SAT</span>
-          <span class="date-num">18 JULY 26</span>
+        <div class="date-box"><span class="date-day">Sat</span><span class="date-num">16 Aug 26</span></div>
+        <div class="event-info">
+          <div class="event-time"><i class="far fa-clock"></i> 20:00 (ICT)</div>
+          <div class="event-title">BLM48 Hi-Live : 1 2 Maybe 3 ! 🤟🏻💗</div>
         </div>
+        <span class="kicker kicker-live status-tag">Live</span>
+      </div>      
+
+      <div class="day-card">
+        <div class="date-box"><span class="date-day">Sat</span><span class="date-num">18 Jul 26</span></div>
         <div class="event-info">
           <div class="event-time"><i class="far fa-clock"></i> 19:00 (ICT)</div>
           <div class="event-title">BLM48 Hi-Live : Tanabata พรเอ๋ยจงเป็นจริง🎋⭐️</div>
         </div>
-        <span class="pill pill-pink status-tag" data-i18n="badge_live">LIVE</span>
+        <span class="kicker kicker-live status-tag">Live</span>
       </div>
-      
+
       <div class="day-card">
-        <div class="date-box">
-          <span class="date-day">SUN</span>
-          <span class="date-num">12 JULY 26</span>
-        </div>
+        <div class="date-box"><span class="date-day">Sun</span><span class="date-num">12 Jul 26</span></div>
         <div class="event-info">
           <div class="event-time"><i class="far fa-clock"></i> 19:00 (ICT)</div>
           <div class="event-title">BLM48 Play Fest! EP.4</div>
         </div>
-        <span class="pill pill-pink status-tag" data-i18n="badge_live">LIVE</span>
+        <span class="kicker kicker-live status-tag">Live</span>
       </div>
-      
+
       <div class="day-card">
-        <div class="date-box">
-          <span class="date-day">SAT</span>
-          <span class="date-num">11 JULY 26</span>
-        </div>
+        <div class="date-box"><span class="date-day">Sat</span><span class="date-num">11 Jul 26</span></div>
         <div class="event-info">
           <div class="event-time"><i class="far fa-clock"></i> 19:00 (ICT)</div>
           <div class="event-title">BLM48 Hi-Live : เหลี่ยมทุกดอก แล้วบอกนักสืบ EP.2</div>
         </div>
-        <span class="pill pill-pink status-tag" data-i18n="badge_live">LIVE</span>
+        <span class="kicker kicker-live status-tag">Live</span>
       </div>
-      
+
       <div class="day-card">
-        <div class="date-box">
-          <span class="date-day">SUN</span>
-          <span class="date-num">5 JULY 26</span>
-        </div>
+        <div class="date-box"><span class="date-day">Sun</span><span class="date-num">5 Jul 26</span></div>
         <div class="event-info">
           <div class="event-time"><i class="far fa-clock"></i> 19:00 (ICT)</div>
           <div class="event-title">BLM48 Hi-Live : ตอนเด็กชอบตุ๊กตา โตมาชอบเธอ 👉🏻👈🏻</div>
         </div>
-        <span class="pill pill-pink status-tag" data-i18n="badge_live">LIVE</span>
-      </div>   
-      
+        <span class="kicker kicker-live status-tag">Live</span>
+      </div>
+
       <div class="day-card">
-        <div class="date-box">
-          <span class="date-day">SAT</span>
-          <span class="date-num">20 JUNE 26</span>
-        </div>
+        <div class="date-box"><span class="date-day">Sat</span><span class="date-num">20 Jun 26</span></div>
         <div class="event-info">
           <div class="event-time"><i class="far fa-clock"></i> 20:30 (ICT)</div>
-          <div class="event-title">BLM48 10th Single “ Sustainable “ Roadshow</div>
+          <div class="event-title">BLM48 10th Single &ldquo;Sustainable&rdquo; Roadshow</div>
         </div>
-        <span class="pill pill-pink status-tag" data-i18n="badge_live">LIVE</span>
-      </div>   
-      
+        <span class="kicker kicker-live status-tag">Live</span>
+      </div>
+
       <div class="day-card">
-        <div class="date-box">
-          <span class="date-day">FRI</span>
-          <span class="date-num">12 JUNE 26</span>
-        </div>
+        <div class="date-box"><span class="date-day">Fri</span><span class="date-num">12 Jun 26</span></div>
         <div class="event-info">
           <div class="event-time"><i class="far fa-clock"></i> 19:00 (ICT)</div>
           <div class="event-title">BLM48 Hi-Live : เหลี่ยมทุกดอก แล้วบอกนักสืบ! EP.1</div>
         </div>
-        <span class="pill pill-pink status-tag" data-i18n="badge_live">LIVE</span>
-      </div>        
-
-      <div class="day-card">
-        <div class="date-box">
-          <span class="date-day">SUN</span>
-          <span class="date-num">7 JUNE 26</span>
-        </div>
-        <div class="event-info">
-          <div class="event-time"><i class="far fa-clock"></i> 19:00 (ICT)</div>
-          <div class="event-title">My Last Letter - "ยินดีที่ได้รู้จักนะ"” –Hero’s Graduation Ceremony–</div>
-        </div>
-        <span class="pill pill-pink status-tag" data-i18n="badge_live">LIVE</span>
+        <span class="kicker kicker-live status-tag">Live</span>
       </div>
 
       <div class="day-card">
-        <div class="date-box">
-          <span class="date-day">SUN</span>
-          <span class="date-num">17 MAY 26</span>
+        <div class="date-box"><span class="date-day">Sun</span><span class="date-num">7 Jun 26</span></div>
+        <div class="event-info">
+          <div class="event-time"><i class="far fa-clock"></i> 19:00 (ICT)</div>
+          <div class="event-title">My Last Letter - "ยินดีที่ได้รู้จักนะ"” –Hero's Graduation Ceremony–</div>
         </div>
+        <span class="kicker kicker-live status-tag">Live</span>
+      </div>
+
+      <div class="day-card">
+        <div class="date-box"><span class="date-day">Sun</span><span class="date-num">17 May 26</span></div>
         <div class="event-info">
           <div class="event-time"><i class="far fa-clock"></i> 19:00 (ICT)</div>
           <div class="event-title">BLM48 x NTL48 Natsu Expo 2026</div>
         </div>
-        <span class="pill pill-pink status-tag" data-i18n="badge_live">LIVE</span>
+        <span class="kicker kicker-live status-tag">Live</span>
       </div>
 
       <div class="day-card">
-        <div class="date-box">
-          <span class="date-day">SAT</span>
-          <span class="date-num">25 APR 26</span>
-        </div>
+        <div class="date-box"><span class="date-day">Sat</span><span class="date-num">25 Apr 26</span></div>
         <div class="event-info">
           <div class="event-time"><i class="far fa-clock"></i> 19:00 (ICT)</div>
           <div class="event-title">BLM48 10th Single "Sustainable" First Performance</div>
         </div>
-        <span class="pill pill-pink status-tag" data-i18n="badge_live">LIVE</span>
+        <span class="kicker kicker-live status-tag">Live</span>
       </div>
 
       <div class="day-card">
-        <div class="date-box">
-          <span class="date-day">SAT</span>
-          <span class="date-num">11 APR 25</span>
-        </div>
+        <div class="date-box"><span class="date-day">Sat</span><span class="date-num">11 Apr 25</span></div>
         <div class="event-info">
           <div class="event-time"><i class="far fa-clock"></i> 19:00 (ICT)</div>
           <div class="event-title">ประกวดหนูน้อยสงแกรนด์ Universe ประจำปี ๒๕๖๙</div>
         </div>
-        <span class="pill pill-pink status-tag" data-i18n="badge_live">LIVE</span>
+        <span class="kicker kicker-live status-tag">Live</span>
       </div>
 
       <div class="day-card">
-        <div class="date-box">
-          <span class="date-day">SAT</span>
-          <span class="date-num">4 APR 29</span>
-        </div>
+        <div class="date-box"><span class="date-day">Sat</span><span class="date-num">4 Apr 29</span></div>
         <div class="event-info">
           <div class="event-time"><i class="far fa-clock"></i> 19:00 (ICT)</div>
-          <div class="event-title">BLM48 3rd Generation Graduation Ceremony “REBORN Re-Me”</div>
+          <div class="event-title">BLM48 3rd Generation Graduation Ceremony &ldquo;REBORN Re-Me&rdquo;</div>
         </div>
-        <span class="pill pill-pink status-tag" data-i18n="badge_live">LIVE</span>
+        <span class="kicker kicker-live status-tag">Live</span>
       </div>
 
     </div>
   </main>
 
-  <!-- Footer -->
   <div id="site-footer"></div>
 
 </body>
