@@ -26,23 +26,8 @@
     .hero::after {
       content: '';
       position: absolute; inset: 0;
-      z-index: 1;
-      background: linear-gradient(180deg, rgba(51,38,31,0.05) 0%, rgba(255,154,193,0.18) 26%, rgba(51,38,31,0.56) 52%, rgba(51,38,31,0.86) 76%, rgba(38,28,22,0.95) 100%);
+      background: linear-gradient(180deg, rgba(51,38,31,0.02) 0%, rgba(255,154,193,0.14) 42%, rgba(51,38,31,0.26) 100%);
     }
-    .hero-content {
-      position: absolute; left: 0; right: 0; bottom: 0;
-      z-index: 2;
-      max-width: 1300px; width: 92%; margin: 0 auto;
-      padding-bottom: clamp(90px, 12vw, 130px);
-      color: #fff;
-    }
-    .hero-eyebrow { color: var(--blm-gold); font-size: 11px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
-    .hero-eyebrow::before { content: ''; width: 18px; height: 2px; background: var(--blm-gold); }
-    .hero-title { font-family: var(--font-display); font-size: clamp(2.6rem, 8vw, 5.4rem); font-weight: 900; letter-spacing: -2px; line-height: 0.94; text-transform: uppercase; margin: 0 0 16px; }
-    .hero-sub { font-size: clamp(14px, 2vw, 16px); color: rgba(255,255,255,0.78); max-width: 480px; line-height: 1.6; margin-bottom: 26px; }
-    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
-    .hero-actions .btn { border-color: rgba(255,255,255,0.7); color: #fff; }
-    .hero-actions .btn:hover { background: #fff; color: var(--blm-ink); }
 
     /* --- BENTO STRIP (overlaps hero) --- */
     .bento-row {
@@ -78,9 +63,9 @@
 
     /* --- TOPICS STRIP --- */
     .topics-section { max-width: 1300px; width: 92%; margin: 0 auto 76px; }
-    .rail { display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x proximity; padding-bottom: 4px; -webkit-overflow-scrolling: touch; }
-    .rail::-webkit-scrollbar { height: 5px; }
-    .rail::-webkit-scrollbar-thumb { background: var(--blm-line); }
+    .sec-head.no-underline { border-bottom: none; padding-bottom: 0; }
+    .rail { display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x proximity; padding-bottom: 4px; -webkit-overflow-scrolling: touch; scrollbar-width: none; -ms-overflow-style: none; }
+    .rail::-webkit-scrollbar { display: none; }
     .topic-tile { flex: 0 0 auto; width: clamp(220px, 30vw, 300px); scroll-snap-align: start; text-decoration: none; color: inherit; display: block; }
     .topic-thumb { width: 100%; aspect-ratio: 4/3; overflow: hidden; background: var(--blm-paper-soft); border: 1px solid var(--blm-line); border-radius: var(--radius-md); }
     .topic-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s; }
@@ -91,6 +76,20 @@
 
     /* --- MEMBERS STRIP --- */
     .members-section { max-width: 1300px; width: 92%; margin: 0 auto 76px; }
+    .rail-wrap { position: relative; }
+    .rail-nav-btn {
+      position: absolute; top: 38%; transform: translateY(-50%);
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--blm-paper); border: 1px solid var(--blm-line);
+      color: var(--blm-ink); display: flex; align-items: center; justify-content: center;
+      cursor: pointer; box-shadow: var(--shadow-card); z-index: 4; padding: 0;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+    }
+    .rail-nav-btn:hover { background: var(--blm-pink); border-color: var(--blm-pink); color: #fff; }
+    .rail-nav-btn i { font-size: 14px; }
+    .rail-nav-prev { left: -18px; }
+    .rail-nav-next { right: -18px; }
+    @media (max-width: 768px) { .rail-nav-prev { left: -8px; } .rail-nav-next { right: -8px; } }
     .member-mini { flex: 0 0 auto; width: clamp(120px, 16vw, 168px); scroll-snap-align: start; text-decoration: none; text-align: left; display: block; }
     .member-mini-photo { position: relative; width: 100%; aspect-ratio: 3/4; overflow: hidden; background: var(--blm-paper-soft); border: 1px solid var(--blm-line); border-radius: var(--radius-md); transition: border-color 0.25s; }
     .member-mini:hover .member-mini-photo { border-color: var(--blm-pink); }
@@ -143,10 +142,19 @@
     /* --- GROUP NETWORK --- */
     .group-band { background: var(--blm-paper-soft); border-top: 1px solid var(--blm-line); border-bottom: 1px solid var(--blm-line); padding: 56px 0; }
     .group-inner { max-width: 1300px; width: 92%; margin: 0 auto; text-align: center; }
-    .logo-grid { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: clamp(18px, 3vw, 34px); }
-    .logo-grid a { flex: 0 0 auto; display: flex; justify-content: center; opacity: 0.85; transition: opacity 0.2s, transform 0.2s; }
+    .logo-grid {
+      display: flex; flex-wrap: nowrap; align-items: center; justify-content: flex-start;
+      gap: clamp(10px, 2vw, 28px);
+      overflow-x: auto; padding: 4px 2px 10px;
+      scroll-snap-type: x proximity;
+      -webkit-overflow-scrolling: touch;
+    }
+    @media (min-width: 1180px) { .logo-grid { justify-content: center; } }
+    .logo-grid::-webkit-scrollbar { height: 5px; }
+    .logo-grid::-webkit-scrollbar-thumb { background: var(--blm-line); }
+    .logo-grid a { flex: 0 0 auto; scroll-snap-align: start; display: flex; justify-content: center; opacity: 0.85; transition: opacity 0.2s, transform 0.2s; }
     .logo-grid a:hover { opacity: 1; transform: translateY(-3px); }
-    .logo-grid img { width: clamp(56px, 6.5vw, 78px); height: auto; }
+    .logo-grid img { width: clamp(42px, 5.2vw, 70px); height: auto; flex-shrink: 0; }
   </style>
 </head>
 <body>
@@ -157,15 +165,6 @@
   <!-- HERO -->
   <section class="hero">
     <img src="https://lh3.googleusercontent.com/d/1_bEVYmqNwCpnRKAGjhFUN-YcECH1RL1G=s1000" alt="BLM48">
-    <div class="hero-content">
-      <div class="hero-eyebrow">Blooming48 &middot; AKB48 Group</div>
-      <h1 class="hero-title">BLM48</h1>
-      <p class="hero-sub">A virtual idol cover group bringing the charm and spirit of the AKB48 Group to life on ZEPETO.</p>
-      <div class="hero-actions">
-        <a href="profile.html" class="btn btn-gold">Meet the Members</a>
-        <a href="https://www.youtube.com/@blm48official" target="_blank" class="btn">Watch on YouTube</a>
-      </div>
-    </div>
   </section>
 
   <!-- BENTO STRIP: Birthday + Spotlight -->
@@ -195,10 +194,11 @@
 
   <!-- TOPICS STRIP -->
   <section class="topics-section">
-    <div class="sec-head">
+    <div class="sec-head no-underline">
       <h2 class="sec-title">Topics</h2>
     </div>
-    <div class="rail">
+    <div class="rail-wrap">
+    <div class="rail" id="topicsRail">
       <a href="https://www.instagram.com/mashi.blm48official/" target="_blank" class="topic-tile">
         <div class="topic-thumb"><img src="https://lh3.googleusercontent.com/d/1nnKRoLomuh28Lut8fKpqWLgO_dg-n8IW=s1000" alt="Champ of the Month"></div>
         <div class="topic-cap">Champ of the Month <i class="fas fa-arrow-right"></i></div>
@@ -220,15 +220,19 @@
         <div class="topic-cap">Official Channel <i class="fas fa-arrow-right"></i></div>
       </a>
     </div>
+      <button type="button" class="rail-nav-btn rail-nav-prev" id="topicsPrev" aria-label="Previous topics"><i class="fas fa-chevron-left"></i></button>
+      <button type="button" class="rail-nav-btn rail-nav-next" id="topicsNext" aria-label="Next topics"><i class="fas fa-chevron-right"></i></button>
+    </div>
   </section>
 
   <!-- MEMBERS -->
   <section class="members-section">
-    <div class="sec-head">
+    <div class="sec-head no-underline">
       <h2 class="sec-title">Members</h2>
       <a href="profile.html" class="arrow-link">See all members</a>
     </div>
-    <div class="rail">
+    <div class="rail-wrap">
+    <div class="rail" id="membersRail">
       <a href="profile.html" class="member-mini">
         <div class="member-mini-photo">
           <span class="member-mini-badge">Shihainin</span>
@@ -278,6 +282,9 @@
         <div class="member-mini-photo"><img src="https://lh3.googleusercontent.com/d/19zL2mLOrLhHOUHMc94ZM7Vmc57Mut97D=s600" alt="Quantum" loading="lazy"></div>
         <div class="member-mini-name">Quantum</div>
       </a>
+    </div>
+      <button type="button" class="rail-nav-btn rail-nav-prev" id="membersPrev" aria-label="Previous members"><i class="fas fa-chevron-left"></i></button>
+      <button type="button" class="rail-nav-btn rail-nav-next" id="membersNext" aria-label="Next members"><i class="fas fa-chevron-right"></i></button>
     </div>
   </section>
 
@@ -472,6 +479,24 @@
         rail.scrollLeft = scrollLeft - (x - startX);
       });
     });
+
+    // Rail prev/next scroll buttons (Topics, Members)
+    function wireRailNav(railId, prevId, nextId, itemSelector) {
+      const rail = document.getElementById(railId);
+      const prevBtn = document.getElementById(prevId);
+      const nextBtn = document.getElementById(nextId);
+      if (!rail || !prevBtn || !nextBtn) return;
+      function step() {
+        const item = rail.querySelector(itemSelector);
+        const gap = parseFloat(getComputedStyle(rail).columnGap || getComputedStyle(rail).gap || 16);
+        const itemWidth = item ? item.getBoundingClientRect().width : rail.clientWidth * 0.4;
+        return (itemWidth + gap) * 2;
+      }
+      prevBtn.addEventListener('click', () => rail.scrollBy({ left: -step(), behavior: 'smooth' }));
+      nextBtn.addEventListener('click', () => rail.scrollBy({ left: step(), behavior: 'smooth' }));
+    }
+    wireRailNav('topicsRail', 'topicsPrev', 'topicsNext', '.topic-tile');
+    wireRailNav('membersRail', 'membersPrev', 'membersNext', '.member-mini');
 
     const videoSwiper = new Swiper('.video-swiper', {
       slidesPerView: 3.2,
