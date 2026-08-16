@@ -6,7 +6,7 @@
   <title>BLM48 Official - Discography</title>
   <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1flevUZLFmIodF1RHG0QgRJkCMpgW1KM7=s1000">
 
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;500;600;700;800&family=Archivo:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="assets/css/site.css">
 
@@ -20,17 +20,18 @@
 
     .filter-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 48px; flex-wrap: wrap; }
     .filter-tabs label {
-      background: transparent; border: 1.5px solid var(--blm-line);
+      background: var(--blm-paper); border: 1.5px solid var(--blm-line);
+      border-radius: var(--radius-pill);
       font-family: var(--font-body); font-size: 12.5px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;
       color: var(--blm-ink-soft); cursor: pointer; padding: 11px 26px; transition: all 0.2s ease; text-align: center;
     }
-    .filter-tabs label:hover { border-color: var(--blm-ink); color: var(--blm-ink); }
+    .filter-tabs label:hover { border-color: var(--blm-pink); color: var(--blm-pink-deep); }
     #all:checked ~ .filter-tabs label[for="all"],
     #single:checked ~ .filter-tabs label[for="single"],
     #album:checked ~ .filter-tabs label[for="album"],
     #special:checked ~ .filter-tabs label[for="special"],
     #concert:checked ~ .filter-tabs label[for="concert"] {
-      background: var(--blm-ink); border-color: var(--blm-ink); color: var(--blm-paper);
+      background: var(--blm-pink); border-color: var(--blm-pink); color: #fff;
     }
 
     .disco-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 34px 24px; }
@@ -50,8 +51,8 @@
     .disco-item { flex-direction: column; }
     .cover-link { width: 100%; text-decoration: none; color: inherit; }
 
-    .cover-box { width: 100%; aspect-ratio: 1/1; overflow: hidden; background: var(--blm-paper-soft); margin-bottom: 14px; border: 1px solid var(--blm-line); position: relative; transition: border-color 0.25s; }
-    .disco-item:hover .cover-box { border-color: var(--blm-gold); }
+    .cover-box { width: 100%; aspect-ratio: 1/1; overflow: hidden; background: var(--blm-paper-soft); border-radius: var(--radius-md); margin-bottom: 14px; border: 1px solid var(--blm-line); position: relative; transition: border-color 0.25s; }
+    .disco-item:hover .cover-box { border-color: var(--blm-pink); }
     .cover-box img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s ease; }
     .disco-item:hover .cover-box img { transform: scale(1.05); }
 

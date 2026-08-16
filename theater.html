@@ -6,7 +6,7 @@
   <title>BLM48 Official - Theater</title>
   <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1flevUZLFmIodF1RHG0QgRJkCMpgW1KM7=s1000">
 
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;500;600;700;800&family=Archivo:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="assets/css/site.css">
 
@@ -20,7 +20,7 @@
 
     .management-zone { display: flex; justify-content: center; gap: clamp(16px, 4vw, 40px); margin: 0 0 72px; flex-wrap: wrap; }
 
-    .admin-card { border: 1px solid var(--blm-line); padding: 32px 26px 26px; width: clamp(240px, 80vw, 280px); text-align: center; position: relative; }
+    .admin-card { border: 1px solid var(--blm-line); border-radius: var(--radius-lg); background: var(--blm-paper); padding: 32px 26px 26px; width: clamp(240px, 80vw, 280px); text-align: center; position: relative; }
     .admin-card .pill { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); }
     .admin-card img { width: 104px; height: 104px; border-radius: 50%; border: 3px solid var(--blm-gold); object-fit: cover; margin-bottom: 16px; }
     .admin-card .name { font-family: var(--font-display); font-size: 1.2rem; font-weight: 800; color: var(--blm-ink); }
@@ -29,15 +29,15 @@
     .section-label {
       display: flex; align-items: center; justify-content: space-between; gap: 10px;
       font-family: var(--font-display); font-size: 22px; font-weight: 800; text-transform: uppercase; letter-spacing: -0.3px;
-      color: var(--blm-ink); margin: 52px 0 26px; padding-bottom: 14px; border-bottom: 2px solid var(--blm-ink);
+      color: var(--blm-ink); margin: 52px 0 26px; padding-bottom: 14px; border-bottom: 3px solid var(--blm-pink);
     }
     .section-label .eyebrow { order: -1; }
 
     .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: clamp(16px, 3vw, 26px); }
     @media (min-width: 768px) { .grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); } }
 
-    .card { position: relative; border: 1px solid var(--blm-line); overflow: hidden; transition: border-color 0.25s, transform 0.25s; }
-    @media (hover: hover) { .card:hover { transform: translateY(-6px); border-color: var(--blm-gold); } }
+    .card { position: relative; border: 1px solid var(--blm-line); border-radius: var(--radius-md); overflow: hidden; transition: border-color 0.25s, transform 0.25s; }
+    @media (hover: hover) { .card:hover { transform: translateY(-6px); border-color: var(--blm-pink); } }
     .card img { width: 100%; aspect-ratio: 3/4; object-fit: cover; display: block; background-color: var(--blm-paper-soft); }
 
     .info { padding: 14px 12px; text-align: left; }
@@ -45,9 +45,9 @@
     .pos { font-size: clamp(0.65rem, 2vw, 0.72rem); color: var(--blm-ink-faint); letter-spacing: 0.5px; margin-top: 4px; font-weight: 700; text-transform: uppercase; }
 
     .captain-badge {
-      position: absolute; top: 0; left: 0;
+      position: absolute; top: 10px; left: 10px;
       background: var(--blm-gold); color: var(--blm-on-gold);
-      padding: 5px 12px; font-size: 0.62rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; z-index: 10;
+      padding: 5px 12px; border-radius: var(--radius-pill); font-size: 0.62rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; z-index: 10;
     }
 
     @media (max-width: 680px) { .grid { grid-template-columns: repeat(2, 1fr); gap: 14px; } }
