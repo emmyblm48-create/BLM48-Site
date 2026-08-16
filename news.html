@@ -1,87 +1,41 @@
 <!DOCTYPE html>
-<html lang="th">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BLM48 Official - NEWS</title>
+  <title>BLM48 Official - News</title>
   <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1flevUZLFmIodF1RHG0QgRJkCMpgW1KM7=s1000">
 
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Kanit:wght@300;400;500;600;700&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="assets/css/site.css">
 
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
+    body { font-family: var(--font-body); color: var(--blm-ink); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
 
-    body {
-      font-family: var(--font-body);
-      color: var(--blm-ink);
-      overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    .news-list {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      max-width: 840px;
-      margin: 0 auto;
-    }
-
+    .news-list { max-width: 860px; margin: 0 auto; }
     .news-item {
-      background: var(--glass-cream);
-      -webkit-backdrop-filter: blur(14px);
-      backdrop-filter: blur(14px);
-      border: 1px solid rgba(255, 255, 255, 0.5);
-      border-radius: var(--radius-lg);
-      padding: 20px 24px;
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      text-decoration: none;
-      transition: all 0.25s ease;
+      display: flex; align-items: center; gap: 24px;
+      text-decoration: none; color: inherit;
+      padding: 22px 4px;
+      border-bottom: 1px solid var(--blm-line);
+      transition: background 0.2s, padding 0.2s;
     }
-    .news-item:hover {
-      background: var(--glass-gold);
-      transform: translateX(6px);
-    }
-
-    .news-date-group {
-      min-width: 150px;
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .news-date { font-size: 13px; color: var(--blm-ink-soft); font-weight: 600; }
-
-    .news-title {
-      color: var(--blm-ink);
-      font-size: 15px;
-      font-weight: 600;
-      line-height: 1.4;
-      flex-grow: 1;
-    }
-
-    .news-arrow {
-      color: var(--blm-ink);
-      font-size: 18px;
-      opacity: 0.4;
-      transition: 0.2s;
-    }
-    .news-item:hover .news-arrow { opacity: 1; transform: translateX(4px); }
+    .news-item:first-child { padding-top: 4px; }
+    .news-item:hover { background: var(--blm-paper-soft); padding-left: 16px; padding-right: 16px; }
+    .news-date-group { display: flex; flex-direction: column; gap: 8px; min-width: 108px; flex-shrink: 0; }
+    .news-date { font-size: 12px; color: var(--blm-ink-faint); font-weight: 600; }
+    .news-title { color: var(--blm-ink); font-size: 15.5px; font-weight: 700; line-height: 1.45; flex-grow: 1; }
+    .news-item:hover .news-title { color: var(--blm-gold-deep); }
+    .news-arrow { color: var(--blm-ink-faint); font-size: 15px; transition: 0.2s; flex-shrink: 0; }
+    .news-item:hover .news-arrow { color: var(--blm-gold-deep); transform: translateX(4px); }
 
     @media (max-width: 600px) {
-      .news-item { flex-direction: column; align-items: flex-start; gap: 10px; padding: 18px; }
-      .news-date-group { min-width: auto; }
-      .news-title { font-size: 14px; }
+      .news-item { flex-direction: column; align-items: flex-start; gap: 10px; padding: 18px 4px; }
+      .news-date-group { flex-direction: row; min-width: auto; }
+      .news-title { font-size: 14.5px; }
       .news-arrow { display: none; }
     }
   </style>
@@ -89,103 +43,72 @@
 <body>
 
   <div id="site-header"></div>
-  <script src="assets/js/i18n.js"></script>
   <script src="assets/js/nav.js"></script>
 
   <main class="page-shell">
     <div class="page-hero">
-      <h1 class="page-hero-title" data-i18n="news_title">NEWS</h1>
-      <div class="page-hero-underline"></div>
+      <span class="eyebrow">Latest Updates</span>
+      <h1 class="page-hero-title">News</h1>
     </div>
 
     <div class="news-list">
 
       <a href="https://youtu.be/rdWq9BKqpBU?si=LefsrZ5m9pwW8N0T" class="news-item">
-        <div class="news-date-group">
-          <span class="pill pill-gold" data-i18n="badge_release">RELEASE</span>
-          <span class="news-date">2026.06.12</span>
-        </div>
-        <div class="news-title">「Rapsodi」 SENBATSU ANNOUNCEMENT</div>
+        <div class="news-date-group"><span class="kicker kicker-gold">Release</span><span class="news-date">2026.06.12</span></div>
+        <div class="news-title">「Rapsodi」 Senbatsu Announcement</div>
         <div class="news-arrow"><i class="fas fa-arrow-right"></i></div>
-      </a>      
+      </a>
 
       <a href="https://www.instagram.com/p/DXj-1-EiaBr/?img_index=1" class="news-item">
-        <div class="news-date-group">
-          <span class="pill pill-cream" data-i18n="badge_event">EVENT</span>
-          <span class="news-date">2026.04.26</span>
-        </div>
+        <div class="news-date-group"><span class="kicker kicker-outline">Event</span><span class="news-date">2026.04.26</span></div>
         <div class="news-title">BLM48 Original Stage Setlist</div>
         <div class="news-arrow"><i class="fas fa-arrow-right"></i></div>
-      </a>      
+      </a>
 
       <a href="https://youtu.be/rdWq9BKqpBU?si=LefsrZ5m9pwW8N0T" class="news-item">
-        <div class="news-date-group">
-          <span class="pill pill-cream" data-i18n="badge_event">EVENT</span>
-          <span class="news-date">2026.04.26</span>
-        </div>
+        <div class="news-date-group"><span class="kicker kicker-outline">Event</span><span class="news-date">2026.04.26</span></div>
         <div class="news-title">BLM48 3rd Album C/W Senbatsu Announcement</div>
         <div class="news-arrow"><i class="fas fa-arrow-right"></i></div>
       </a>
 
       <a href="https://youtube.com/playlist?list=PLIZN3HRIc9-Bj8Cdm_Tdy9_KtZpkT0Za7&si=6UwLTvKL6XiG9Ryg" class="news-item">
-        <div class="news-date-group">
-          <span class="pill pill-gold" data-i18n="badge_release">RELEASE</span>
-          <span class="news-date">2026.04.25</span>
-        </div>
+        <div class="news-date-group"><span class="kicker kicker-gold">Release</span><span class="news-date">2026.04.25</span></div>
         <div class="news-title">BLM48 10th Single "Sustainable" MV Out Now!</div>
         <div class="news-arrow"><i class="fas fa-arrow-right"></i></div>
       </a>
 
       <a href="https://www.instagram.com/p/DXj_bnLiYls/" class="news-item">
-        <div class="news-date-group">
-          <span class="pill pill-mint" data-i18n="badge_media">MEDIA</span>
-          <span class="news-date">2026.04.25</span>
-        </div>
+        <div class="news-date-group"><span class="kicker kicker-outline">Media</span><span class="news-date">2026.04.25</span></div>
         <div class="news-title">New Logo BLM48 The Campus</div>
         <div class="news-arrow"><i class="fas fa-arrow-right"></i></div>
       </a>
 
       <a href="https://www.instagram.com/p/DXj_JcWiU5O/" class="news-item">
-        <div class="news-date-group">
-          <span class="pill pill-mint" data-i18n="badge_media">MEDIA</span>
-          <span class="news-date">2026.04.25</span>
-        </div>
+        <div class="news-date-group"><span class="kicker kicker-outline">Media</span><span class="news-date">2026.04.25</span></div>
         <div class="news-title">BLM48 Original Stage Setlist &amp; BLM48 Shuffle Team</div>
         <div class="news-arrow"><i class="fas fa-arrow-right"></i></div>
       </a>
 
       <a href="https://www.instagram.com/p/DXj-1-EiaBr/?img_index=1" class="news-item">
-        <div class="news-date-group">
-          <span class="pill pill-cream" data-i18n="badge_event">EVENT</span>
-          <span class="news-date">2026.04.25</span>
-        </div>
+        <div class="news-date-group"><span class="kicker kicker-outline">Event</span><span class="news-date">2026.04.25</span></div>
         <div class="news-title">BLM48 Concert This Letter Says "Marry Me"</div>
         <div class="news-arrow"><i class="fas fa-arrow-right"></i></div>
       </a>
 
       <a href="https://youtu.be/RWxewbwau4k?si=EprRIZYCUP5oiuRj" class="news-item">
-        <div class="news-date-group">
-          <span class="pill pill-mint" data-i18n="badge_media">MEDIA</span>
-          <span class="news-date">2026.04.05</span>
-        </div>
+        <div class="news-date-group"><span class="kicker kicker-outline">Media</span><span class="news-date">2026.04.05</span></div>
         <div class="news-title">BLM48 10th Single Senbatsu Members Announcement</div>
         <div class="news-arrow"><i class="fas fa-arrow-right"></i></div>
       </a>
 
       <a href="https://youtu.be/TAPlWWZMGFQ?si=JLMr92GyvgipOn88" class="news-item">
-        <div class="news-date-group">
-          <span class="pill pill-gold" data-i18n="badge_release">RELEASE</span>
-          <span class="news-date">2026.04.04</span>
-        </div>
+        <div class="news-date-group"><span class="kicker kicker-gold">Release</span><span class="news-date">2026.04.04</span></div>
         <div class="news-title">BLM48 3rd Generation Special Single "Celebration" Release!</div>
         <div class="news-arrow"><i class="fas fa-arrow-right"></i></div>
       </a>
 
       <a href="https://youtube.com/playlist?list=PLIZN3HRIc9-DaI6E3Q9uJp4vSXAXBbNaV&si=W3_Pdej1Hj3xHsXA" class="news-item">
-        <div class="news-date-group">
-          <span class="pill pill-gold" data-i18n="badge_release">RELEASE</span>
-          <span class="news-date">2026.01.31</span>
-        </div>
+        <div class="news-date-group"><span class="kicker kicker-gold">Release</span><span class="news-date">2026.01.31</span></div>
         <div class="news-title">9th Single "BINGO!" - Official Music Video &amp; Digital Release.</div>
         <div class="news-arrow"><i class="fas fa-arrow-right"></i></div>
       </a>
@@ -193,7 +116,6 @@
     </div>
   </main>
 
-  <!-- Footer -->
   <div id="site-footer"></div>
 
 </body>

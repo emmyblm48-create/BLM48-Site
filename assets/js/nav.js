@@ -3,19 +3,13 @@
    ========================================================= */
 (function () {
   var NAV_LINKS = [
-    { href: 'index.html', page: 'index', key: 'nav_home' },
-    { href: 'news.html', page: 'news', key: 'nav_news' },
-    { href: 'schedule.html', page: 'schedule', key: 'nav_schedule' },
-    { href: 'profile.html', page: 'profile', key: 'nav_profile' },
-    { href: 'discography.html', page: 'discography', key: 'nav_discography' },
-    { href: 'about.html', page: 'about', key: 'nav_about' },
-    { href: 'https://blm48-membership.vercel.app/', page: 'membership', key: 'nav_membership' } 
-  ];
-
-  var LANGS = [
-    { code: 'en', label: 'English' },    
-    { code: 'th', label: 'Thai' },
-    { code: 'ja', label: '日本語' }
+    { href: 'index.html', page: 'index', label: 'Home' },
+    { href: 'news.html', page: 'news', label: 'News' },
+    { href: 'schedule.html', page: 'schedule', label: 'Schedule' },
+    { href: 'profile.html', page: 'profile', label: 'Profile' },
+    { href: 'theater.html', page: 'theater', label: 'Theater' },
+    { href: 'discography.html', page: 'discography', label: 'Discography' },
+    { href: 'about.html', page: 'about', label: 'About' }
   ];
 
   var TICKER_ITEMS = [
@@ -34,13 +28,7 @@
 
   function navLinksHTML(linkClass) {
     return NAV_LINKS.map(function (l) {
-      return '<a href="' + l.href + '" class="' + linkClass + '" data-page="' + l.page + '" data-i18n="' + l.key + '">' + l.key + '</a>';
-    }).join('');
-  }
-
-  function langMenuHTML(btnClass) {
-    return LANGS.map(function (l) {
-      return '<button type="button" class="' + btnClass + '" data-lang="' + l.code + '">' + l.label + '</button>';
+      return '<a href="' + l.href + '" class="' + linkClass + '" data-page="' + l.page + '">' + l.label + '</a>';
     }).join('');
   }
 
@@ -58,23 +46,18 @@
 
     mount.innerHTML =
       '<div class="site-ticker">' +
-        '<span class="ticker-label" data-i18n="ticker_label">TODAY\'S SCHEDULE</span>' +
+        '<span class="ticker-label">Today</span>' +
         '<div class="ticker-track-wrap"><div class="ticker-track">' + tickerTrackHTML() + '</div></div>' +
       '</div>' +
       '<header class="site-header">' +
         '<div class="site-header-inner">' +
           '<a href="index.html" class="site-logo">' +
             '<img class="logo-img" src="https://lh3.googleusercontent.com/d/12PFpDx6bOmQpf_UMhhh6ltZwvOAkVyvW=s1000" alt="BLM48">' +
-            '<span class="logo-sub">OFFICIAL SITE</span>' +
+            '<span class="logo-sub">Official Site</span>' +
           '</a>' +
           '<nav class="site-nav" aria-label="Main navigation">' + navLinksHTML('') + '</nav>' +
           '<div class="header-actions">' +
-            '<div class="lang-switch" id="langSwitch">' +
-              '<button type="button" class="lang-btn" id="langBtn" aria-haspopup="true" aria-expanded="false">' +
-                '<i class="fas fa-globe" aria-hidden="true"></i><span id="langBtnLabel">TH</span><i class="fas fa-chevron-down lang-caret" aria-hidden="true"></i>' +
-              '</button>' +
-              '<div class="lang-menu" id="langMenu" role="menu">' + langMenuHTML('lang-menu-item') + '</div>' +
-            '</div>' +
+            '<a href="https://blm48-membership.vercel.app/" class="header-cta">Membership</a>' +
             '<button type="button" class="nav-hamburger" id="navHamburger" aria-label="Open menu" aria-expanded="false">' +
               '<span></span><span></span><span></span>' +
             '</button>' +
@@ -85,7 +68,7 @@
       '<aside class="mobile-nav-panel" id="mobileNavPanel">' +
         '<button type="button" class="mobile-nav-close" id="mobileNavClose" aria-label="Close menu"><i class="fas fa-xmark" aria-hidden="true"></i></button>' +
         '<nav class="mobile-nav-links" aria-label="Mobile navigation">' + navLinksHTML('') + '</nav>' +
-        '<div class="mobile-lang-row">' + langMenuHTML('') + '</div>' +
+        '<a href="https://blm48-membership.vercel.app/" class="mobile-nav-cta">Membership</a>' +
       '</aside>';
 
     markActiveLinks();
@@ -99,28 +82,47 @@
     mount.innerHTML =
       '<footer class="ske-footer">' +
         '<div class="footer-inner">' +
-          '<h2 class="footer-brand-title">BLM48 OFFICIAL SITE</h2>' +
-          '<div class="footer-social-row">' +
-            '<a href="https://www.facebook.com/Blm48official" target="_blank" class="social-btn-icon" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>' +
-            '<a href="https://x.com/BLM48_OFFICIAL" target="_blank" class="social-btn-icon" aria-label="X">' +
-              '<svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>' +
-            '</a>' +
-            '<a href="https://www.youtube.com/@blm48official" target="_blank" class="social-btn-icon" aria-label="YouTube"><i class="fab fa-youtube"></i></a>' +
-            '<a href="https://www.tiktok.com/@blm48_official" target="_blank" class="social-btn-icon" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>' +
-            '<a href="https://www.instagram.com/blm48.official" target="_blank" class="social-btn-icon" aria-label="Instagram"><i class="fab fa-instagram"></i></a>' +
+          '<div class="footer-top">' +
+            '<div>' +
+              '<h2 class="footer-brand-title">BLM48</h2>' +
+              '<p class="footer-brand-desc">The official site of BLM48 — a virtual idol cover group of the AKB48 Group, performing on ZEPETO.</p>' +
+            '</div>' +
+            '<div class="footer-nav-cols">' +
+              '<div>' +
+                '<div class="footer-col-title">Explore</div>' +
+                '<ul class="footer-links-list">' +
+                  '<li><a href="news.html">News</a></li>' +
+                  '<li><a href="schedule.html">Schedule</a></li>' +
+                  '<li><a href="profile.html">Profile</a></li>' +
+                  '<li><a href="theater.html">Theater</a></li>' +
+                  '<li><a href="discography.html">Discography</a></li>' +
+                '</ul>' +
+              '</div>' +
+              '<div>' +
+                '<div class="footer-col-title">Connect</div>' +
+                '<ul class="footer-links-list">' +
+                  '<li><a href="about.html">About BLM48</a></li>' +
+                  '<li><a href="https://blm48-membership.vercel.app/" target="_blank" rel="noopener">Membership</a></li>' +
+                  '<li><a href="#">Privacy Policy</a></li>' +
+                  '<li><a href="#">Terms of Service</a></li>' +
+                  '<li><a href="#">Contact Us</a></li>' +
+                '</ul>' +
+              '</div>' +
+            '</div>' +
           '</div>' +
           '<div class="footer-bottom-row">' +
-            '<div>' +
-              '<ul class="footer-links-list">' +
-                '<li><a href="about.html" data-i18n="nav_about">About BLM48</a></li>' +
-                '<li><a href="#" data-i18n="footer_privacy">Privacy Policy</a></li>' +
-                '<li><a href="#" data-i18n="footer_terms">Terms of Service</a></li>' +
-                '<li><a href="#" data-i18n="footer_contact">Contact Us</a></li>' +
-              '</ul>' +
-              '<div class="copyright-text">&copy; 2026 BLM48, Inc. <span data-i18n="footer_rights">All Rights Reserved.</span></div>' +
+            '<div class="footer-social-row">' +
+              '<a href="https://www.facebook.com/Blm48official" target="_blank" class="social-btn-icon" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>' +
+              '<a href="https://x.com/BLM48_OFFICIAL" target="_blank" class="social-btn-icon" aria-label="X">' +
+                '<svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>' +
+              '</a>' +
+              '<a href="https://www.youtube.com/@blm48official" target="_blank" class="social-btn-icon" aria-label="YouTube"><i class="fab fa-youtube"></i></a>' +
+              '<a href="https://www.tiktok.com/@blm48_official" target="_blank" class="social-btn-icon" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>' +
+              '<a href="https://www.instagram.com/blm48.official" target="_blank" class="social-btn-icon" aria-label="Instagram"><i class="fab fa-instagram"></i></a>' +
             '</div>' +
+            '<div class="copyright-text">&copy; 2026 BLM48, Inc. All Rights Reserved.</div>' +
             '<button type="button" class="page-top-btn" id="pageTopBtn">' +
-              '<span data-i18n="footer_pagetop">PAGE TOP</span><i class="fas fa-arrow-up" aria-hidden="true"></i>' +
+              '<span>Page Top</span><i class="fas fa-arrow-up" aria-hidden="true"></i>' +
             '</button>' +
           '</div>' +
         '</div>' +
@@ -132,8 +134,6 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
       });
     }
-
-    if (window.BLM48_I18N) window.BLM48_I18N.applyLang(window.BLM48_I18N.getLang());
   }
 
   function markActiveLinks() {
@@ -165,28 +165,11 @@
     document.body.style.overflow = 'hidden';
   }
 
-  function closeLangMenu() {
-    var wrap = document.getElementById('langSwitch');
-    var btn = document.getElementById('langBtn');
-    if (wrap) wrap.classList.remove('open');
-    if (btn) btn.setAttribute('aria-expanded', 'false');
-  }
-
-  function updateLangUI(lang) {
-    var label = document.getElementById('langBtnLabel');
-    if (label) label.textContent = lang.toUpperCase();
-    document.querySelectorAll('.lang-menu-item, .mobile-lang-row button').forEach(function (btn) {
-      btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
-    });
-  }
-
   function wireHeaderEvents() {
     var hamburger = document.getElementById('navHamburger');
     var closeBtn = document.getElementById('mobileNavClose');
     var backdrop = document.getElementById('mobileNavBackdrop');
     var panel = document.getElementById('mobileNavPanel');
-    var langBtn = document.getElementById('langBtn');
-    var langSwitch = document.getElementById('langSwitch');
 
     if (hamburger) hamburger.addEventListener('click', openMobileMenu);
     if (closeBtn) closeBtn.addEventListener('click', closeMobileMenu);
@@ -197,40 +180,13 @@
       });
     }
 
-    if (langBtn && langSwitch) {
-      langBtn.addEventListener('click', function (e) {
-        e.stopPropagation();
-        var isOpen = langSwitch.classList.toggle('open');
-        langBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-      });
-      document.addEventListener('click', function (e) {
-        if (!langSwitch.contains(e.target)) closeLangMenu();
-      });
-    }
-
     document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape') {
-        closeMobileMenu();
-        closeLangMenu();
-      }
+      if (e.key === 'Escape') closeMobileMenu();
     });
-
-    document.querySelectorAll('.lang-menu-item, .mobile-lang-row button').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        var lang = btn.getAttribute('data-lang');
-        if (window.BLM48_I18N) window.BLM48_I18N.setLang(lang);
-        updateLangUI(lang);
-        closeLangMenu();
-        closeMobileMenu();
-      });
-    });
-
-    if (window.BLM48_I18N) updateLangUI(window.BLM48_I18N.getLang());
   }
 
   // Header can be injected immediately (its placeholder is right after <body>).
   injectHeader();
-  if (window.BLM48_I18N) window.BLM48_I18N.applyLang(window.BLM48_I18N.getLang());
 
   // Footer placeholder sits at the end of <body>; inject once DOM is ready.
   if (document.readyState === 'loading') {

@@ -1,209 +1,83 @@
 <!DOCTYPE html>
-<html lang="th">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BLM48 Official - PROFILE</title>
+  <title>BLM48 Official - Profile</title>
   <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1flevUZLFmIodF1RHG0QgRJkCMpgW1KM7=s1000">
 
-  <!-- Fonts & Icons (FA kept only for social brand icons in member detail) -->
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Kanit:wght@300;400;500;600;700&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="assets/css/site.css">
 
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
+    body { font-family: var(--font-body); color: var(--blm-ink); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
 
-    body {
-      font-family: var(--font-body);
-      color: var(--blm-ink);
-      overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    /* --- Loading Overlay --- */
-    #loading-overlay {
-      text-align: center;
-      padding: 90px 0;
-      color: var(--blm-ink-soft);
-      font-weight: 600;
-      letter-spacing: 1px;
-    }
-    .spinner-ring {
-      width: 46px;
-      height: 46px;
-      margin: 0 auto 18px;
-      border-radius: 50%;
-      border: 5px solid var(--blm-cream);
-      border-top-color: var(--blm-gold);
-      animation: spin 0.9s linear infinite;
-    }
+    /* --- Loading --- */
+    #loading-overlay { text-align: center; padding: 90px 0; color: var(--blm-ink-soft); font-weight: 700; letter-spacing: 1px; text-transform: uppercase; font-size: 13px; }
+    .spinner-ring { width: 40px; height: 40px; margin: 0 auto 18px; border-radius: 50%; border: 4px solid var(--blm-line); border-top-color: var(--blm-gold); animation: spin 0.9s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* --- Filter Tabs Style --- */
-    .filter-tabs {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      margin-bottom: 44px;
-      flex-wrap: wrap;
-    }
+    /* --- Filter Tabs --- */
+    .filter-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 48px; flex-wrap: wrap; }
     .tab-btn {
-      background: var(--glass-cream);
-      -webkit-backdrop-filter: blur(10px);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.5);
-      font-family: var(--font-body);
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--blm-ink);
-      cursor: pointer;
-      letter-spacing: 0.5px;
-      padding: 11px 30px;
-      transition: all 0.2s ease;
-      border-radius: var(--radius-pill);
+      background: transparent; border: 1.5px solid var(--blm-line);
+      font-family: var(--font-body); font-size: 12.5px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;
+      color: var(--blm-ink-soft); cursor: pointer; padding: 11px 26px; transition: all 0.2s ease;
     }
-    .tab-btn.active, .tab-btn:hover { background: var(--glass-gold); }
+    .tab-btn.active, .tab-btn:hover { background: var(--blm-ink); border-color: var(--blm-ink); color: var(--blm-paper); }
 
-    /* --- Main Grid View --- */
+    /* --- Main Grid --- */
     #main-view { display: none; }
-    .members-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 32px 24px;
-    }
-
+    .members-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 34px 24px; }
     @media (max-width: 1024px) { .members-grid { grid-template-columns: repeat(3, 1fr); } }
-    @media (max-width: 680px) { .members-grid { grid-template-columns: repeat(2, 1fr); gap: 20px 14px; } }
+    @media (max-width: 680px) { .members-grid { grid-template-columns: repeat(2, 1fr); gap: 22px 14px; } }
 
-    .member-card {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      transition: transform 0.3s ease;
-    }
-    .member-card:hover { transform: translateY(-6px); }
-
-    .photo-box {
-      width: 100%;
-      aspect-ratio: 3 / 4;
-      overflow: hidden;
-      background: var(--blm-cream);
-      margin-bottom: 14px;
-      cursor: pointer;
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-soft);
-      border: 3px solid var(--blm-gold);
-    }
-    .member-card:nth-child(4n+2) .photo-box { border-color: var(--blm-pink); }
-    .member-card:nth-child(4n+3) .photo-box { border-color: var(--blm-mint-deep); }
-    .member-card:nth-child(4n) .photo-box { border-color: var(--blm-cream-deep); }
+    .member-card { display: flex; flex-direction: column; }
+    .photo-box { width: 100%; aspect-ratio: 3/4; overflow: hidden; background: var(--blm-paper-soft); margin-bottom: 14px; cursor: pointer; border: 1px solid var(--blm-line); transition: border-color 0.25s; }
+    .member-card:hover .photo-box { border-color: var(--blm-gold); }
     .member-photo { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
     .member-card:hover .member-photo { transform: scale(1.05); }
 
-    .card-info { width: 100%; margin-bottom: 10px; text-align: left; }
-    .card-name-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-    }
-    .member-name-main {
-      font-family: var(--font-display);
-      font-size: 17px;
-      font-weight: 700;
-      color: var(--blm-ink);
-      line-height: 1.3;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      cursor: pointer;
-    }
-    .member-name-sub {
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--blm-ink-faint);
-      letter-spacing: 0.5px;
-      margin-top: 3px;
-      text-transform: uppercase;
-      cursor: pointer;
-    }
-
+    .card-info { width: 100%; }
+    .card-name-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .member-name-main { font-family: var(--font-display); font-size: 17px; font-weight: 800; color: var(--blm-ink); line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; cursor: pointer; }
+    .member-name-sub { font-size: 11px; font-weight: 700; color: var(--blm-ink-faint); letter-spacing: 0.5px; margin-top: 3px; text-transform: uppercase; cursor: pointer; }
     .card-socials { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
-    .card-social-link {
-      color: var(--blm-ink-faint);
-      font-size: 14px;
-      transition: color 0.2s, transform 0.2s;
-    }
+    .card-social-link { color: var(--blm-ink-faint); font-size: 13px; transition: color 0.2s, transform 0.2s; }
     .card-social-link:hover { color: var(--blm-gold-deep); transform: translateY(-2px); }
 
-    /* --- Detail View Style --- */
+    /* --- Detail View --- */
     #detail-view { display: none; animation: fadeIn 0.4s ease; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-    .back-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      color: var(--blm-ink);
-      cursor: pointer;
-      font-weight: 700;
-      margin-bottom: 28px;
-      transition: gap 0.2s, color 0.2s;
-      font-size: 14px;
-      letter-spacing: 0.5px;
-    }
+    .back-btn { display: inline-flex; align-items: center; gap: 8px; color: var(--blm-ink); cursor: pointer; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 32px; transition: gap 0.2s, color 0.2s; font-size: 12.5px; }
     .back-btn::before { content: '\f060'; font-family: 'Font Awesome 6 Free'; font-weight: 900; font-size: 12px; }
     .back-btn:hover { gap: 12px; color: var(--blm-gold-deep); }
 
-    .detail-layout { display: flex; flex-direction: row; gap: 44px; text-align: left; }
-    .detail-image-box { flex: 1; min-width: 280px; max-width: 420px; }
-    .detail-image {
-      width: 100%;
-      border-radius: var(--radius-xl);
-      box-shadow: var(--shadow-soft);
-      border: 4px solid var(--blm-gold);
-    }
+    .detail-layout { display: flex; flex-direction: row; gap: 48px; text-align: left; }
+    .detail-image-box { flex: 1; min-width: 280px; max-width: 400px; }
+    .detail-image { width: 100%; border: 1px solid var(--blm-line); display: block; }
     .detail-content { flex: 1.5; min-width: 280px; }
 
-    .info-header { border-bottom: 2px solid var(--blm-cream); padding-bottom: 16px; margin-bottom: 20px; }
-    #m-name-th { font-family: var(--font-display); font-size: 32px; margin: 0; color: var(--blm-ink); font-weight: 600; }
-    #m-name-en { color: var(--blm-ink-soft); font-size: 15px; margin: 6px 0 0 0; font-weight: 600; letter-spacing: 0.5px; }
+    .info-header { border-bottom: 2px solid var(--blm-ink); padding-bottom: 18px; margin-bottom: 22px; }
+    #m-name-th { font-family: var(--font-display); font-size: 34px; margin: 0; color: var(--blm-ink); font-weight: 800; letter-spacing: -0.5px; }
+    #m-name-en { color: var(--blm-ink-faint); font-size: 13px; margin: 6px 0 0 0; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
 
-    .info-row {
-      display: grid;
-      grid-template-columns: 140px 1fr;
-      padding: 12px 0;
-      border-bottom: 1px dashed var(--blm-line);
-    }
-    .info-label { color: var(--blm-ink-faint); font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
-    .info-value { color: var(--blm-ink); font-size: 15.5px; font-weight: 600; }
+    .info-row { display: grid; grid-template-columns: 140px 1fr; padding: 13px 0; border-bottom: 1px solid var(--blm-line); }
+    .info-label { color: var(--blm-ink-faint); font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+    .info-value { color: var(--blm-ink); font-size: 15px; font-weight: 600; }
 
-    .social-section { display: flex; gap: 12px; margin-top: 26px; }
+    .social-section { display: flex; gap: 10px; margin-top: 28px; }
     .social-link {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      background: var(--glass-cream);
-      -webkit-backdrop-filter: blur(10px);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.5);
-      color: var(--blm-ink);
-      font-size: 18px;
-      text-decoration: none;
-      transition: all 0.3s ease;
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 40px; height: 40px; border-radius: 50%;
+      background: transparent; border: 1px solid var(--blm-line); color: var(--blm-ink); font-size: 16px;
+      text-decoration: none; transition: all 0.25s ease;
     }
-    .social-link:hover { background: var(--glass-gold); transform: translateY(-3px); }
+    .social-link:hover { background: var(--blm-gold); border-color: var(--blm-gold); color: var(--blm-on-gold); }
 
     @media (max-width: 768px) {
       .detail-layout { flex-direction: column; align-items: center; }
@@ -211,44 +85,38 @@
       .info-header { text-align: center; }
       .social-section { justify-content: center; }
     }
-
     @media (max-width: 480px) {
       .info-row { grid-template-columns: 1fr; gap: 4px; }
-      .info-label { font-size: 12px; }
     }
   </style>
 </head>
 <body>
 
   <div id="site-header"></div>
-  <script src="assets/js/i18n.js"></script>
   <script src="assets/js/nav.js"></script>
 
   <main class="page-shell">
     <div class="page-hero">
-      <h1 class="page-hero-title" data-i18n="profile_header">PROFILE</h1>
-      <div class="page-hero-underline"></div>
+      <span class="eyebrow">The Lineup</span>
+      <h1 class="page-hero-title">Profile</h1>
     </div>
 
-    <!-- Loading Overlay -->
     <div id="loading-overlay">
       <div class="spinner-ring"></div>
-      <div data-i18n="loading_text">LOADING BLM48...</div>
+      <div>Loading BLM48...</div>
     </div>
 
-    <!-- Main View -->
     <div id="main-view">
       <div class="filter-tabs">
-        <button class="tab-btn active" onclick="filterByTeam(this, 'ALL')" data-i18n="tab_all">ALL</button>
-        <button class="tab-btn" onclick="filterByTeam(this, 'Bloom')" data-i18n="tab_bloom">Team Bloom</button>
-        <button class="tab-btn" onclick="filterByTeam(this, 'Trainee')" data-i18n="tab_trainee">Trainee</button>
+        <button class="tab-btn active" onclick="filterByTeam(this, 'ALL')">All</button>
+        <button class="tab-btn" onclick="filterByTeam(this, 'Bloom')">Team Bloom</button>
+        <button class="tab-btn" onclick="filterByTeam(this, 'Trainee')">Trainee</button>
       </div>
       <div id="member-grid" class="members-grid"></div>
     </div>
 
-    <!-- Detail View -->
     <div id="detail-view">
-      <div class="back-btn" onclick="goBack()"><span data-i18n="back_btn">BACK</span></div>
+      <div class="back-btn" onclick="goBack()"><span>Back</span></div>
       <div class="detail-layout">
         <div class="detail-image-box"><img id="m-img" class="detail-image" alt="Member Photo"></div>
         <div class="detail-content">
@@ -264,10 +132,8 @@
 
   </main>
 
-  <!-- Footer -->
   <div id="site-footer"></div>
 
-  <!-- JavaScript Functionalities -->
   <script>
     const scriptURL = 'https://script.google.com/macros/s/AKfycbyKX1fncf8dJuPWadPk9w-4t0pPnkNPZlFDvUqllC1aJwbqQ4vVdepMcU6fjbTIOHqz/exec';
     let membersData = [];
@@ -281,10 +147,6 @@
       return url;
     }
 
-    function T(key) {
-      return (window.BLM48_I18N && window.BLM48_I18N.t(key)) || key;
-    }
-
     let currentTeamFilter = 'ALL';
     let currentMemberName = null;
 
@@ -296,7 +158,7 @@
         document.getElementById('loading-overlay').style.display = 'none';
         document.getElementById('main-view').style.display = 'block';
       } catch (err) {
-        document.getElementById('loading-overlay').innerHTML = "ERROR LOADING DATA";
+        document.getElementById('loading-overlay').innerHTML = "Error loading data";
       }
     }
 
@@ -307,26 +169,12 @@
       renderGrid(team);
     }
 
-    document.addEventListener('blm48:langchange', () => {
-      if (!membersData.length) return;
-      if (document.getElementById('detail-view').style.display === 'block' && currentMemberName) {
-        viewDetail(currentMemberName);
-      } else {
-        renderGrid(currentTeamFilter);
-      }
-    });
-
     function renderGrid(team) {
       const grid = document.getElementById('member-grid');
       grid.innerHTML = '';
       const filtered = team === 'ALL' ? membersData : membersData.filter(m => m.team === team);
 
       filtered.forEach(m => {
-        let displayTeam = m.team || '';
-        if (displayTeam.toLowerCase() !== 'trainee' && displayTeam !== '') {
-            displayTeam = 'Team ' + displayTeam;
-        }
-
         const nameMain = m.name;
         const nameSub = (m.fullNameEN || m.name).toUpperCase();
 
@@ -354,22 +202,22 @@
 
     function viewDetail(nickname) {
       const m = membersData.find(item => item.name === nickname);
-      if(!m) return;
+      if (!m) return;
       currentMemberName = nickname;
       document.getElementById('m-img').src = getDirectImgLink(m.image);
       document.getElementById('m-name-th').innerText = m.fullNameTH || m.name;
       document.getElementById('m-name-en').innerText = m.fullNameEN || '';
 
       const infoList = [
-        { label: T('label_generation'), value: m.generation },
-        { label: T('label_team'), value: m.team },
-        { label: T('label_birthday'), value: m.birthday },
-        { label: T('label_oshimark'), value: m.oshiMark },
-        { label: T('label_province'), value: m.province },
-        { label: T('label_bloodtype'), value: m.bloodType },
-        { label: T('label_mbti'), value: m.mbti },
-        { label: T('label_like'), value: m.like },
-        { label: T('label_hobby'), value: m.hobby }
+        { label: 'Generation', value: m.generation },
+        { label: 'Team', value: m.team },
+        { label: 'Birthday', value: m.birthday },
+        { label: 'Oshimark', value: m.oshiMark },
+        { label: 'Province', value: m.province },
+        { label: 'Blood Type', value: m.bloodType },
+        { label: 'MBTI', value: m.mbti },
+        { label: 'Like', value: m.like },
+        { label: 'Hobby', value: m.hobby }
       ];
 
       document.getElementById('m-info-table').innerHTML = infoList.map(item => `
@@ -380,14 +228,14 @@
       `).join('');
 
       let sHTML = '';
-      if(m.instagram && m.instagram !== '-') sHTML += `<a href="${m.instagram}" class="social-link" target="_blank"><i class="fab fa-instagram"></i></a>`;
-      if(m.tiktok && m.tiktok !== '-') sHTML += `<a href="${m.tiktok}" class="social-link" target="_blank"><i class="fab fa-tiktok"></i></a>`;
-      if(m.twitter && m.twitter !== '-') sHTML += `<a href="${m.twitter}" class="social-link" target="_blank"><i class="fab fa-x-twitter"></i></a>`;
+      if (m.instagram && m.instagram !== '-') sHTML += `<a href="${m.instagram}" class="social-link" target="_blank"><i class="fab fa-instagram"></i></a>`;
+      if (m.tiktok && m.tiktok !== '-') sHTML += `<a href="${m.tiktok}" class="social-link" target="_blank"><i class="fab fa-tiktok"></i></a>`;
+      if (m.twitter && m.twitter !== '-') sHTML += `<a href="${m.twitter}" class="social-link" target="_blank"><i class="fab fa-x-twitter"></i></a>`;
       document.getElementById('m-social').innerHTML = sHTML;
 
       document.getElementById('main-view').style.display = 'none';
       document.getElementById('detail-view').style.display = 'block';
-      window.scrollTo(0,0);
+      window.scrollTo(0, 0);
     }
 
     function goBack() {
@@ -398,7 +246,7 @@
       if (card) {
         card.scrollIntoView({ block: 'center' });
       } else {
-        window.scrollTo(0,0);
+        window.scrollTo(0, 0);
       }
     }
 

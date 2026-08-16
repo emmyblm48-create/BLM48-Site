@@ -1,86 +1,43 @@
 <!DOCTYPE html>
-<html lang="th">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BLM48 Official - DISCOGRAPHY</title>
+  <title>BLM48 Official - Discography</title>
   <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1flevUZLFmIodF1RHG0QgRJkCMpgW1KM7=s1000">
-  
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Kanit:wght@300;400;500;600;700&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="assets/css/site.css">
 
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
+    body { font-family: var(--font-body); color: var(--blm-ink); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
 
-    body {
-      font-family: var(--font-body);
-      color: var(--blm-ink);
-      overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    /* --- Filter --- */
     .disco-filter { width: 100%; }
     .disco-filter input[type="radio"] { display: none; }
 
-    .filter-tabs {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      margin-bottom: 44px;
-      flex-wrap: wrap;
-    }
-
+    .filter-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 48px; flex-wrap: wrap; }
     .filter-tabs label {
-      background: var(--glass-cream);
-      -webkit-backdrop-filter: blur(10px);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.5);
-      font-family: var(--font-body);
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--blm-ink);
-      cursor: pointer;
-      letter-spacing: 0.5px;
-      padding: 11px 30px;
-      transition: all 0.2s ease;
-      border-radius: var(--radius-pill);
-      text-align: center;
+      background: transparent; border: 1.5px solid var(--blm-line);
+      font-family: var(--font-body); font-size: 12.5px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;
+      color: var(--blm-ink-soft); cursor: pointer; padding: 11px 26px; transition: all 0.2s ease; text-align: center;
     }
-
-    .filter-tabs label:hover { background: var(--glass-gold); }
-
+    .filter-tabs label:hover { border-color: var(--blm-ink); color: var(--blm-ink); }
     #all:checked ~ .filter-tabs label[for="all"],
     #single:checked ~ .filter-tabs label[for="single"],
     #album:checked ~ .filter-tabs label[for="album"],
     #special:checked ~ .filter-tabs label[for="special"],
     #concert:checked ~ .filter-tabs label[for="concert"] {
-      background: var(--glass-gold);
-      border-color: rgba(253, 222, 92, 0.7);
+      background: var(--blm-ink); border-color: var(--blm-ink); color: var(--blm-paper);
     }
 
-    /* --- Main Grid View --- */
-    .disco-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 32px 24px;
-    }
-
+    .disco-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 34px 24px; }
     @media (max-width: 1024px) { .disco-grid { grid-template-columns: repeat(3, 1fr); } }
     @media (max-width: 680px) {
-      .disco-grid { grid-template-columns: repeat(2, 1fr); gap: 20px 14px; }
-      .filter-tabs label { min-width: auto; padding: 9px 18px; font-size: 13px; }
-    }
-    @media (max-width: 380px) {
-      .disco-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; }
+      .disco-grid { grid-template-columns: repeat(2, 1fr); gap: 22px 14px; }
+      .filter-tabs label { min-width: auto; padding: 9px 18px; font-size: 12px; }
     }
 
     .disco-item { display: none; }
@@ -90,152 +47,68 @@
     #special:checked ~ .disco-grid .cat-special { display: flex; }
     #concert:checked ~ .disco-grid .cat-concert { display: flex; }
 
-    /* --- Item & Card Design --- */
-    .disco-item {
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      transition: transform 0.3s ease;
-    }
-    .disco-item:hover { transform: translateY(-6px); }
-
+    .disco-item { flex-direction: column; }
     .cover-link { width: 100%; text-decoration: none; color: inherit; }
 
-    .cover-box {
-      width: 100%;
-      aspect-ratio: 1 / 1;
-      overflow: hidden;
-      background: var(--blm-cream);
-      margin-bottom: 14px;
-      cursor: pointer;
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-soft);
-      position: relative;
-    }
-
+    .cover-box { width: 100%; aspect-ratio: 1/1; overflow: hidden; background: var(--blm-paper-soft); margin-bottom: 14px; border: 1px solid var(--blm-line); position: relative; transition: border-color 0.25s; }
+    .disco-item:hover .cover-box { border-color: var(--blm-gold); }
     .cover-box img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s ease; }
     .disco-item:hover .cover-box img { transform: scale(1.05); }
 
-    /* Overlay "WATCH MV" */
     .overlay {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: linear-gradient(0deg, rgba(51,44,32,0.7) 0%, transparent 60%);
-      display: flex;
-      justify-content: center;
-      align-items: flex-end;
-      padding-bottom: 18px;
-      opacity: 0;
-      transition: all 0.4s ease;
+      position: absolute; inset: 0;
+      background: linear-gradient(0deg, rgba(21,16,12,0.72) 0%, transparent 55%);
+      display: flex; justify-content: flex-start; align-items: flex-end;
+      padding: 14px; opacity: 0; transition: all 0.3s ease;
     }
-
-    .overlay span {
-      font-weight: 700;
-      color: var(--blm-on-gold);
-      background: var(--blm-gold);
-      padding: 8px 22px;
-      font-size: 12px;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      border-radius: var(--radius-pill);
-      transform: translateY(10px);
-      transition: all 0.4s ease;
-    }
-
+    .overlay span { font-weight: 800; letter-spacing: 1px; text-transform: uppercase; font-size: 11.5px; color: #fff; display: inline-flex; align-items: center; gap: 6px; }
     .disco-item:hover .overlay { opacity: 1; }
-    .disco-item:hover .overlay span { transform: translateY(0); }
+    @media (hover: none) { .overlay { opacity: 1; background: linear-gradient(0deg, rgba(21,16,12,0.4) 0%, transparent 55%); } .overlay span { display: none; } }
 
-    @media (hover: none) {
-      .overlay { opacity: 1; background: linear-gradient(0deg, rgba(51,44,32,0.35) 0%, transparent 60%); }
-      .overlay span { display: none; }
-    }
-
-    /* --- Tags & Meta --- */
-    .item-info { width: 100%; margin-bottom: 12px; }
-
-    .meta {
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--blm-ink-faint);
-      margin-bottom: 8px;
-      display: flex;
-      justify-content: center;
-      gap: 8px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-
-    .tag-single, .tag-special, .tag-album, .tag-concert {
-      font-size: 10px;
-      padding: 3px 10px;
-      border-radius: var(--radius-pill);
-      text-transform: uppercase;
-      font-weight: 700;
-    }
-
-    .tag-single { color: var(--blm-ink); background: var(--blm-cream-deep); }
-    .tag-special { color: var(--blm-on-gold); background: var(--blm-gold); }
-    .tag-album { color: var(--blm-ink); background: var(--blm-pink); }
-    .tag-concert { color: var(--blm-ink); background: var(--blm-mint); }
+    .item-info { width: 100%; }
+    .meta { font-size: 10.5px; font-weight: 700; color: var(--blm-ink-faint); margin-bottom: 8px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
     .date { color: var(--blm-ink-faint); }
 
-    .title {
-      font-family: var(--font-display);
-      font-size: 15px;
-      font-weight: 500;
-      margin: 0;
-      color: var(--blm-ink);
-      line-height: 1.4;
-    }
+    .title { font-family: var(--font-display); font-size: 15px; font-weight: 700; margin: 0; color: var(--blm-ink); line-height: 1.4; }
   </style>
 </head>
 <body>
 
   <div id="site-header"></div>
-  <script src="assets/js/i18n.js"></script>
   <script src="assets/js/nav.js"></script>
 
-  <!-- Main Container Overlay -->
   <main class="page-shell">
 
     <div class="page-hero">
-      <h1 class="page-hero-title" data-i18n="disco_header">DISCOGRAPHY</h1>
-      <div class="page-hero-underline"></div>
+      <span class="eyebrow">Music &amp; Releases</span>
+      <h1 class="page-hero-title">Discography</h1>
     </div>
 
-    <!-- ระบบ Filter และ Grid แบบเดิมของ Discography -->
     <nav class="disco-filter">
-        <!-- Input Radios สำหรับควบคุมการทำงาน (ซ่อนไว้) -->
         <input type="radio" id="all" name="disco_cat" checked>
         <input type="radio" id="single" name="disco_cat">
         <input type="radio" id="album" name="disco_cat">
         <input type="radio" id="special" name="disco_cat">
         <input type="radio" id="concert" name="disco_cat">
 
-        <!-- ปุ่มกดเปลี่ยนหมวดหมู่ -->
         <div class="filter-tabs">
-            <label for="all" data-i18n="filter_all">ALL</label>
-            <label for="single" data-i18n="filter_single">SINGLE</label>
-            <label for="album" data-i18n="filter_album">ALBUM</label>
-            <label for="special" data-i18n="filter_special">SPECIAL</label>
-            <label for="concert" data-i18n="filter_concert">CONCERT</label>
+            <label for="all">All</label>
+            <label for="single">Single</label>
+            <label for="album">Album</label>
+            <label for="special">Special</label>
+            <label for="concert">Concert</label>
         </div>
 
-        <!-- กล่องข้อมูลทั้งหมด -->
         <div class="disco-grid">
-            
+
             <div class="disco-item cat-single">
                 <a href="https://www.youtube.com/playlist?list=PLPfz4Gco5l40" target="_blank" class="cover-link">
                     <div class="cover-box">
                         <img src="https://lh3.googleusercontent.com/d/1E1Usx32Bov92lz6_1BbfMqUcA7YwOivz=s1000" alt="Sustainable">
-                        <div class="overlay"><span data-i18n="watch_mv">WATCH MV</span></div>
+                        <div class="overlay"><span><i class="fas fa-play"></i> Watch MV</span></div>
                     </div>
                     <div class="item-info">
-                        <div class="meta">
-                            <span class="tag-single">SINGLE</span>
-                            <span class="date">2026.08.10</span>
-                        </div>
+                        <div class="meta"><span class="kicker kicker-outline">Single</span><span class="date">2026.08.10</span></div>
                         <h3 class="title">Sustainable</h3>
                     </div>
                 </a>
@@ -245,13 +118,10 @@
                 <a href="https://youtube.com/playlist?list=PLIZN3HRIc9-Bj8Cdm_Tdy9_KtZpkT0Za7&si=LsDw_w8oVdvdsnY4" target="_blank" class="cover-link">
                     <div class="cover-box">
                         <img src="https://lh3.googleusercontent.com/d/1Nd5WMn3yZdREl6I_vtdS7JJnYWiC3eYs=s1000" alt="Sustainable">
-                        <div class="overlay"><span data-i18n="watch_mv">WATCH MV</span></div>
+                        <div class="overlay"><span><i class="fas fa-play"></i> Watch MV</span></div>
                     </div>
                     <div class="item-info">
-                        <div class="meta">
-                            <span class="tag-single">Digital</span>
-                            <span class="date">2026.04.25</span>
-                        </div>
+                        <div class="meta"><span class="kicker kicker-outline">Digital</span><span class="date">2026.04.25</span></div>
                         <h3 class="title">Sustainable</h3>
                     </div>
                 </a>
@@ -261,13 +131,10 @@
                 <a href="https://youtu.be/TAPlWWZMGFQ?si=o_5w0Sq6Yw3QEyaO" target="_blank" class="cover-link">
                     <div class="cover-box">
                         <img src="https://lh3.googleusercontent.com/d/1f95utx33yfxcFUsr_OlTSt0pZllO-CSi=s1000" alt="Celebration">
-                        <div class="overlay"><span data-i18n="watch_mv">WATCH MV</span></div>
+                        <div class="overlay"><span><i class="fas fa-play"></i> Watch MV</span></div>
                     </div>
                     <div class="item-info">
-                        <div class="meta">
-                            <span class="tag-special">SPECIAL SINGLE</span>
-                            <span class="date">2026.04.04</span>
-                        </div>
+                        <div class="meta"><span class="kicker kicker-gold">Special Single</span><span class="date">2026.04.04</span></div>
                         <h3 class="title">Celebration</h3>
                     </div>
                 </a>
@@ -277,13 +144,10 @@
                 <a href="https://youtube.com/playlist?list=PLIZN3HRIc9-DaI6E3Q9uJp4vSXAXBbNaV&si=6-dMx-XkgoavIsl0" target="_blank" class="cover-link">
                     <div class="cover-box">
                         <img src="https://lh3.googleusercontent.com/d/1qXtFoBEr2DdfPDZGiF53ZW_PNytLPBSw=s1000" alt="BINGO!">
-                        <div class="overlay"><span data-i18n="watch_mv">WATCH MV</span></div>
+                        <div class="overlay"><span><i class="fas fa-play"></i> Watch MV</span></div>
                     </div>
                     <div class="item-info">
-                        <div class="meta">
-                            <span class="tag-single">9th SINGLE</span>
-                            <span class="date">2026.01.31</span>
-                        </div>
+                        <div class="meta"><span class="kicker kicker-outline">9th Single</span><span class="date">2026.01.31</span></div>
                         <h3 class="title">BINGO!</h3>
                     </div>
                 </a>
@@ -293,13 +157,10 @@
                 <a href="https://www.youtube.com/watch?v=QaxSjLIxcSE" target="_blank" class="cover-link">
                     <div class="cover-box">
                         <img src="https://lh3.googleusercontent.com/d/1OqH7oOp6AWAVKTNnP2hXDKkfk7o6t9FO=s1000" alt="BINGO!">
-                        <div class="overlay"><span data-i18n="watch_mv">WATCH MV</span></div>
+                        <div class="overlay"><span><i class="fas fa-play"></i> Watch MV</span></div>
                     </div>
                     <div class="item-info">
-                        <div class="meta">
-                            <span class="tag-single">DIGITAL</span>
-                            <span class="date">2026.01.31</span>
-                        </div>
+                        <div class="meta"><span class="kicker kicker-outline">Digital</span><span class="date">2026.01.31</span></div>
                         <h3 class="title">BINGO!</h3>
                     </div>
                 </a>
@@ -308,14 +169,11 @@
             <div class="disco-item cat-special">
                 <a href="https://youtube.com/playlist?list=PLIZN3HRIc9-CltU6zPLvMI53A1Ur_ChF2&si=PsTn_xwrTG34Kaxd" target="_blank" class="cover-link">
                     <div class="cover-box">
-                        <img src="https://lh3.googleusercontent.com/d/1eBeiupo0dGwXd3ramURgVG57LNYtGgxu=s1000" alt="Sasameyuki Regret - ความในใจที่มี Regret">
-                        <div class="overlay"><span data-i18n="watch_mv">WATCH MV</span></div>
+                        <img src="https://lh3.googleusercontent.com/d/1eBeiupo0dGwXd3ramURgVG57LNYtGgxu=s1000" alt="Sasameyuki Regret">
+                        <div class="overlay"><span><i class="fas fa-play"></i> Watch MV</span></div>
                     </div>
                     <div class="item-info">
-                        <div class="meta">
-                            <span class="tag-special">SPECIAL SINGLE</span>
-                            <span class="date">2025.12.20</span>
-                        </div>
+                        <div class="meta"><span class="kicker kicker-gold">Special Single</span><span class="date">2025.12.20</span></div>
                         <h3 class="title">Sasameyuki Regret - ความในใจที่มี Regret</h3>
                     </div>
                 </a>
@@ -325,13 +183,10 @@
                 <a href="https://www.youtube.com/playlist?list=PLIZN3HRIc9-BTerMvI4G1Yj6sNOt7GQwI" target="_blank" class="cover-link">
                     <div class="cover-box">
                         <img src="https://lh3.googleusercontent.com/d/1OdLLWspqoQ4LI6UAXJ4NOkRotcAvdF6S=s1000" alt="Rhythm:You">
-                        <div class="overlay"><span data-i18n="watch_mv">WATCH MV</span></div>
+                        <div class="overlay"><span><i class="fas fa-play"></i> Watch MV</span></div>
                     </div>
                     <div class="item-info">
-                        <div class="meta">
-                            <span class="tag-special">SPECIAL ALBUM</span>
-                            <span class="date">2025.12.30</span>
-                        </div>
+                        <div class="meta"><span class="kicker kicker-gold">Special Album</span><span class="date">2025.12.30</span></div>
                         <h3 class="title">Rhythm:You</h3>
                     </div>
                 </a>
@@ -341,13 +196,10 @@
                 <a href="https://www.youtube.com/playlist?list=PLIZN3HRIc9-BwecC4mVSgOh3SVQY2IGRl" target="_blank" class="cover-link">
                     <div class="cover-box">
                         <img src="https://lh3.googleusercontent.com/d/1LmBiiH9S-466htE4d9qRhYPxs-nQ3U8T=s1000" alt="BLM48 Ride The Rhythm Concert [Type B]">
-                        <div class="overlay"><span data-i18n="watch_mv">WATCH MV</span></div>
+                        <div class="overlay"><span><i class="fas fa-play"></i> Watch MV</span></div>
                     </div>
                     <div class="item-info">
-                        <div class="meta">
-                            <span class="tag-concert">CONCERT</span>
-                            <span class="date">2025.11.22</span>
-                        </div>
+                        <div class="meta"><span class="kicker kicker-live">Concert</span><span class="date">2025.11.22</span></div>
                         <h3 class="title">BLM48 Ride The Rhythm Concert [Type B]</h3>
                     </div>
                 </a>
@@ -357,13 +209,10 @@
                 <a href="https://www.youtube.com/playlist?list=PLIZN3HRIc9-CfuYmAZur9IgHlCrWTHmXL" target="_blank" class="cover-link">
                     <div class="cover-box">
                         <img src="https://lh3.googleusercontent.com/d/1tyq5l8AWA9pkZV2I-t10v57s5VBnEwYJ=s1000" alt="BLM48 Ride The Rhythm Concert [Type A]">
-                        <div class="overlay"><span data-i18n="watch_mv">WATCH MV</span></div>
+                        <div class="overlay"><span><i class="fas fa-play"></i> Watch MV</span></div>
                     </div>
                     <div class="item-info">
-                        <div class="meta">
-                            <span class="tag-concert">CONCERT</span>
-                            <span class="date">2025.11.22</span>
-                        </div>
+                        <div class="meta"><span class="kicker kicker-live">Concert</span><span class="date">2025.11.22</span></div>
                         <h3 class="title">BLM48 Ride The Rhythm Concert [Type A]</h3>
                     </div>
                 </a>
@@ -372,14 +221,11 @@
             <div class="disco-item cat-special">
                 <a href="https://youtube.com/playlist?list=PLIZN3HRIc9-Cdk1yYitKdlBsI3dng4Rbd&si=YUheBu6GNSzjO10A" target="_blank" class="cover-link">
                     <div class="cover-box">
-                        <img src="https://lh3.googleusercontent.com/d/1Bf8DmSlqsGaTMuk_16Ab_-fKL0iw_3xM=s1000" alt="Koisuru Fortune Cookie - คุกกี้เสี่ยงทาย">
-                        <div class="overlay"><span data-i18n="watch_mv">WATCH MV</span></div>
+                        <img src="https://lh3.googleusercontent.com/d/1Bf8DmSlqsGaTMuk_16Ab_-fKL0iw_3xM=s1000" alt="Koisuru Fortune Cookie">
+                        <div class="overlay"><span><i class="fas fa-play"></i> Watch MV</span></div>
                     </div>
                     <div class="item-info">
-                        <div class="meta">
-                            <span class="tag-special">Digital</span>
-                            <span class="date">2025.11.08</span>
-                        </div>
+                        <div class="meta"><span class="kicker kicker-gold">Digital</span><span class="date">2025.11.08</span></div>
                         <h3 class="title">Koisuru Fortune Cookie - คุกกี้เสี่ยงทาย</h3>
                     </div>
                 </a>
@@ -389,13 +235,10 @@
                 <a href="https://www.youtube.com/playlist?list=PLIZN3HRIc9-BiFp6L0R_Z5ci89ZlqqF5O" target="_blank" class="cover-link">
                     <div class="cover-box">
                         <img src="https://lh3.googleusercontent.com/d/1ZLoplK_Ms8AkXVTKm8-hG0xFJCHTn5JM=s1000" alt="Mirai to wa?">
-                        <div class="overlay"><span data-i18n="watch_mv">WATCH MV</span></div>
+                        <div class="overlay"><span><i class="fas fa-play"></i> Watch MV</span></div>
                     </div>
                     <div class="item-info">
-                        <div class="meta">
-                            <span class="tag-single">4th Gen Debut</span>
-                            <span class="date">2025.08.31</span>
-                        </div>
+                        <div class="meta"><span class="kicker kicker-outline">4th Gen Debut</span><span class="date">2025.08.31</span></div>
                         <h3 class="title">Mirai to wa?</h3>
                     </div>
                 </a>
@@ -405,13 +248,10 @@
                 <a href="https://www.youtube.com/playlist?list=PLIZN3HRIc9-AOfi_LFwlyAxMpja6cxzI9" target="_blank" class="cover-link">
                     <div class="cover-box">
                         <img src="https://lh3.googleusercontent.com/d/1KTbGFcQkzhzSk_7R66W3zY7DBqDGoJGg=s1000" alt="Flying Get">
-                        <div class="overlay"><span data-i18n="watch_mv">WATCH MV</span></div>
+                        <div class="overlay"><span><i class="fas fa-play"></i> Watch MV</span></div>
                     </div>
                     <div class="item-info">
-                        <div class="meta">
-                            <span class="tag-single">8th Single</span>
-                            <span class="date">2025.07.07</span>
-                        </div>
+                        <div class="meta"><span class="kicker kicker-outline">8th Single</span><span class="date">2025.07.07</span></div>
                         <h3 class="title">Flying Get</h3>
                     </div>
                 </a>
@@ -421,13 +261,10 @@
                 <a href="https://www.youtube.com/playlist?list=PLIZN3HRIc9-CGvqE4gDAht1qQoBLj0ZKw" target="_blank" class="cover-link">
                     <div class="cover-box">
                         <img src="https://lh3.googleusercontent.com/d/1cCYa9MnogcjQkM5cF4LPj1U-vJh-vks_=s1000" alt="Green Flash">
-                        <div class="overlay"><span data-i18n="watch_mv">WATCH MV</span></div>
+                        <div class="overlay"><span><i class="fas fa-play"></i> Watch MV</span></div>
                     </div>
                     <div class="item-info">
-                        <div class="meta">
-                            <span class="tag-album">2nd Album</span>
-                            <span class="date">2025.03.08</span>
-                        </div>
+                        <div class="meta"><span class="kicker kicker-gold">2nd Album</span><span class="date">2025.03.08</span></div>
                         <h3 class="title">Green Flash</h3>
                     </div>
                 </a>
@@ -436,14 +273,11 @@
             <div class="disco-item cat-single">
                 <a href="https://www.youtube.com/playlist?list=PLIZN3HRIc9-AvAey0zmU3R0KwLGnOV5ZJ" target="_blank" class="cover-link">
                     <div class="cover-box">
-                        <img src="https://lh3.googleusercontent.com/d/1HyE8KYT_e5BZ-zRno4PZS-fw52a5McpU=s1000" alt="Koitsun Jatta - หมดใจ...แล้วไง">
-                        <div class="overlay"><span data-i18n="watch_mv">WATCH MV</span></div>
+                        <img src="https://lh3.googleusercontent.com/d/1HyE8KYT_e5BZ-zRno4PZS-fw52a5McpU=s1000" alt="Koitsun Jatta">
+                        <div class="overlay"><span><i class="fas fa-play"></i> Watch MV</span></div>
                     </div>
                     <div class="item-info">
-                        <div class="meta">
-                            <span class="tag-single">7th Single</span>
-                            <span class="date">2025.02.01</span>
-                        </div>
+                        <div class="meta"><span class="kicker kicker-outline">7th Single</span><span class="date">2025.02.01</span></div>
                         <h3 class="title">Koitsun Jatta - หมดใจ...แล้วไง</h3>
                     </div>
                 </a>
@@ -453,13 +287,10 @@
                 <a href="https://www.youtube.com/playlist?list=PLIZN3HRIc9-DkAwE7R7NxPkl6WDSAMqro" target="_blank" class="cover-link">
                     <div class="cover-box">
                         <img src="https://lh3.googleusercontent.com/d/1-gg0QhiWv6ObRpNLRDXGdAQ8ONCUgFy8=s1000" alt="BLM FESTIVAL">
-                        <div class="overlay"><span data-i18n="watch_mv">WATCH MV</span></div>
+                        <div class="overlay"><span><i class="fas fa-play"></i> Watch MV</span></div>
                     </div>
                     <div class="item-info">
-                        <div class="meta">
-                            <span class="tag-single">6th Single</span>
-                            <span class="date">2024.12.07</span>
-                        </div>
+                        <div class="meta"><span class="kicker kicker-outline">6th Single</span><span class="date">2024.12.07</span></div>
                         <h3 class="title">BLM FESTIVAL</h3>
                     </div>
                 </a>
@@ -469,13 +300,10 @@
                 <a href="https://www.youtube.com/playlist?list=PLIZN3HRIc9-CP_hUiP62h4PvBeuYH36B_" target="_blank" class="cover-link">
                     <div class="cover-box">
                         <img src="https://lh3.googleusercontent.com/d/1NlkfRX0Jrb1mAikNHmdjbJ92gcl2ZmFX=s1000" alt="Nemo Hamo Rumor">
-                        <div class="overlay"><span data-i18n="watch_mv">WATCH MV</span></div>
+                        <div class="overlay"><span><i class="fas fa-play"></i> Watch MV</span></div>
                     </div>
                     <div class="item-info">
-                        <div class="meta">
-                            <span class="tag-special">Special Single</span>
-                            <span class="date">2024.11.10</span>
-                        </div>
+                        <div class="meta"><span class="kicker kicker-gold">Special Single</span><span class="date">2024.11.10</span></div>
                         <h3 class="title">Nemo Hamo Rumor</h3>
                     </div>
                 </a>
@@ -485,13 +313,10 @@
                 <a href="https://youtu.be/vrDjBguTDt4?si=-apAF7n-KjB0QveC" target="_blank" class="cover-link">
                     <div class="cover-box">
                         <img src="https://lh3.googleusercontent.com/d/1o-7aJ0carNdLxifksRcQuulnNSW3Gm37=s1000" alt="Teacher Teacher">
-                        <div class="overlay"><span data-i18n="watch_mv">WATCH MV</span></div>
+                        <div class="overlay"><span><i class="fas fa-play"></i> Watch MV</span></div>
                     </div>
                     <div class="item-info">
-                        <div class="meta">
-                            <span class="tag-special">Special Single</span>
-                            <span class="date">2024.10.05</span>
-                        </div>
+                        <div class="meta"><span class="kicker kicker-gold">Special Single</span><span class="date">2024.10.05</span></div>
                         <h3 class="title">Teacher Teacher</h3>
                     </div>
                 </a>
@@ -501,13 +326,10 @@
                 <a href="https://youtube.com/playlist?list=PLIZN3HRIc9-Aq0LvzgM-6BZnP69fn2XI3&si=m3vJKQe-Bvl8-53i" target="_blank" class="cover-link">
                     <div class="cover-box">
                         <img src="https://lh3.googleusercontent.com/d/1kHmpWZ2Imt7l6_qGpoE79gQVw1th3bJm=s1000" alt="LOVE TRIP">
-                        <div class="overlay"><span data-i18n="watch_mv">WATCH MV</span></div>
+                        <div class="overlay"><span><i class="fas fa-play"></i> Watch MV</span></div>
                     </div>
                     <div class="item-info">
-                        <div class="meta">
-                            <span class="tag-single">5th Single</span>
-                            <span class="date">2024.08.25</span>
-                        </div>
+                        <div class="meta"><span class="kicker kicker-outline">5th Single</span><span class="date">2024.08.25</span></div>
                         <h3 class="title">LOVE TRIP</h3>
                     </div>
                 </a>
@@ -517,13 +339,10 @@
                 <a href="https://youtube.com/playlist?list=PLIZN3HRIc9-APmr_ypIufWLvOYdTR9BfK&si=nMYoi5ryDIvwwKJ4" target="_blank" class="cover-link">
                     <div class="cover-box">
                         <img src="https://lh3.googleusercontent.com/d/1CLavdcU9cPvgVNe_DKHyaqa-8Znpf_Kl=s1000" alt="REBORN">
-                        <div class="overlay"><span data-i18n="watch_mv">WATCH MV</span></div>
+                        <div class="overlay"><span><i class="fas fa-play"></i> Watch MV</span></div>
                     </div>
                     <div class="item-info">
-                        <div class="meta">
-                            <span class="tag-single">3rd Gen Debut</span>
-                            <span class="date">2024.07.21</span>
-                        </div>
+                        <div class="meta"><span class="kicker kicker-outline">3rd Gen Debut</span><span class="date">2024.07.21</span></div>
                         <h3 class="title">REBORN</h3>
                     </div>
                 </a>
@@ -533,13 +352,10 @@
                 <a href="https://youtube.com/playlist?list=PLIZN3HRIc9-Aq0eRfo5iZ61NM93QCLXFz&si=F10rMJGmZtBGku8x" target="_blank" class="cover-link">
                     <div class="cover-box">
                         <img src="https://lh3.googleusercontent.com/d/1VjmYz6vylTf3eDXg_-cM-N_XMw3d1y67=s1000" alt="POISNED">
-                        <div class="overlay"><span data-i18n="watch_mv">WATCH MV</span></div>
+                        <div class="overlay"><span><i class="fas fa-play"></i> Watch MV</span></div>
                     </div>
                     <div class="item-info">
-                        <div class="meta">
-                            <span class="tag-single">Original Single</span>
-                            <span class="date">2024.06.29</span>
-                        </div>
+                        <div class="meta"><span class="kicker kicker-outline">Original Single</span><span class="date">2024.06.29</span></div>
                         <h3 class="title">POISNED</h3>
                     </div>
                 </a>
@@ -549,13 +365,10 @@
                 <a href="https://youtube.com/playlist?list=PLIZN3HRIc9-A8QqBKxfIwTeGYjUlclFBn&si=XRmHPxqSDSMExSP6" target="_blank" class="cover-link">
                     <div class="cover-box">
                         <img src="https://lh3.googleusercontent.com/d/1i_L8D2Fy4EqpsA6TOvbyfrvJEy1ItKXg=s1000" alt="Heavy Rotation">
-                        <div class="overlay"><span data-i18n="watch_mv">WATCH MV</span></div>
+                        <div class="overlay"><span><i class="fas fa-play"></i> Watch MV</span></div>
                     </div>
                     <div class="item-info">
-                        <div class="meta">
-                            <span class="tag-single">4th Single</span>
-                            <span class="date">2024.03.22</span>
-                        </div>
+                        <div class="meta"><span class="kicker kicker-outline">4th Single</span><span class="date">2024.03.22</span></div>
                         <h3 class="title">Heavy Rotation</h3>
                     </div>
                 </a>
@@ -565,13 +378,10 @@
                 <a href="https://youtu.be/CNxk4OvAM-U?si=rz2CfEn47T4r9s-e" target="_blank" class="cover-link">
                     <div class="cover-box">
                         <img src="https://lh3.googleusercontent.com/d/1vpQHw0mmk72Swc064LHkKES3l21Tc2lo=s1000" alt="Make Noise">
-                        <div class="overlay"><span data-i18n="watch_mv">WATCH MV</span></div>
+                        <div class="overlay"><span><i class="fas fa-play"></i> Watch MV</span></div>
                     </div>
                     <div class="item-info">
-                        <div class="meta">
-                            <span class="tag-special">Special Single</span>
-                            <span class="date">2024.02.05</span>
-                        </div>
+                        <div class="meta"><span class="kicker kicker-gold">Special Single</span><span class="date">2024.02.05</span></div>
                         <h3 class="title">Make Noise</h3>
                     </div>
                 </a>
@@ -581,13 +391,10 @@
                 <a href="https://www.youtube.com/playlist?list=PLIZN3HRIc9-CyMhOCv0deg6lyccsne5sK" target="_blank" class="cover-link">
                     <div class="cover-box">
                         <img src="https://lh3.googleusercontent.com/d/17fX9Sv3bJQSGZ_Wb3v30W0cjghjAzuLS=s1000" alt="Warota People">
-                        <div class="overlay"><span data-i18n="watch_mv">WATCH MV</span></div>
+                        <div class="overlay"><span><i class="fas fa-play"></i> Watch MV</span></div>
                     </div>
                     <div class="item-info">
-                        <div class="meta">
-                            <span class="tag-album">1st Album</span>
-                            <span class="date">2023.12.02</span>
-                        </div>
+                        <div class="meta"><span class="kicker kicker-gold">1st Album</span><span class="date">2023.12.02</span></div>
                         <h3 class="title">Warota People</h3>
                     </div>
                 </a>
@@ -596,14 +403,11 @@
             <div class="disco-item cat-single">
                 <a href="https://www.youtube.com/playlist?list=PLIZN3HRIc9-DasEzp34K0-SiWf-m0cFTP" target="_blank" class="cover-link">
                     <div class="cover-box">
-                        <img src="https://lh3.googleusercontent.com/d/1JiKRUX1_uR1K5eiP93rSoyPEADcKwerQ=s1000" alt="Tsugi no Season - ฤดูใหม่">
-                        <div class="overlay"><span data-i18n="watch_mv">WATCH MV</span></div>
+                        <img src="https://lh3.googleusercontent.com/d/1JiKRUX1_uR1K5eiP93rSoyPEADcKwerQ=s1000" alt="Tsugi no Season">
+                        <div class="overlay"><span><i class="fas fa-play"></i> Watch MV</span></div>
                     </div>
                     <div class="item-info">
-                        <div class="meta">
-                            <span class="tag-single">2nd Gen Debut</span>
-                            <span class="date">2023.09.30</span>
-                        </div>
+                        <div class="meta"><span class="kicker kicker-outline">2nd Gen Debut</span><span class="date">2023.09.30</span></div>
                         <h3 class="title">Tsugi no Season - ฤดูใหม่</h3>
                     </div>
                 </a>
@@ -613,13 +417,10 @@
                 <a href="https://www.youtube.com/playlist?list=PLIZN3HRIc9-DH7Yp9Xi_bAdMOAXbUVHpk" target="_blank" class="cover-link">
                     <div class="cover-box">
                         <img src="https://lh3.googleusercontent.com/d/1myJZL5Qggh34uOX1n4tziVYBypQZCvNs=s1000" alt="Sayonara Crawl">
-                        <div class="overlay"><span data-i18n="watch_mv">WATCH MV</span></div>
+                        <div class="overlay"><span><i class="fas fa-play"></i> Watch MV</span></div>
                     </div>
                     <div class="item-info">
-                        <div class="meta">
-                            <span class="tag-single">3rd Single</span>
-                            <span class="date">2023.09.02</span>
-                        </div>
+                        <div class="meta"><span class="kicker kicker-outline">3rd Single</span><span class="date">2023.09.02</span></div>
                         <h3 class="title">Sayonara Crawl</h3>
                     </div>
                 </a>
@@ -629,13 +430,10 @@
                 <a href="https://www.youtube.com/playlist?list=PLIZN3HRIc9-DXwouyhTLzU6efqGXy_T3i" target="_blank" class="cover-link">
                     <div class="cover-box">
                         <img src="https://lh3.googleusercontent.com/d/1-bwbRuedxPp6tFjbkqv_0D1rZWhGDQ8d=s1000" alt="Maeshika Mukanee">
-                        <div class="overlay"><span data-i18n="watch_mv">WATCH MV</span></div>
+                        <div class="overlay"><span><i class="fas fa-play"></i> Watch MV</span></div>
                     </div>
                     <div class="item-info">
-                        <div class="meta">
-                            <span class="tag-single">2nd Single</span>
-                            <span class="date">2023.06.01</span>
-                        </div>
+                        <div class="meta"><span class="kicker kicker-outline">2nd Single</span><span class="date">2023.06.01</span></div>
                         <h3 class="title">Maeshika Mukanee</h3>
                     </div>
                 </a>
@@ -645,13 +443,10 @@
                 <a href="https://www.youtube.com/playlist?list=PLIZN3HRIc9-AVOTfFixnfvl83Bcw3R-Hg" target="_blank" class="cover-link">
                     <div class="cover-box">
                         <img src="https://lh3.googleusercontent.com/d/1Y4osXIzBhSAAt2IVsn_9GNRmHR7HN3uN=s1000" alt="ดีอะ - D.AAA">
-                        <div class="overlay"><span data-i18n="watch_mv">WATCH MV</span></div>
+                        <div class="overlay"><span><i class="fas fa-play"></i> Watch MV</span></div>
                     </div>
                     <div class="item-info">
-                        <div class="meta">
-                            <span class="tag-single">1st Single</span>
-                            <span class="date">2023.03.14</span>
-                        </div>
+                        <div class="meta"><span class="kicker kicker-outline">1st Single</span><span class="date">2023.03.14</span></div>
                         <h3 class="title">ดีอะ - D.AAA</h3>
                     </div>
                 </a>
@@ -661,7 +456,6 @@
     </nav>
   </main>
 
-  <!-- Footer -->
   <div id="site-footer"></div>
 
 </body>
