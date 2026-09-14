@@ -23,26 +23,27 @@
     @keyframes spin { to { transform: rotate(360deg); } }
 
     /* --- Filter Tabs --- */
-    .filter-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 48px; flex-wrap: wrap; }
+    .filter-tabs { display: flex; justify-content: flex-start; gap: 28px; margin-bottom: 52px; flex-wrap: wrap; }
     .tab-btn {
-      background: var(--blm-paper); border: 1.5px solid var(--blm-line);
-      border-radius: var(--radius-pill);
-      font-family: var(--font-body); font-size: 12.5px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;
-      color: var(--blm-ink-soft); cursor: pointer; padding: 11px 26px; transition: all 0.2s ease;
+      background: none; border: none;
+      font-family: var(--font-body); font-size: 12.5px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--blm-ink-soft); cursor: pointer; padding: 0 0 8px; transition: opacity 0.2s ease;
+      position: relative; opacity: 0.6;
     }
-    .tab-btn.active, .tab-btn:hover { background: var(--blm-pink); border-color: var(--blm-pink); color: #fff; }
+    .tab-btn:hover { opacity: 1; }
+    .tab-btn.active { color: var(--blm-ink); opacity: 1; }
+    .tab-btn.active::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: var(--blm-pink); }
 
     /* --- Main Grid --- */
     #main-view { display: none; }
-    .members-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 34px 24px; }
-    @media (max-width: 1024px) { .members-grid { grid-template-columns: repeat(3, 1fr); } }
-    @media (max-width: 680px) { .members-grid { grid-template-columns: repeat(2, 1fr); gap: 22px 14px; } }
+    .members-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px 32px; }
+    @media (max-width: 900px) { .members-grid { grid-template-columns: repeat(2, 1fr); gap: 36px 20px; } }
+    @media (max-width: 480px) { .members-grid { grid-template-columns: 1fr; } }
 
     .member-card { display: flex; flex-direction: column; }
-    .photo-box { width: 100%; aspect-ratio: 3/4; overflow: hidden; background: var(--blm-paper-soft); border-radius: var(--radius-md); margin-bottom: 14px; cursor: pointer; border: 1px solid var(--blm-line); transition: border-color 0.25s; }
-    .member-card:hover .photo-box { border-color: var(--blm-pink); }
-    .member-photo { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
-    .member-card:hover .member-photo { transform: scale(1.05); }
+    .photo-box { width: 100%; aspect-ratio: 1/1; overflow: hidden; background: var(--blm-paper-soft); margin-bottom: 16px; cursor: pointer; }
+    .member-photo { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+    .member-card:hover .member-photo { transform: scale(1.04); }
 
     .card-info { width: 100%; }
     .card-name-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
@@ -142,7 +143,7 @@
     let membersData = [];
 
     function getDirectImgLink(url) {
-      if (!url) return 'https://via.placeholder.com/400x533?text=BLM48';
+      if (!url) return 'https://via.placeholder.com/400x400?text=BLM48';
       if (url.includes('drive.google.com')) {
         const fileId = url.match(/[-\w]{25,}/);
         return fileId ? `https://lh3.googleusercontent.com/u/0/d/${fileId}` : url;
@@ -189,7 +190,7 @@
         grid.innerHTML += `
           <div class="member-card" data-name="${m.name}">
             <div class="photo-box" onclick="viewDetail('${m.name}')">
-              <img src="${getDirectImgLink(m.image)}" class="member-photo" onerror="this.src='https://via.placeholder.com/400x533?text=BLM48'">
+              <img src="${getDirectImgLink(m.image)}" class="member-photo" onerror="this.src='https://via.placeholder.com/400x400?text=BLM48'">
             </div>
             <div class="card-info">
               <div class="card-name-row">

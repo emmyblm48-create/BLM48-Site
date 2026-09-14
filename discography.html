@@ -20,28 +20,36 @@
     .disco-filter { width: 100%; }
     .disco-filter input[type="radio"] { display: none; }
 
-    .filter-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 48px; flex-wrap: wrap; }
+    .filter-tabs { display: flex; justify-content: flex-start; gap: 28px; margin-bottom: 52px; flex-wrap: wrap; border-bottom: none; padding-bottom: 0; }
     .filter-tabs label {
-      background: var(--blm-paper); border: 1.5px solid var(--blm-line);
-      border-radius: var(--radius-pill);
-      font-family: var(--font-body); font-size: 12.5px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;
-      color: var(--blm-ink-soft); cursor: pointer; padding: 11px 26px; transition: all 0.2s ease; text-align: center;
+      background: none; border: none;
+      font-family: var(--font-body); font-size: 12.5px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+      cursor: pointer; padding: 0 0 8px; transition: opacity 0.2s ease; text-align: center;
+      position: relative; color: var(--blm-tab-color, var(--blm-ink-soft)); opacity: 0.6;
     }
-    .filter-tabs label:hover { border-color: var(--blm-pink); color: var(--blm-pink-deep); }
+    .filter-tabs label[for="single"] { --blm-tab-color: var(--blm-cat-single); }
+    .filter-tabs label[for="album"] { --blm-tab-color: var(--blm-cat-album); }
+    .filter-tabs label[for="special"] { --blm-tab-color: var(--blm-cat-special); }
+    .filter-tabs label[for="concert"] { --blm-tab-color: var(--blm-cat-concert); }
+    .filter-tabs label:hover { opacity: 1; }
     #all:checked ~ .filter-tabs label[for="all"],
     #single:checked ~ .filter-tabs label[for="single"],
     #album:checked ~ .filter-tabs label[for="album"],
     #special:checked ~ .filter-tabs label[for="special"],
     #concert:checked ~ .filter-tabs label[for="concert"] {
-      background: var(--blm-pink); border-color: var(--blm-pink); color: #fff;
+      opacity: 1;
+    }
+    #all:checked ~ .filter-tabs label[for="all"]::after,
+    #single:checked ~ .filter-tabs label[for="single"]::after,
+    #album:checked ~ .filter-tabs label[for="album"]::after,
+    #special:checked ~ .filter-tabs label[for="special"]::after,
+    #concert:checked ~ .filter-tabs label[for="concert"]::after {
+      content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: currentColor;
     }
 
-    .disco-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 34px 24px; }
-    @media (max-width: 1024px) { .disco-grid { grid-template-columns: repeat(3, 1fr); } }
-    @media (max-width: 680px) {
-      .disco-grid { grid-template-columns: repeat(2, 1fr); gap: 22px 14px; }
-      .filter-tabs label { min-width: auto; padding: 9px 18px; font-size: 12px; }
-    }
+    .disco-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px 32px; }
+    @media (max-width: 900px) { .disco-grid { grid-template-columns: repeat(2, 1fr); gap: 36px 20px; } }
+    @media (max-width: 480px) { .disco-grid { grid-template-columns: 1fr; } .filter-tabs { gap: 18px; } }
 
     .disco-item { display: none; }
     #all:checked ~ .disco-grid .disco-item { display: flex; }
@@ -53,26 +61,20 @@
     .disco-item { flex-direction: column; }
     .cover-link { width: 100%; text-decoration: none; color: inherit; }
 
-    .cover-box { width: 100%; aspect-ratio: 1/1; overflow: hidden; background: var(--blm-paper-soft); border-radius: var(--radius-md); margin-bottom: 14px; border: 1px solid var(--blm-line); position: relative; transition: border-color 0.25s; }
-    .disco-item:hover .cover-box { border-color: var(--blm-pink); }
-    .cover-box img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s ease; }
-    .disco-item:hover .cover-box img { transform: scale(1.05); }
-
-    .overlay {
-      position: absolute; inset: 0;
-      background: linear-gradient(0deg, rgba(21,16,12,0.72) 0%, transparent 55%);
-      display: flex; justify-content: flex-start; align-items: flex-end;
-      padding: 14px; opacity: 0; transition: all 0.3s ease;
-    }
-    .overlay span { font-weight: 800; letter-spacing: 1px; text-transform: uppercase; font-size: 11.5px; color: #fff; display: inline-flex; align-items: center; gap: 6px; }
-    .disco-item:hover .overlay { opacity: 1; }
-    @media (hover: none) { .overlay { opacity: 1; background: linear-gradient(0deg, rgba(21,16,12,0.4) 0%, transparent 55%); } .overlay span { display: none; } }
+    .cover-box { width: 100%; aspect-ratio: 1/1; overflow: hidden; background: var(--blm-paper-soft); margin-bottom: 16px; position: relative; }
+    .cover-box img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s ease; }
+    .disco-item:hover .cover-box img { transform: scale(1.04); }
 
     .item-info { width: 100%; }
-    .meta { font-size: 10.5px; font-weight: 700; color: var(--blm-ink-faint); margin-bottom: 8px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
-    .date { color: var(--blm-ink-faint); }
+    .meta { font-size: 12.5px; font-weight: 700; color: var(--blm-ink); margin-bottom: 8px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    .cat-tag { border: 1px solid var(--blm-tag-color, var(--blm-ink-faint)); color: var(--blm-tag-color, var(--blm-ink-faint)); font-size: 10px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; padding: 3px 9px; }
+    .cat-single .cat-tag { --blm-tag-color: var(--blm-cat-single); }
+    .cat-album .cat-tag { --blm-tag-color: var(--blm-cat-album); }
+    .cat-special .cat-tag { --blm-tag-color: var(--blm-cat-special); }
+    .cat-concert .cat-tag { --blm-tag-color: var(--blm-cat-concert); }
+    .date { color: var(--blm-ink-faint); font-weight: 600; }
 
-    .title { font-family: var(--font-display); font-size: 15px; font-weight: 700; margin: 0; color: var(--blm-ink); line-height: 1.4; }
+    .title { font-family: var(--font-body); font-size: 14px; font-weight: 500; margin: 0; color: var(--blm-ink-soft); line-height: 1.5; }
   </style>
 </head>
 <body>
@@ -125,22 +127,25 @@
           return;
         }
 
-        const catClass = c => 'cat-' + String(c || 'single').trim().toLowerCase();
+        const catKey = c => String(c || 'single').trim().toLowerCase();
+        const catLabel = key => key.charAt(0).toUpperCase() + key.slice(1);
 
-        gridEl.innerHTML = items.map(item => `
-          <div class="disco-item ${catClass(item.category)}">
+        gridEl.innerHTML = items.map(item => {
+          const key = catKey(item.category);
+          return `
+          <div class="disco-item cat-${key}">
             <a href="${item.link || '#'}" target="_blank" rel="noopener" class="cover-link">
               <div class="cover-box">
                 <img src="${BLM48Data.driveImg(item.coverImage)}" alt="${item.title || ''}" onerror="this.src='https://via.placeholder.com/600x600?text=BLM48'">
-                <div class="overlay"><span><i class="fas fa-play"></i> Watch MV</span></div>
               </div>
               <div class="item-info">
-                <div class="meta"><span class="kicker ${BLM48Data.styleClass(item.kickerStyle)}">${item.kicker || ''}</span><span class="date">${item._date.full}</span></div>
+                <div class="meta"><span class="cat-tag">${catLabel(key)}</span><span>RELEASE</span><span class="date">${item._date.full}</span></div>
                 <h3 class="title">${item.title || ''}</h3>
               </div>
             </a>
           </div>
-        `).join('');
+        `;
+        }).join('');
       } catch (err) {
         gridEl.innerHTML = '<p style="color:var(--blm-ink-faint);font-weight:600;padding:20px 4px;">Unable to load discography right now.</p>';
       }

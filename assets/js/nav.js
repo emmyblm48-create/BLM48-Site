@@ -81,43 +81,30 @@
     mount.innerHTML =
       '<footer class="ske-footer">' +
         '<div class="footer-inner">' +
-          '<div class="footer-top">' +
-            '<div>' +
-              '<h2 class="footer-brand-title">BLM48</h2>' +
-              '<p class="footer-brand-desc">The official site of BLM48 — a virtual idol cover group of the AKB48 Group, performing on ZEPETO.</p>' +
-            '</div>' +
-            '<div class="footer-nav-cols">' +
-              '<div>' +
-                '<div class="footer-col-title">Explore</div>' +
-                '<ul class="footer-links-list">' +
-                  '<li><a href="news.html">News</a></li>' +
-                  '<li><a href="schedule.html">Schedule</a></li>' +
-                  '<li><a href="profile.html">Profile</a></li>' +
-                  '<li><a href="discography.html">Discography</a></li>' +
-                '</ul>' +
-              '</div>' +
-              '<div>' +
-                '<div class="footer-col-title">Connect</div>' +
-                '<ul class="footer-links-list">' +
-                  '<li><a href="about.html">About BLM48</a></li>' +
-                  '<li><a href="https://blm48-membership.vercel.app/" target="_blank" rel="noopener">Membership</a></li>' +
-                  '<li><a href="#">Privacy Policy</a></li>' +
-                  '<li><a href="#">Terms of Service</a></li>' +
-                  '<li><a href="#">Contact Us</a></li>' +
-                '</ul>' +
-              '</div>' +
-            '</div>' +
+          '<div class="footer-social-row">' +
+            '<a href="https://www.facebook.com/Blm48official" target="_blank" class="social-btn-icon" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>' +
+            '<a href="https://x.com/BLM48_OFFICIAL" target="_blank" class="social-btn-icon" aria-label="X">' +
+              '<svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>' +
+            '</a>' +
+            '<a href="https://www.youtube.com/@blm48official" target="_blank" class="social-btn-icon" aria-label="YouTube"><i class="fab fa-youtube"></i></a>' +
+            '<a href="https://www.tiktok.com/@blm48_official" target="_blank" class="social-btn-icon" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>' +
+            '<a href="https://www.instagram.com/blm48.official" target="_blank" class="social-btn-icon" aria-label="Instagram"><i class="fab fa-instagram"></i></a>' +
           '</div>' +
+          '<div class="footer-emblem">' +
+            '<img src="https://lh3.googleusercontent.com/d/12PFpDx6bOmQpf_UMhhh6ltZwvOAkVyvW=s1000" alt="BLM48">' +
+          '</div>' +
+          '<div class="footer-link-grid">' +
+            '<a class="footer-link-box" href="news.html">News</a>' +
+            '<a class="footer-link-box" href="schedule.html">Schedule</a>' +
+            '<a class="footer-link-box" href="profile.html">Profile</a>' +
+            '<a class="footer-link-box" href="discography.html">Discography</a>' +
+          '</div>' +
+          '<div class="footer-link-grid footer-link-grid-secondary">' +
+            '<a class="footer-link-box" href="about.html">About BLM48</a>' +
+            '<a class="footer-link-box" href="https://blm48-membership.vercel.app/" target="_blank" rel="noopener">Membership</a>' +
+          '</div>' +
+          '<div class="footer-brand-name">BLM48</div>' +
           '<div class="footer-bottom-row">' +
-            '<div class="footer-social-row">' +
-              '<a href="https://www.facebook.com/Blm48official" target="_blank" class="social-btn-icon" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>' +
-              '<a href="https://x.com/BLM48_OFFICIAL" target="_blank" class="social-btn-icon" aria-label="X">' +
-                '<svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>' +
-              '</a>' +
-              '<a href="https://www.youtube.com/@blm48official" target="_blank" class="social-btn-icon" aria-label="YouTube"><i class="fab fa-youtube"></i></a>' +
-              '<a href="https://www.tiktok.com/@blm48_official" target="_blank" class="social-btn-icon" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>' +
-              '<a href="https://www.instagram.com/blm48.official" target="_blank" class="social-btn-icon" aria-label="Instagram"><i class="fab fa-instagram"></i></a>' +
-            '</div>' +
             '<div class="copyright-text">&copy; 2026 BLM48, Inc. All Rights Reserved.</div>' +
             '<button type="button" class="page-top-btn" id="pageTopBtn">' +
               '<span>Page Top</span><i class="fas fa-arrow-up" aria-hidden="true"></i>' +
