@@ -6,7 +6,8 @@
   <meta name="google-site-verification" content="nUjG8w2pz2CXK7Uvg8EMmn2S6hvwQOCNbg_IDFtMRcg" />
   <title>BLM48 Official Home</title>
   <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1flevUZLFmIodF1RHG0QgRJkCMpgW1KM7=s1000">
-  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;500;600;700;800&family=Archivo:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Comfortaa:300,400" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=K2D:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="assets/css/site.css">
@@ -24,11 +25,6 @@
       overflow: hidden;
     }
     .hero img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .hero::after {
-      content: '';
-      position: absolute; inset: 0;
-      background: linear-gradient(180deg, rgba(51,38,31,0.02) 0%, rgba(255,154,193,0.14) 42%, rgba(51,38,31,0.26) 100%);
-    }
 
     /* --- BENTO STRIP (overlaps hero) --- */
     .bento-row {
@@ -68,7 +64,7 @@
     .rail { display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x proximity; padding-bottom: 4px; -webkit-overflow-scrolling: touch; scrollbar-width: none; -ms-overflow-style: none; }
     .rail::-webkit-scrollbar { display: none; }
     .topic-tile { flex: 0 0 auto; width: clamp(220px, 30vw, 300px); scroll-snap-align: start; text-decoration: none; color: inherit; display: block; }
-    .topic-thumb { width: 100%; aspect-ratio: 4/3; overflow: hidden; background: var(--blm-paper-soft); border: 1px solid var(--blm-line); border-radius: var(--radius-md); }
+    .topic-thumb { width: 100%; aspect-ratio: 1234/608; overflow: hidden; background: var(--blm-paper-soft); border: 1px solid var(--blm-line); border-radius: var(--radius-md); }
     .topic-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s; }
     .topic-tile:hover .topic-thumb img { transform: scale(1.06); }
     .topic-cap { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; font-size: 12.5px; font-weight: 800; letter-spacing: 0.8px; text-transform: uppercase; color: var(--blm-ink); }
@@ -215,55 +211,7 @@
     </div>
     <div class="rail-wrap">
     <div class="rail" id="membersRail">
-      <a href="profile.html" class="member-mini">
-        <div class="member-mini-photo">
-          <span class="member-mini-badge">Shihainin</span>
-          <img src="https://lh3.googleusercontent.com/d/1zXgJmp6jmNjMcnZbc_f4gU9qisrrz0Jq=s600" alt="Gino" loading="lazy">
-        </div>
-        <div class="member-mini-name">Gino</div>
-      </a>
-      <a href="profile.html" class="member-mini">
-        <div class="member-mini-photo">
-          <span class="member-mini-badge">Vice Shihainin</span>
-          <img src="https://lh3.googleusercontent.com/d/1FZNJQWvzZxUi4ZfCdTmhWLMTfDtUTZ3p=s600" alt="Emmy" loading="lazy">
-        </div>
-        <div class="member-mini-name">Emmy</div>
-      </a>
-      <a href="profile.html" class="member-mini">
-        <div class="member-mini-photo">
-          <span class="member-mini-badge">Captain Bloom</span>
-          <img src="https://lh3.googleusercontent.com/d/1ysFvMrzMwcN8aucRDUK5Hxn0ZqkKO7AC=s600" alt="Kuea" loading="lazy">
-        </div>
-        <div class="member-mini-name">Kuea</div>
-      </a>
-      <a href="profile.html" class="member-mini">
-        <div class="member-mini-photo"><img src="https://lh3.googleusercontent.com/d/1zY3vgMGMaWb3Kqx9IXIQcaeKBt8JhTaY=s600" alt="Gavin" loading="lazy"></div>
-        <div class="member-mini-name">Gavin</div>
-      </a>
-      <a href="profile.html" class="member-mini">
-        <div class="member-mini-photo"><img src="https://lh3.googleusercontent.com/d/1SMotb8tFKbIDC74i_dbPS1Bx5IdBKBK8=s600" alt="Hana" loading="lazy"></div>
-        <div class="member-mini-name">Hana</div>
-      </a>
-      <a href="profile.html" class="member-mini">
-        <div class="member-mini-photo"><img src="https://lh3.googleusercontent.com/d/17zGGHiIOP7PvdsqUuKq3MRpHhL8hgsn8=s600" alt="Jayden" loading="lazy"></div>
-        <div class="member-mini-name">Jayden</div>
-      </a>
-      <a href="profile.html" class="member-mini">
-        <div class="member-mini-photo"><img src="https://lh3.googleusercontent.com/d/1_S-fWsZZwjkXfmdTj3jpDA4XdJeQixLs=s600" alt="Mayfie" loading="lazy"></div>
-        <div class="member-mini-name">Mayfie</div>
-      </a>
-      <a href="profile.html" class="member-mini">
-        <div class="member-mini-photo"><img src="https://lh3.googleusercontent.com/d/1h1eW8OP8UOaJm8kRK-13t-1Z_WhNluy9=s600" alt="Mushroom" loading="lazy"></div>
-        <div class="member-mini-name">Mushroom</div>
-      </a>
-      <a href="profile.html" class="member-mini">
-        <div class="member-mini-photo"><img src="https://lh3.googleusercontent.com/d/1nVIgsUPv5jr0SaAlbbaw4YM8dPgLneuD=s600" alt="Noel" loading="lazy"></div>
-        <div class="member-mini-name">Noel</div>
-      </a>
-      <a href="profile.html" class="member-mini">
-        <div class="member-mini-photo"><img src="https://lh3.googleusercontent.com/d/19zL2mLOrLhHOUHMc94ZM7Vmc57Mut97D=s600" alt="Quantum" loading="lazy"></div>
-        <div class="member-mini-name">Quantum</div>
-      </a>
+      <div class="member-mini"><div class="member-mini-name" style="color:var(--blm-ink-faint);">Loading...</div></div>
     </div>
       <button type="button" class="rail-nav-btn rail-nav-prev" id="membersPrev" aria-label="Previous members"><i class="fas fa-chevron-left"></i></button>
       <button type="button" class="rail-nav-btn rail-nav-next" id="membersNext" aria-label="Next members"><i class="fas fa-chevron-right"></i></button>
@@ -419,18 +367,38 @@
       `).join('');
     }
 
-    async function initBirthdayMonth() {
+    function renderMembersRail() {
+      const railEl = document.getElementById('membersRail');
+      if (!railEl) return;
+
+      if (!allMembersData.length) {
+        railEl.innerHTML = `<div class="member-mini"><div class="member-mini-name" style="color:var(--blm-ink-faint);">No members yet.</div></div>`;
+        return;
+      }
+
+      railEl.innerHTML = allMembersData.map(member => `
+        <a href="profile.html" class="member-mini">
+          <div class="member-mini-photo">
+            ${member.position ? `<span class="member-mini-badge">${member.position}</span>` : ''}
+            <img src="${birthdayImgLink(member.image)}" alt="${member.name}" loading="lazy" onerror="this.src='https://via.placeholder.com/400x533?text=BLM48'">
+          </div>
+          <div class="member-mini-name">${member.name}</div>
+        </a>
+      `).join('');
+    }
+
+    async function initMembersData() {
       try {
         const response = await fetch(membersScriptURL);
         allMembersData = await response.json();
-        renderBirthdayMonth();
       } catch (err) {
-        const listEl = document.getElementById('birthdayList');
-        if (listEl) listEl.innerHTML = `<div class="bday-empty">No birthdays this month</div>`;
+        allMembersData = [];
       }
+      renderBirthdayMonth();
+      renderMembersRail();
     }
 
-    initBirthdayMonth();
+    initMembersData();
   </script>
 
   <!-- News & Schedule previews -->

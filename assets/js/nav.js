@@ -7,7 +7,6 @@
     { href: 'news.html', page: 'news', label: 'News' },
     { href: 'schedule.html', page: 'schedule', label: 'Schedule' },
     { href: 'profile.html', page: 'profile', label: 'Profile' },
-    { href: 'theater.html', page: 'theater', label: 'Theater' },
     { href: 'discography.html', page: 'discography', label: 'Discography' },
     { href: 'about.html', page: 'about', label: 'About' }
   ];
@@ -94,7 +93,6 @@
                   '<li><a href="news.html">News</a></li>' +
                   '<li><a href="schedule.html">Schedule</a></li>' +
                   '<li><a href="profile.html">Profile</a></li>' +
-                  '<li><a href="theater.html">Theater</a></li>' +
                   '<li><a href="discography.html">Discography</a></li>' +
                 '</ul>' +
               '</div>' +

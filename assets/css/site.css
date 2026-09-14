@@ -25,8 +25,8 @@
   --blm-on-gold: #33261f;
   --blm-live: #ff6f91;
 
-  --font-display: 'Comfortaa', 'Archivo', 'Kanit', sans-serif;
-  --font-body: 'Inter', 'Kanit', sans-serif;
+  --font-display: 'Comfortaa', 'K2D', sans-serif;
+  --font-body: 'Comfortaa', 'K2D', sans-serif;
 
   --radius-sm: 10px;
   --radius-md: 16px;
@@ -42,11 +42,11 @@
 }
 
 /* ---------------- Global base ---------------- */
-html { background: var(--blm-paper-soft); }
+html { background: var(--blm-paper); }
 body {
   font-family: var(--font-body);
   color: var(--blm-ink);
-  background: var(--blm-paper-soft);
+  background: var(--blm-paper);
   padding-top: calc(var(--header-h) + var(--ticker-h));
   position: relative;
 }
