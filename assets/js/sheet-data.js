@@ -30,6 +30,19 @@ window.BLM48_DATA_URL = 'https://script.google.com/macros/s/AKfycbyKX1fncf8dJuPW
     return STYLE_KICKER_CLASS[key] || 'kicker-outline';
   }
 
+  function cacheGet(key) {
+    try {
+      var raw = sessionStorage.getItem(key);
+      return raw ? JSON.parse(raw) : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function cacheSet(key, value) {
+    try { sessionStorage.setItem(key, JSON.stringify(value)); } catch (e) {}
+  }
+
   function driveImg(url, fallback) {
     fallback = fallback || 'https://via.placeholder.com/600x600?text=BLM48';
     if (!url) return fallback;
@@ -57,15 +70,38 @@ window.BLM48_DATA_URL = 'https://script.google.com/macros/s/AKfycbyKX1fncf8dJuPW
     if (!window.BLM48_DATA_URL || window.BLM48_DATA_URL.indexOf('PASTE_YOUR') === 0) {
       throw new Error('BLM48_DATA_URL is not configured yet');
     }
+    var cacheKey = 'blm48_cache_sheet_' + sheetName;
+    var cached = cacheGet(cacheKey);
+    if (cached) return cached;
+
     var url = window.BLM48_DATA_URL + '?sheet=' + encodeURIComponent(sheetName);
     var res = await fetch(url);
     if (!res.ok) throw new Error('Failed to load sheet: ' + sheetName);
     var data = await res.json();
-    return Array.isArray(data) ? data : [];
+    var rows = Array.isArray(data) ? data : [];
+    cacheSet(cacheKey, rows);
+    return rows;
+  }
+
+  async function fetchMembers() {
+    if (!window.BLM48_DATA_URL || window.BLM48_DATA_URL.indexOf('PASTE_YOUR') === 0) {
+      throw new Error('BLM48_DATA_URL is not configured yet');
+    }
+    var cacheKey = 'blm48_cache_members';
+    var cached = cacheGet(cacheKey);
+    if (cached) return cached;
+
+    var res = await fetch(window.BLM48_DATA_URL);
+    if (!res.ok) throw new Error('Failed to load members');
+    var data = await res.json();
+    var rows = Array.isArray(data) ? data : [];
+    cacheSet(cacheKey, rows);
+    return rows;
   }
 
   window.BLM48Data = {
     fetchSheet: fetchSheet,
+    fetchMembers: fetchMembers,
     tagClass: tagClass,
     styleClass: styleClass,
     driveImg: driveImg,

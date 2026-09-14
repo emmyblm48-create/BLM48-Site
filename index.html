@@ -158,6 +158,7 @@
 
   <div id="site-header"></div>
   <script src="assets/js/nav.js"></script>
+  <script src="assets/js/sheet-data.js"></script>
 
   <!-- HERO -->
   <section class="hero">
@@ -321,17 +322,7 @@
 
   <!-- Birthday This Month -->
   <script>
-    const membersScriptURL = 'https://script.google.com/macros/s/AKfycbyKX1fncf8dJuPWadPk9w-4t0pPnkNPZlFDvUqllC1aJwbqQ4vVdepMcU6fjbTIOHqz/exec';
     let allMembersData = [];
-
-    function birthdayImgLink(url) {
-      if (!url) return 'https://via.placeholder.com/100x100?text=BLM48';
-      if (url.includes('drive.google.com')) {
-        const fileId = url.match(/[-\w]{25,}/);
-        return fileId ? `https://lh3.googleusercontent.com/u/0/d/${fileId}` : url;
-      }
-      return url;
-    }
 
     function renderBirthdayMonth() {
       const today = new Date();
@@ -357,7 +348,7 @@
       listEl.innerHTML = celebrants.map(({ member, bday }) => `
         <a href="profile.html" class="bday-item">
           <div class="bday-avatar">
-            <img src="${birthdayImgLink(member.image)}" alt="${member.name}" onerror="this.src='https://via.placeholder.com/100x100?text=BLM48'">
+            <img src="${BLM48Data.driveImg(member.image, 'https://via.placeholder.com/100x100?text=BLM48')}" alt="${member.name}" onerror="this.src='https://via.placeholder.com/100x100?text=BLM48'">
           </div>
           <div class="bday-info">
             <span class="bday-name">${member.name}</span>
@@ -380,7 +371,7 @@
         <a href="profile.html" class="member-mini">
           <div class="member-mini-photo">
             ${member.position ? `<span class="member-mini-badge">${member.position}</span>` : ''}
-            <img src="${birthdayImgLink(member.image)}" alt="${member.name}" loading="lazy" onerror="this.src='https://via.placeholder.com/400x533?text=BLM48'">
+            <img src="${BLM48Data.driveImg(member.image, 'https://via.placeholder.com/400x400?text=BLM48')}" alt="${member.name}" loading="lazy" onerror="this.src='https://via.placeholder.com/400x533?text=BLM48'">
           </div>
           <div class="member-mini-name">${member.name}</div>
         </a>
@@ -389,8 +380,7 @@
 
     async function initMembersData() {
       try {
-        const response = await fetch(membersScriptURL);
-        allMembersData = await response.json();
+        allMembersData = await BLM48Data.fetchMembers();
       } catch (err) {
         allMembersData = [];
       }
@@ -402,7 +392,6 @@
   </script>
 
   <!-- News & Schedule previews -->
-  <script src="assets/js/sheet-data.js"></script>
   <script>
     async function renderHomeList(containerId, sheetName, emptyMsg) {
       const listEl = document.getElementById(containerId);
