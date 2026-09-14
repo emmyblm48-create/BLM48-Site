@@ -51,78 +51,41 @@
       <span class="eyebrow">Latest Updates</span>
       <h1 class="page-hero-title">News</h1>
     </div>
-    <div class="news-list">
-
-      <a href="https://youtu.be/KJL19EA3ZXw?si=HxWYxQKPKwa36lVr" class="news-item">
-        <div class="news-date-group"><span class="kicker kicker-gold">Release</span><span class="news-date">2026.08.16</span></div>
-        <div class="news-title">BLM48 3rd Album Announcement</div>
-        <div class="news-arrow"><i class="fas fa-arrow-right"></i></div>
-      </a>
-
-      <a href="https://youtu.be/rdWq9BKqpBU?si=LefsrZ5m9pwW8N0T" class="news-item">
-        <div class="news-date-group"><span class="kicker kicker-gold">Release</span><span class="news-date">2026.06.12</span></div>
-        <div class="news-title">「Rapsodi」 Senbatsu Announcement</div>
-        <div class="news-arrow"><i class="fas fa-arrow-right"></i></div>
-      </a>
-
-      <a href="https://www.instagram.com/p/DXj-1-EiaBr/?img_index=1" class="news-item">
-        <div class="news-date-group"><span class="kicker kicker-outline">Event</span><span class="news-date">2026.04.26</span></div>
-        <div class="news-title">BLM48 Original Stage Setlist</div>
-        <div class="news-arrow"><i class="fas fa-arrow-right"></i></div>
-      </a>
-
-      <a href="https://youtu.be/rdWq9BKqpBU?si=LefsrZ5m9pwW8N0T" class="news-item">
-        <div class="news-date-group"><span class="kicker kicker-outline">Event</span><span class="news-date">2026.04.26</span></div>
-        <div class="news-title">BLM48 3rd Album C/W Senbatsu Announcement</div>
-        <div class="news-arrow"><i class="fas fa-arrow-right"></i></div>
-      </a>
-
-      <a href="https://youtube.com/playlist?list=PLIZN3HRIc9-Bj8Cdm_Tdy9_KtZpkT0Za7&si=6UwLTvKL6XiG9Ryg" class="news-item">
-        <div class="news-date-group"><span class="kicker kicker-gold">Release</span><span class="news-date">2026.04.25</span></div>
-        <div class="news-title">BLM48 10th Single "Sustainable" MV Out Now!</div>
-        <div class="news-arrow"><i class="fas fa-arrow-right"></i></div>
-      </a>
-
-      <a href="https://www.instagram.com/p/DXj_bnLiYls/" class="news-item">
-        <div class="news-date-group"><span class="kicker kicker-outline">Media</span><span class="news-date">2026.04.25</span></div>
-        <div class="news-title">New Logo BLM48 The Campus</div>
-        <div class="news-arrow"><i class="fas fa-arrow-right"></i></div>
-      </a>
-
-      <a href="https://www.instagram.com/p/DXj_JcWiU5O/" class="news-item">
-        <div class="news-date-group"><span class="kicker kicker-outline">Media</span><span class="news-date">2026.04.25</span></div>
-        <div class="news-title">BLM48 Original Stage Setlist &amp; BLM48 Shuffle Team</div>
-        <div class="news-arrow"><i class="fas fa-arrow-right"></i></div>
-      </a>
-
-      <a href="https://www.instagram.com/p/DXj-1-EiaBr/?img_index=1" class="news-item">
-        <div class="news-date-group"><span class="kicker kicker-outline">Event</span><span class="news-date">2026.04.25</span></div>
-        <div class="news-title">BLM48 Concert This Letter Says "Marry Me"</div>
-        <div class="news-arrow"><i class="fas fa-arrow-right"></i></div>
-      </a>
-
-      <a href="https://youtu.be/RWxewbwau4k?si=EprRIZYCUP5oiuRj" class="news-item">
-        <div class="news-date-group"><span class="kicker kicker-outline">Media</span><span class="news-date">2026.04.05</span></div>
-        <div class="news-title">BLM48 10th Single Senbatsu Members Announcement</div>
-        <div class="news-arrow"><i class="fas fa-arrow-right"></i></div>
-      </a>
-
-      <a href="https://youtu.be/TAPlWWZMGFQ?si=JLMr92GyvgipOn88" class="news-item">
-        <div class="news-date-group"><span class="kicker kicker-gold">Release</span><span class="news-date">2026.04.04</span></div>
-        <div class="news-title">BLM48 3rd Generation Special Single "Celebration" Release!</div>
-        <div class="news-arrow"><i class="fas fa-arrow-right"></i></div>
-      </a>
-
-      <a href="https://youtube.com/playlist?list=PLIZN3HRIc9-DaI6E3Q9uJp4vSXAXBbNaV&si=W3_Pdej1Hj3xHsXA" class="news-item">
-        <div class="news-date-group"><span class="kicker kicker-gold">Release</span><span class="news-date">2026.01.31</span></div>
-        <div class="news-title">9th Single "BINGO!" - Official Music Video &amp; Digital Release.</div>
-        <div class="news-arrow"><i class="fas fa-arrow-right"></i></div>
-      </a>
-
+    <div class="news-list" id="newsList">
+      <p style="color:var(--blm-ink-faint);font-weight:600;padding:20px 4px;">Loading news...</p>
     </div>
   </main>
 
   <div id="site-footer"></div>
+
+  <script src="assets/js/sheet-data.js"></script>
+  <script>
+    async function renderNews() {
+      const listEl = document.getElementById('newsList');
+      try {
+        const rows = await BLM48Data.fetchSheet('News');
+        const items = rows
+          .map(r => ({ ...r, _date: BLM48Data.fmtDate(r.date) }))
+          .sort((a, b) => b._date.time - a._date.time);
+
+        if (!items.length) {
+          listEl.innerHTML = '<p style="color:var(--blm-ink-faint);font-weight:600;padding:20px 4px;">No news yet.</p>';
+          return;
+        }
+
+        listEl.innerHTML = items.map(item => `
+          <a href="${item.link || '#'}" target="_blank" rel="noopener" class="news-item">
+            <div class="news-date-group"><span class="kicker ${BLM48Data.tagClass(item.tag)}">${item.tag || ''}</span><span class="news-date">${item._date.full}</span></div>
+            <div class="news-title">${item.title || ''}</div>
+            <div class="news-arrow"><i class="fas fa-arrow-right"></i></div>
+          </a>
+        `).join('');
+      } catch (err) {
+        listEl.innerHTML = '<p style="color:var(--blm-ink-faint);font-weight:600;padding:20px 4px;">Unable to load news right now.</p>';
+      }
+    }
+    renderNews();
+  </script>
 
 </body>
 </html>
