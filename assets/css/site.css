@@ -45,7 +45,6 @@
   --stripe-corner: repeating-linear-gradient(135deg, var(--blm-line) 0px, var(--blm-line) 1px, transparent 1px, transparent 11px);
 
   --header-h: 78px;
-  --ticker-h: 40px;
 }
 
 /* ---------------- Global base ---------------- */
@@ -54,7 +53,7 @@ body {
   font-family: var(--font-body);
   color: var(--blm-ink);
   background: var(--blm-paper);
-  padding-top: calc(var(--header-h) + var(--ticker-h));
+  padding-top: var(--header-h);
   position: relative;
 }
 h1, h2, h3, .font-display { font-family: var(--font-display); }
@@ -214,62 +213,10 @@ h1, h2, h3, .font-display { font-family: var(--font-display); }
   margin: 0;
 }
 
-/* ---------------- Ticker (soft pastel bar, top) ---------------- */
-.site-ticker {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: var(--ticker-h);
-  background: linear-gradient(90deg, var(--blm-gold-pale) 0%, var(--blm-pink-pale) 100%);
-  display: flex;
-  align-items: stretch;
-  overflow: hidden;
-  z-index: 3200;
-  border-bottom: 1px solid var(--blm-line);
-}
-.ticker-label {
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  color: var(--blm-pink-deep);
-  font-size: 10.5px;
-  font-weight: 800;
-  letter-spacing: 1.5px;
-  padding: 0 16px;
-  white-space: nowrap;
-  border-right: 1px solid rgba(59,47,38,0.08);
-}
-.ticker-track-wrap { flex: 1; overflow: hidden; position: relative; }
-.ticker-track {
-  display: inline-flex;
-  align-items: center;
-  height: var(--ticker-h);
-  gap: 44px;
-  white-space: nowrap;
-  padding-left: 44px;
-  animation: blmTickerScroll 32s linear infinite;
-}
-.site-ticker:hover .ticker-track { animation-play-state: paused; }
-.ticker-track a {
-  color: var(--blm-ink-soft);
-  text-decoration: none;
-  font-size: 11.5px;
-  font-weight: 600;
-  letter-spacing: 0.2px;
-}
-.ticker-track a:hover { color: var(--blm-pink-deep); }
-@keyframes blmTickerScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-@media (max-width: 480px) {
-  .ticker-label { font-size: 9.5px; padding: 0 10px; }
-  .ticker-track a { font-size: 10.5px; }
-}
-
 /* ---------------- Header ---------------- */
 .site-header {
   position: fixed;
-  top: var(--ticker-h);
+  top: 0;
   left: 0;
   width: 100%;
   height: var(--header-h);

@@ -11,14 +11,6 @@
     { href: 'about.html', page: 'about', label: 'About' }
   ];
 
-  var TICKER_ITEMS = [
-    { href: 'https://youtu.be/rdWq9BKqpBU?si=LefsrZ5m9pwW8N0T', text: 'BLM48 3rd Album C/W Senbatsu Announcement' },
-    { href: 'https://www.instagram.com/p/DXj_bnLiYls/', text: 'New Logo BLM48 The Campus' },
-    { href: 'https://www.instagram.com/p/DaXTGLEvLuL/', text: 'Mashi BLM48 - Champ of The Month' },
-    { href: 'https://youtu.be/QaxSjLIxcSE?si=AESKBzHHlw6bLENo', text: 'BINGO! - Top Streaming of the Month' },
-    { href: 'https://www.instagram.com/p/DXj-1-EiaBr/', text: 'BLM48 Concert This Letter Says "Marry Me"' }
-  ];
-
   function currentPage() {
     var path = window.location.pathname.split('/').pop() || 'index.html';
     var name = path.replace('.html', '');
@@ -31,23 +23,11 @@
     }).join('');
   }
 
-  function tickerTrackHTML() {
-    var itemsHTML = TICKER_ITEMS.map(function (item) {
-      return '<a href="' + item.href + '" target="_blank" rel="noopener">' + item.text + '</a>';
-    }).join('');
-    // Duplicated once so the -50% translateX loop is seamless.
-    return itemsHTML + itemsHTML;
-  }
-
   function injectHeader() {
     var mount = document.getElementById('site-header');
     if (!mount) return;
 
     mount.innerHTML =
-      '<div class="site-ticker">' +
-        '<span class="ticker-label">Today</span>' +
-        '<div class="ticker-track-wrap"><div class="ticker-track">' + tickerTrackHTML() + '</div></div>' +
-      '</div>' +
       '<header class="site-header">' +
         '<div class="site-header-inner">' +
           '<a href="index.html" class="site-logo">' +
