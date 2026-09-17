@@ -70,37 +70,32 @@
     .hero-thumbs .swiper-slide:hover { opacity: 0.8; }
     .hero-thumbs .swiper-slide-thumb-active { opacity: 1; border-color: var(--blm-gold); }
 
-    /* --- BENTO STRIP --- */
-    .bento-row {
-      max-width: 1300px; width: 92%; margin: 40px auto 72px;
-      display: grid; grid-template-columns: 1.3fr 1fr; gap: 20px;
-    }
-    @media (max-width: 860px) { .bento-row { grid-template-columns: 1fr; } }
-
-    .bento-card {
-      background: var(--blm-paper);
-      border: 1px solid var(--blm-line);
+    /* --- BIRTHDAY BANNER --- */
+    .birthday-banner {
+      max-width: 1300px; width: 92%; margin: 28px auto 0;
+      border: 3px double var(--blm-pink);
       border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-hover);
-      padding: 28px 30px;
+      padding: 18px 28px;
+      display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap;
+      background: var(--blm-pink-pale);
     }
-    .bento-card-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
-
-    .bday-list { display: flex; flex-direction: column; gap: 16px; margin-bottom: 20px; }
-    .bday-item { display: flex; align-items: center; gap: 14px; text-decoration: none; color: inherit; }
-    .bday-avatar { width: 46px; height: 46px; border-radius: 50%; overflow: hidden; flex-shrink: 0; background: var(--blm-paper-soft); border: 2px solid var(--blm-gold); }
-    .bday-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .bday-info { display: flex; flex-direction: column; gap: 2px; }
-    .bday-name { font-size: 14.5px; font-weight: 700; color: var(--blm-ink); transition: color 0.2s; }
-    .bday-item:hover .bday-name { color: var(--blm-pink-deep); }
-    .bday-date { font-size: 12px; color: var(--blm-ink-faint); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
-    .bday-empty { font-size: 14px; color: var(--blm-ink-soft); font-weight: 600; }
-
-    .spot-card { display: flex; gap: 16px; align-items: center; text-decoration: none; color: inherit; }
-    .spot-thumb { width: 96px; height: 96px; flex-shrink: 0; overflow: hidden; background: var(--blm-paper-soft); border-radius: var(--radius-md); }
-    .spot-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s; }
-    .spot-card:hover .spot-thumb img { transform: scale(1.06); }
-    .spot-title { font-family: var(--font-display); font-size: 16px; font-weight: 700; color: var(--blm-ink); line-height: 1.3; margin: 6px 0 8px; }
+    .birthday-banner-label {
+      display: flex; align-items: center; gap: 10px;
+      font-family: var(--font-display); font-weight: 800; font-size: 15px;
+      color: var(--blm-pink-deep); letter-spacing: 0.3px; white-space: nowrap;
+    }
+    .birthday-chips { display: flex; gap: 10px; flex-wrap: wrap; }
+    .birthday-chip {
+      display: flex; align-items: center; gap: 8px;
+      background: var(--blm-pink); color: #fff; text-decoration: none;
+      padding: 5px 16px 5px 5px; border-radius: var(--radius-pill);
+      font-weight: 700; font-size: 13px;
+      transition: transform 0.2s, background 0.2s;
+    }
+    .birthday-chip:hover { background: var(--blm-pink-deep); transform: translateY(-2px); }
+    .birthday-chip img { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(255,255,255,0.6); }
+    .birthday-empty { font-size: 13.5px; font-weight: 600; color: var(--blm-pink-deep); opacity: 0.75; }
+    @media (max-width: 640px) { .birthday-banner { flex-direction: column; align-items: flex-start; } }
 
     .sec-head.no-underline { border-bottom: none; padding-bottom: 0; }
 
@@ -144,6 +139,20 @@
     .video-nav-prev { left: -18px !important; }
     .video-nav-next { right: -18px !important; }
     @media (max-width: 768px) { .video-nav-prev { left: -8px !important; } .video-nav-next { right: -8px !important; } }
+
+    /* --- LATEST RELEASE (Discography) --- */
+    .release-section { max-width: 1300px; width: 92%; margin: 0 auto 90px; }
+    .release-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    @media (max-width: 768px) { .release-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px) { .release-grid { grid-template-columns: 1fr; } }
+    .release-card { display: block; text-decoration: none; color: inherit; }
+    .release-cover { width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: var(--radius-md); border: 1px solid var(--blm-line); background: var(--blm-paper-soft); margin-bottom: 12px; }
+    .release-cover img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s; }
+    .release-card:hover .release-cover img { transform: scale(1.04); }
+    .release-title { font-size: 14px; font-weight: 700; color: var(--blm-ink); line-height: 1.4; margin-bottom: 4px; transition: color 0.2s; }
+    .release-card:hover .release-title { color: var(--blm-pink-deep); }
+    .release-date { font-size: 12px; color: var(--blm-ink-faint); font-weight: 600; }
+    .release-more { display: flex; justify-content: center; margin-top: 32px; }
 
     /* --- GROUP NETWORK --- */
     .group-band { background: var(--blm-paper-soft); border-top: 1px solid var(--blm-line); border-bottom: 1px solid var(--blm-line); padding: 56px 0; }
@@ -201,28 +210,11 @@
     </div>
   </section>
 
-  <!-- BENTO STRIP: Birthday + Spotlight -->
-  <div class="bento-row">
-    <div class="bento-card">
-      <div class="bento-card-head">
-        <span class="eyebrow">Birthday This Month</span>
-        <span class="data-date" id="birthdayMonthLabel"></span>
-      </div>
-      <div class="bday-list" id="birthdayList">
-        <div class="bday-empty">...</div>
-      </div>
-      <a href="profile.html" class="arrow-link">See all members</a>
-    </div>
-    <div class="bento-card">
-      <span class="eyebrow">Latest Release</span>
-      <a href="https://youtu.be/euoIySADf2c?si=6PD3GYd202Ye6phA" target="_blank" class="spot-card" style="margin-top: 20px;">
-        <div class="spot-thumb"><img src="https://lh3.googleusercontent.com/d/1cVLuEr53ofCWXbE-A97t0bZ5MFDWHv__=s1000" alt="Suki-ish"></div>
-        <div>
-          <div class="kicker kicker-gold">pre-3rd album</div>
-          <div class="spot-title">Suki-ish</div>
-          <span class="arrow-link">Watch PV</span>
-        </div>
-      </a>
+  <!-- BIRTHDAY THIS MONTH -->
+  <div class="birthday-banner">
+    <span class="birthday-banner-label"><i class="fas fa-cake-candles" aria-hidden="true"></i> Birthday This Month</span>
+    <div class="birthday-chips" id="birthdayList">
+      <span class="birthday-empty">...</span>
     </div>
   </div>
 
@@ -249,6 +241,16 @@
     </div>
   </section>
 
+  <!-- CHAMP OF THE MONTH -->
+  <section class="champ-section" id="champSection">
+    <div class="sec-head no-underline">
+      <h2 class="sec-title">Champ of the Month</h2>
+    </div>
+    <div class="champ-grid" id="champGrid">
+      <p style="color:var(--blm-ink-faint);font-weight:600;">Loading...</p>
+    </div>
+  </section>
+
   <!-- VIDEO -->
   <section class="video-section">
     <div class="sec-head no-underline">
@@ -266,6 +268,19 @@
       </div>
       <div class="swiper-button-prev video-nav-prev"></div>
       <div class="swiper-button-next video-nav-next"></div>
+    </div>
+  </section>
+
+  <!-- LATEST RELEASE -->
+  <section class="release-section">
+    <div class="sec-head no-underline">
+      <h2 class="sec-title">Latest Release</h2>
+    </div>
+    <div class="release-grid" id="releaseGrid">
+      <p style="color:var(--blm-ink-faint);font-weight:600;">Loading...</p>
+    </div>
+    <div class="release-more">
+      <a href="discography.html" class="btn btn-gold">View More</a>
     </div>
   </section>
 
@@ -306,9 +321,6 @@
 
     function renderBirthdayMonth() {
       const today = new Date();
-      const monthLabelEl = document.getElementById('birthdayMonthLabel');
-      if (monthLabelEl) monthLabelEl.textContent = today.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
-
       const listEl = document.getElementById('birthdayList');
       if (!listEl) return;
 
@@ -321,19 +333,14 @@
         .sort((a, b) => a.bday.getDate() - b.bday.getDate());
 
       if (!celebrants.length) {
-        listEl.innerHTML = `<div class="bday-empty">No birthdays this month</div>`;
+        listEl.innerHTML = `<span class="birthday-empty">No birthdays this month</span>`;
         return;
       }
 
       listEl.innerHTML = celebrants.map(({ member, bday }) => `
-        <a href="profile.html" class="bday-item">
-          <div class="bday-avatar">
-            <img src="${BLM48Data.driveImg(member.image, 'https://via.placeholder.com/100x100?text=BLM48')}" alt="${member.name}" onerror="this.src='https://via.placeholder.com/100x100?text=BLM48'">
-          </div>
-          <div class="bday-info">
-            <span class="bday-name">${member.name}</span>
-            <span class="bday-date">${bday.toLocaleDateString('en-US', { day: 'numeric', month: 'short' })}</span>
-          </div>
+        <a href="profile.html" class="birthday-chip">
+          <img src="${BLM48Data.driveImg(member.image, 'https://via.placeholder.com/100x100?text=BLM48')}" alt="${member.name}" onerror="this.src='https://via.placeholder.com/100x100?text=BLM48'">
+          <span>${member.name} · ${bday.toLocaleDateString('en-US', { day: 'numeric', month: 'short' })}</span>
         </a>
       `).join('');
     }
@@ -503,9 +510,92 @@
       `).join('');
     }
 
+    // Same public anon key the Membership app (blm48-membership.vercel.app) ships client-side.
+    // Every table behind it is RLS-locked with zero policies - the anon key can only call
+    // read-only RPCs like this one, never touch a table directly.
+    const MEMBERSHIP_SUPABASE_URL = 'https://rqhwzbrcgnpxtuaeoxml.supabase.co';
+    const MEMBERSHIP_SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJxaHd6YnJjZ25weHR1YWVveG1sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUyMjczNjAsImV4cCI6MjEwMDgwMzM2MH0.J0iiUikxLoJKZ5SF9KSz86yf2LU89z8NdPb9rEB89Gw';
+
+    async function renderChampOfMonth() {
+      const sectionEl = document.getElementById('champSection');
+      const gridEl = document.getElementById('champGrid');
+      try {
+        const res = await fetch(MEMBERSHIP_SUPABASE_URL + '/rest/v1/rpc/get_champ_of_the_month', {
+          method: 'POST',
+          headers: {
+            'apikey': MEMBERSHIP_SUPABASE_ANON_KEY,
+            'Authorization': 'Bearer ' + MEMBERSHIP_SUPABASE_ANON_KEY,
+            'Content-Type': 'application/json'
+          },
+          body: '{}'
+        });
+        const json = await res.json();
+        const champs = (json && json.status === 'success' && Array.isArray(json.data))
+          ? json.data.filter(c => (c.groupName || 'BLM48') === 'BLM48').slice(0, 4)
+          : [];
+
+        if (!champs.length) {
+          sectionEl.style.display = 'none';
+          return;
+        }
+
+        gridEl.innerHTML = champs.map(champ => {
+          const cookieCount = Number(champ.totalCookie || 0).toLocaleString();
+          const href = champ.postId
+            ? `https://blm48-membership.vercel.app/postdetail?id=${encodeURIComponent(champ.postId)}`
+            : 'https://blm48-membership.vercel.app/champranking';
+          return `
+            <a href="${href}" target="_blank" rel="noopener" class="champ-post-card">
+              <div class="champ-post-photo">
+                <img src="${BLM48Data.driveImg(champ.postImage || champ.profileImage)}" alt="${champ.name || ''}" loading="lazy" onerror="this.src='https://via.placeholder.com/500x500?text=BLM48'">
+                <div class="champ-post-cookie"><i class="fa-solid fa-cookie"></i> ${cookieCount} Cookies</div>
+              </div>
+              <div class="champ-post-foot">
+                <div class="champ-post-avatar"><img src="${BLM48Data.driveImg(champ.profileImage)}" alt="" onerror="this.src='https://via.placeholder.com/68x68?text=BLM48'"></div>
+                <div class="champ-post-meta">
+                  <span class="champ-post-name">${champ.name || ''}</span>
+                  <span class="champ-post-when">${champ.monthYear || ''}</span>
+                </div>
+              </div>
+            </a>
+          `;
+        }).join('');
+      } catch (err) {
+        sectionEl.style.display = 'none';
+      }
+    }
+
+    async function renderLatestRelease() {
+      const gridEl = document.getElementById('releaseGrid');
+      try {
+        const rows = await BLM48Data.fetchSheet('Discography');
+        const items = rows
+          .map(r => ({ ...r, _date: BLM48Data.fmtDate(r.date) }))
+          .sort((a, b) => b._date.time - a._date.time)
+          .slice(0, 3);
+
+        if (!items.length) {
+          gridEl.innerHTML = '<p style="color:var(--blm-ink-faint);font-weight:600;">No releases yet.</p>';
+          return;
+        }
+
+        gridEl.innerHTML = items.map(item => `
+          <a href="${item.link || '#'}" target="_blank" rel="noopener" class="release-card">
+            <div class="release-cover"><img src="${BLM48Data.driveImg(item.coverImage)}" alt="${item.title || ''}" loading="lazy" onerror="this.src='https://via.placeholder.com/600x600?text=BLM48'"></div>
+            <div class="release-title">${item.title || ''}</div>
+            <div class="release-date">${item._date.full}</div>
+          </a>
+        `).join('');
+      } catch (err) {
+        gridEl.innerHTML = '<p style="color:var(--blm-ink-faint);font-weight:600;">Unable to load releases.</p>';
+      }
+    }
+
     renderHeroBanner();
     renderMovies();
     renderLinkBanners();
+    renderChampOfMonth();
+    renderLatestRelease();
   </script>
 
 </body>
