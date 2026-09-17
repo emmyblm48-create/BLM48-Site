@@ -17,21 +17,65 @@
     html { scroll-behavior: smooth; }
     body { font-family: var(--font-body); color: var(--blm-ink); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
 
-    /* --- HERO --- */
-    .hero {
-      position: relative;
-      width: 100%;
-      height: clamp(440px, 64vw, 680px);
+    /* --- HERO BANNER (big slide on top, thumbnail strip looping below) --- */
+    .hero-banner { max-width: 1300px; width: 92%; margin: 28px auto 0; }
+    .hero-banner-main {
+      position: relative; width: 100%;
+      aspect-ratio: 1445 / 820;
+      border-radius: var(--radius-lg);
       overflow: hidden;
+      background: var(--blm-paper-soft);
+      border: 1px solid var(--blm-line);
     }
-    .hero img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .hero-swiper, .hero-swiper .swiper-slide { width: 100%; height: 100%; }
+    .hero-slide-link { display: block; width: 100%; height: 100%; }
+    .hero-slide-link img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .hero-slide-loading { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; color: var(--blm-ink-faint); font-weight: 600; }
+    .hero-slide-caption {
+      position: absolute; left: 0; right: 0; bottom: 0;
+      padding: 30px clamp(20px, 4vw, 44px) 22px;
+      background: linear-gradient(0deg, rgba(59,47,38,0.55) 0%, rgba(59,47,38,0) 100%);
+      color: #fff;
+    }
+    .hero-slide-caption-title { font-family: var(--font-display); font-size: clamp(18px, 2.6vw, 28px); font-weight: 700; }
+    .hero-slide-caption-sub { font-size: 12.5px; font-weight: 600; opacity: 0.85; margin-top: 4px; }
 
-    /* --- BENTO STRIP (overlaps hero) --- */
+    .hero-nav-prev, .hero-nav-next {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      width: 44px; height: 44px; border-radius: 50%;
+      background: rgba(255,255,255,0.85); border: 1px solid var(--blm-line);
+      color: var(--blm-ink); display: flex; align-items: center; justify-content: center;
+      cursor: pointer; z-index: 6; transition: background 0.2s, color 0.2s;
+    }
+    .hero-nav-prev:hover, .hero-nav-next:hover { background: var(--blm-gold); color: var(--blm-on-gold); }
+    .hero-nav-prev { left: 16px; } .hero-nav-next { right: 16px; }
+    .hero-nav-prev.swiper-button-disabled, .hero-nav-next.swiper-button-disabled { opacity: 0.35; cursor: default; }
+
+    .hero-fraction {
+      position: absolute !important; right: 20px; top: 18px; left: auto !important; bottom: auto !important; width: auto !important; z-index: 6;
+      display: flex; align-items: baseline; gap: 3px;
+      font-family: var(--font-display); font-weight: 700; color: #fff; font-size: 13px;
+      background: rgba(59,47,38,0.45); padding: 5px 12px; border-radius: var(--radius-pill);
+    }
+    .hero-fraction .swiper-pagination-current { font-size: 20px; }
+    .hero-fraction .swiper-pagination-total { opacity: 0.7; }
+
+    .hero-thumbs { margin-top: 14px; }
+    .hero-thumbs .swiper-slide {
+      width: clamp(88px, 12vw, 150px); aspect-ratio: 16/9;
+      border-radius: var(--radius-md); overflow: hidden; cursor: pointer;
+      opacity: 0.5; border: 2px solid transparent; transition: opacity 0.25s, border-color 0.25s;
+    }
+    .hero-thumbs .swiper-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .hero-thumbs .swiper-slide:hover { opacity: 0.8; }
+    .hero-thumbs .swiper-slide-thumb-active { opacity: 1; border-color: var(--blm-gold); }
+
+    /* --- BENTO STRIP --- */
     .bento-row {
-      max-width: 1300px; width: 92%; margin: -64px auto 72px; position: relative; z-index: 5;
+      max-width: 1300px; width: 92%; margin: 40px auto 72px;
       display: grid; grid-template-columns: 1.3fr 1fr; gap: 20px;
     }
-    @media (max-width: 860px) { .bento-row { grid-template-columns: 1fr; margin-top: -40px; } }
+    @media (max-width: 860px) { .bento-row { grid-template-columns: 1fr; } }
 
     .bento-card {
       background: var(--blm-paper);
@@ -58,42 +102,7 @@
     .spot-card:hover .spot-thumb img { transform: scale(1.06); }
     .spot-title { font-family: var(--font-display); font-size: 16px; font-weight: 700; color: var(--blm-ink); line-height: 1.3; margin: 6px 0 8px; }
 
-    /* --- TOPICS STRIP --- */
-    .topics-section { max-width: 1300px; width: 92%; margin: 0 auto 76px; }
     .sec-head.no-underline { border-bottom: none; padding-bottom: 0; }
-    .rail { display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x proximity; padding-bottom: 4px; -webkit-overflow-scrolling: touch; scrollbar-width: none; -ms-overflow-style: none; }
-    .rail::-webkit-scrollbar { display: none; }
-    .topic-tile { flex: 0 0 auto; width: clamp(220px, 30vw, 300px); scroll-snap-align: start; text-decoration: none; color: inherit; display: block; }
-    .topic-thumb { width: 100%; aspect-ratio: 1234/608; overflow: hidden; background: var(--blm-paper-soft); border: 1px solid var(--blm-line); border-radius: var(--radius-md); }
-    .topic-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s; }
-    .topic-tile:hover .topic-thumb img { transform: scale(1.06); }
-    .topic-cap { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; font-size: 12.5px; font-weight: 800; letter-spacing: 0.8px; text-transform: uppercase; color: var(--blm-ink); }
-    .topic-cap i { font-size: 11px; color: var(--blm-ink-faint); transition: transform 0.2s; }
-    .topic-tile:hover .topic-cap i { transform: translateX(3px); color: var(--blm-pink-deep); }
-
-    /* --- MEMBERS STRIP --- */
-    .members-section { max-width: 1300px; width: 92%; margin: 0 auto 76px; }
-    .rail-wrap { position: relative; }
-    .rail-nav-btn {
-      position: absolute; top: 38%; transform: translateY(-50%);
-      width: 40px; height: 40px; border-radius: 50%;
-      background: var(--blm-paper); border: 1px solid var(--blm-line);
-      color: var(--blm-ink); display: flex; align-items: center; justify-content: center;
-      cursor: pointer; box-shadow: var(--shadow-card); z-index: 4; padding: 0;
-      transition: background 0.2s, color 0.2s, border-color 0.2s;
-    }
-    .rail-nav-btn:hover { background: var(--blm-pink); border-color: var(--blm-pink); color: #fff; }
-    .rail-nav-btn i { font-size: 14px; }
-    .rail-nav-prev { left: -18px; }
-    .rail-nav-next { right: -18px; }
-    @media (max-width: 768px) { .rail-nav-prev { left: -8px; } .rail-nav-next { right: -8px; } }
-    .member-mini { flex: 0 0 auto; width: clamp(120px, 16vw, 168px); scroll-snap-align: start; text-decoration: none; text-align: left; display: block; }
-    .member-mini-photo { position: relative; width: 100%; aspect-ratio: 3/4; overflow: hidden; background: var(--blm-paper-soft); border: 1px solid var(--blm-line); border-radius: var(--radius-md); transition: border-color 0.25s; }
-    .member-mini:hover .member-mini-photo { border-color: var(--blm-pink); }
-    .member-mini-photo img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s; }
-    .member-mini:hover .member-mini-photo img { transform: scale(1.05); }
-    .member-mini-badge { position: absolute; top: 10px; left: 10px; background: var(--blm-gold); color: var(--blm-on-gold); font-size: 8.5px; font-weight: 800; letter-spacing: 0.3px; text-transform: uppercase; padding: 4px 10px; border-radius: var(--radius-pill); white-space: nowrap; }
-    .member-mini-name { margin-top: 12px; font-family: var(--font-display); font-size: 15px; font-weight: 700; color: var(--blm-ink); }
 
     /* --- NEWS & SCHEDULE --- */
     .content-box-section { max-width: 1300px; width: 92%; margin: 0 auto 76px; display: grid; grid-template-columns: 1fr 1fr; gap: 56px; }
@@ -152,6 +161,21 @@
     .logo-grid a { flex: 0 0 auto; scroll-snap-align: start; display: flex; justify-content: center; opacity: 0.85; transition: opacity 0.2s, transform 0.2s; }
     .logo-grid a:hover { opacity: 1; transform: translateY(-3px); }
     .logo-grid img { width: clamp(42px, 5.2vw, 70px); height: auto; flex-shrink: 0; }
+
+    /* --- LINK BANNERS --- */
+    .link-banners { max-width: 1300px; width: 92%; margin: 56px auto 90px; }
+    .link-banners-grid { display: flex; flex-wrap: wrap; gap: 16px; }
+    .link-banner-tile {
+      flex: 1 1 260px;
+      aspect-ratio: 2048 / 546;
+      display: block;
+      overflow: hidden;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--blm-line);
+      background: var(--blm-paper-soft);
+    }
+    .link-banner-tile img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s; }
+    .link-banner-tile:hover img { transform: scale(1.04); }
   </style>
 </head>
 <body>
@@ -160,9 +184,21 @@
   <script src="assets/js/nav.js"></script>
   <script src="assets/js/sheet-data.js"></script>
 
-  <!-- HERO -->
-  <section class="hero">
-    <img src="https://lh3.googleusercontent.com/d/1_bEVYmqNwCpnRKAGjhFUN-YcECH1RL1G=s1000" alt="BLM48">
+  <!-- HERO BANNER -->
+  <section class="hero-banner">
+    <div class="hero-banner-main">
+      <div class="swiper hero-swiper">
+        <div class="swiper-wrapper" id="heroSwiperWrapper">
+          <div class="swiper-slide"><div class="hero-slide-loading">Loading...</div></div>
+        </div>
+      </div>
+      <button type="button" class="hero-nav-prev" id="heroPrev" aria-label="Previous banner"><i class="fas fa-chevron-left"></i></button>
+      <button type="button" class="hero-nav-next" id="heroNext" aria-label="Next banner"><i class="fas fa-chevron-right"></i></button>
+      <div class="hero-fraction" id="heroFraction"></div>
+    </div>
+    <div class="swiper hero-thumbs" id="heroThumbs">
+      <div class="swiper-wrapper" id="heroThumbsWrapper"></div>
+    </div>
   </section>
 
   <!-- BENTO STRIP: Birthday + Spotlight -->
@@ -189,35 +225,6 @@
       </a>
     </div>
   </div>
-
-  <!-- TOPICS STRIP -->
-  <section class="topics-section">
-    <div class="sec-head no-underline">
-      <h2 class="sec-title">Topics</h2>
-    </div>
-    <div class="rail-wrap">
-    <div class="rail" id="topicsRail">
-      <div class="topic-tile"><div class="topic-cap" style="color:var(--blm-ink-faint);">Loading...</div></div>
-    </div>
-      <button type="button" class="rail-nav-btn rail-nav-prev" id="topicsPrev" aria-label="Previous topics"><i class="fas fa-chevron-left"></i></button>
-      <button type="button" class="rail-nav-btn rail-nav-next" id="topicsNext" aria-label="Next topics"><i class="fas fa-chevron-right"></i></button>
-    </div>
-  </section>
-
-  <!-- MEMBERS -->
-  <section class="members-section">
-    <div class="sec-head no-underline">
-      <h2 class="sec-title">Members</h2>
-      <a href="profile.html" class="arrow-link">See all members</a>
-    </div>
-    <div class="rail-wrap">
-    <div class="rail" id="membersRail">
-      <div class="member-mini"><div class="member-mini-name" style="color:var(--blm-ink-faint);">Loading...</div></div>
-    </div>
-      <button type="button" class="rail-nav-btn rail-nav-prev" id="membersPrev" aria-label="Previous members"><i class="fas fa-chevron-left"></i></button>
-      <button type="button" class="rail-nav-btn rail-nav-next" id="membersNext" aria-label="Next members"><i class="fas fa-chevron-right"></i></button>
-    </div>
-  </section>
 
   <!-- NEWS & SCHEDULE -->
   <section class="content-box-section">
@@ -283,42 +290,15 @@
     </div>
   </div>
 
+  <!-- LINK BANNERS -->
+  <section class="link-banners" id="linkBanners">
+    <div class="link-banners-grid" id="linkBannersGrid"></div>
+  </section>
+
   <!-- FOOTER -->
   <div id="site-footer"></div>
 
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-  <script>
-    // Horizontal rail prev/next-free: native scroll + snap is enough, but add wheel-drag support
-    document.querySelectorAll('.rail').forEach(function (rail) {
-      let isDown = false, startX, scrollLeft;
-      rail.addEventListener('mousedown', (e) => { isDown = true; rail.style.cursor = 'grabbing'; startX = e.pageX - rail.offsetLeft; scrollLeft = rail.scrollLeft; });
-      window.addEventListener('mouseup', () => { isDown = false; rail.style.cursor = 'grab'; });
-      window.addEventListener('mousemove', (e) => {
-        if (!isDown) return;
-        e.preventDefault();
-        const x = e.pageX - rail.offsetLeft;
-        rail.scrollLeft = scrollLeft - (x - startX);
-      });
-    });
-
-    // Rail prev/next scroll buttons (Topics, Members)
-    function wireRailNav(railId, prevId, nextId, itemSelector) {
-      const rail = document.getElementById(railId);
-      const prevBtn = document.getElementById(prevId);
-      const nextBtn = document.getElementById(nextId);
-      if (!rail || !prevBtn || !nextBtn) return;
-      function step() {
-        const item = rail.querySelector(itemSelector);
-        const gap = parseFloat(getComputedStyle(rail).columnGap || getComputedStyle(rail).gap || 16);
-        const itemWidth = item ? item.getBoundingClientRect().width : rail.clientWidth * 0.4;
-        return (itemWidth + gap) * 2;
-      }
-      prevBtn.addEventListener('click', () => rail.scrollBy({ left: -step(), behavior: 'smooth' }));
-      nextBtn.addEventListener('click', () => rail.scrollBy({ left: step(), behavior: 'smooth' }));
-    }
-    wireRailNav('topicsRail', 'topicsPrev', 'topicsNext', '.topic-tile');
-    wireRailNav('membersRail', 'membersPrev', 'membersNext', '.member-mini');
-  </script>
 
   <!-- Birthday This Month -->
   <script>
@@ -358,26 +338,6 @@
       `).join('');
     }
 
-    function renderMembersRail() {
-      const railEl = document.getElementById('membersRail');
-      if (!railEl) return;
-
-      if (!allMembersData.length) {
-        railEl.innerHTML = `<div class="member-mini"><div class="member-mini-name" style="color:var(--blm-ink-faint);">No members yet.</div></div>`;
-        return;
-      }
-
-      railEl.innerHTML = allMembersData.map(member => `
-        <a href="profile.html" class="member-mini">
-          <div class="member-mini-photo">
-            ${member.position ? `<span class="member-mini-badge">${member.position}</span>` : ''}
-            <img src="${BLM48Data.driveImg(member.image, 'https://via.placeholder.com/400x400?text=BLM48')}" alt="${member.name}" loading="lazy" onerror="this.src='https://via.placeholder.com/400x533?text=BLM48'">
-          </div>
-          <div class="member-mini-name">${member.name}</div>
-        </a>
-      `).join('');
-    }
-
     async function initMembersData() {
       try {
         allMembersData = await BLM48Data.fetchMembers();
@@ -385,7 +345,6 @@
         allMembersData = [];
       }
       renderBirthdayMonth();
-      renderMembersRail();
     }
 
     initMembersData();
@@ -419,25 +378,6 @@
     }
     renderHomeList('homeNewsList', 'News', 'No news yet.');
     renderHomeList('homeScheduleList', 'Schedule', 'No schedule yet.');
-
-    async function renderTopics() {
-      const railEl = document.getElementById('topicsRail');
-      try {
-        const rows = await BLM48Data.fetchSheet('Topics');
-        if (!rows.length) {
-          railEl.innerHTML = '<div class="topic-tile"><div class="topic-cap" style="color:var(--blm-ink-faint);">No topics yet.</div></div>';
-          return;
-        }
-        railEl.innerHTML = rows.map(item => `
-          <a href="${item.link || '#'}" target="_blank" rel="noopener" class="topic-tile">
-            <div class="topic-thumb"><img src="${BLM48Data.driveImg(item.thumbnail)}" alt="${item.title || ''}" onerror="this.src='https://via.placeholder.com/600x450?text=BLM48'"></div>
-            <div class="topic-cap">${item.title || ''} <i class="fas fa-arrow-right"></i></div>
-          </a>
-        `).join('');
-      } catch (err) {
-        railEl.innerHTML = '<div class="topic-tile"><div class="topic-cap" style="color:var(--blm-ink-faint);">Unable to load topics.</div></div>';
-      }
-    }
 
     async function renderMovies() {
       const wrapEl = document.getElementById('videoSwiperWrapper');
@@ -481,8 +421,91 @@
       }
     }
 
-    renderTopics();
+    async function renderHeroBanner() {
+      const mainWrap = document.getElementById('heroSwiperWrapper');
+      const thumbsWrap = document.getElementById('heroThumbsWrapper');
+      const thumbsEl = document.getElementById('heroThumbs');
+
+      let rows = [];
+      try {
+        rows = await BLM48Data.fetchSheet('HeroBanner');
+      } catch (err) {
+        rows = [];
+      }
+
+      if (!rows.length) {
+        mainWrap.innerHTML = '<div class="swiper-slide"><div class="hero-slide-loading">No banners yet.</div></div>';
+        thumbsEl.style.display = 'none';
+        document.getElementById('heroPrev').style.display = 'none';
+        document.getElementById('heroNext').style.display = 'none';
+        document.getElementById('heroFraction').style.display = 'none';
+        new Swiper('.hero-swiper', { loop: false });
+        return;
+      }
+
+      mainWrap.innerHTML = rows.map(item => `
+        <div class="swiper-slide">
+          <a href="${item.link || '#'}" ${item.link ? 'target="_blank" rel="noopener"' : ''} class="hero-slide-link">
+            <img src="${BLM48Data.driveImg(item.image || item.thumbnail)}" alt="${item.title || 'BLM48'}" onerror="this.src='https://via.placeholder.com/1600x680?text=BLM48'">
+            ${item.title ? `
+              <div class="hero-slide-caption">
+                <div class="hero-slide-caption-title">${item.title}</div>
+                ${item.subtitle ? `<div class="hero-slide-caption-sub">${item.subtitle}</div>` : ''}
+              </div>
+            ` : ''}
+          </a>
+        </div>
+      `).join('');
+
+      thumbsWrap.innerHTML = rows.map(item => `
+        <div class="swiper-slide">
+          <img src="${BLM48Data.driveImg(item.image || item.thumbnail)}" alt="${item.title || 'BLM48'}" onerror="this.src='https://via.placeholder.com/300x170?text=BLM48'">
+        </div>
+      `).join('');
+
+      const heroThumbsSwiper = new Swiper('.hero-thumbs', {
+        slidesPerView: 'auto',
+        spaceBetween: 12,
+        watchSlidesProgress: true,
+        loop: rows.length > 2
+      });
+
+      new Swiper('.hero-swiper', {
+        loop: rows.length > 1,
+        autoplay: rows.length > 1 ? { delay: 4500, disableOnInteraction: false } : false,
+        navigation: { nextEl: '#heroNext', prevEl: '#heroPrev' },
+        pagination: { el: '#heroFraction', type: 'fraction' },
+        thumbs: { swiper: heroThumbsSwiper },
+        effect: 'fade',
+        fadeEffect: { crossFade: true }
+      });
+    }
+
+    async function renderLinkBanners() {
+      const sectionEl = document.getElementById('linkBanners');
+      const gridEl = document.getElementById('linkBannersGrid');
+      let rows = [];
+      try {
+        rows = await BLM48Data.fetchSheet('LinkBanners');
+      } catch (err) {
+        rows = [];
+      }
+
+      if (!rows.length) {
+        sectionEl.style.display = 'none';
+        return;
+      }
+
+      gridEl.innerHTML = rows.map(item => `
+        <a href="${item.link || '#'}" ${item.link ? 'target="_blank" rel="noopener"' : ''} class="link-banner-tile">
+          <img src="${BLM48Data.driveImg(item.image || item.thumbnail)}" alt="${item.title || 'BLM48'}" loading="lazy" onerror="this.src='https://via.placeholder.com/2048x546?text=BLM48'">
+        </a>
+      `).join('');
+    }
+
+    renderHeroBanner();
     renderMovies();
+    renderLinkBanners();
   </script>
 
 </body>
