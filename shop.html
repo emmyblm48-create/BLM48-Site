@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="google-site-verification" content="nUjG8w2pz2CXK7Uvg8EMmn2S6hvwQOCNbg_IDFtMRcg" />
+  <title>BLM48 Official - Shop</title>
+  <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1flevUZLFmIodF1RHG0QgRJkCMpgW1KM7=s1000">
+
+  <link href="https://fonts.googleapis.com/css?family=Comfortaa:300,400" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=K2D:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/site.css">
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font-body); color: var(--blm-ink); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+
+    /* --- App-only purchase notice --- */
+    .shop-app-notice {
+      display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap;
+      max-width: 1040px; margin: 0 auto 48px;
+      padding: 18px 26px;
+      border: 1.5px solid var(--blm-gold);
+      background: var(--blm-gold-pale);
+      border-radius: var(--radius-lg);
+    }
+    .shop-app-notice-text { display: flex; align-items: center; gap: 14px; }
+    .shop-app-notice-text i { font-size: 20px; color: var(--blm-gold-deep); flex-shrink: 0; }
+    .shop-app-notice-title { font-weight: 800; font-size: 14px; color: var(--blm-ink); }
+    .shop-app-notice-sub { font-size: 12.5px; color: var(--blm-ink-soft); margin-top: 2px; }
+    @media (max-width: 640px) { .shop-app-notice { flex-direction: column; align-items: flex-start; } }
+
+    /* --- Quick category tabs --- */
+    .shop-tabs {
+      display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;
+      max-width: 1040px; margin: 0 auto 60px;
+    }
+    .shop-tab {
+      display: inline-flex; align-items: center; gap: 8px;
+      text-decoration: none; color: var(--blm-ink);
+      font-size: 12.5px; font-weight: 800; letter-spacing: 0.6px; text-transform: uppercase;
+      padding: 11px 22px;
+      border: 1.5px solid var(--blm-line);
+      border-radius: var(--radius-pill);
+      transition: background 0.2s, border-color 0.2s, color 0.2s;
+    }
+    .shop-tab:hover { background: var(--blm-pink-pale); border-color: var(--blm-pink); color: var(--blm-pink-deep); }
+    .shop-tab i { color: var(--blm-gold-deep); }
+
+    /* --- Section --- */
+    .shop-section { max-width: 1300px; width: 92%; margin: 0 auto 90px; scroll-margin-top: 100px; }
+    .shop-section-caption { font-size: 12.5px; color: var(--blm-ink-faint); font-weight: 600; margin-top: -14px; margin-bottom: 24px; }
+    .shop-group-title {
+      grid-column: 1 / -1;
+      display: flex; align-items: center; gap: 10px;
+      font-family: var(--font-display); font-weight: 800; font-size: 15px;
+      color: var(--blm-ink); text-transform: uppercase; letter-spacing: 0.4px;
+      padding-bottom: 10px; margin-top: 8px; border-bottom: 1px solid var(--blm-line);
+    }
+    .shop-group-title:first-child { margin-top: 0; }
+    .shop-group-title i { color: var(--blm-gold-deep); }
+
+    /* --- Grid & Cards --- */
+    .shop-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
+    @media (max-width: 1024px) { .shop-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 720px) { .shop-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; } }
+    @media (max-width: 420px) { .shop-grid { grid-template-columns: 1fr 1fr; } }
+
+    .shop-card {
+      display: flex; flex-direction: column;
+      background: var(--blm-paper);
+      border: 1px solid var(--blm-line);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .shop-card:hover { box-shadow: var(--shadow-hover); transform: translateY(-3px); }
+
+    .shop-card-photo { position: relative; width: 100%; aspect-ratio: 1/1; overflow: hidden; background: var(--blm-paper-soft); }
+    .shop-card-photo img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s; }
+    .shop-card:hover .shop-card-photo img { transform: scale(1.05); }
+    .shop-card.is-unavailable .shop-card-photo img { opacity: 0.45; filter: grayscale(0.3); }
+
+    .shop-badge {
+      position: absolute; top: 10px; left: 10px; z-index: 2;
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 10px; font-weight: 800; letter-spacing: 0.6px; text-transform: uppercase;
+      padding: 5px 11px; border-radius: var(--radius-pill);
+      color: #fff;
+    }
+    .shop-badge-soldout { background: var(--blm-ink); }
+    .shop-badge-comingsoon { background: var(--blm-pink-deep); }
+    .shop-badge-best { top: auto; bottom: 10px; left: 10px; background: var(--blm-gold-deep); color: var(--blm-on-gold); }
+
+    .shop-card-body { padding: 14px 16px 18px; display: flex; flex-direction: column; flex-grow: 1; }
+    .shop-card-cat { margin-bottom: 8px; }
+    .shop-card-title { font-size: 13.5px; font-weight: 700; color: var(--blm-ink); line-height: 1.4; margin-bottom: 4px; }
+    .shop-card-sub { font-size: 11.5px; color: var(--blm-ink-faint); font-weight: 600; line-height: 1.5; margin-bottom: 14px; flex-grow: 1; }
+
+    .shop-card-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding-top: 12px; border-top: 1px solid var(--blm-line); }
+    .shop-card-price { display: flex; align-items: center; gap: 6px; font-family: var(--font-display); font-weight: 800; font-size: 13.5px; color: var(--blm-ink); white-space: nowrap; }
+    .shop-card-price i { color: var(--blm-gold-deep); font-size: 12px; }
+    .shop-card-price.is-muted { color: var(--blm-ink-faint); }
+    .shop-card-cta {
+      display: inline-flex; align-items: center; gap: 6px;
+      text-decoration: none; color: var(--blm-pink-deep);
+      font-size: 10.5px; font-weight: 800; letter-spacing: 0.6px; text-transform: uppercase;
+      white-space: nowrap;
+      transition: gap 0.2s;
+    }
+    .shop-card-cta:hover { gap: 10px; }
+    .shop-card.is-unavailable .shop-card-cta { color: var(--blm-ink-faint); pointer-events: none; }
+
+    .shop-empty-state {
+      grid-column: 1 / -1;
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
+      padding: 50px 20px;
+      color: var(--blm-ink-faint); font-weight: 600; font-size: 13.5px;
+      text-align: center;
+    }
+    .shop-empty-state i { font-size: 26px; color: var(--blm-ink-faint); }
+  </style>
+</head>
+<body>
+
+  <div id="site-header"></div>
+  <script src="assets/js/nav.js"></script>
+
+  <main class="page-shell">
+    <div class="page-hero">
+      <span class="eyebrow">Official Store</span>
+      <h1 class="page-hero-title">Shop</h1>
+    </div>
+
+    <div class="shop-app-notice">
+      <div class="shop-app-notice-text">
+        <i class="fas fa-circle-info" aria-hidden="true"></i>
+        <div>
+          <div class="shop-app-notice-title">This page is a showcase only</div>
+          <div class="shop-app-notice-sub">All purchases are made exclusively inside the BLM48 Membership App — สั่งซื้อสินค้าได้ทางแอป BLM48 Membership เท่านั้น</div>
+        </div>
+      </div>
+      <a href="https://blm48-membership.vercel.app/shop" target="_blank" rel="noopener" class="btn btn-gold">
+        <i class="fas fa-mobile-screen-button" aria-hidden="true"></i> Open in App
+      </a>
+    </div>
+
+    <nav class="shop-tabs" aria-label="Shop categories">
+      <a href="#section-merch" class="shop-tab"><i class="fas fa-gifts" aria-hidden="true"></i> Official Merchandise</a>
+      <a href="#section-preorder" class="shop-tab"><i class="fas fa-box" aria-hidden="true"></i> Pre-Order</a>
+      <a href="#section-cafe" class="shop-tab"><i class="fas fa-mug-hot" aria-hidden="true"></i> BLM48 Cafe</a>
+    </nav>
+
+    <!-- OFFICIAL MERCHANDISE -->
+    <section class="shop-section" id="section-merch">
+      <div class="sec-head no-underline" style="border-bottom:none;">
+        <h2 class="sec-title">Official Merchandise</h2>
+        <a href="https://blm48-membership.vercel.app/shop#section-gacha" target="_blank" rel="noopener" class="arrow-link">Buy in App</a>
+      </div>
+      <p class="shop-section-caption">limited · collector · pulls</p>
+      <div class="shop-grid" id="merchGrid">
+        <div class="shop-empty-state"><i class="fas fa-spinner fa-spin"></i><span>Loading merchandise...</span></div>
+      </div>
+    </section>
+
+    <!-- PRE-ORDER -->
+    <section class="shop-section" id="section-preorder">
+      <div class="sec-head no-underline" style="border-bottom:none;">
+        <h2 class="sec-title">Pre-Order</h2>
+        <a href="https://blm48-membership.vercel.app/shop#section-preorder" target="_blank" rel="noopener" class="arrow-link">Buy in App</a>
+      </div>
+      <p class="shop-section-caption">order today · ship later</p>
+      <div class="shop-grid" id="preorderGrid">
+        <div class="shop-empty-state"><i class="fas fa-spinner fa-spin"></i><span>Loading pre-order items...</span></div>
+      </div>
+    </section>
+
+    <!-- BLM48 CAFE -->
+    <section class="shop-section" id="section-cafe">
+      <div class="sec-head no-underline" style="border-bottom:none;">
+        <h2 class="sec-title">BLM48 Cafe</h2>
+        <a href="https://blm48-membership.vercel.app/shop#section-cafe" target="_blank" rel="noopener" class="arrow-link">Buy in App</a>
+      </div>
+      <p class="shop-section-caption">cream · soda · pudding</p>
+      <div class="shop-grid" id="cafeGrid"></div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script>
+    // Same public anon key the Membership app (blm48-membership.vercel.app) ships client-side.
+    // Every table behind it is RLS-locked with zero policies - the anon key can only call
+    // read-only RPCs like these, never touch a table directly. This page only displays the
+    // catalog; every purchase action happens inside the Membership App itself.
+    const MEMBERSHIP_SUPABASE_URL = 'https://rqhwzbrcgnpxtuaeoxml.supabase.co';
+    const MEMBERSHIP_SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJxaHd6YnJjZ25weHR1YWVveG1sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUyMjczNjAsImV4cCI6MjEwMDgwMzM2MH0.J0iiUikxLoJKZ5SF9KSz86yf2LU89z8NdPb9rEB89Gw';
+    const MEMBERSHIP_APP_URL = 'https://blm48-membership.vercel.app';
+
+    async function membershipRpc(fnName, params) {
+      const res = await fetch(MEMBERSHIP_SUPABASE_URL + '/rest/v1/rpc/' + fnName, {
+        method: 'POST',
+        headers: {
+          'apikey': MEMBERSHIP_SUPABASE_ANON_KEY,
+          'Authorization': 'Bearer ' + MEMBERSHIP_SUPABASE_ANON_KEY,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(params || {})
+      });
+      return res.json();
+    }
+
+    function escapeHtml(str) {
+      return String(str || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    }
+
+    function emptyState(icon, message) {
+      return `<div class="shop-empty-state"><i class="fas ${icon}"></i><span>${message}</span></div>`;
+    }
+
+    // --- OFFICIAL MERCHANDISE (live from the Membership app's gacha collections) ---
+    async function renderMerch() {
+      const gridEl = document.getElementById('merchGrid');
+      try {
+        const response = await membershipRpc('get_gacha_collections', { p_username: null });
+        const collections = (response && response.data) || [];
+        const items = collections.filter(col => col.CollectionID && col.CollectionID.startsWith('gacha_') && col.Status !== 'Closed');
+
+        if (!items.length) {
+          gridEl.innerHTML = emptyState('fa-gifts', 'Official Merchandise coming soon.');
+          return;
+        }
+
+        gridEl.innerHTML = items.map(col => {
+          const isComingSoon = col.Status === 'Coming Soon';
+          const isSoldOut = col.Status === 'Sold Out';
+          const cover = col.CoverImage || 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=500';
+
+          let badgeHTML = '';
+          if (isComingSoon) badgeHTML = '<span class="shop-badge shop-badge-comingsoon"><i class="fas fa-clock"></i> Coming Soon</span>';
+          else if (isSoldOut) badgeHTML = '<span class="shop-badge shop-badge-soldout"><i class="fas fa-box-archive"></i> Sold Out</span>';
+
+          const priceHTML = isComingSoon
+            ? `<span class="shop-card-price is-muted">Coming Soon</span>`
+            : `<span class="shop-card-price"><i class="fas fa-coins"></i> ${Number(col.CostTokens || 0).toLocaleString()}</span>`;
+
+          return `
+            <div class="shop-card${isSoldOut ? ' is-unavailable' : ''}">
+              <div class="shop-card-photo">
+                ${badgeHTML}
+                <img src="${cover}" alt="${escapeHtml(col.CollectionName)}" loading="lazy" onerror="this.src='https://placehold.co/500x500/fff0f2/ff85a2?text=BLM48'">
+              </div>
+              <div class="shop-card-body">
+                <span class="kicker kicker-live shop-card-cat">Merchandise</span>
+                <div class="shop-card-title">${escapeHtml(col.CollectionName)}</div>
+                <div class="shop-card-sub">${escapeHtml(col.Description || 'Limited collection - draw for a chance at rare members.')}</div>
+                <div class="shop-card-foot">
+                  ${priceHTML}
+                  <a href="${MEMBERSHIP_APP_URL}/shop#section-gacha" target="_blank" rel="noopener" class="shop-card-cta">View in App <i class="fas fa-arrow-up-right-from-square"></i></a>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+      } catch (err) {
+        gridEl.innerHTML = emptyState('fa-triangle-exclamation', 'Unable to load merchandise right now.');
+      }
+    }
+
+    // --- PRE-ORDER (live from the Membership app, grouped by category) ---
+    async function renderPreorder() {
+      const gridEl = document.getElementById('preorderGrid');
+      try {
+        const response = await membershipRpc('get_preorder_products', {});
+        const products = (response && response.data) || [];
+
+        if (!products.length) {
+          gridEl.innerHTML = emptyState('fa-box', 'No pre-order items right now.');
+          return;
+        }
+
+        const NO_CATEGORY_LABEL = 'Pre-Order';
+        const grouped = {};
+        products.forEach(p => {
+          const key = p.category || NO_CATEGORY_LABEL;
+          (grouped[key] = grouped[key] || []).push(p);
+        });
+
+        let html = '';
+        Object.keys(grouped).forEach(category => {
+          if (category !== NO_CATEGORY_LABEL) {
+            html += `<div class="shop-group-title"><i class="fas fa-microphone"></i> ${escapeHtml(category)}</div>`;
+          }
+          html += grouped[category].map(p => {
+            const isSoldOut = p.status === 'sold_out';
+            const isComingSoon = p.status === 'coming_soon';
+
+            let badgeHTML = '';
+            if (isSoldOut) badgeHTML = '<span class="shop-badge shop-badge-soldout"><i class="fas fa-box-archive"></i> Sold Out</span>';
+            else if (isComingSoon) badgeHTML = '<span class="shop-badge shop-badge-comingsoon"><i class="fas fa-clock"></i> Coming Soon</span>';
+
+            const priceHTML = isComingSoon
+              ? `<span class="shop-card-price is-muted">Coming Soon</span>`
+              : `<span class="shop-card-price"><i class="fas fa-coins"></i> ${Number(p.costTokens || 0).toLocaleString()}</span>`;
+
+            const detailUrl = `${MEMBERSHIP_APP_URL}/preorder_detail?id=${encodeURIComponent(p.productId)}`;
+
+            return `
+              <div class="shop-card${isSoldOut ? ' is-unavailable' : ''}">
+                <div class="shop-card-photo">
+                  ${badgeHTML}
+                  <img src="${p.coverImage || 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=500'}" alt="${escapeHtml(p.name)}" loading="lazy" onerror="this.src='https://placehold.co/500x500/fff6e0/c9932c?text=Pre-order'">
+                </div>
+                <div class="shop-card-body">
+                  <span class="kicker kicker-gold shop-card-cat">Pre-Order</span>
+                  <div class="shop-card-title">${escapeHtml(p.name)}</div>
+                  <div class="shop-card-sub">order today · ship later</div>
+                  <div class="shop-card-foot">
+                    ${priceHTML}
+                    <a href="${detailUrl}" target="_blank" rel="noopener" class="shop-card-cta">View in App <i class="fas fa-arrow-up-right-from-square"></i></a>
+                  </div>
+                </div>
+              </div>
+            `;
+          }).join('');
+        });
+
+        gridEl.innerHTML = html;
+      } catch (err) {
+        gridEl.innerHTML = emptyState('fa-triangle-exclamation', 'Unable to load pre-order items right now.');
+      }
+    }
+
+    // --- BLM48 CAFE (same fixed catalog the Membership app's Cafe section ships) ---
+    function renderCafe() {
+      const gridEl = document.getElementById('cafeGrid');
+      const CAFE_ITEMS = [
+        { name: 'Suiito Matcha', sub: 'いちごミニパフェ', price: 5, image: 'https://lh3.googleusercontent.com/d/1hc_AQblGKyamIOmspWseUcnY2gwW9dyg=s1000' },
+        { name: 'Pinku Milk', sub: 'ピンクミルク', price: 5, image: 'https://lh3.googleusercontent.com/d/1_KC4glssnDILv1GP7BtUnjT1-uP1omlB=s1000' },
+        { name: 'Koi Cocoa', sub: '濃いココア', price: 5, image: 'https://lh3.googleusercontent.com/d/1ERV8sH_M0fv3dIFqfGGyf23JTTK3z0F-=s1000' },
+        { name: 'Thai Miruku Tea', sub: 'タイミルクティー', price: 5, image: 'https://lh3.googleusercontent.com/d/11kPILdW6tOh5xZZ-Kl6JpAUsJeYWrlXE=s1000' },
+        { name: 'BLM48 Cafe', sub: 'Background V.1', price: 0, image: 'https://lh3.googleusercontent.com/d/1xhN872cKyptZ-vO8N6jHkCfSACE2okVo=s1000' }
+      ];
+
+      gridEl.innerHTML = CAFE_ITEMS.map(item => `
+        <div class="shop-card">
+          <div class="shop-card-photo">
+            <img src="${item.image}" alt="${escapeHtml(item.name)}" loading="lazy" onerror="this.src='https://placehold.co/500x500/e8f7ee/5fa896?text=BLM48+Cafe'">
+          </div>
+          <div class="shop-card-body">
+            <span class="kicker shop-card-cat" style="color:#5fa896;">BLM48 Cafe</span>
+            <div class="shop-card-title">${escapeHtml(item.name)}</div>
+            <div class="shop-card-sub">${escapeHtml(item.sub)}</div>
+            <div class="shop-card-foot">
+              <span class="shop-card-price">${item.price > 0 ? `<i class="fas fa-coins"></i> ${item.price}` : 'Free'}</span>
+              <a href="${MEMBERSHIP_APP_URL}/shop#section-cafe" target="_blank" rel="noopener" class="shop-card-cta">View in App <i class="fas fa-arrow-up-right-from-square"></i></a>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    renderMerch();
+    renderPreorder();
+    renderCafe();
+  </script>
+
+</body>
+</html>
