@@ -17,28 +17,62 @@
     html { scroll-behavior: smooth; }
     body { font-family: var(--font-body); color: var(--blm-ink); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
 
-    .news-list { max-width: 860px; margin: 0 auto; }
-    .news-item {
-      display: flex; align-items: center; gap: 24px;
+    /* --- Category filter tabs --- */
+    .news-tabs { display: flex; gap: 26px; flex-wrap: wrap; margin-bottom: 48px; }
+    .news-tab {
+      background: none; border: none;
+      font-family: var(--font-body); font-size: 12.5px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase;
+      cursor: pointer; padding: 0 0 8px;
+      position: relative; color: var(--blm-ink-soft); opacity: 0.6;
+      transition: opacity 0.2s ease;
+    }
+    .news-tab:hover { opacity: 1; }
+    .news-tab.active { opacity: 1; color: var(--blm-ink); }
+    .news-tab.active::after {
+      content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: var(--blm-gold);
+    }
+
+    /* --- List --- */
+    .news-list { display: flex; flex-direction: column; }
+    .news-row {
+      display: flex; align-items: flex-start; gap: 24px;
       text-decoration: none; color: inherit;
-      padding: 22px 4px;
+      padding: 26px 4px;
       border-bottom: 1px solid var(--blm-line);
       transition: background 0.2s, padding 0.2s;
     }
-    .news-item:first-child { padding-top: 4px; }
-    .news-item:hover { background: var(--blm-paper-soft); border-radius: var(--radius-md); padding-left: 16px; padding-right: 16px; }
-    .news-date-group { display: flex; flex-direction: column; gap: 8px; min-width: 108px; flex-shrink: 0; }
+    .news-row:first-child { padding-top: 4px; }
+    .news-row:hover { background: var(--blm-paper-soft); border-radius: var(--radius-md); padding-left: 16px; padding-right: 16px; }
+
+    .news-thumb {
+      width: 148px; aspect-ratio: 3/2; flex-shrink: 0;
+      overflow: hidden; background: var(--blm-paper-soft);
+      border: 1px solid var(--blm-line); border-radius: var(--radius-sm);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .news-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .news-thumb-placeholder {
+      font-family: var(--font-display); font-weight: 800; font-size: 11px; letter-spacing: 2.5px;
+      color: var(--blm-ink-faint); text-transform: uppercase;
+    }
+
+    .news-content { flex-grow: 1; min-width: 0; padding-top: 3px; }
+    .news-meta { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; flex-wrap: wrap; }
+    .cat-tag {
+      border: 1px solid var(--blm-tag-color, var(--blm-ink-faint));
+      color: var(--blm-tag-color, var(--blm-ink-faint));
+      font-size: 10px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;
+      padding: 3px 9px;
+    }
     .news-date { font-size: 12px; color: var(--blm-ink-faint); font-weight: 600; }
-    .news-title { color: var(--blm-ink); font-size: 15.5px; font-weight: 700; line-height: 1.45; flex-grow: 1; }
-    .news-item:hover .news-title { color: var(--blm-pink-deep); }
-    .news-arrow { color: var(--blm-ink-faint); font-size: 15px; transition: 0.2s; flex-shrink: 0; }
-    .news-item:hover .news-arrow { color: var(--blm-pink-deep); transform: translateX(4px); }
+    .news-new-badge { font-size: 10.5px; font-weight: 800; letter-spacing: 0.6px; color: var(--blm-pink-deep); text-transform: uppercase; }
+    .news-title-text { color: var(--blm-ink); font-size: 15px; font-weight: 700; line-height: 1.5; transition: color 0.2s; }
+    .news-row:hover .news-title-text { color: var(--blm-pink-deep); }
 
     @media (max-width: 600px) {
-      .news-item { flex-direction: column; align-items: flex-start; gap: 10px; padding: 18px 4px; }
-      .news-date-group { flex-direction: row; min-width: auto; }
-      .news-title { font-size: 14.5px; }
-      .news-arrow { display: none; }
+      .news-thumb { width: 96px; }
+      .news-row { gap: 16px; padding: 20px 4px; }
+      .news-title-text { font-size: 14px; }
     }
   </style>
 </head>
@@ -52,6 +86,9 @@
       <span class="eyebrow">Latest Updates</span>
       <h1 class="page-hero-title">News</h1>
     </div>
+
+    <div class="news-tabs" id="newsTabs" style="display:none;"></div>
+
     <div class="news-list" id="newsList">
       <p style="color:var(--blm-ink-faint);font-weight:600;padding:20px 4px;">Loading news...</p>
     </div>
@@ -61,6 +98,87 @@
 
   <script src="assets/js/sheet-data.js"></script>
   <script>
+    // Bordered-pill tag color, mirroring discography.html's .cat-tag look.
+    var TAG_COLOR_VAR = {
+      'kicker-gold': 'var(--blm-gold-deep)',
+      'kicker-live': 'var(--blm-live)',
+      'kicker-dark': 'var(--blm-ink)',
+      'kicker-outline': 'var(--blm-ink-faint)'
+    };
+
+    function tagColor(tag) {
+      return TAG_COLOR_VAR[BLM48Data.tagClass(tag)] || 'var(--blm-ink-faint)';
+    }
+
+    // Items from the last 3 days get a NEW badge, same recency window the
+    // reference design uses.
+    function isRecent(dateValue) {
+      var d = dateValue instanceof Date ? dateValue : new Date(dateValue);
+      if (isNaN(d)) return false;
+      var diffDays = (Date.now() - d.getTime()) / (1000 * 60 * 60 * 24);
+      return diffDays >= 0 && diffDays <= 3;
+    }
+
+    function newsRowHTML(item) {
+      var imgSrc = item.image || item.thumbnail || item.thumb || '';
+      var thumbHTML = imgSrc
+        ? `<img src="${BLM48Data.driveImg(imgSrc)}" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/300x200?text=BLM48'">`
+        : `<span class="news-thumb-placeholder">News</span>`;
+
+      return `
+        <a href="${item.link || '#'}" target="_blank" rel="noopener" class="news-row" data-tag="${(item.tag || '').toLowerCase()}">
+          <div class="news-thumb">${thumbHTML}</div>
+          <div class="news-content">
+            <div class="news-meta">
+              <span class="cat-tag" style="--blm-tag-color:${tagColor(item.tag)};">${item.tag || 'News'}</span>
+              <span class="news-date">${item._date.full}</span>
+              ${isRecent(item.date) ? '<span class="news-new-badge">New</span>' : ''}
+            </div>
+            <div class="news-title-text">${item.title || ''}</div>
+          </div>
+        </a>
+      `;
+    }
+
+    function renderTabs(items, activeTag) {
+      var tabsEl = document.getElementById('newsTabs');
+      var seen = {};
+      var tags = [];
+      items.forEach(function (item) {
+        var raw = (item.tag || '').trim();
+        var key = raw.toLowerCase();
+        if (key && !seen[key]) { seen[key] = true; tags.push(raw); }
+      });
+
+      if (!tags.length) { tabsEl.style.display = 'none'; return; }
+      tabsEl.style.display = 'flex';
+
+      var buttons = [{ label: 'All', tag: 'all' }].concat(tags.map(function (t) { return { label: t, tag: t.toLowerCase() }; }));
+      tabsEl.innerHTML = buttons.map(function (b) {
+        return `<button type="button" class="news-tab${b.tag === activeTag ? ' active' : ''}" data-filter="${b.tag}">${b.label}</button>`;
+      }).join('');
+
+      tabsEl.querySelectorAll('.news-tab').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          renderList(items, btn.getAttribute('data-filter'));
+          renderTabs(items, btn.getAttribute('data-filter'));
+        });
+      });
+    }
+
+    function renderList(items, activeTag) {
+      var listEl = document.getElementById('newsList');
+      var filtered = (!activeTag || activeTag === 'all')
+        ? items
+        : items.filter(function (item) { return (item.tag || '').toLowerCase() === activeTag; });
+
+      if (!filtered.length) {
+        listEl.innerHTML = '<p style="color:var(--blm-ink-faint);font-weight:600;padding:20px 4px;">No news in this category yet.</p>';
+        return;
+      }
+      listEl.innerHTML = filtered.map(newsRowHTML).join('');
+    }
+
     async function renderNews() {
       const listEl = document.getElementById('newsList');
       try {
@@ -74,13 +192,8 @@
           return;
         }
 
-        listEl.innerHTML = items.map(item => `
-          <a href="${item.link || '#'}" target="_blank" rel="noopener" class="news-item">
-            <div class="news-date-group"><span class="kicker ${BLM48Data.tagClass(item.tag)}">${item.tag || ''}</span><span class="news-date">${item._date.full}</span></div>
-            <div class="news-title">${item.title || ''}</div>
-            <div class="news-arrow"><i class="fas fa-arrow-right"></i></div>
-          </a>
-        `).join('');
+        renderTabs(items, 'all');
+        renderList(items, 'all');
       } catch (err) {
         listEl.innerHTML = '<p style="color:var(--blm-ink-faint);font-weight:600;padding:20px 4px;">Unable to load news right now.</p>';
       }

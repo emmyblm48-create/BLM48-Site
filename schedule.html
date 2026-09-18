@@ -17,30 +17,79 @@
     html { scroll-behavior: smooth; }
     body { font-family: var(--font-body); color: var(--blm-ink); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
 
-    .schedule-list { max-width: 860px; margin: 0 auto; }
-    .day-card {
-      display: flex; align-items: center; gap: 26px;
-      padding: 22px 4px;
-      border-bottom: 1px solid var(--blm-line);
-      transition: background 0.2s, padding 0.2s;
-      text-decoration: none; color: inherit;
+    /* --- Category filter pills --- */
+    .cal-tabs { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 44px; }
+    .cal-tab {
+      border: none; cursor: pointer;
+      font-family: var(--font-body); font-size: 12px; font-weight: 800; letter-spacing: 0.4px;
+      padding: 8px 18px; border-radius: var(--radius-pill);
+      color: #fff; background: var(--blm-tab-color, var(--blm-ink-faint));
+      opacity: 0.55;
+      transition: opacity 0.2s ease, transform 0.2s ease;
     }
-    .day-card:first-child { padding-top: 4px; }
-    .day-card:hover { background: var(--blm-paper-soft); border-radius: var(--radius-md); padding-left: 16px; padding-right: 16px; }
+    .cal-tab:hover { opacity: 0.85; }
+    .cal-tab.active { opacity: 1; box-shadow: 0 0 0 2px var(--blm-paper), 0 0 0 3.5px var(--blm-tab-color, var(--blm-ink-faint)); }
 
-    .date-box { min-width: 82px; text-align: left; flex-shrink: 0; }
-    .date-day { font-family: var(--font-display); font-size: 22px; font-weight: 800; color: var(--blm-ink); display: block; line-height: 1.1; }
-    .date-num { font-size: 11px; color: var(--blm-ink-faint); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+    /* --- Month navigation --- */
+    .cal-nav { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-bottom: 36px; flex-wrap: wrap; }
+    .cal-nav-btn {
+      background: none; border: none; cursor: pointer;
+      display: flex; align-items: center; gap: 8px;
+      font-family: var(--font-body); font-size: 13px; font-weight: 700; color: var(--blm-ink-soft);
+      transition: color 0.2s;
+    }
+    .cal-nav-btn:hover { color: var(--blm-pink-deep); }
+    .cal-month-display { display: flex; align-items: baseline; gap: 10px; }
+    .cal-year { font-family: var(--font-display); font-size: 15px; font-weight: 700; color: var(--blm-ink-faint); }
+    .cal-month-num { font-family: var(--font-display); font-size: clamp(2.4rem, 6vw, 3.4rem); font-weight: 800; color: var(--blm-ink); line-height: 1; }
+    .cal-month-name { font-family: var(--font-display); font-size: 17px; font-weight: 700; color: var(--blm-ink-soft); }
 
-    .event-info { flex-grow: 1; }
-    .event-time { font-size: 12px; color: var(--blm-ink-faint); font-weight: 600; margin-bottom: 5px; display: flex; align-items: center; gap: 6px; }
-    .event-title { font-size: 15.5px; color: var(--blm-ink); font-weight: 700; line-height: 1.4; }
+    /* --- Grid --- */
+    .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); border-top: 1px solid var(--blm-line); border-left: 1px solid var(--blm-line); }
+    .cal-weekday {
+      text-align: center; padding: 12px 0;
+      font-size: 11.5px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;
+      color: var(--blm-ink-soft);
+      border-right: 1px solid var(--blm-line); border-bottom: 1px solid var(--blm-line);
+    }
+    .cal-weekday.is-sat { color: #4d8fdb; }
+    .cal-weekday.is-sun { color: var(--blm-pink-deep); }
 
-    @media (max-width: 600px) {
-      .day-card { flex-wrap: wrap; padding: 18px 4px; }
-      .date-box { min-width: auto; display: flex; align-items: baseline; gap: 10px; }
-      .event-title { font-size: 14.5px; }
-      .status-tag { margin-left: auto; }
+    .cal-cell {
+      min-height: 116px;
+      border-right: 1px solid var(--blm-line); border-bottom: 1px solid var(--blm-line);
+      padding: 8px; display: flex; flex-direction: column; gap: 5px;
+    }
+    .cal-cell.is-empty { background: var(--blm-paper-soft); }
+    .cal-cell.is-today { background: var(--blm-gold-pale); }
+    .cal-daynum { font-size: 12.5px; font-weight: 700; color: var(--blm-ink); }
+    .cal-daynum.is-sat { color: #4d8fdb; }
+    .cal-daynum.is-sun { color: var(--blm-pink-deep); }
+
+    .cal-event { display: block; text-decoration: none; }
+    .cal-event-tag {
+      display: inline-block; font-size: 9px; font-weight: 800; letter-spacing: 0.3px;
+      color: #fff; background: var(--blm-tab-color, var(--blm-ink-faint));
+      padding: 2px 7px; border-radius: 4px; margin-bottom: 2px;
+    }
+    .cal-event-title {
+      font-size: 10.5px; color: var(--blm-ink); line-height: 1.35;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .cal-more { font-size: 10px; color: var(--blm-ink-faint); font-weight: 700; }
+
+    .cal-empty-state { grid-column: 1 / -1; padding: 60px 16px; text-align: center; color: var(--blm-ink-faint); font-weight: 600; }
+
+    @media (max-width: 720px) {
+      .cal-cell { min-height: 78px; padding: 6px; }
+      .cal-event-tag { font-size: 8px; padding: 1px 5px; }
+      .cal-event-title { font-size: 9.5px; -webkit-line-clamp: 1; }
+      .cal-weekday { font-size: 10px; padding: 8px 0; }
+      .cal-daynum { font-size: 11px; }
+    }
+    @media (max-width: 480px) {
+      .cal-nav { justify-content: center; text-align: center; }
+      .cal-nav-btn span { display: none; }
     }
   </style>
 </head>
@@ -55,8 +104,20 @@
       <h1 class="page-hero-title">Schedule</h1>
     </div>
 
-    <div class="schedule-list" id="scheduleList">
-      <p style="color:var(--blm-ink-faint);font-weight:600;padding:20px 4px;">Loading schedule...</p>
+    <div class="cal-tabs" id="calTabs" style="display:none;"></div>
+
+    <div class="cal-nav">
+      <button type="button" class="cal-nav-btn" id="calPrev"><i class="fas fa-arrow-left"></i> <span id="calPrevLabel">&nbsp;</span></button>
+      <div class="cal-month-display">
+        <span class="cal-year" id="calYear"></span>
+        <span class="cal-month-num" id="calMonthNum"></span>
+        <span class="cal-month-name" id="calMonthName"></span>
+      </div>
+      <button type="button" class="cal-nav-btn" id="calNext"><span id="calNextLabel">&nbsp;</span> <i class="fas fa-arrow-right"></i></button>
+    </div>
+
+    <div class="cal-grid" id="calGrid">
+      <p style="color:var(--blm-ink-faint);font-weight:600;padding:20px 4px;grid-column:1/-1;">Loading schedule...</p>
     </div>
   </main>
 
@@ -64,38 +125,151 @@
 
   <script src="assets/js/sheet-data.js"></script>
   <script>
-    async function renderSchedule() {
-      const listEl = document.getElementById('scheduleList');
+    const WEEKDAY_LABELS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    const MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    const TAG_PALETTE = ['#f5629e', '#6fbf8b', '#9b7fd4', '#4d8fdb', '#7ec8e3', '#e07a3f', '#8a7c68', '#c9932c'];
+
+    let allEvents = [];
+    let activeTag = 'all';
+    let viewYear, viewMonth; // viewMonth is 0-indexed
+
+    function tagColorFor(tag, tagOrder) {
+      const idx = tagOrder.indexOf((tag || '').toLowerCase());
+      return TAG_PALETTE[idx % TAG_PALETTE.length] || 'var(--blm-ink-faint)';
+    }
+
+    function uniqueTags(events) {
+      const seen = {};
+      const tags = [];
+      events.forEach(e => {
+        const raw = (e.tag || '').trim();
+        const key = raw.toLowerCase();
+        if (key && !seen[key]) { seen[key] = true; tags.push(raw); }
+      });
+      return tags;
+    }
+
+    function renderTabs() {
+      const tabsEl = document.getElementById('calTabs');
+      const tags = uniqueTags(allEvents);
+      if (!tags.length) { tabsEl.style.display = 'none'; return; }
+      tabsEl.style.display = 'flex';
+
+      const tagOrder = tags.map(t => t.toLowerCase());
+      const buttons = [{ label: 'All', tag: 'all', color: 'var(--blm-ink)' }]
+        .concat(tags.map(t => ({ label: t, tag: t.toLowerCase(), color: tagColorFor(t, tagOrder) })));
+
+      tabsEl.innerHTML = buttons.map(b => `
+        <button type="button" class="cal-tab${b.tag === activeTag ? ' active' : ''}" data-filter="${b.tag}" style="--blm-tab-color:${b.color};">${b.label}</button>
+      `).join('');
+
+      tabsEl.querySelectorAll('.cal-tab').forEach(btn => {
+        btn.addEventListener('click', () => {
+          activeTag = btn.getAttribute('data-filter');
+          renderTabs();
+          renderCalendar();
+        });
+      });
+    }
+
+    function renderCalendar() {
+      const gridEl = document.getElementById('calGrid');
+      const tags = uniqueTags(allEvents);
+      const tagOrder = tags.map(t => t.toLowerCase());
+
+      document.getElementById('calYear').textContent = viewYear;
+      document.getElementById('calMonthNum').textContent = String(viewMonth + 1).padStart(2, '0');
+      document.getElementById('calMonthName').textContent = MONTH_NAMES[viewMonth];
+
+      const prevMonth = viewMonth === 0 ? 11 : viewMonth - 1;
+      const nextMonth = viewMonth === 11 ? 0 : viewMonth + 1;
+      document.getElementById('calPrevLabel').textContent = MONTH_NAMES[prevMonth];
+      document.getElementById('calNextLabel').textContent = MONTH_NAMES[nextMonth];
+
+      const filtered = activeTag === 'all' ? allEvents : allEvents.filter(e => (e.tag || '').toLowerCase() === activeTag);
+
+      const byDay = {};
+      filtered.forEach(e => {
+        const d = new Date(e.date);
+        if (isNaN(d) || d.getFullYear() !== viewYear || d.getMonth() !== viewMonth) return;
+        const day = d.getDate();
+        (byDay[day] = byDay[day] || []).push(e);
+      });
+
+      const firstOfMonth = new Date(viewYear, viewMonth, 1);
+      const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
+      const leadingBlanks = (firstOfMonth.getDay() + 6) % 7; // Monday-start offset
+      const totalCells = Math.ceil((leadingBlanks + daysInMonth) / 7) * 7;
+
+      const today = new Date();
+      const isCurrentMonth = today.getFullYear() === viewYear && today.getMonth() === viewMonth;
+
+      let html = WEEKDAY_LABELS.map((w, i) => `<div class="cal-weekday${i === 5 ? ' is-sat' : ''}${i === 6 ? ' is-sun' : ''}">${w}</div>`).join('');
+
+      for (let i = 0; i < totalCells; i++) {
+        const dayNum = i - leadingBlanks + 1;
+        if (dayNum < 1 || dayNum > daysInMonth) {
+          html += `<div class="cal-cell is-empty"></div>`;
+          continue;
+        }
+        const weekdayIdx = i % 7;
+        const dayEvents = (byDay[dayNum] || []).sort((a, b) => (a.time || '').localeCompare(b.time || ''));
+        const isToday = isCurrentMonth && today.getDate() === dayNum;
+
+        const MAX_SHOWN = 4;
+        const shown = dayEvents.slice(0, MAX_SHOWN);
+        const extra = dayEvents.length - shown.length;
+
+        const eventsHTML = shown.map(e => `
+          <a class="cal-event" href="${e.link || '#'}" ${e.link ? 'target="_blank" rel="noopener"' : 'onclick="return false;"'}>
+            <span class="cal-event-tag" style="--blm-tab-color:${tagColorFor(e.tag, tagOrder)};">${e.tag || ''}</span>
+            <div class="cal-event-title">${e.title || ''}</div>
+          </a>
+        `).join('') + (extra > 0 ? `<span class="cal-more">+${extra} more</span>` : '');
+
+        html += `
+          <div class="cal-cell${isToday ? ' is-today' : ''}">
+            <span class="cal-daynum${weekdayIdx === 5 ? ' is-sat' : ''}${weekdayIdx === 6 ? ' is-sun' : ''}">${dayNum}</span>
+            ${eventsHTML}
+          </div>
+        `;
+      }
+
+      gridEl.innerHTML = html;
+    }
+
+    function shiftMonth(delta) {
+      viewMonth += delta;
+      if (viewMonth < 0) { viewMonth = 11; viewYear--; }
+      if (viewMonth > 11) { viewMonth = 0; viewYear++; }
+      renderCalendar();
+    }
+
+    async function initSchedule() {
+      const gridEl = document.getElementById('calGrid');
+      const today = new Date();
+      viewYear = today.getFullYear();
+      viewMonth = today.getMonth();
+
       try {
         const rows = await BLM48Data.fetchSheet('Schedule');
-        const items = rows
-          .map(r => ({ ...r, _date: BLM48Data.fmtDate(r.date) }))
-          .sort((a, b) => b._date.time - a._date.time);
+        allEvents = rows.filter(r => r.date);
 
-        if (!items.length) {
-          listEl.innerHTML = '<p style="color:var(--blm-ink-faint);font-weight:600;padding:20px 4px;">No schedule yet.</p>';
+        if (!allEvents.length) {
+          gridEl.innerHTML = '<div class="cal-empty-state">No schedule yet.</div>';
           return;
         }
 
-        listEl.innerHTML = items.map(item => {
-          const tag = item.tag || '';
-          const inner = `
-            <div class="date-box"><span class="date-day">${item._date.weekday}</span><span class="date-num">${item._date.short}</span></div>
-            <div class="event-info">
-              <div class="event-time"><i class="far fa-clock"></i> ${item.time || ''}</div>
-              <div class="event-title">${item.title || ''}</div>
-            </div>
-            <span class="kicker ${BLM48Data.tagClass(tag)} status-tag">${tag}</span>
-          `;
-          return item.link
-            ? `<a href="${item.link}" target="_blank" rel="noopener" class="day-card">${inner}</a>`
-            : `<div class="day-card">${inner}</div>`;
-        }).join('');
+        document.getElementById('calPrev').addEventListener('click', () => shiftMonth(-1));
+        document.getElementById('calNext').addEventListener('click', () => shiftMonth(1));
+
+        renderTabs();
+        renderCalendar();
       } catch (err) {
-        listEl.innerHTML = '<p style="color:var(--blm-ink-faint);font-weight:600;padding:20px 4px;">Unable to load schedule right now.</p>';
+        gridEl.innerHTML = '<div class="cal-empty-state">Unable to load schedule right now.</div>';
       }
     }
-    renderSchedule();
+    initSchedule();
   </script>
 
 </body>
