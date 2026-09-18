@@ -252,14 +252,14 @@ h1, h2, h3, .font-display { font-family: var(--font-display); }
   left: 0;
   width: 100%;
   height: var(--topbar-h);
-  background: var(--blm-gold);
+  background: var(--blm-paper);
   z-index: 3100;
-  opacity: 0;
-  transition: opacity 0.35s ease;
+  transition: background-color 0.35s ease;
 }
-/* Only the compact (centered-logo) state gets the thin top strip; the
-   expanded state instead uses the header's own bottom border below. */
-.site-topbar.nav-top { opacity: 1; }
+/* Only the compact (centered-logo) state gets the thin gold top strip; the
+   expanded state instead uses the header's own bottom border below, so the
+   strip turns white (blends into the page) rather than the gold showing twice. */
+.site-topbar.nav-top { background: var(--blm-gold); }
 .site-header {
   position: fixed;
   top: var(--topbar-h);
