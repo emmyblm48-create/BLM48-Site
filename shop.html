@@ -226,7 +226,7 @@
       try {
         const response = await membershipRpc('get_gacha_collections', { p_username: null });
         const collections = (response && response.data) || [];
-        const items = collections.filter(col => col.CollectionID && col.CollectionID.startsWith('gacha_') && col.Status !== 'Closed');
+        const items = collections.filter(col => col.CollectionID && col.CollectionID.startsWith('gacha_'));
 
         if (!items.length) {
           gridEl.innerHTML = emptyState('fa-gifts', 'Official Merchandise coming soon.');
@@ -236,18 +236,22 @@
         gridEl.innerHTML = items.map(col => {
           const isComingSoon = col.Status === 'Coming Soon';
           const isSoldOut = col.Status === 'Sold Out';
+          const isClosed = col.Status === 'Closed';
           const cover = col.CoverImage || 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=500';
 
           let badgeHTML = '';
           if (isComingSoon) badgeHTML = '<span class="shop-badge shop-badge-comingsoon"><i class="fas fa-clock"></i> Coming Soon</span>';
           else if (isSoldOut) badgeHTML = '<span class="shop-badge shop-badge-soldout"><i class="fas fa-box-archive"></i> Sold Out</span>';
+          else if (isClosed) badgeHTML = '<span class="shop-badge shop-badge-soldout"><i class="fas fa-clock-rotate-left"></i> Ended</span>';
 
           const priceHTML = isComingSoon
             ? `<span class="shop-card-price is-muted">Coming Soon</span>`
-            : `<span class="shop-card-price"><i class="fas fa-coins"></i> ${Number(col.CostTokens || 0).toLocaleString()}</span>`;
+            : isClosed
+              ? `<span class="shop-card-price is-muted">Ended</span>`
+              : `<span class="shop-card-price"><i class="fas fa-coins"></i> ${Number(col.CostTokens || 0).toLocaleString()}</span>`;
 
           return `
-            <div class="shop-card${isSoldOut ? ' is-unavailable' : ''}">
+            <div class="shop-card${(isSoldOut || isClosed) ? ' is-unavailable' : ''}">
               <div class="shop-card-photo">
                 ${badgeHTML}
                 <img src="${cover}" alt="${escapeHtml(col.CollectionName)}" loading="lazy" onerror="this.src='https://placehold.co/500x500/fff0f2/ff85a2?text=BLM48'">
