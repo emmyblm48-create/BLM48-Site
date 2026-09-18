@@ -112,6 +112,69 @@
     .data-date { font-size: 12px; color: var(--blm-ink-faint); font-weight: 600; }
     .data-title { font-size: 14.5px; font-weight: 600; color: var(--blm-ink); line-height: 1.4; transition: color 0.2s; }
 
+    /* --- News column: thumbnail + tag + date + NEW badge rows --- */
+    .home-news-row {
+      display: flex; align-items: flex-start; gap: 14px;
+      text-decoration: none; color: inherit;
+      padding: 16px 0; border-bottom: 1px solid var(--blm-line);
+      transition: background 0.2s, padding 0.2s;
+    }
+    .home-news-row:first-child { padding-top: 0; }
+    .home-news-row:hover { background: var(--blm-paper-soft); border-radius: var(--radius-md); margin: 0 -14px; padding-left: 14px; padding-right: 14px; }
+    .home-news-thumb {
+      width: 88px; height: 88px; flex-shrink: 0;
+      overflow: hidden; background: var(--blm-paper-soft);
+      border: 1px solid var(--blm-line); border-radius: var(--radius-sm);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .home-news-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .home-news-thumb-placeholder { font-family: var(--font-display); font-weight: 800; font-size: 9.5px; letter-spacing: 2px; color: var(--blm-ink-faint); text-transform: uppercase; }
+    .home-news-content { flex-grow: 1; min-width: 0; padding-top: 2px; }
+    .home-news-meta { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; flex-wrap: wrap; }
+    .home-news-cat-tag {
+      border: 1px solid var(--blm-tag-color, var(--blm-ink-faint));
+      color: var(--blm-tag-color, var(--blm-ink-faint));
+      font-size: 9.5px; font-weight: 800; letter-spacing: 0.8px; text-transform: uppercase;
+      padding: 2px 8px;
+    }
+    .home-news-date { font-size: 11.5px; color: var(--blm-ink-faint); font-weight: 600; }
+    .home-news-new { font-size: 10px; font-weight: 800; letter-spacing: 0.5px; color: var(--blm-pink-deep); text-transform: uppercase; }
+    .home-news-title {
+      font-size: 13.5px; font-weight: 700; color: var(--blm-ink); line-height: 1.5;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+      transition: color 0.2s;
+    }
+    .home-news-row:hover .home-news-title { color: var(--blm-pink-deep); }
+    @media (max-width: 600px) { .home-news-thumb { width: 72px; height: 72px; } }
+
+    /* --- Schedule column: big date + tag + NEW badge rows --- */
+    .home-sched-row {
+      display: flex; align-items: flex-start; gap: 20px;
+      text-decoration: none; color: inherit;
+      padding: 16px 0; border-bottom: 1px solid var(--blm-line);
+      transition: background 0.2s, padding 0.2s;
+    }
+    .home-sched-row:first-child { padding-top: 0; }
+    .home-sched-row:hover { background: var(--blm-paper-soft); border-radius: var(--radius-md); margin: 0 -14px; padding-left: 14px; padding-right: 14px; }
+    .home-sched-date-block { min-width: 70px; flex-shrink: 0; }
+    .home-sched-date-big { font-family: var(--font-display); font-size: 25px; font-weight: 800; color: var(--blm-ink); line-height: 1; display: block; }
+    .home-sched-date-sub { font-size: 10.5px; color: var(--blm-ink-faint); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 5px; display: block; }
+    .home-sched-content { flex-grow: 1; min-width: 0; padding-top: 4px; }
+    .home-sched-meta { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; flex-wrap: wrap; }
+    .home-sched-cat-tag {
+      border: 1px solid var(--blm-tag-color, var(--blm-ink-faint));
+      color: var(--blm-tag-color, var(--blm-ink-faint));
+      font-size: 9.5px; font-weight: 800; letter-spacing: 0.8px; text-transform: uppercase;
+      padding: 2px 8px;
+    }
+    .home-sched-new { font-size: 10px; font-weight: 800; letter-spacing: 0.5px; color: var(--blm-pink-deep); text-transform: uppercase; }
+    .home-sched-title {
+      font-size: 13.5px; font-weight: 700; color: var(--blm-ink); line-height: 1.5;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+      transition: color 0.2s;
+    }
+    .home-sched-row:hover .home-sched-title { color: var(--blm-pink-deep); }
+
     /* --- CHAMP OF THE MONTH --- */
     .champ-section { max-width: 1300px; width: 92%; margin: 0 auto 100px; }
 
@@ -362,32 +425,104 @@
 
   <!-- News & Schedule previews -->
   <script>
-    async function renderHomeList(containerId, sheetName, emptyMsg) {
-      const listEl = document.getElementById(containerId);
+    // Shared by both columns - bordered tag pill color + "posted/happening within 3 days" badge.
+    var HOME_TAG_COLOR = {
+      'kicker-gold': 'var(--blm-gold-deep)',
+      'kicker-live': 'var(--blm-live)',
+      'kicker-dark': 'var(--blm-ink)',
+      'kicker-outline': 'var(--blm-ink-faint)'
+    };
+    function homeTagColor(tag) {
+      return HOME_TAG_COLOR[BLM48Data.tagClass(tag)] || 'var(--blm-ink-faint)';
+    }
+    function homeIsRecent(dateValue) {
+      const d = dateValue instanceof Date ? dateValue : new Date(dateValue);
+      if (isNaN(d)) return false;
+      const diffDays = (Date.now() - d.getTime()) / (1000 * 60 * 60 * 24);
+      return diffDays >= 0 && diffDays <= 3;
+    }
+    var homeNewsTagColor = homeTagColor;
+    var homeNewsIsRecent = homeIsRecent;
+    async function renderHomeNews() {
+      const listEl = document.getElementById('homeNewsList');
       try {
-        const rows = await BLM48Data.fetchSheet(sheetName);
+        const rows = await BLM48Data.fetchSheet('News');
         const items = rows
           .map(r => ({ ...r, _date: BLM48Data.fmtDate(r.date) }))
           .sort((a, b) => b._date.time - a._date.time)
-          .slice(0, 7);
+          .slice(0, 5);
 
         if (!items.length) {
-          listEl.innerHTML = `<div class="data-row" style="border-bottom:none;"><div class="data-title" style="color:var(--blm-ink-faint);">${emptyMsg}</div></div>`;
+          listEl.innerHTML = `<div class="home-news-row" style="border-bottom:none;"><div class="home-news-title" style="color:var(--blm-ink-faint);">No news yet.</div></div>`;
           return;
         }
 
-        listEl.innerHTML = items.map(item => `
-          <a href="${item.link || '#'}" target="_blank" rel="noopener" class="data-row">
-            <div class="data-date-group"><span class="kicker ${BLM48Data.tagClass(item.tag)}">${item.tag || ''}</span><span class="data-date">${item._date.full}</span></div>
-            <div class="data-title">${item.title || ''}</div>
-          </a>
-        `).join('');
+        listEl.innerHTML = items.map(item => {
+          const imgSrc = item.image || item.thumbnail || item.thumb || '';
+          const thumbHTML = imgSrc
+            ? `<img src="${BLM48Data.driveImg(imgSrc)}" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=BLM48'">`
+            : `<span class="home-news-thumb-placeholder">News</span>`;
+          return `
+            <a href="${item.link || '#'}" target="_blank" rel="noopener" class="home-news-row">
+              <div class="home-news-thumb">${thumbHTML}</div>
+              <div class="home-news-content">
+                <div class="home-news-meta">
+                  <span class="home-news-cat-tag" style="--blm-tag-color:${homeNewsTagColor(item.tag)};">${item.tag || 'News'}</span>
+                  <span class="home-news-date">${item._date.full}</span>
+                  ${homeNewsIsRecent(item.date) ? '<span class="home-news-new">New</span>' : ''}
+                </div>
+                <div class="home-news-title">${item.title || ''}</div>
+              </div>
+            </a>
+          `;
+        }).join('');
       } catch (err) {
-        listEl.innerHTML = `<div class="data-row" style="border-bottom:none;"><div class="data-title" style="color:var(--blm-ink-faint);">${emptyMsg}</div></div>`;
+        listEl.innerHTML = `<div class="home-news-row" style="border-bottom:none;"><div class="home-news-title" style="color:var(--blm-ink-faint);">Unable to load news right now.</div></div>`;
       }
     }
-    renderHomeList('homeNewsList', 'News', 'No news yet.');
-    renderHomeList('homeScheduleList', 'Schedule', 'No schedule yet.');
+
+    // Schedule column - big MM.DD date + weekday.year + bordered tag pill + NEW badge.
+    async function renderHomeSchedule() {
+      const listEl = document.getElementById('homeScheduleList');
+      try {
+        const rows = await BLM48Data.fetchSheet('Schedule');
+        const items = rows
+          .map(r => ({ ...r, _date: BLM48Data.fmtDate(r.date) }))
+          .sort((a, b) => b._date.time - a._date.time)
+          .slice(0, 6);
+
+        if (!items.length) {
+          listEl.innerHTML = `<div class="home-sched-row" style="border-bottom:none;"><div class="home-sched-title" style="color:var(--blm-ink-faint);">No schedule yet.</div></div>`;
+          return;
+        }
+
+        listEl.innerHTML = items.map(item => {
+          const d = new Date(item.date);
+          const dateBig = isNaN(d) ? '' : String(d.getMonth() + 1).padStart(2, '0') + '.' + String(d.getDate()).padStart(2, '0');
+          const dateSub = isNaN(d) ? '' : item._date.weekday.toUpperCase() + '.' + d.getFullYear();
+          return `
+            <a href="${item.link || '#'}" target="_blank" rel="noopener" class="home-sched-row">
+              <div class="home-sched-date-block">
+                <span class="home-sched-date-big">${dateBig}</span>
+                <span class="home-sched-date-sub">${dateSub}</span>
+              </div>
+              <div class="home-sched-content">
+                <div class="home-sched-meta">
+                  <span class="home-sched-cat-tag" style="--blm-tag-color:${homeTagColor(item.tag)};">${item.tag || ''}</span>
+                  ${homeIsRecent(item.date) ? '<span class="home-sched-new">New</span>' : ''}
+                </div>
+                <div class="home-sched-title">${item.title || ''}</div>
+              </div>
+            </a>
+          `;
+        }).join('');
+      } catch (err) {
+        listEl.innerHTML = `<div class="home-sched-row" style="border-bottom:none;"><div class="home-sched-title" style="color:var(--blm-ink-faint);">Unable to load schedule right now.</div></div>`;
+      }
+    }
+
+    renderHomeNews();
+    renderHomeSchedule();
 
     async function renderMovies() {
       const wrapEl = document.getElementById('videoSwiperWrapper');
