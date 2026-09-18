@@ -44,6 +44,7 @@
     if (!mount) return;
 
     mount.innerHTML =
+      '<div class="site-topbar" aria-hidden="true"></div>' +
       '<header class="site-header">' +
         '<div class="site-header-inner">' +
           '<a href="index.html" class="site-logo">' +

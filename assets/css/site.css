@@ -45,6 +45,7 @@
   --stripe-corner: repeating-linear-gradient(135deg, var(--blm-line) 0px, var(--blm-line) 1px, transparent 1px, transparent 11px);
 
   --header-h: 78px;
+  --topbar-h: 5px;
 }
 
 /* ---------------- Global base ---------------- */
@@ -53,7 +54,7 @@ body {
   font-family: var(--font-body);
   color: var(--blm-ink);
   background: var(--blm-paper);
-  padding-top: var(--header-h);
+  padding-top: calc(var(--header-h) + var(--topbar-h));
   position: relative;
 }
 h1, h2, h3, .font-display { font-family: var(--font-display); }
@@ -245,9 +246,18 @@ h1, h2, h3, .font-display { font-family: var(--font-display); }
 }
 
 /* ---------------- Header ---------------- */
-.site-header {
+.site-topbar {
   position: fixed;
   top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--topbar-h);
+  background: var(--blm-gold);
+  z-index: 3100;
+}
+.site-header {
+  position: fixed;
+  top: var(--topbar-h);
   left: 0;
   width: 100%;
   height: var(--header-h);
@@ -341,6 +351,7 @@ h1, h2, h3, .font-display { font-family: var(--font-display); }
 .site-header.nav-top .header-cta { display: none; }
 .site-header.nav-top .nav-hamburger { display: flex; }
 .site-header.nav-top .site-header-inner { position: relative; }
+.site-header.nav-top .site-logo .logo-sub { display: none; }
 .site-header.nav-top .site-logo { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); }
 .site-header.nav-top .header-actions { margin-left: auto; }
 
