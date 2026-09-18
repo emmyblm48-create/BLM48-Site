@@ -254,7 +254,12 @@ h1, h2, h3, .font-display { font-family: var(--font-display); }
   height: var(--topbar-h);
   background: var(--blm-gold);
   z-index: 3100;
+  opacity: 0;
+  transition: opacity 0.35s ease;
 }
+/* Only the compact (centered-logo) state gets the thin top strip; the
+   expanded state instead uses the header's own bottom border below. */
+.site-topbar.nav-top { opacity: 1; }
 .site-header {
   position: fixed;
   top: var(--topbar-h);
@@ -262,7 +267,8 @@ h1, h2, h3, .font-display { font-family: var(--font-display); }
   width: 100%;
   height: var(--header-h);
   background: var(--blm-paper);
-  border-bottom: 3px solid var(--blm-gold);
+  border-bottom: 3px solid transparent;
+  transition: border-bottom-color 0.35s ease;
   z-index: 3000;
 }
 .site-header-inner {
@@ -374,6 +380,7 @@ h1, h2, h3, .font-display { font-family: var(--font-display); }
   .site-header.nav-top .nav-hamburger { display: flex; opacity: 1; transform: translateY(0); }
 }
 .site-header.nav-top .site-header-inner { position: relative; }
+.site-header:not(.nav-top) { border-bottom-color: var(--blm-gold); }
 .site-header.nav-top .site-logo .logo-sub { display: none; }
 .site-header.nav-top .site-logo { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); }
 .site-header.nav-top .header-actions { margin-left: auto; }

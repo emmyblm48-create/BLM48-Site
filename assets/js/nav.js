@@ -167,11 +167,14 @@
   // page scrolls past the hero, swap in the full inline nav links.
   function setupHeaderScroll() {
     var header = document.querySelector('.site-header');
+    var topbar = document.querySelector('.site-topbar');
     if (!header) return;
     var threshold = 60;
 
     function update() {
-      header.classList.toggle('nav-top', window.scrollY <= threshold);
+      var isTop = window.scrollY <= threshold;
+      header.classList.toggle('nav-top', isTop);
+      if (topbar) topbar.classList.toggle('nav-top', isTop);
     }
 
     update();
