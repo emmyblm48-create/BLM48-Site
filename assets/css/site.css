@@ -345,11 +345,34 @@ h1, h2, h3, .font-display { font-family: var(--font-display); }
 .header-cta:hover { background: var(--blm-pink); border-color: var(--blm-pink); color: #fff; }
 
 /* ---------------- Compact "top of page" header state (desktop) ----------
-   Starts as logo + menu button only; the full inline nav (above) takes
-   over once the page scrolls past the hero (see nav.js setupHeaderScroll). */
-.site-header.nav-top .site-nav,
-.site-header.nav-top .header-cta { display: none; }
-.site-header.nav-top .nav-hamburger { display: flex; }
+   Starts as logo + menu button only; the full inline nav (above) eases
+   in once the page scrolls past the hero (see nav.js setupHeaderScroll).
+   The fade/slide (instead of an instant display swap) is what makes the
+   nav-bar feel like it glides into place rather than snapping. */
+.site-logo { transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1); }
+
+/* Desktop only (>1040px) - below that, .nav-hamburger is unconditionally
+   visible and .site-nav/.header-cta unconditionally hidden, see the
+   max-width:1040px block below; this must not fight that. */
+@media (min-width: 1041px) {
+  .site-nav, .header-cta, .nav-hamburger {
+    transition: opacity 0.35s ease, transform 0.35s ease, display 0.35s allow-discrete;
+  }
+  .site-header.nav-top .site-nav,
+  .site-header.nav-top .header-cta {
+    display: none;
+    opacity: 0;
+    transform: translateY(-6px);
+    @starting-style { opacity: 1; transform: translateY(0); }
+  }
+  .site-header:not(.nav-top) .nav-hamburger {
+    display: none;
+    opacity: 0;
+    transform: translateY(-6px);
+    @starting-style { opacity: 1; transform: translateY(0); }
+  }
+  .site-header.nav-top .nav-hamburger { display: flex; opacity: 1; transform: translateY(0); }
+}
 .site-header.nav-top .site-header-inner { position: relative; }
 .site-header.nav-top .site-logo .logo-sub { display: none; }
 .site-header.nav-top .site-logo { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); }
