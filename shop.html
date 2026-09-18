@@ -226,7 +226,7 @@
       try {
         const response = await membershipRpc('get_gacha_collections', { p_username: null });
         const collections = (response && response.data) || [];
-        const items = collections.filter(col => col.CollectionID && col.CollectionID.startsWith('gacha_'));
+        const items = collections.filter(col => col.CollectionID && col.CollectionID.startsWith('gacha_') && !/NPT48/i.test(col.CollectionName || ''));
 
         if (!items.length) {
           gridEl.innerHTML = emptyState('fa-gifts', 'Official Merchandise coming soon.');
