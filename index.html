@@ -425,28 +425,34 @@
 
   <!-- News & Schedule previews -->
   <script>
-    // Shared by both columns - bordered tag pill color + "posted/happening within 3 days" badge.
-    var HOME_TAG_COLOR = {
-      'kicker-gold': 'var(--blm-gold-deep)',
-      'kicker-live': 'var(--blm-live)',
-      'kicker-dark': 'var(--blm-ink)',
-      'kicker-outline': 'var(--blm-ink-faint)'
-    };
-    function homeTagColor(tag) {
-      return HOME_TAG_COLOR[BLM48Data.tagClass(tag)] || 'var(--blm-ink-faint)';
-    }
     function homeIsRecent(dateValue) {
       const d = dateValue instanceof Date ? dateValue : new Date(dateValue);
       if (isNaN(d)) return false;
       const diffDays = (Date.now() - d.getTime()) / (1000 * 60 * 60 * 24);
       return diffDays >= 0 && diffDays <= 3;
     }
-    var homeNewsTagColor = homeTagColor;
-    var homeNewsIsRecent = homeIsRecent;
+
+    // News column - same palette + alphabetical-order lookup as news.html,
+    // so a given tag always renders the same color on both pages.
+    const NEWS_TAG_PALETTE = ['#f5629e', '#4d8fdb', '#7ec8e3', '#c9932c', '#9b7fd4', '#6fbf8b', '#8a7c68'];
+    function newsTagOrderFrom(items) {
+      const seen = {}; const tags = [];
+      items.forEach(item => {
+        const key = (item.tag || '').trim().toLowerCase();
+        if (key && !seen[key]) { seen[key] = true; tags.push(key); }
+      });
+      return tags.sort();
+    }
+    function newsTagColor(tag, tagOrder) {
+      const idx = tagOrder.indexOf((tag || '').toLowerCase());
+      return NEWS_TAG_PALETTE[idx % NEWS_TAG_PALETTE.length] || 'var(--blm-ink-faint)';
+    }
+
     async function renderHomeNews() {
       const listEl = document.getElementById('homeNewsList');
       try {
         const rows = await BLM48Data.fetchSheet('News');
+        const tagOrder = newsTagOrderFrom(rows);
         const items = rows
           .map(r => ({ ...r, _date: BLM48Data.fmtDate(r.date) }))
           .sort((a, b) => b._date.time - a._date.time)
@@ -467,9 +473,9 @@
               <div class="home-news-thumb">${thumbHTML}</div>
               <div class="home-news-content">
                 <div class="home-news-meta">
-                  <span class="home-news-cat-tag" style="--blm-tag-color:${homeNewsTagColor(item.tag)};">${item.tag || 'News'}</span>
+                  <span class="home-news-cat-tag" style="--blm-tag-color:${newsTagColor(item.tag, tagOrder)};">${item.tag || 'News'}</span>
                   <span class="home-news-date">${item._date.full}</span>
-                  ${homeNewsIsRecent(item.date) ? '<span class="home-news-new">New</span>' : ''}
+                  ${homeIsRecent(item.date) ? '<span class="home-news-new">New</span>' : ''}
                 </div>
                 <div class="home-news-title">${item.title || ''}</div>
               </div>
@@ -481,11 +487,29 @@
       }
     }
 
+    // Schedule column - same palette as schedule.html's calendar, assigned
+    // in the same "first tag seen in the raw fetch" order (schedule.html
+    // does not sort before computing tag order), so colors match that page.
+    const SCHEDULE_TAG_PALETTE = ['#f5629e', '#6fbf8b', '#9b7fd4', '#4d8fdb', '#7ec8e3', '#e07a3f', '#8a7c68', '#c9932c'];
+    function scheduleTagOrderFrom(rawRows) {
+      const seen = {}; const tags = [];
+      rawRows.forEach(item => {
+        const key = (item.tag || '').trim().toLowerCase();
+        if (key && !seen[key]) { seen[key] = true; tags.push(key); }
+      });
+      return tags;
+    }
+    function scheduleTagColor(tag, tagOrder) {
+      const idx = tagOrder.indexOf((tag || '').toLowerCase());
+      return SCHEDULE_TAG_PALETTE[idx % SCHEDULE_TAG_PALETTE.length] || 'var(--blm-ink-faint)';
+    }
+
     // Schedule column - big MM.DD date + weekday.year + bordered tag pill + NEW badge.
     async function renderHomeSchedule() {
       const listEl = document.getElementById('homeScheduleList');
       try {
         const rows = await BLM48Data.fetchSheet('Schedule');
+        const tagOrder = scheduleTagOrderFrom(rows.filter(r => r.date));
         const items = rows
           .map(r => ({ ...r, _date: BLM48Data.fmtDate(r.date) }))
           .sort((a, b) => b._date.time - a._date.time)
@@ -508,7 +532,7 @@
               </div>
               <div class="home-sched-content">
                 <div class="home-sched-meta">
-                  <span class="home-sched-cat-tag" style="--blm-tag-color:${homeTagColor(item.tag)};">${item.tag || ''}</span>
+                  <span class="home-sched-cat-tag" style="--blm-tag-color:${scheduleTagColor(item.tag, tagOrder)};">${item.tag || ''}</span>
                   ${homeIsRecent(item.date) ? '<span class="home-sched-new">New</span>' : ''}
                 </div>
                 <div class="home-sched-title">${item.title || ''}</div>
