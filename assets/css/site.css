@@ -554,3 +554,24 @@ h1, h2, h3, .font-display { font-family: var(--font-display); }
   transition: color 0.2s;
 }
 .page-top-btn:hover { color: var(--blm-pink-deep); }
+
+/* ---------------- Scroll-reveal (assets/js/nav.js wires the observer) ----------
+   Add class="reveal" to any repeating card/row. It fades and lifts in once
+   the element scrolls into view, then never re-animates. For grids, add
+   reveal-1..reveal-6 alongside "reveal" to stagger each item's start. */
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.55s cubic-bezier(0.25, 1, 0.5, 1), transform 0.55s cubic-bezier(0.25, 1, 0.5, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.reveal.is-visible { opacity: 1; transform: translateY(0); }
+.reveal-1 { --reveal-delay: 60ms; }
+.reveal-2 { --reveal-delay: 120ms; }
+.reveal-3 { --reveal-delay: 180ms; }
+.reveal-4 { --reveal-delay: 240ms; }
+.reveal-5 { --reveal-delay: 300ms; }
+.reveal-6 { --reveal-delay: 360ms; }
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+}

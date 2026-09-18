@@ -131,14 +131,14 @@
       return tags.sort();
     }
 
-    function newsRowHTML(item, tagOrder) {
+    function newsRowHTML(item, tagOrder, i) {
       var imgSrc = item.image || item.thumbnail || item.thumb || '';
       var thumbHTML = imgSrc
         ? `<img src="${BLM48Data.driveImg(imgSrc)}" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/300x200?text=BLM48'">`
         : `<span class="news-thumb-placeholder">News</span>`;
 
       return `
-        <a href="${item.link || '#'}" target="_blank" rel="noopener" class="news-row" data-tag="${(item.tag || '').toLowerCase()}">
+        <a href="${item.link || '#'}" target="_blank" rel="noopener" class="news-row reveal reveal-${(i % 6) + 1}" data-tag="${(item.tag || '').toLowerCase()}">
           <div class="news-thumb">${thumbHTML}</div>
           <div class="news-content">
             <div class="news-meta">
@@ -191,7 +191,7 @@
         listEl.innerHTML = '<p style="color:var(--blm-ink-faint);font-weight:600;padding:20px 4px;">No news in this category yet.</p>';
         return;
       }
-      listEl.innerHTML = filtered.map(function (item) { return newsRowHTML(item, tagOrder); }).join('');
+      listEl.innerHTML = filtered.map(function (item, i) { return newsRowHTML(item, tagOrder, i); }).join('');
     }
 
     async function renderNews() {

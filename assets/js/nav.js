@@ -181,6 +181,73 @@
     window.addEventListener('scroll', update, { passive: true });
   }
 
+  // Scroll-reveal: any element with class="reveal" (see site.css) fades/lifts
+  // in once it enters the viewport, then is left alone. Pages render most of
+  // their content asynchronously after a fetch, often well after this script
+  // has already run, so a MutationObserver (not a one-time querySelectorAll)
+  // is what catches those elements as they're inserted.
+  function setupRevealAnimations() {
+    function isInViewport(el) {
+      var rect = el.getBoundingClientRect();
+      return rect.top < window.innerHeight && rect.bottom > 0 && rect.left < window.innerWidth && rect.right > 0;
+    }
+
+    var io = ('IntersectionObserver' in window) ? new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-visible');
+        io.unobserve(entry.target);
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }) : null;
+
+    // Content here mostly arrives async (a fetch resolving seconds after
+    // this script ran), so a freshly-inserted element is very often already
+    // sitting in the viewport the instant it appears - checked directly
+    // rather than waiting on IntersectionObserver to catch up, since that
+    // can lag well behind a DOM insertion.
+    function revealOrWatch(el) {
+      if (isInViewport(el)) {
+        el.classList.add('is-visible');
+      } else if (io) {
+        io.observe(el);
+      }
+    }
+
+    function observeWithin(root) {
+      root.querySelectorAll('.reveal:not(.is-visible)').forEach(revealOrWatch);
+    }
+
+    observeWithin(document);
+
+    var mo = new MutationObserver(function (mutations) {
+      mutations.forEach(function (m) {
+        m.addedNodes.forEach(function (node) {
+          if (node.nodeType !== 1) return;
+          if (node.classList && node.classList.contains('reveal')) revealOrWatch(node);
+          if (node.querySelectorAll) observeWithin(node);
+        });
+      });
+    });
+    mo.observe(document.body, { childList: true, subtree: true });
+
+    // Backstop for scroll-triggered reveals in case IntersectionObserver is
+    // throttled or unavailable - cheap, rAF-debounced, and only ever looks
+    // at elements not yet revealed.
+    var scrollCheckQueued = false;
+    function scheduleScrollCheck() {
+      if (scrollCheckQueued) return;
+      scrollCheckQueued = true;
+      requestAnimationFrame(function () {
+        scrollCheckQueued = false;
+        document.querySelectorAll('.reveal:not(.is-visible)').forEach(function (el) {
+          if (isInViewport(el)) el.classList.add('is-visible');
+        });
+      });
+    }
+    window.addEventListener('scroll', scheduleScrollCheck, { passive: true });
+    window.addEventListener('resize', scheduleScrollCheck, { passive: true });
+  }
+
   // Header can be injected immediately (its placeholder is right after <body>).
   injectHeader();
 
@@ -190,4 +257,6 @@
   } else {
     injectFooter();
   }
+
+  setupRevealAnimations();
 })();

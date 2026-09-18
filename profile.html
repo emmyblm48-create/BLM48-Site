@@ -172,7 +172,7 @@
       grid.innerHTML = '';
       const filtered = team === 'ALL' ? membersData : membersData.filter(m => m.team === team);
 
-      filtered.forEach(m => {
+      filtered.forEach((m, i) => {
         const nameMain = m.name;
         const nameSub = (m.fullNameEN || m.name).toUpperCase();
 
@@ -182,7 +182,7 @@
         if (m.twitter && m.twitter !== '-') socialsHTML += `<a href="${m.twitter}" class="card-social-link" target="_blank" rel="noopener" onclick="event.stopPropagation()"><i class="fab fa-x-twitter"></i></a>`;
 
         grid.innerHTML += `
-          <div class="member-card" data-name="${m.name}">
+          <div class="member-card reveal reveal-${(i % 6) + 1}" data-name="${m.name}">
             <div class="photo-box" onclick="viewDetail('${m.name}')">
               <img src="${getDirectImgLink(m.image)}" class="member-photo" onerror="this.src='https://via.placeholder.com/400x400?text=BLM48'">
             </div>

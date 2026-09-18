@@ -463,13 +463,13 @@
           return;
         }
 
-        listEl.innerHTML = items.map(item => {
+        listEl.innerHTML = items.map((item, i) => {
           const imgSrc = item.image || item.thumbnail || item.thumb || '';
           const thumbHTML = imgSrc
             ? `<img src="${BLM48Data.driveImg(imgSrc)}" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=BLM48'">`
             : `<span class="home-news-thumb-placeholder">News</span>`;
           return `
-            <a href="${item.link || '#'}" target="_blank" rel="noopener" class="home-news-row">
+            <a href="${item.link || '#'}" target="_blank" rel="noopener" class="home-news-row reveal reveal-${(i % 6) + 1}">
               <div class="home-news-thumb">${thumbHTML}</div>
               <div class="home-news-content">
                 <div class="home-news-meta">
@@ -520,12 +520,12 @@
           return;
         }
 
-        listEl.innerHTML = items.map(item => {
+        listEl.innerHTML = items.map((item, i) => {
           const d = new Date(item.date);
           const dateBig = isNaN(d) ? '' : String(d.getMonth() + 1).padStart(2, '0') + '.' + String(d.getDate()).padStart(2, '0');
           const dateSub = isNaN(d) ? '' : item._date.weekday.toUpperCase() + '.' + d.getFullYear();
           return `
-            <a href="${item.link || '#'}" target="_blank" rel="noopener" class="home-sched-row">
+            <a href="${item.link || '#'}" target="_blank" rel="noopener" class="home-sched-row reveal reveal-${(i % 6) + 1}">
               <div class="home-sched-date-block">
                 <span class="home-sched-date-big">${dateBig}</span>
                 <span class="home-sched-date-sub">${dateSub}</span>
@@ -665,8 +665,8 @@
         return;
       }
 
-      gridEl.innerHTML = rows.map(item => `
-        <a href="${item.link || '#'}" ${item.link ? 'target="_blank" rel="noopener"' : ''} class="link-banner-tile">
+      gridEl.innerHTML = rows.map((item, i) => `
+        <a href="${item.link || '#'}" ${item.link ? 'target="_blank" rel="noopener"' : ''} class="link-banner-tile reveal reveal-${(i % 6) + 1}">
           <img src="${BLM48Data.driveImg(item.image || item.thumbnail)}" alt="${item.title || 'BLM48'}" loading="lazy" onerror="this.src='https://via.placeholder.com/2048x546?text=BLM48'">
         </a>
       `).join('');
@@ -701,13 +701,13 @@
           return;
         }
 
-        gridEl.innerHTML = champs.map(champ => {
+        gridEl.innerHTML = champs.map((champ, i) => {
           const cookieCount = Number(champ.totalCookie || 0).toLocaleString();
           const href = champ.postId
             ? `https://blm48-membership.vercel.app/postdetail?id=${encodeURIComponent(champ.postId)}`
             : 'https://blm48-membership.vercel.app/champranking';
           return `
-            <a href="${href}" target="_blank" rel="noopener" class="champ-post-card">
+            <a href="${href}" target="_blank" rel="noopener" class="champ-post-card reveal reveal-${(i % 6) + 1}">
               <div class="champ-post-photo">
                 <img src="${BLM48Data.driveImg(champ.postImage || champ.profileImage)}" alt="${champ.name || ''}" loading="lazy" onerror="this.src='https://via.placeholder.com/500x500?text=BLM48'">
                 <div class="champ-post-cookie"><i class="fa-solid fa-cookie"></i> ${cookieCount} Cookies</div>
@@ -741,8 +741,8 @@
           return;
         }
 
-        gridEl.innerHTML = items.map(item => `
-          <a href="${item.link || '#'}" target="_blank" rel="noopener" class="release-card">
+        gridEl.innerHTML = items.map((item, i) => `
+          <a href="${item.link || '#'}" target="_blank" rel="noopener" class="release-card reveal reveal-${(i % 6) + 1}">
             <div class="release-cover"><img src="${BLM48Data.driveImg(item.coverImage)}" alt="${item.title || ''}" loading="lazy" onerror="this.src='https://via.placeholder.com/600x600?text=BLM48'"></div>
             <div class="release-title">${item.title || ''}</div>
             <div class="release-date">${item._date.full}</div>

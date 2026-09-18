@@ -232,7 +232,7 @@
           return;
         }
 
-        gridEl.innerHTML = items.map(col => {
+        gridEl.innerHTML = items.map((col, i) => {
           const isComingSoon = col.Status === 'Coming Soon';
           const isSoldOut = col.Status === 'Sold Out';
           const isClosed = col.Status === 'Closed';
@@ -250,7 +250,7 @@
               : `<span class="shop-card-price"><i class="fas fa-coins"></i> ${Number(col.CostTokens || 0).toLocaleString()}</span>`;
 
           return `
-            <div class="shop-card${(isSoldOut || isClosed) ? ' is-unavailable' : ''}">
+            <div class="shop-card reveal reveal-${(i % 6) + 1}${(isSoldOut || isClosed) ? ' is-unavailable' : ''}">
               <div class="shop-card-photo">
                 ${badgeHTML}
                 <img src="${cover}" alt="${escapeHtml(col.CollectionName)}" loading="lazy" onerror="this.src='https://placehold.co/500x500/fff0f2/ff85a2?text=BLM48'">
@@ -296,7 +296,7 @@
           if (category !== NO_CATEGORY_LABEL) {
             html += `<div class="shop-group-title"><i class="fas fa-microphone"></i> ${escapeHtml(category)}</div>`;
           }
-          html += grouped[category].map(p => {
+          html += grouped[category].map((p, i) => {
             const isSoldOut = p.status === 'sold_out';
             const isComingSoon = p.status === 'coming_soon';
 
@@ -311,7 +311,7 @@
             const detailUrl = `${MEMBERSHIP_APP_URL}/preorder_detail?id=${encodeURIComponent(p.productId)}`;
 
             return `
-              <div class="shop-card${isSoldOut ? ' is-unavailable' : ''}">
+              <div class="shop-card reveal reveal-${(i % 6) + 1}${isSoldOut ? ' is-unavailable' : ''}">
                 <div class="shop-card-photo">
                   ${badgeHTML}
                   <img src="${p.coverImage || 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=500'}" alt="${escapeHtml(p.name)}" loading="lazy" onerror="this.src='https://placehold.co/500x500/fff6e0/c9932c?text=Pre-order'">
@@ -347,8 +347,8 @@
         { name: 'BLM48 Cafe', sub: 'Background V.1', price: 0, image: 'https://lh3.googleusercontent.com/d/1xhN872cKyptZ-vO8N6jHkCfSACE2okVo=s1000' }
       ];
 
-      gridEl.innerHTML = CAFE_ITEMS.map(item => `
-        <div class="shop-card">
+      gridEl.innerHTML = CAFE_ITEMS.map((item, i) => `
+        <div class="shop-card reveal reveal-${(i % 6) + 1}">
           <div class="shop-card-photo">
             <img src="${item.image}" alt="${escapeHtml(item.name)}" loading="lazy" onerror="this.src='https://placehold.co/500x500/e8f7ee/5fa896?text=BLM48+Cafe'">
           </div>

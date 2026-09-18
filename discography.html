@@ -130,10 +130,10 @@
         const catKey = c => String(c || 'single').trim().toLowerCase();
         const catLabel = key => key.charAt(0).toUpperCase() + key.slice(1);
 
-        gridEl.innerHTML = items.map(item => {
+        gridEl.innerHTML = items.map((item, i) => {
           const key = catKey(item.category);
           return `
-          <div class="disco-item cat-${key}">
+          <div class="disco-item cat-${key} reveal reveal-${(i % 6) + 1}">
             <a href="${item.link || '#'}" target="_blank" rel="noopener" class="cover-link">
               <div class="cover-box">
                 <img src="${BLM48Data.driveImg(item.coverImage)}" alt="${item.title || ''}" onerror="this.src='https://via.placeholder.com/600x600?text=BLM48'">
