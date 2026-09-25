@@ -24,6 +24,7 @@ window.BLM48_STATIC_SHEETS = {
     {"image":"https://lh3.googleusercontent.com/d/1-fTdfoXaYSZCqRgzxQ0Dvl6P3RsrFEvd=s1000","link":"https://www.instagram.com/blm48thecampus/","title":"","ggDrive":"https://drive.google.com/file/d/1-fTdfoXaYSZCqRgzxQ0Dvl6P3RsrFEvd/view?usp=drive_link"}
   ],
   Discography: [
+    {"category":"special","kicker":"Special Song","kickerStyle":"gold","date":"2026-09-26","title":"Rapsodi","coverImage":"https://lh3.googleusercontent.com/d/1TMm-8nP3gXMmO7Dz90hFaAVyEQg18ka4=s1000","link":""},
     {"category":"single","kicker":"5TH GEN DEBUT","kickerStyle":"outline","date":"2026-09-05","title":"New Ship","coverImage":"https://lh3.googleusercontent.com/d/1NlFzsvfhexq2-XqMkcbC9QjyX_zdFEv-=s1000","link":"https://youtube.com/playlist?list=PLY9AR7rXs7VQ&si=QQ1a_wG3OcdBcRjA"},
     {"category":"single","kicker":"Single","kickerStyle":"outline","date":"2026-08-10","title":"Sustainable","coverImage":"https://lh3.googleusercontent.com/d/1E1Usx32Bov92lz6_1BbfMqUcA7YwOivz=s1000","link":"https://www.youtube.com/playlist?list=PLPfz4Gco5l40"},
     {"category":"single","kicker":"Digital","kickerStyle":"outline","date":"2026-04-25","title":"Sustainable","coverImage":"https://lh3.googleusercontent.com/d/1Nd5WMn3yZdREl6I_vtdS7JJnYWiC3eYs=s1000","link":"https://youtube.com/playlist?list=PLIZN3HRIc9-Bj8Cdm_Tdy9_KtZpkT0Za7&si=LsDw_w8oVdvdsnY4"},
@@ -60,9 +61,9 @@ window.BLM48_STATIC_SHEETS = {
     {"date":"2026-06-25","note":"Special Song","title":"「Nagiichi」 Music Video","thumbnail":"https://lh3.googleusercontent.com/d/1yx9L-d9mNZlxuVJ-RMH93sLW0OtYY5mK=s1000","link":"https://youtu.be/bhbjo1UWOwU?si=bwjqCKaWuNP1g5tU"},
     {"date":"2026-06-20","note":"10th single C/W","title":"「Dakishimecha Ikenai - กอดเธอไม่ได้หรอก」 Music Video","thumbnail":"https://lh3.googleusercontent.com/d/12oY6a47NtLHsAyqsavAPUw6TSPbYYwRa=s1000","link":"https://youtu.be/f9t5C4K3Wk0?si=pq9u-E0zRNnhRW7H"},
     {"date":"2026-04-25","note":"10th single","title":"「Sustainable」 Music Video","thumbnail":"https://lh3.googleusercontent.com/d/1WXp1ZbzQ8ib1gb3imrDGQ7KjnFJZUaOO=s1000","link":"https://youtu.be/1Vwg1iQUDtc?si=MhOKdpthQEuVebdK"},
-    {"date":"2026-02-14","note":"BLM48 3rd Generation Special Single","title":"「Celebration」 Music Video","thumbnail":"https://lh3.googleusercontent.com/d/11zU0OJFxJ9WFzqQvfrqPJrCUUyG-KJZJ=s1000","link":"https://youtu.be/TAPlWWZMGFQ?si=__iqu3sD3ys8ORsh"},
-    {"date":"2025-11-10","note":"9th single C/W","title":"「Sekai no Hito e - ถึงบรรเลง..ถ้อยเพลงของเรา」 Music Video","thumbnail":"https://lh3.googleusercontent.com/d/1wD34e9W6bHHuf9SJ_qBf6I_4e-c_oLen=s1000","link":"https://youtu.be/tqFr0QPgqR0?si=Tbdpd6Qz27KNgbXu"},
-    {"date":"2025-08-01","note":"9th single C/W","title":"「Eien Pressure - ผูกพันนิรันดร์」 Music Video","thumbnail":"https://lh3.googleusercontent.com/d/1-GMwAgsjKBORWgEHNKPUyecvDRo1w-Gc=s1000","link":"https://youtu.be/-rhmBTZoZk0?si=sPfBNaZs5arpLAnn"}
+    {"date":"2026-04-04","note":"BLM48 3rd Generation Special Single","title":"「Celebration」 Music Video","thumbnail":"https://lh3.googleusercontent.com/d/11zU0OJFxJ9WFzqQvfrqPJrCUUyG-KJZJ=s1000","link":"https://youtu.be/TAPlWWZMGFQ?si=__iqu3sD3ys8ORsh"},
+    {"date":"2025-03-21","note":"9th single C/W","title":"「Sekai no Hito e - ถึงบรรเลง..ถ้อยเพลงของเรา」 Music Video","thumbnail":"https://lh3.googleusercontent.com/d/1wD34e9W6bHHuf9SJ_qBf6I_4e-c_oLen=s1000","link":"https://youtu.be/tqFr0QPgqR0?si=Tbdpd6Qz27KNgbXu"},
+    {"date":"2025-02-28","note":"9th single C/W","title":"「Eien Pressure - ผูกพันนิรันดร์」 Music Video","thumbnail":"https://lh3.googleusercontent.com/d/1-GMwAgsjKBORWgEHNKPUyecvDRo1w-Gc=s1000","link":"https://youtu.be/-rhmBTZoZk0?si=sPfBNaZs5arpLAnn"}
   ]
 };
 
