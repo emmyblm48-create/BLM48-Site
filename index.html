@@ -178,62 +178,33 @@
     /* --- CHAMP OF THE MONTH --- */
     .champ-section { max-width: 1300px; width: 92%; margin: 0 auto 100px; }
 
-    /* --- VIDEO SECTION (main player + thumbnail row) --- */
-    .video-section { max-width: 1300px; width: 92%; margin: 0 auto 90px; }
-
-    .video-main {
-      position: relative; width: 100%; aspect-ratio: 16/9;
-      border-radius: var(--radius-lg); overflow: hidden;
-      background: #000; border: 1px solid var(--blm-line);
-    }
-    .video-main iframe { width: 100%; height: 100%; border: 0; display: block; }
-    .video-main-loading {
-      display: flex; align-items: center; justify-content: center;
-      width: 100%; height: 100%; color: #fff; font-weight: 600; opacity: .7;
-    }
-    .video-facade { position: absolute; inset: 0; cursor: pointer; border: 0; padding: 0; background: none; display: block; }
-    .video-facade img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .video-facade::after {
-      content: ''; position: absolute; inset: 0;
-      background: rgba(0,0,0,.18); transition: background .25s;
-    }
-    .video-facade:hover::after { background: rgba(0,0,0,.05); }
-    .video-play-btn {
-      position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
-      width: 78px; height: 54px; border-radius: 14px; background: #f00;
-      display: flex; align-items: center; justify-content: center;
-      color: #fff; font-size: 22px; z-index: 2; transition: transform .25s, background .25s;
-    }
-    .video-facade:hover .video-play-btn { transform: translate(-50%,-50%) scale(1.08); background: #ff1a1a; }
-
-    .video-main-cap { padding: 14px 2px 0; }
-    .video-main-cap-title { font-family: var(--font-display); font-size: clamp(15px,1.8vw,20px); font-weight: 700; color: var(--blm-ink); line-height: 1.4; }
-    .video-main-cap-date { font-size: 12px; color: var(--blm-ink-faint); font-weight: 600; margin-top: 5px; }
-
-    .video-thumbs-wrap { position: relative; margin-top: 28px; }
-    .video-thumbs { width: 100%; overflow: hidden; }
-    .video-thumb-slide {
-      width: 100%; aspect-ratio: 16/9; cursor: pointer;
-      border-radius: var(--radius-md); overflow: hidden;
-      border: 2px solid transparent; background: var(--blm-paper-soft);
-      opacity: .62; transition: opacity .25s, border-color .25s, transform .25s;
-    }
-    .video-thumb-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .video-thumb-slide:hover { opacity: .9; transform: translateY(-3px); }
-    .video-thumb-slide.is-active { opacity: 1; border-color: var(--blm-gold); }
+    /* --- VIDEO SECTION --- */
+    .video-section { max-width: 1300px; width: 92%; margin: 0 auto 90px; position: relative; }
+    .video-swiper-container { position: relative; width: 100%; height: auto; }
+    .video-swiper { width: 100%; height: auto !important; overflow: hidden; }
+    .video-swiper .swiper-wrapper { height: auto !important; align-items: flex-start !important; }
+    .video-swiper .swiper-slide { height: auto !important; }
+    .video-item { display: block; width: 100%; text-decoration: none; color: inherit; }
+    .video-thumb-box { width: 100%; aspect-ratio: 16/9; overflow: hidden; background: var(--blm-paper-soft); border: 1px solid var(--blm-line); border-radius: var(--radius-md); }
+    .video-thumb-box img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s ease; }
+    .video-item:hover .video-thumb-box img { transform: scale(1.05); }
+    .video-cap { padding-top: 12px; }
+    .video-cap-title { font-size: 13.5px; font-weight: 700; color: var(--blm-ink); line-height: 1.4; }
+    .video-cap-date { font-size: 11.5px; color: var(--blm-ink-faint); font-weight: 600; margin-top: 4px; }
 
     .video-nav-prev, .video-nav-next {
-      color: var(--blm-ink) !important; background: var(--blm-paper);
+      color: var(--blm-ink) !important;
+      background: var(--blm-paper);
       border: 1px solid var(--blm-line);
       width: 40px !important; height: 40px !important; border-radius: 50%;
-      top: 50% !important; transform: translateY(-50%) !important; margin-top: 0 !important;
-      transition: background .2s, color .2s;
+      transition: background 0.2s ease, color 0.2s ease;
+      top: 36% !important; transform: translateY(-50%) !important; margin-top: 0 !important;
     }
     .video-nav-prev:hover, .video-nav-next:hover { background: var(--blm-pink); border-color: var(--blm-pink); color: #fff !important; }
-    .video-nav-prev::after, .video-nav-next::after { font-size: 14px !important; font-weight: bold; }
+    .video-nav-prev::after, .video-nav-next::after { font-size: 15px !important; font-weight: bold; }
     .video-nav-prev { left: -18px !important; }
     .video-nav-next { right: -18px !important; }
-    @media (max-width: 768px) { .video-nav-prev { left: -6px !important; } .video-nav-next { right: -6px !important; } }
+    @media (max-width: 768px) { .video-nav-prev { left: -8px !important; } .video-nav-next { right: -8px !important; } }
 
     /* --- LATEST RELEASE (Discography) --- */
     .release-section { max-width: 1300px; width: 92%; margin: 0 auto 90px; }
@@ -353,14 +324,13 @@
       <a href="https://www.youtube.com/@BLM48Official" target="_blank" class="arrow-link">Official Channel</a>
     </div>
 
-    <div class="video-main" id="videoMain">
-      <div class="video-main-loading">Loading...</div>
-    </div>
-    <div class="video-main-cap" id="videoMainCap"></div>
-
-    <div class="video-thumbs-wrap">
-      <div class="swiper video-thumbs">
-        <div class="swiper-wrapper" id="videoThumbsWrapper"></div>
+    <div class="video-swiper-container">
+      <div class="swiper video-swiper">
+        <div class="swiper-wrapper" id="videoSwiperWrapper">
+          <div class="swiper-slide">
+            <div class="video-cap-title" style="color:var(--blm-ink-faint);padding:20px 0;">Loading...</div>
+          </div>
+        </div>
       </div>
       <div class="swiper-button-prev video-nav-prev"></div>
       <div class="swiper-button-next video-nav-next"></div>
@@ -578,99 +548,46 @@
     renderHomeNews();
     renderHomeSchedule();
 
-    /* ---------------- MOVIE: main player + thumbnail row ---------------- */
-    let movieItems = [];
-    let movieActiveIndex = 0;
-
-    function ytVideoId(url) {
-      const m = String(url || '').match(
-        /(?:youtu\.be\/|youtube\.com\/(?:watch\?(?:.*&)?v=|embed\/|shorts\/|live\/|v\/))([\w-]{11})/
-      );
-      return m ? m[1] : '';
-    }
-
-    function movieThumbSrc(item) {
-      if (item.thumbnail) return BLM48Data.driveImg(item.thumbnail);
-      const id = ytVideoId(item.link);
-      return id ? `https://i.ytimg.com/vi/${id}/hqdefault.jpg` : 'https://via.placeholder.com/640x360?text=BLM48';
-    }
-
-    function setMainVideo(index, autoplay) {
-      const item = movieItems[index];
-      if (!item) return;
-      movieActiveIndex = index;
-
-      const mainEl = document.getElementById('videoMain');
-      const capEl = document.getElementById('videoMainCap');
-      const id = ytVideoId(item.link);
-      const safeTitle = (item.title || '').replace(/"/g, '&quot;');
-
-      if (id) {
-        mainEl.innerHTML = autoplay
-          ? `<iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0"
-               title="${safeTitle}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; picture-in-picture"
-               allowfullscreen loading="lazy"></iframe>`
-          : `<button type="button" class="video-facade" onclick="setMainVideo(${index}, true)" aria-label="Play video">
-               <img src="${movieThumbSrc(item)}" alt="${safeTitle}" onerror="this.src='https://via.placeholder.com/640x360?text=BLM48'">
-               <span class="video-play-btn"><i class="fas fa-play"></i></span>
-             </button>`;
-      } else {
-        mainEl.innerHTML = `<a href="${item.link || '#'}" target="_blank" rel="noopener" class="video-facade">
-            <img src="${movieThumbSrc(item)}" alt="${safeTitle}" onerror="this.src='https://via.placeholder.com/640x360?text=BLM48'">
-            <span class="video-play-btn"><i class="fas fa-play"></i></span>
-          </a>`;
-      }
-
-      capEl.innerHTML = `
-        <div class="video-main-cap-title">${item.title || ''}</div>
-        <div class="video-main-cap-date">${item._date.full}${item.note ? ' — ' + item.note : ''}</div>`;
-
-      document.querySelectorAll('.video-thumb-slide').forEach((el, i) => {
-        el.classList.toggle('is-active', i === index);
-      });
-    }
-
     async function renderMovies() {
-      const mainEl = document.getElementById('videoMain');
-      const thumbsWrap = document.getElementById('videoThumbsWrapper');
-
+      const wrapEl = document.getElementById('videoSwiperWrapper');
       try {
         const rows = await BLM48Data.fetchSheet('Movie');
-        movieItems = rows
+        const items = rows
           .map(r => ({ ...r, _date: BLM48Data.fmtDate(r.date) }))
           .sort((a, b) => b._date.time - a._date.time);
-      } catch (err) {
-        movieItems = [];
-      }
 
-      if (!movieItems.length) {
-        mainEl.innerHTML = '<div class="video-main-loading">No videos yet.</div>';
-        document.querySelector('.video-thumbs-wrap').style.display = 'none';
-        return;
-      }
-
-      thumbsWrap.innerHTML = movieItems.map((item, i) => `
-        <div class="swiper-slide">
-          <div class="video-thumb-slide${i === 0 ? ' is-active' : ''}" onclick="setMainVideo(${i}, true)">
-            <img src="${movieThumbSrc(item)}" alt="${(item.title || '').replace(/"/g, '&quot;')}" loading="lazy"
-                 onerror="this.src='https://via.placeholder.com/640x360?text=BLM48'">
-          </div>
-        </div>
-      `).join('');
-
-      new Swiper('.video-thumbs', {
-        slidesPerView: 4,
-        spaceBetween: 20,
-        grabCursor: true,
-        navigation: { nextEl: '.video-nav-next', prevEl: '.video-nav-prev' },
-        breakpoints: {
-          320: { slidesPerView: 1.6, spaceBetween: 12 },
-          640: { slidesPerView: 2.5, spaceBetween: 16 },
-          1024: { slidesPerView: 4, spaceBetween: 20 }
+        if (!items.length) {
+          wrapEl.innerHTML = '<div class="swiper-slide"><div class="video-cap-title" style="color:var(--blm-ink-faint);padding:20px 0;">No videos yet.</div></div>';
+          return;
         }
-      });
 
-      setMainVideo(0, false);
+        wrapEl.innerHTML = items.map(item => `
+          <div class="swiper-slide">
+            <a href="${item.link || '#'}" target="_blank" rel="noopener" class="video-item">
+              <div class="video-thumb-box"><img src="${BLM48Data.driveImg(item.thumbnail)}" alt="${item.title || ''}" onerror="this.src='https://via.placeholder.com/640x360?text=BLM48'"></div>
+              <div class="video-cap">
+                <div class="video-cap-title">${item.title || ''}</div>
+                <div class="video-cap-date">${item._date.full}${item.note ? ' — ' + item.note : ''}</div>
+              </div>
+            </a>
+          </div>
+        `).join('');
+      } catch (err) {
+        wrapEl.innerHTML = '<div class="swiper-slide"><div class="video-cap-title" style="color:var(--blm-ink-faint);padding:20px 0;">Unable to load videos.</div></div>';
+      } finally {
+        new Swiper('.video-swiper', {
+          slidesPerView: 3.2,
+          spaceBetween: 22,
+          grabCursor: true,
+          loop: false,
+          navigation: { nextEl: '.video-nav-next', prevEl: '.video-nav-prev' },
+          breakpoints: {
+            320: { slidesPerView: 1.15, spaceBetween: 14 },
+            640: { slidesPerView: 2.1, spaceBetween: 16 },
+            1024: { slidesPerView: 3.2, spaceBetween: 22 }
+          }
+        });
+      }
     }
 
     async function renderHeroBanner() {
@@ -759,7 +676,7 @@
     // Every table behind it is RLS-locked with zero policies - the anon key can only call
     // read-only RPCs like this one, never touch a table directly.
     const MEMBERSHIP_SUPABASE_URL = 'https://rqhwzbrcgnpxtuaeoxml.supabase.co';
-    const MEMBERSHIP_SUPABASE_ANON_KEY = '************************************.*******************************************************************************************************************************.*******************************************';
+    const MEMBERSHIP_SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJxaHd6YnJjZ25weHR1YWVveG1sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUyMjczNjAsImV4cCI6MjEwMDgwMzM2MH0.J0iiUikxLoJKZ5SF9KSz86yf2LU89z8NdPb9rEB89Gw';
 
     async function renderChampOfMonth() {
       const sectionEl = document.getElementById('champSection');
