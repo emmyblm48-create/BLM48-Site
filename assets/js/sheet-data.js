@@ -24,7 +24,7 @@ window.BLM48_STATIC_SHEETS = {
     {"image":"https://lh3.googleusercontent.com/d/1-fTdfoXaYSZCqRgzxQ0Dvl6P3RsrFEvd=s1000","link":"https://www.instagram.com/blm48thecampus/","title":"","ggDrive":"https://drive.google.com/file/d/1-fTdfoXaYSZCqRgzxQ0Dvl6P3RsrFEvd/view?usp=drive_link"}
   ],
   Discography: [
-    {"category":"special","kicker":"Special Song","kickerStyle":"gold","date":"2026-09-26","title":"Rapsodi","coverImage":"https://lh3.googleusercontent.com/d/1TMm-8nP3gXMmO7Dz90hFaAVyEQg18ka4=s1000","link":""},
+    {"category":"special","kicker":"Special Song","kickerStyle":"gold","date":"2026-09-26","title":"Rapsodi","coverImage":"https://lh3.googleusercontent.com/d/1TMm-8nP3gXMmO7Dz90hFaAVyEQg18ka4=s1000","link":"https://www.youtube.com/playlist?list=PLHVDYyubKdY8"},
     {"category":"single","kicker":"5TH GEN DEBUT","kickerStyle":"outline","date":"2026-09-05","title":"New Ship","coverImage":"https://lh3.googleusercontent.com/d/1NlFzsvfhexq2-XqMkcbC9QjyX_zdFEv-=s1000","link":"https://youtube.com/playlist?list=PLY9AR7rXs7VQ&si=QQ1a_wG3OcdBcRjA"},
     {"category":"single","kicker":"Single","kickerStyle":"outline","date":"2026-08-10","title":"Sustainable","coverImage":"https://lh3.googleusercontent.com/d/1E1Usx32Bov92lz6_1BbfMqUcA7YwOivz=s1000","link":"https://www.youtube.com/playlist?list=PLPfz4Gco5l40"},
     {"category":"single","kicker":"Digital","kickerStyle":"outline","date":"2026-04-25","title":"Sustainable","coverImage":"https://lh3.googleusercontent.com/d/1Nd5WMn3yZdREl6I_vtdS7JJnYWiC3eYs=s1000","link":"https://youtube.com/playlist?list=PLIZN3HRIc9-Bj8Cdm_Tdy9_KtZpkT0Za7&si=LsDw_w8oVdvdsnY4"},
@@ -55,6 +55,7 @@ window.BLM48_STATIC_SHEETS = {
     {"category":"single","kicker":"1st Single","kickerStyle":"outline","date":"2023-03-14","title":"ดีอะ - D.AAA","coverImage":"https://lh3.googleusercontent.com/d/1Y4osXIzBhSAAt2IVsn_9GNRmHR7HN3uN=s1000","link":"https://www.youtube.com/playlist?list=PLIZN3HRIc9-AVOTfFixnfvl83Bcw3R-Hg"}
   ],
   Movie: [
+    {"date":"2026-09-26","note":"special song","title":"「Rapsodi」 Promotional Video","thumbnail":"https://lh3.googleusercontent.com/d/1w76J_EDRQBmuxedSm7NkJ6kLL4WCn6J9=s1000","link":" "},    
     {"date":"2026-09-05","note":"5th gen debut song","title":"「NEW SHIP」 Music Video","thumbnail":"https://lh3.googleusercontent.com/d/17_oA1gsb5v8B3OdnAqhy_RWaGrrYh-QK=s1000","link":"https://youtu.be/z8E1PEdRCac?si=qQOS7Hhnu_T71vVJ"},
     {"date":"2026-08-16","note":"pre-3rd album","title":"「Suki-ish」 Promotional Video","thumbnail":"https://lh3.googleusercontent.com/d/1cVLuEr53ofCWXbE-A97t0bZ5MFDWHv__=s1000","link":"https://youtu.be/euoIySADf2c?si=6PD3GYd202Ye6phA"},
     {"date":"2026-08-10","note":"10th single C/W","title":"「Kimi wa Motto Dekiru」 Music Video","thumbnail":"https://lh3.googleusercontent.com/d/1APdcxbFMY2NVg73HxvGiwx6DvLiapGSo=s1000","link":"https://youtu.be/EDNEaF8ujLw?si=JjJXlUBE0gGliwJC"},
