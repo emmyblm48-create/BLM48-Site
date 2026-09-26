@@ -24,6 +24,7 @@ window.BLM48_STATIC_SHEETS = {
     {"image":"https://lh3.googleusercontent.com/d/1-fTdfoXaYSZCqRgzxQ0Dvl6P3RsrFEvd=s1000","link":"https://www.instagram.com/blm48thecampus/","title":"","ggDrive":"https://drive.google.com/file/d/1-fTdfoXaYSZCqRgzxQ0Dvl6P3RsrFEvd/view?usp=drive_link"}
   ],
   Discography: [
+    {"category":"concert","kicker":"Concert","kickerStyle":"live","date":"2026-09-26","title":"BLM48 & NPT48 Concert This Letter Says <Marry Me>","coverImage":"https://lh3.googleusercontent.com/d/1ldpEY5sgtfoJP-gzqcsoh8dTIjjrD8jD=s1000","link":""},
     {"category":"special","kicker":"Special Song","kickerStyle":"gold","date":"2026-09-26","title":"Rapsodi","coverImage":"https://lh3.googleusercontent.com/d/1TMm-8nP3gXMmO7Dz90hFaAVyEQg18ka4=s1000","link":"https://www.youtube.com/playlist?list=PLHVDYyubKdY8"},
     {"category":"single","kicker":"5TH GEN DEBUT","kickerStyle":"outline","date":"2026-09-05","title":"New Ship","coverImage":"https://lh3.googleusercontent.com/d/1NlFzsvfhexq2-XqMkcbC9QjyX_zdFEv-=s1000","link":"https://youtube.com/playlist?list=PLY9AR7rXs7VQ&si=QQ1a_wG3OcdBcRjA"},
     {"category":"single","kicker":"Single","kickerStyle":"outline","date":"2026-08-10","title":"Sustainable","coverImage":"https://lh3.googleusercontent.com/d/1E1Usx32Bov92lz6_1BbfMqUcA7YwOivz=s1000","link":"https://www.youtube.com/playlist?list=PLPfz4Gco5l40"},
