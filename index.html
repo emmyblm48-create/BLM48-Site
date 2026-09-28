@@ -851,7 +851,6 @@
       fit();
       new ResizeObserver(fit).observe(wrap);
 
-      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       let u = 0, introStart = null, last = null, hovering = false, visible = false, dragging = null, frontIdx = -1;
 
       function showCaption(i) {
@@ -864,7 +863,7 @@
 
       function render() {
         let intro = P.intro;
-        if (introStart !== null && !reduceMotion) {
+        if (introStart !== null) {
           const k = Math.min(1, (performance.now() - introStart) / 1600);
           intro = P.intro * (1 - Math.pow(1 - k, 4));
         }
@@ -880,7 +879,7 @@
       function tick(now) {
         const dt = last === null ? 0 : Math.min(0.1, (now - last) / 1000);
         last = now;
-        if (!hovering && !dragging && !reduceMotion) u += P.speed * dt;
+        if (!hovering && !dragging) u += P.speed * dt;  // always auto-rotate, even with OS "reduce motion" on
         render();
         if (visible) requestAnimationFrame(tick); else last = null;
       }
