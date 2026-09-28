@@ -180,44 +180,39 @@
 
     /* --- VIDEO SECTION --- */
     .video-section { max-width: 1300px; width: 92%; margin: 0 auto 90px; position: relative; }
-    .video-swiper-container { position: relative; width: 100%; height: auto; }
-    .video-swiper { width: 100%; height: auto !important; overflow: hidden; }
-    .video-swiper .swiper-wrapper { height: auto !important; align-items: flex-start !important; }
-    .video-swiper .swiper-slide { height: auto !important; }
-    .video-item { display: block; width: 100%; text-decoration: none; color: inherit; }
-    .video-thumb-box { width: 100%; aspect-ratio: 16/9; overflow: hidden; background: var(--blm-paper-soft); border: 1px solid var(--blm-line); border-radius: var(--radius-md); }
-    .video-thumb-box img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s ease; }
-    .video-item:hover .video-thumb-box img { transform: scale(1.05); }
-    .video-cap { padding-top: 12px; }
-    .video-cap-title { font-size: 13.5px; font-weight: 700; color: var(--blm-ink); line-height: 1.4; }
-    .video-cap-date { font-size: 11.5px; color: var(--blm-ink-faint); font-weight: 600; margin-top: 4px; }
-
-    .video-nav-prev, .video-nav-next {
-      color: var(--blm-ink) !important;
-      background: var(--blm-paper);
-      border: 1px solid var(--blm-line);
-      width: 40px !important; height: 40px !important; border-radius: 50%;
-      transition: background 0.2s ease, color 0.2s ease;
-      top: 36% !important; transform: translateY(-50%) !important; margin-top: 0 !important;
-    }
-    .video-nav-prev:hover, .video-nav-next:hover { background: var(--blm-pink); border-color: var(--blm-pink); color: #fff !important; }
-    .video-nav-prev::after, .video-nav-next::after { font-size: 15px !important; font-weight: bold; }
-    .video-nav-prev { left: -18px !important; }
-    .video-nav-next { right: -18px !important; }
-    @media (max-width: 768px) { .video-nav-prev { left: -8px !important; } .video-nav-next { right: -8px !important; } }
+    /* MOVIE uses the shared vision carousel (.release-carousel / .rc-*) with the wide edge-on preset */
+    .release-carousel.movie-carousel { aspect-ratio: 3 / 1; }
+    @media (max-width: 768px) { .release-carousel.movie-carousel { aspect-ratio: 2 / 1; } }
+    @media (max-width: 480px) { .release-carousel.movie-carousel { aspect-ratio: 16 / 9; } }
+    .mc-play { position: absolute; left: 50%; top: 42%; width: 150px; height: 150px; margin: -75px 0 0 -75px; border-radius: 50%; background: rgba(255, 255, 255, 0.92); color: var(--blm-pink-deep); display: flex; align-items: center; justify-content: center; font-size: 56px; padding-left: 10px; box-shadow: 0 12px 40px rgba(51, 38, 31, 0.25); transition: transform 0.3s, background 0.3s, color 0.3s; }
+    .rc-card:hover .mc-play { transform: scale(1.08); background: var(--blm-pink); color: #fff; }
+    .mc-text { position: absolute; left: 0; right: 0; bottom: 0; padding: 140px 64px 52px; background: linear-gradient(to top, rgba(51, 38, 31, 0.85), rgba(51, 38, 31, 0)); color: #fff; }
+    .mc-note { display: inline-block; font-size: 34px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; background: var(--blm-gold); color: var(--blm-on-gold); border-radius: 999px; padding: 8px 26px; margin-bottom: 18px; }
+    .mc-title { font-size: 62px; font-weight: 700; line-height: 1.25; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    @media (max-width: 600px) { .mc-text { display: none; } .mc-play { transform: scale(1.6); } }
+    .movie-note { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--blm-pink-deep); margin-bottom: 4px; }
 
     /* --- LATEST RELEASE (Discography) --- */
     .release-section { max-width: 1300px; width: 92%; margin: 0 auto 90px; }
-    .release-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-    @media (max-width: 768px) { .release-grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 480px) { .release-grid { grid-template-columns: 1fr; } }
-    .release-card { display: block; text-decoration: none; color: inherit; }
-    .release-cover { width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: var(--radius-md); border: 1px solid var(--blm-line); background: var(--blm-paper-soft); margin-bottom: 12px; }
-    .release-cover img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s; }
-    .release-card:hover .release-cover img { transform: scale(1.04); }
-    .release-title { font-size: 14px; font-weight: 700; color: var(--blm-ink); line-height: 1.4; margin-bottom: 4px; transition: color 0.2s; }
-    .release-card:hover .release-title { color: var(--blm-pink-deep); }
+    /* 3D "vision" carousel: every Discography cover rides a tilted ellipse (see renderLatestRelease) */
+    .release-carousel { position: relative; width: 100%; aspect-ratio: 2 / 1; overflow: hidden; cursor: grab; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
+    @media (max-width: 768px) { .release-carousel { aspect-ratio: 16 / 10; } }
+    @media (max-width: 480px) { .release-carousel { aspect-ratio: 4 / 3; } }
+    .release-carousel.is-dragging { cursor: grabbing; }
+    .rc-status { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: var(--blm-ink-faint); font-weight: 600; }
+    .rc-scaler { position: absolute; left: 50%; top: 50%; width: 3840px; height: 2160px; transform-origin: 0 0; }
+    .rc-stage { position: absolute; inset: 0; perspective: 5669px; perspective-origin: 50% 50%; }
+    .rc-group { position: absolute; inset: 0; transform-style: preserve-3d; }
+    .rc-card { position: absolute; left: 0; top: 0; display: block; will-change: transform; }
+    .rc-card-inner { position: relative; width: 100%; height: 100%; overflow: hidden; border-radius: 24px; background: var(--blm-paper-soft); opacity: 0; transform: scale(0.72); transition: opacity 0.55s cubic-bezier(0.25, 1, 0.5, 1), transform 0.55s cubic-bezier(0.25, 1, 0.5, 1); transition-delay: var(--rc-delay, 0ms); }
+    .release-carousel.is-in .rc-card-inner { opacity: 1; transform: scale(1); }
+    .rc-card img { display: block; width: 100%; height: 100%; object-fit: cover; pointer-events: none; -webkit-user-drag: none; }
+    .release-caption { text-align: center; margin-top: 8px; min-height: 48px; }
+    .release-title { font-size: 16px; font-weight: 700; color: var(--blm-ink); line-height: 1.4; margin-bottom: 4px; }
+    .release-title a { color: inherit; text-decoration: none; transition: color 0.2s; }
+    .release-title a:hover { color: var(--blm-pink-deep); }
     .release-date { font-size: 12px; color: var(--blm-ink-faint); font-weight: 600; }
+    @media (prefers-reduced-motion: reduce) { .rc-card-inner { transition: none; } }
     .release-more { display: flex; justify-content: center; margin-top: 32px; }
 
     /* --- GROUP NETWORK --- */
@@ -324,17 +319,10 @@
       <a href="https://www.youtube.com/@BLM48Official" target="_blank" class="arrow-link">Official Channel</a>
     </div>
 
-    <div class="video-swiper-container">
-      <div class="swiper video-swiper">
-        <div class="swiper-wrapper" id="videoSwiperWrapper">
-          <div class="swiper-slide">
-            <div class="video-cap-title" style="color:var(--blm-ink-faint);padding:20px 0;">Loading...</div>
-          </div>
-        </div>
-      </div>
-      <div class="swiper-button-prev video-nav-prev"></div>
-      <div class="swiper-button-next video-nav-next"></div>
+    <div class="release-carousel movie-carousel" id="movieCarousel" aria-roledescription="carousel" aria-label="All videos">
+      <p class="rc-status">Loading...</p>
     </div>
+    <div class="release-caption" id="movieCaption" aria-live="polite"></div>
   </section>
 
   <!-- LATEST RELEASE -->
@@ -342,9 +330,10 @@
     <div class="sec-head no-underline">
       <h2 class="sec-title">Latest Release</h2>
     </div>
-    <div class="release-grid" id="releaseGrid">
-      <p style="color:var(--blm-ink-faint);font-weight:600;">Loading...</p>
+    <div class="release-carousel" id="releaseCarousel" aria-roledescription="carousel" aria-label="All releases">
+      <p class="rc-status">Loading...</p>
     </div>
+    <div class="release-caption" id="releaseCaption" aria-live="polite"></div>
     <div class="release-more">
       <a href="discography.html" class="btn btn-gold">View More</a>
     </div>
@@ -549,45 +538,44 @@
     renderHomeSchedule();
 
     async function renderMovies() {
-      const wrapEl = document.getElementById('videoSwiperWrapper');
+      const wrap = document.getElementById('movieCarousel');
+      let items;
       try {
         const rows = await BLM48Data.fetchSheet('Movie');
-        const items = rows
+        items = rows
           .map(r => ({ ...r, _date: BLM48Data.fmtDate(r.date) }))
           .sort((a, b) => b._date.time - a._date.time);
-
-        if (!items.length) {
-          wrapEl.innerHTML = '<div class="swiper-slide"><div class="video-cap-title" style="color:var(--blm-ink-faint);padding:20px 0;">No videos yet.</div></div>';
-          return;
-        }
-
-        wrapEl.innerHTML = items.map(item => `
-          <div class="swiper-slide">
-            <a href="${item.link || '#'}" target="_blank" rel="noopener" class="video-item">
-              <div class="video-thumb-box"><img src="${BLM48Data.driveImg(item.thumbnail)}" alt="${item.title || ''}" onerror="this.src='https://via.placeholder.com/640x360?text=BLM48'"></div>
-              <div class="video-cap">
-                <div class="video-cap-title">${item.title || ''}</div>
-                <div class="video-cap-date">${item._date.full}${item.note ? ' — ' + item.note : ''}</div>
-              </div>
-            </a>
-          </div>
-        `).join('');
       } catch (err) {
-        wrapEl.innerHTML = '<div class="swiper-slide"><div class="video-cap-title" style="color:var(--blm-ink-faint);padding:20px 0;">Unable to load videos.</div></div>';
-      } finally {
-        new Swiper('.video-swiper', {
-          slidesPerView: 3.2,
-          spaceBetween: 22,
-          grabCursor: true,
-          loop: false,
-          navigation: { nextEl: '.video-nav-next', prevEl: '.video-nav-prev' },
-          breakpoints: {
-            320: { slidesPerView: 1.15, spaceBetween: 14 },
-            640: { slidesPerView: 2.1, spaceBetween: 16 },
-            1024: { slidesPerView: 3.2, spaceBetween: 22 }
-          }
-        });
+        rcSetStatus(wrap, 'Unable to load videos.');
+        return;
       }
+      if (!items.length) { rcSetStatus(wrap, 'No videos yet.'); return; }
+
+      mountVisionCarousel({
+        wrap, items, preset: RC_PRESETS.movie,
+        captionEl: document.getElementById('movieCaption'),
+        cardW: 1500, cardH: 844,
+        hrefOf: item => item.link || 'https://www.youtube.com/@BLM48Official',
+        imgOf: item => BLM48Data.driveImg(item.thumbnail),
+        fallbackImg: 'https://via.placeholder.com/640x360?text=BLM48',
+        // Title + note printed on the thumbnail itself, with a play badge.
+        decorate(inner, item) {
+          const play = document.createElement('span'); play.className = 'mc-play';
+          play.innerHTML = '<i class="fa-solid fa-play"></i>';
+          const text = document.createElement('div'); text.className = 'mc-text';
+          if (item.note) { const k = document.createElement('div'); k.className = 'mc-note'; k.textContent = item.note; text.appendChild(k); }
+          const t = document.createElement('div'); t.className = 'mc-title'; t.textContent = item.title || '';
+          text.appendChild(t);
+          inner.append(play, text);
+        },
+        caption(el, item, card) {
+          if (item.note) { const k = document.createElement('div'); k.className = 'movie-note'; k.textContent = item.note; el.appendChild(k); }
+          const t = document.createElement('div'); t.className = 'release-title';
+          t.appendChild(rcCaptionLink(card.href, item.title || ''));
+          const d = document.createElement('div'); d.className = 'release-date'; d.textContent = item._date.full;
+          el.append(t, d);
+        },
+      });
     }
 
     async function renderHeroBanner() {
@@ -727,30 +715,253 @@
       }
     }
 
+    /* ---- 3D "vision" carousels (ported from the Carousel Vision rigs) ----
+       Cards ride a closed bezier ellipse in a 3840x2160 comp. The ellipse is tilted
+       around X (xSlider), cards turn toward the camera and yaw at the sides.
+       The card nearest the camera (bottom of the path) is the "front" one; the
+       newest item starts there and older ones follow in order. */
+    const RC_COMP = { width: 3840, height: 2160, camera: 5669.2913 };
+    const RC_PRESETS = {
+      // Vision 1 — ring seen from just above, far cards shrink to nothing
+      release: {
+        ctl: { scaleDepth: 130, scaleMin: -45.8, globalScale: 100, xSlider: -106, yAngle3d: -70,
+               parentPos: [1920, 1299, 0], parentAnchor: [1920, 1080, 0] },
+        speed: 0.02,          // ring turns per second (one lap ≈ 50s)
+        intro: 0.755,         // extra spin eased in when the section first appears
+        vertices: [
+          { p: [1920, 230.6],     in: [-463.087, 0], out: [463.087, 0] },
+          { p: [2758.5, 1101.45], in: [0, -480.953], out: [0, 480.953] },
+          { p: [1920, 1972.3],    in: [463.087, 0],  out: [-463.087, 0] },
+          { p: [1081.5, 1101.45], in: [0, 480.953],  out: [0, -480.953] },
+        ],
+        // visible ring ≈ 2800x1200 comp px around (1920, 1130)
+        frame: { w: 2800, wNarrow: 2000, h: 1200, cx: 1920, cy: 1130 },
+      },
+      // Vision 5 — wide ring seen edge-on, cards slide along one horizon line
+      movie: {
+        ctl: { scaleDepth: 56.7, scaleMin: 0, globalScale: 88.4, xSlider: -90, yAngle3d: -50,
+               parentPos: [1920, 1080, 0], parentAnchor: [1920, 1080, 0] },
+        speed: 0.04,          // original was 0.1; slowed so the caption stays readable
+        intro: -0.65,
+        vertices: [
+          { p: [1901.05, 430.925],   in: [-786.051, 0], out: [786.051, 0] },
+          { p: [3324.334, 1099.05],  in: [0, -368.992], out: [0, 368.992] },
+          { p: [1901.05, 1767.175],  in: [786.051, 0],  out: [-786.051, 0] },
+          { p: [477.766, 1099.05],   in: [0, 368.992],  out: [0, -368.992] },
+        ],
+        frame: { w: 3700, wNarrow: 2300, h: 1000, cx: 1920, cy: 1080 },
+      },
+    };
+
+    function rcBuildPath(vertices, center) {
+      const pts = [], S = 64, n = vertices.length;
+      for (let s = 0; s < n; s++) {
+        const a = vertices[s], b = vertices[(s + 1) % n];
+        const p0 = a.p, p1 = [a.p[0] + a.out[0], a.p[1] + a.out[1]], p2 = [b.p[0] + b.in[0], b.p[1] + b.in[1]], p3 = b.p;
+        for (let k = 0; k < (s === n - 1 ? S + 1 : S); k++) {
+          const t = k / S, m = 1 - t;
+          pts.push([0, 1].map(d => m * m * m * p0[d] + 3 * m * m * t * p1[d] + 3 * m * t * t * p2[d] + t * t * t * p3[d]));
+        }
+      }
+      let x0 = Infinity, x1 = -Infinity, y0 = Infinity, y1 = -Infinity;
+      pts.forEach(q => { x0 = Math.min(x0, q[0]); x1 = Math.max(x1, q[0]); y0 = Math.min(y0, q[1]); y1 = Math.max(y1, q[1]); });
+      const sx = center[0] - (x0 + x1) / 2, sy = center[1] - (y0 + y1) / 2;
+      pts.forEach(q => { q[0] += sx; q[1] += sy; });
+      const cum = [0];
+      for (let i = 1; i < pts.length; i++) cum.push(cum[i - 1] + Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]));
+      const total = cum[cum.length - 1];
+      return function pointOnPath(pct) {
+        pct = ((pct % 1) + 1) % 1;
+        const target = pct * total;
+        let lo = 0, hi = cum.length - 1;
+        while (hi - lo > 1) { const mid = (lo + hi) >> 1; if (cum[mid] <= target) lo = mid; else hi = mid; }
+        const f = (target - cum[lo]) / ((cum[hi] - cum[lo]) || 1);
+        return [pts[lo][0] + (pts[hi][0] - pts[lo][0]) * f, pts[lo][1] + (pts[hi][1] - pts[lo][1]) * f];
+      };
+    }
+
+    function rcPoses(ctl, pointOnPath, n, u) {
+      const comp = RC_COMP, DEG = 180 / Math.PI;
+      const cx = comp.width / 2, cy = comp.height / 2, maxDist = Math.hypot(cx, cy);
+      const lin = (v, a, b, c, d) => c + (d - c) * Math.min(1, Math.max(0, (v - a) / (b - a)));
+      const ease = (v, a, b, c, d) => { const t = Math.min(1, Math.max(0, (v - a) / (b - a))); return c + (d - c) * (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2); };
+      const rx = ctl.xSlider / DEG, A = ctl.parentAnchor, P = ctl.parentPos;
+      const out = [];
+      for (let i = 0; i < n; i++) {
+        // pct 0.5 is the bottom of the path = nearest the camera
+        const pos = pointOnPath(0.5 + u - i / n);
+        const norm = ((pos[1] - cy) / maxDist + 1) / 2;
+        const depthScale = lin(norm, 0, 1, ctl.scaleMin, 100);
+        const scale = lin(ctl.scaleDepth / 100, 0, 1, 100, depthScale) * (ctl.globalScale / 100) / 100;
+        const lx = pos[0] - A[0], ly = pos[1] - A[1];
+        const x = P[0] + lx, y = P[1] + ly * Math.cos(rx), z = P[2] + ly * Math.sin(rx);
+        const vx = cx - x, vy = cy - y, vz = -comp.camera - z;
+        let rotY = Math.atan2(vx, -vz) * DEG;
+        const rotX = -Math.atan2(vy, Math.hypot(vx, vz)) * DEG;
+        let r = ease(Math.abs(x - cx), 0, comp.width * (700 / 1920), 0, ctl.yAngle3d);
+        if (x < cx) r = -r;
+        rotY += r;
+        out.push({ x, y, z, scale, rotY, rotX });
+      }
+      return out;
+    }
+
+    function rcSetStatus(wrap, msg) {
+      wrap.innerHTML = '';
+      const p = document.createElement('p'); p.className = 'rc-status'; p.textContent = msg;
+      wrap.appendChild(p);
+    }
+
+    /* opts: { wrap, captionEl, items, preset, cardW, cardH,
+               hrefOf(item), imgOf(item), fallbackImg, decorate(inner, item)?, caption(el, item, href) } */
+    function mountVisionCarousel(opts) {
+      const { wrap, captionEl, items, preset: P } = opts;
+      const n = items.length;
+
+      wrap.innerHTML = '';
+      const scaler = document.createElement('div'); scaler.className = 'rc-scaler';
+      const stage = document.createElement('div'); stage.className = 'rc-stage';
+      const group = document.createElement('div'); group.className = 'rc-group';
+      stage.appendChild(group); scaler.appendChild(stage); wrap.appendChild(scaler);
+
+      const cards = items.map((item, i) => {
+        const href = opts.hrefOf(item);
+        const a = document.createElement('a');
+        a.className = 'rc-card';
+        a.href = href;
+        if (/^https?:/.test(href)) { a.target = '_blank'; a.rel = 'noopener'; }
+        a.setAttribute('aria-label', item.title || '');
+        a.style.cssText = `width:${opts.cardW}px;height:${opts.cardH}px;margin-left:${-opts.cardW / 2}px;margin-top:${-opts.cardH / 2}px`;
+        const inner = document.createElement('div');
+        inner.className = 'rc-card-inner';
+        inner.style.setProperty('--rc-delay', Math.round(i * 450 / n) + 'ms');
+        const img = document.createElement('img');
+        img.src = opts.imgOf(item);
+        img.alt = item.title || '';
+        img.draggable = false;
+        img.onerror = () => { img.onerror = null; img.src = opts.fallbackImg; };
+        inner.appendChild(img);
+        if (opts.decorate) opts.decorate(inner, item);
+        a.appendChild(inner); group.appendChild(a);
+        return a;
+      });
+
+      const pointOnPath = rcBuildPath(P.vertices, [RC_COMP.width / 2, RC_COMP.height / 2]);
+
+      // Frame the visible ring; on phones zoom in and let the ring's far sides crop.
+      function fit() {
+        const w = wrap.clientWidth, h = wrap.clientHeight, F = P.frame;
+        const s = Math.min(h / F.h, w / (w < 600 ? F.wNarrow : F.w));
+        scaler.style.transform = `scale(${s}) translate(${-F.cx}px, ${-F.cy}px)`;
+      }
+      fit();
+      new ResizeObserver(fit).observe(wrap);
+
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      let u = 0, introStart = null, last = null, hovering = false, visible = false, dragging = null, frontIdx = -1;
+
+      function showCaption(i) {
+        if (i === frontIdx) return;
+        frontIdx = i;
+        cards.forEach((c, k) => c.classList.toggle('is-front', k === i));
+        captionEl.innerHTML = '';
+        opts.caption(captionEl, items[i], cards[i]);
+      }
+
+      function render() {
+        let intro = P.intro;
+        if (introStart !== null && !reduceMotion) {
+          const k = Math.min(1, (performance.now() - introStart) / 1600);
+          intro = P.intro * (1 - Math.pow(1 - k, 4));
+        }
+        const poses = rcPoses(P.ctl, pointOnPath, n, u + intro - P.intro);
+        let best = 0;
+        poses.forEach((p, i) => {
+          if (p.z < poses[best].z) best = i;
+          cards[i].style.transform = `translate3d(${p.x.toFixed(2)}px,${p.y.toFixed(2)}px,${(-p.z).toFixed(2)}px) rotateY(${p.rotY.toFixed(3)}deg) rotateX(${p.rotX.toFixed(3)}deg) scale(${p.scale.toFixed(5)})`;
+        });
+        showCaption(best);
+      }
+
+      function tick(now) {
+        const dt = last === null ? 0 : Math.min(0.1, (now - last) / 1000);
+        last = now;
+        if (!hovering && !dragging && !reduceMotion) u += P.speed * dt;
+        render();
+        if (visible) requestAnimationFrame(tick); else last = null;
+      }
+
+      new IntersectionObserver(([entry]) => {
+        const was = visible;
+        visible = entry.isIntersecting;
+        if (visible && introStart === null) { introStart = performance.now(); wrap.classList.add('is-in'); }
+        if (visible && !was) requestAnimationFrame(tick);
+      }, { threshold: 0.15 }).observe(wrap);
+      render();
+
+      // Hover pauses; drag spins the ring (a short tap still follows the card's link).
+      wrap.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') hovering = true; });
+      wrap.addEventListener('pointerleave', () => { hovering = false; });
+      wrap.addEventListener('pointerdown', (e) => {
+        dragging = { x: e.clientX, u, moved: false, id: e.pointerId };
+      });
+      window.addEventListener('pointermove', (e) => {
+        if (!dragging || e.pointerId !== dragging.id) return;
+        const dx = e.clientX - dragging.x;
+        if (Math.abs(dx) > 6 && !dragging.moved) { dragging.moved = true; wrap.classList.add('is-dragging'); }
+        if (dragging.moved) { u = dragging.u - dx / wrap.clientWidth * 0.6; render(); }
+      });
+      let dragEndedAt = 0;
+      wrap.addEventListener('click', (ev) => {
+        if (performance.now() - dragEndedAt < 300) { ev.preventDefault(); ev.stopPropagation(); }
+      }, true);
+      const endDrag = () => {
+        if (!dragging) return;
+        if (dragging.moved) dragEndedAt = performance.now();
+        dragging = null;
+        wrap.classList.remove('is-dragging');
+      };
+      window.addEventListener('pointerup', endDrag);
+      window.addEventListener('pointercancel', endDrag);
+    }
+
+    function rcCaptionLink(href, text) {
+      const a = document.createElement('a');
+      a.href = href; a.textContent = text;
+      if (/^https?:/.test(href)) { a.target = '_blank'; a.rel = 'noopener'; }
+      return a;
+    }
+
     async function renderLatestRelease() {
-      const gridEl = document.getElementById('releaseGrid');
+      const wrap = document.getElementById('releaseCarousel');
+      let items;
       try {
         const rows = await BLM48Data.fetchSheet('Discography');
-        const items = rows
+        items = rows
           .map(r => ({ ...r, _date: BLM48Data.fmtDate(r.date) }))
-          .sort((a, b) => b._date.time - a._date.time)
-          .slice(0, 3);
-
-        if (!items.length) {
-          gridEl.innerHTML = '<p style="color:var(--blm-ink-faint);font-weight:600;">No releases yet.</p>';
-          return;
-        }
-
-        gridEl.innerHTML = items.map((item, i) => `
-          <a href="${item.link || '#'}" target="_blank" rel="noopener" class="release-card reveal reveal-${(i % 6) + 1}">
-            <div class="release-cover"><img src="${BLM48Data.driveImg(item.coverImage)}" alt="${item.title || ''}" loading="lazy" onerror="this.src='https://via.placeholder.com/600x600?text=BLM48'"></div>
-            <div class="release-title">${item.title || ''}</div>
-            <div class="release-date">${item._date.full}</div>
-          </a>
-        `).join('');
+          .sort((a, b) => b._date.time - a._date.time);
       } catch (err) {
-        gridEl.innerHTML = '<p style="color:var(--blm-ink-faint);font-weight:600;">Unable to load releases.</p>';
+        rcSetStatus(wrap, 'Unable to load releases.');
+        return;
       }
+      if (!items.length) { rcSetStatus(wrap, 'No releases yet.'); return; }
+
+      // Original rig spaced 12 cards at 1500px; shrink covers as the ring fills up.
+      const size = Math.round(Math.max(760, Math.min(1500, 1500 * Math.sqrt(12 / items.length))));
+      mountVisionCarousel({
+        wrap, items, preset: RC_PRESETS.release,
+        captionEl: document.getElementById('releaseCaption'),
+        cardW: size, cardH: size,
+        hrefOf: item => item.link || 'discography.html',
+        imgOf: item => BLM48Data.driveImg(item.coverImage),
+        fallbackImg: 'https://via.placeholder.com/600x600?text=BLM48',
+        caption(el, item, card) {
+          const t = document.createElement('div'); t.className = 'release-title';
+          t.appendChild(rcCaptionLink(card.href, item.title || ''));
+          const d = document.createElement('div'); d.className = 'release-date'; d.textContent = item._date.full;
+          el.append(t, d);
+        },
+      });
     }
 
     renderHeroBanner();
