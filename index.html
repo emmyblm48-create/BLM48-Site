@@ -932,7 +932,8 @@
         const rows = await BLM48Data.fetchSheet('Discography');
         items = rows
           .map(r => ({ ...r, _date: BLM48Data.fmtDate(r.date) }))
-          .sort((a, b) => b._date.time - a._date.time);
+          .sort((a, b) => b._date.time - a._date.time)
+          .slice(0, 7);
       } catch (err) {
         rcSetStatus(wrap, 'Unable to load releases.');
         return;
