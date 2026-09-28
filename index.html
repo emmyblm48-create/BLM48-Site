@@ -184,12 +184,9 @@
     .release-carousel.movie-carousel { aspect-ratio: 3 / 1; }
     @media (max-width: 768px) { .release-carousel.movie-carousel { aspect-ratio: 2 / 1; } }
     @media (max-width: 480px) { .release-carousel.movie-carousel { aspect-ratio: 16 / 9; } }
-    .mc-play { position: absolute; left: 50%; top: 42%; width: 150px; height: 150px; margin: -75px 0 0 -75px; border-radius: 50%; background: rgba(255, 255, 255, 0.92); color: var(--blm-pink-deep); display: flex; align-items: center; justify-content: center; font-size: 56px; padding-left: 10px; box-shadow: 0 12px 40px rgba(51, 38, 31, 0.25); transition: transform 0.3s, background 0.3s, color 0.3s; }
+    .mc-play { position: absolute; left: 50%; top: 50%; width: 150px; height: 150px; margin: -75px 0 0 -75px; border-radius: 50%; background: rgba(255, 255, 255, 0.92); color: var(--blm-pink-deep); display: flex; align-items: center; justify-content: center; font-size: 56px; padding-left: 10px; box-shadow: 0 12px 40px rgba(51, 38, 31, 0.25); transition: transform 0.3s, background 0.3s, color 0.3s; }
     .rc-card:hover .mc-play { transform: scale(1.08); background: var(--blm-pink); color: #fff; }
-    .mc-text { position: absolute; left: 0; right: 0; bottom: 0; padding: 140px 64px 52px; background: linear-gradient(to top, rgba(51, 38, 31, 0.85), rgba(51, 38, 31, 0)); color: #fff; }
-    .mc-note { display: inline-block; font-size: 34px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; background: var(--blm-gold); color: var(--blm-on-gold); border-radius: 999px; padding: 8px 26px; margin-bottom: 18px; }
-    .mc-title { font-size: 62px; font-weight: 700; line-height: 1.25; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    @media (max-width: 600px) { .mc-text { display: none; } .mc-play { transform: scale(1.6); } }
+    @media (max-width: 600px) { .mc-play { transform: scale(1.6); } }
     .movie-note { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--blm-pink-deep); margin-bottom: 4px; }
 
     /* --- LATEST RELEASE (Discography) --- */
@@ -544,7 +541,8 @@
         const rows = await BLM48Data.fetchSheet('Movie');
         items = rows
           .map(r => ({ ...r, _date: BLM48Data.fmtDate(r.date) }))
-          .sort((a, b) => b._date.time - a._date.time);
+          .sort((a, b) => b._date.time - a._date.time)
+          .slice(0, 5);
       } catch (err) {
         rcSetStatus(wrap, 'Unable to load videos.');
         return;
@@ -558,15 +556,11 @@
         hrefOf: item => item.link || 'https://www.youtube.com/@BLM48Official',
         imgOf: item => BLM48Data.driveImg(item.thumbnail),
         fallbackImg: 'https://via.placeholder.com/640x360?text=BLM48',
-        // Title + note printed on the thumbnail itself, with a play badge.
-        decorate(inner, item) {
+        // Clean thumbnail with just a play badge; the text lives in the caption below.
+        decorate(inner) {
           const play = document.createElement('span'); play.className = 'mc-play';
           play.innerHTML = '<i class="fa-solid fa-play"></i>';
-          const text = document.createElement('div'); text.className = 'mc-text';
-          if (item.note) { const k = document.createElement('div'); k.className = 'mc-note'; k.textContent = item.note; text.appendChild(k); }
-          const t = document.createElement('div'); t.className = 'mc-title'; t.textContent = item.title || '';
-          text.appendChild(t);
-          inner.append(play, text);
+          inner.appendChild(play);
         },
         caption(el, item, card) {
           if (item.note) { const k = document.createElement('div'); k.className = 'movie-note'; k.textContent = item.note; el.appendChild(k); }
