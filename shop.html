@@ -14,112 +14,139 @@
 
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body { font-family: var(--font-body); color: var(--blm-ink); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
-
-    /* --- App-only purchase notice --- */
-    .shop-app-notice {
-      display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap;
-      max-width: 1040px; margin: 0 auto 48px;
-      padding: 18px 26px;
-      border: 1.5px solid var(--blm-gold);
-      background: var(--blm-gold-pale);
-      border-radius: var(--radius-lg);
+    html { scroll-behavior: smooth; background: #cfe5f5; }
+    html, body { overflow-x: clip; }
+    body { font-family: var(--font-body); color: var(--blm-ink); background: transparent; -webkit-font-smoothing: antialiased; }
+    :root {
+      --shop-wrap: min(1700px, 92%);
+      --shop-line: #b9dcf2;
+      --shop-sky: #5fb3e4;
     }
-    .shop-app-notice-text { display: flex; align-items: center; gap: 14px; }
-    .shop-app-notice-text i { font-size: 20px; color: var(--blm-gold-deep); flex-shrink: 0; }
-    .shop-app-notice-title { font-weight: 800; font-size: 14px; color: var(--blm-ink); }
-    .shop-app-notice-sub { font-size: 12.5px; color: var(--blm-ink-soft); margin-top: 2px; }
-    @media (max-width: 640px) { .shop-app-notice { flex-direction: column; align-items: flex-start; } }
 
-    /* --- Quick category tabs --- */
-    .shop-tabs {
-      display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;
-      max-width: 1040px; margin: 0 auto 60px;
+    /* --- Sky with soft pastel clouds behind the whole page --- */
+    .shop-sky {
+      position: fixed; inset: 0; z-index: -1; pointer-events: none;
+      background:
+        radial-gradient(ellipse 22% 13% at 10% 16%, rgba(255, 255, 255, 0.95), transparent 70%),
+        radial-gradient(ellipse 16% 10% at 20% 22%, rgba(255, 255, 255, 0.85), transparent 70%),
+        radial-gradient(ellipse 24% 12% at 86% 10%, rgba(255, 255, 255, 0.9), transparent 70%),
+        radial-gradient(ellipse 18% 11% at 74% 16%, rgba(255, 255, 255, 0.8), transparent 70%),
+        radial-gradient(ellipse 30% 16% at 64% 58%, rgba(255, 255, 255, 0.75), transparent 70%),
+        radial-gradient(ellipse 28% 18% at 6% 70%, rgba(255, 225, 238, 0.85), transparent 70%),
+        radial-gradient(ellipse 26% 16% at 96% 82%, rgba(255, 228, 240, 0.8), transparent 70%),
+        radial-gradient(ellipse 34% 16% at 46% 100%, rgba(255, 243, 206, 0.9), transparent 70%),
+        linear-gradient(180deg, #b7dcf4 0%, #d6eaf8 45%, #eee7f2 100%);
     }
-    .shop-tab {
-      display: inline-flex; align-items: center; gap: 8px;
-      text-decoration: none; color: var(--blm-ink);
-      font-size: 12.5px; font-weight: 800; letter-spacing: 0.6px; text-transform: uppercase;
-      padding: 11px 22px;
-      border: 1.5px solid var(--blm-line);
-      border-radius: var(--radius-pill);
-      transition: background 0.2s, border-color 0.2s, color 0.2s;
-    }
-    .shop-tab:hover { background: var(--blm-pink-pale); border-color: var(--blm-pink); color: var(--blm-pink-deep); }
-    .shop-tab i { color: var(--blm-gold-deep); }
 
-    /* --- Section --- */
-    .shop-section { max-width: 1300px; width: 92%; margin: 0 auto 90px; scroll-margin-top: 100px; }
-    .shop-section-caption { font-size: 12.5px; color: var(--blm-ink-faint); font-weight: 600; margin-top: -14px; margin-bottom: 24px; }
-    .shop-group-title {
-      grid-column: 1 / -1;
-      display: flex; align-items: center; gap: 10px;
-      font-family: var(--font-display); font-weight: 800; font-size: 15px;
-      color: var(--blm-ink); text-transform: uppercase; letter-spacing: 0.4px;
-      padding-bottom: 10px; margin-top: 8px; border-bottom: 1px solid var(--blm-line);
+    /* --- Store header panel (white, rounded bottom corners) --- */
+    .shop-top {
+      width: var(--shop-wrap); margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;
+      padding: 22px clamp(20px, 3vw, 42px);
+      background: #fff; border-radius: 0 0 44px 44px;
+      box-shadow: 0 10px 30px rgba(59, 47, 38, 0.06);
     }
-    .shop-group-title:first-child { margin-top: 0; }
-    .shop-group-title i { color: var(--blm-gold-deep); }
+    .shop-brand { display: flex; align-items: center; gap: 16px; text-decoration: none; color: var(--blm-ink); }
+    .shop-brand img { height: clamp(40px, 4vw, 56px); width: auto; display: block; }
+    .shop-brand-text { display: flex; flex-direction: column; line-height: 1.15; }
+    .shop-brand-name { font-family: var(--font-display); font-weight: 300; font-size: clamp(22px, 2.4vw, 34px); letter-spacing: 0.06em; color: var(--blm-gold-deep); }
+    .shop-brand-sub { font-family: var(--font-display); font-size: clamp(11px, 1vw, 15px); letter-spacing: 0.14em; color: var(--blm-ink-soft); }
+    .shop-links { display: flex; align-items: center; gap: 4px 22px; flex-wrap: wrap; justify-content: flex-end; }
+    .shop-links a { font-size: 13px; letter-spacing: 0.1em; color: var(--blm-pink-deep); text-decoration: none; transition: opacity 0.2s; }
+    .shop-links a:hover { opacity: 0.7; }
+    .shop-links .shop-links-app { display: inline-flex; align-items: center; gap: 6px; padding: 6px 16px; border-radius: 999px; background: var(--blm-gold); color: var(--blm-on-gold); font-weight: 700; }
 
-    /* --- Grid & Cards --- */
-    .shop-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
-    @media (max-width: 1024px) { .shop-grid { grid-template-columns: repeat(3, 1fr); } }
-    @media (max-width: 720px) { .shop-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; } }
-    @media (max-width: 420px) { .shop-grid { grid-template-columns: 1fr 1fr; } }
+    /* --- Featured row: big rounded cards that scroll sideways --- */
+    .shop-feature { position: relative; margin: clamp(36px, 5vw, 70px) 0 0; }
+    .shop-feature-rail {
+      display: flex; gap: clamp(16px, 2vw, 30px); overflow-x: auto; scroll-snap-type: x mandatory;
+      padding: 6px 4vw 20px; scroll-padding-inline: 4vw; scrollbar-width: none;
+    }
+    .shop-feature-rail::-webkit-scrollbar { display: none; }
+    .shop-feature-card {
+      position: relative; flex: 0 0 auto; width: clamp(260px, 34vw, 600px); aspect-ratio: 1;
+      border-radius: 24px; overflow: hidden; background: #fff; scroll-snap-align: center;
+      box-shadow: 0 16px 34px rgba(59, 47, 38, 0.12);
+      transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .shop-feature-card:hover { transform: translateY(-4px); }
+    .shop-feature-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .shop-feature-label {
+      position: absolute; left: 16px; bottom: 16px; max-width: calc(100% - 32px);
+      padding: 7px 16px; border-radius: 999px; background: rgba(255, 255, 255, 0.92);
+      font-size: 13px; font-weight: 600; color: var(--blm-ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .shop-feature-nav {
+      position: absolute; top: calc(50% - 20px); z-index: 2; width: 46px; height: 46px; border-radius: 50%;
+      border: none; background: rgba(255, 255, 255, 0.9); color: var(--blm-ink); font-size: 16px; cursor: pointer;
+      box-shadow: 0 6px 16px rgba(59, 47, 38, 0.12); transition: background 0.2s;
+    }
+    .shop-feature-nav:hover { background: #fff; }
+    .shop-feature-prev { left: 2vw; }
+    .shop-feature-next { right: 2vw; }
+    @media (max-width: 760px) { .shop-feature-nav { display: none; } }
+
+    /* --- App-only notice --- */
+    .shop-note {
+      width: var(--shop-wrap); margin: clamp(30px, 4vw, 50px) auto 0;
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+      padding: 14px 24px; border-radius: 999px; background: rgba(255, 255, 255, 0.85);
+      font-size: 13px; color: var(--blm-ink-soft);
+    }
+    .shop-note i { color: var(--blm-gold-deep); }
+    .shop-note strong { color: var(--blm-ink); }
+    @media (max-width: 640px) { .shop-note { border-radius: 20px; } }
+
+    /* --- Product panels: white boards split by thin sky-blue lines --- */
+    .shop-section { width: var(--shop-wrap); margin: clamp(30px, 4vw, 50px) auto 0; scroll-margin-top: 110px; background: #fff; }
+    .shop-section:last-of-type { margin-bottom: 40px; }
+    .shop-section-head {
+      display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+      padding: 22px clamp(20px, 2.4vw, 32px); border-bottom: 1px solid var(--shop-line);
+    }
+    .shop-section-title { font-family: var(--font-display); font-weight: 400; font-size: clamp(18px, 1.8vw, 22px); letter-spacing: 0.12em; color: var(--blm-ink); }
+    .shop-section-title small { margin-left: 12px; font-family: var(--font-body); font-size: 12px; letter-spacing: 0.1em; color: var(--blm-ink-faint); }
+    .shop-section-link { font-size: 12px; letter-spacing: 0.12em; color: var(--blm-pink-deep); text-decoration: none; }
+    .shop-section-link:hover { text-decoration: underline; text-underline-offset: 4px; }
+
+    .shop-grid { display: grid; grid-template-columns: repeat(4, 1fr); }
+    @media (max-width: 1100px) { .shop-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 720px) { .shop-grid { grid-template-columns: repeat(2, 1fr); } }
 
     .shop-card {
-      display: flex; flex-direction: column;
-      background: var(--blm-paper);
-      border: 1px solid var(--blm-line);
-      border-radius: var(--radius-md);
-      overflow: hidden;
-      transition: box-shadow 0.2s, transform 0.2s;
+      display: flex; flex-direction: column; padding: clamp(18px, 2.4vw, 40px) clamp(14px, 2vw, 30px) clamp(20px, 2.4vw, 36px);
+      border-right: 1px solid var(--shop-line); border-bottom: 1px solid var(--shop-line);
+      text-decoration: none; color: inherit; transition: background 0.2s;
     }
-    .shop-card:hover { box-shadow: var(--shadow-hover); transform: translateY(-3px); }
-
-    .shop-card-photo { position: relative; width: 100%; aspect-ratio: 1/1; overflow: hidden; background: var(--blm-paper-soft); }
+    .shop-card:hover { background: #f7fbfe; }
+    .shop-card-photo { width: min(100%, 300px); aspect-ratio: 1; margin: 0 auto 22px; overflow: hidden; background: var(--blm-paper-soft); }
     .shop-card-photo img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s; }
-    .shop-card:hover .shop-card-photo img { transform: scale(1.05); }
+    .shop-card:hover .shop-card-photo img { transform: scale(1.04); }
+    .shop-card.is-unavailable .shop-card-photo img { opacity: 0.55; filter: grayscale(0.4); }
+    .shop-card-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+    .shop-tag { display: inline-flex; align-items: center; padding: 3px 12px; border-radius: 999px; font-size: 11px; font-weight: 600; letter-spacing: 0.04em; white-space: nowrap; }
+    .shop-tag-merch { background: var(--shop-sky); color: #fff; }
+    .shop-tag-preorder { background: var(--blm-gold); color: var(--blm-on-gold); }
+    .shop-tag-cafe { background: #6fc2a6; color: #fff; }
+    .shop-tag-line { border: 1px solid var(--blm-pink); color: var(--blm-pink-deep); }
+    .shop-tag-muted { border: 1px solid var(--blm-ink-faint); color: var(--blm-ink-soft); }
+    .shop-card-title { font-size: 14px; letter-spacing: 0.06em; line-height: 1.6; color: var(--blm-ink); }
+    .shop-card-sub { font-size: 12px; color: var(--blm-ink-faint); margin-top: 2px; }
+    .shop-card-price { margin-top: 8px; font-size: 13px; letter-spacing: 0.06em; color: var(--blm-ink-soft); }
+    .shop-card-price i { color: var(--blm-gold-deep); margin-right: 4px; }
+    .shop-card-price small { font-size: 11px; margin-left: 2px; }
 
-    .shop-badge {
-      position: absolute; top: 10px; left: 10px; z-index: 2;
-      display: inline-flex; align-items: center; gap: 6px;
-      font-size: 10px; font-weight: 800; letter-spacing: 0.6px; text-transform: uppercase;
-      padding: 5px 11px; border-radius: var(--radius-pill);
-      color: #fff;
+    .shop-group-title {
+      grid-column: 1 / -1; display: flex; align-items: center; gap: 10px;
+      padding: 16px clamp(20px, 2.4vw, 32px); border-bottom: 1px solid var(--shop-line); background: #f7fbfe;
+      font-size: 13px; letter-spacing: 0.1em; color: var(--blm-ink);
     }
-    .shop-badge-soldout { background: var(--blm-ink); }
-    .shop-badge-comingsoon { background: var(--blm-pink-deep); }
-    .shop-badge-best { top: auto; bottom: 10px; left: 10px; background: var(--blm-gold-deep); color: var(--blm-on-gold); }
-
-    .shop-card-body { padding: 14px 16px 18px; display: flex; flex-direction: column; flex-grow: 1; }
-    .shop-card-cat { margin-bottom: 8px; }
-    .shop-card-title { font-size: 13.5px; font-weight: 700; color: var(--blm-ink); line-height: 1.4; margin-bottom: 4px; }
-    .shop-card-sub { font-size: 11.5px; color: var(--blm-ink-faint); font-weight: 600; line-height: 1.5; margin-bottom: 14px; flex-grow: 1; }
-
-    .shop-card-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding-top: 12px; border-top: 1px solid var(--blm-line); }
-    .shop-card-price { display: flex; align-items: center; gap: 6px; font-family: var(--font-display); font-weight: 800; font-size: 13.5px; color: var(--blm-ink); white-space: nowrap; }
-    .shop-card-price i { color: var(--blm-gold-deep); font-size: 12px; }
-    .shop-card-price.is-muted { color: var(--blm-ink-faint); }
-    .shop-card-cta {
-      display: inline-flex; align-items: center; gap: 6px;
-      text-decoration: none; color: var(--blm-pink-deep);
-      font-size: 10.5px; font-weight: 800; letter-spacing: 0.6px; text-transform: uppercase;
-      white-space: nowrap;
-      transition: gap 0.2s;
-    }
-    .shop-card-cta:hover { gap: 10px; }
-    .shop-card.is-unavailable .shop-card-cta { color: var(--blm-ink-faint); pointer-events: none; }
-
+    .shop-group-title i { color: var(--blm-gold-deep); }
     .shop-empty-state {
-      grid-column: 1 / -1;
-      display: flex; flex-direction: column; align-items: center; gap: 10px;
-      padding: 50px 20px;
-      color: var(--blm-ink-faint); font-weight: 600; font-size: 13.5px;
-      text-align: center;
+      grid-column: 1 / -1; display: flex; flex-direction: column; align-items: center; gap: 10px;
+      padding: 50px 20px; color: var(--blm-ink-faint); font-weight: 600; font-size: 13.5px; text-align: center;
     }
-    .shop-empty-state i { font-size: 26px; color: var(--blm-ink-faint); }
+    .shop-empty-state i { font-size: 26px; }
   </style>
 </head>
 <body>
@@ -127,38 +154,42 @@
   <div id="site-header"></div>
   <script src="assets/js/nav.js"></script>
 
-  <main class="page-shell">
-    <div class="page-hero">
-      <span class="eyebrow">Official Store</span>
-      <h1 class="page-hero-title">Shop</h1>
-    </div>
+  <div class="shop-sky" aria-hidden="true"></div>
 
-    <div class="shop-app-notice">
-      <div class="shop-app-notice-text">
-        <i class="fas fa-circle-info" aria-hidden="true"></i>
-        <div>
-          <div class="shop-app-notice-title">This page is a showcase only</div>
-          <div class="shop-app-notice-sub">All purchases are made exclusively inside the BLM48 Membership App — สั่งซื้อสินค้าได้ทางแอป BLM48 Membership เท่านั้น</div>
-        </div>
-      </div>
-      <a href="https://blm48-membership.vercel.app/shop" target="_blank" rel="noopener" class="btn btn-gold">
-        <i class="fas fa-mobile-screen-button" aria-hidden="true"></i> Open in App
+  <main>
+    <header class="shop-top">
+      <a class="shop-brand" href="shop.html">
+        <img src="https://lh3.googleusercontent.com/d/12PFpDx6bOmQpf_UMhhh6ltZwvOAkVyvW=s1000" alt="BLM48">
+        <span class="shop-brand-text">
+          <span class="shop-brand-name">BLM48</span>
+          <span class="shop-brand-sub">OFFICIAL GOODS STORE</span>
+        </span>
       </a>
-    </div>
+      <nav class="shop-links" aria-label="Shop categories">
+        <a href="#section-merch">Merchandise</a>
+        <a href="#section-preorder">Pre-Order</a>
+        <a href="#section-cafe">BLM48 Cafe</a>
+        <a class="shop-links-app" href="https://blm48-membership.vercel.app/shop" target="_blank" rel="noopener"><i class="fas fa-mobile-screen-button" aria-hidden="true"></i> เปิดในแอป</a>
+      </nav>
+    </header>
 
-    <nav class="shop-tabs" aria-label="Shop categories">
-      <a href="#section-merch" class="shop-tab"><i class="fas fa-gifts" aria-hidden="true"></i> Official Merchandise</a>
-      <a href="#section-preorder" class="shop-tab"><i class="fas fa-box" aria-hidden="true"></i> Pre-Order</a>
-      <a href="#section-cafe" class="shop-tab"><i class="fas fa-mug-hot" aria-hidden="true"></i> BLM48 Cafe</a>
-    </nav>
+    <section class="shop-feature" id="shopFeature" aria-label="Featured items" hidden>
+      <button type="button" class="shop-feature-nav shop-feature-prev" id="featurePrev" aria-label="Previous"><i class="fas fa-chevron-left"></i></button>
+      <div class="shop-feature-rail" id="featureRail"></div>
+      <button type="button" class="shop-feature-nav shop-feature-next" id="featureNext" aria-label="Next"><i class="fas fa-chevron-right"></i></button>
+    </section>
+
+    <p class="shop-note">
+      <i class="fas fa-circle-info" aria-hidden="true"></i>
+      <span><strong>หน้านี้แสดงสินค้าเท่านั้น</strong> — สั่งซื้อได้ทางแอป BLM48 Membership (Purchases are made in the Membership App)</span>
+    </p>
 
     <!-- OFFICIAL MERCHANDISE -->
     <section class="shop-section" id="section-merch">
-      <div class="sec-head no-underline" style="border-bottom:none;">
-        <h2 class="sec-title">Official Merchandise</h2>
-        <a href="https://blm48-membership.vercel.app/shop#section-gacha" target="_blank" rel="noopener" class="arrow-link">Buy in App</a>
+      <div class="shop-section-head">
+        <h2 class="shop-section-title">OFFICIAL MERCHANDISE<small>limited · collector · pulls</small></h2>
+        <a href="https://blm48-membership.vercel.app/shop#section-gacha" target="_blank" rel="noopener" class="shop-section-link">Buy in App ›</a>
       </div>
-      <p class="shop-section-caption">limited · collector · pulls</p>
       <div class="shop-grid" id="merchGrid">
         <div class="shop-empty-state"><i class="fas fa-spinner fa-spin"></i><span>Loading merchandise...</span></div>
       </div>
@@ -166,11 +197,10 @@
 
     <!-- PRE-ORDER -->
     <section class="shop-section" id="section-preorder">
-      <div class="sec-head no-underline" style="border-bottom:none;">
-        <h2 class="sec-title">Pre-Order</h2>
-        <a href="https://blm48-membership.vercel.app/shop#section-preorder" target="_blank" rel="noopener" class="arrow-link">Buy in App</a>
+      <div class="shop-section-head">
+        <h2 class="shop-section-title">PRE-ORDER<small>order today · ship later</small></h2>
+        <a href="https://blm48-membership.vercel.app/shop#section-preorder" target="_blank" rel="noopener" class="shop-section-link">Buy in App ›</a>
       </div>
-      <p class="shop-section-caption">order today · ship later</p>
       <div class="shop-grid" id="preorderGrid">
         <div class="shop-empty-state"><i class="fas fa-spinner fa-spin"></i><span>Loading pre-order items...</span></div>
       </div>
@@ -178,11 +208,10 @@
 
     <!-- BLM48 CAFE -->
     <section class="shop-section" id="section-cafe">
-      <div class="sec-head no-underline" style="border-bottom:none;">
-        <h2 class="sec-title">BLM48 Cafe</h2>
-        <a href="https://blm48-membership.vercel.app/shop#section-cafe" target="_blank" rel="noopener" class="arrow-link">Buy in App</a>
+      <div class="shop-section-head">
+        <h2 class="shop-section-title">BLM48 CAFE<small>cream · soda · pudding</small></h2>
+        <a href="https://blm48-membership.vercel.app/shop#section-cafe" target="_blank" rel="noopener" class="shop-section-link">Buy in App ›</a>
       </div>
-      <p class="shop-section-caption">cream · soda · pudding</p>
       <div class="shop-grid" id="cafeGrid"></div>
     </section>
   </main>
@@ -197,6 +226,20 @@
     const MEMBERSHIP_SUPABASE_URL = 'https://rqhwzbrcgnpxtuaeoxml.supabase.co';
     const MEMBERSHIP_SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJxaHd6YnJjZ25weHR1YWVveG1sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUyMjczNjAsImV4cCI6MjEwMDgwMzM2MH0.J0iiUikxLoJKZ5SF9KSz86yf2LU89z8NdPb9rEB89Gw';
     const MEMBERSHIP_APP_URL = 'https://blm48-membership.vercel.app';
+    const FALLBACK_IMG = 'https://placehold.co/500x500/fff6e0/c9932c?text=BLM48';
+
+    // Google Drive image links (lh3) throttle when many load at once, so a failed
+    // picture gets one delayed retry before falling back to the branded placeholder.
+    window.shopImgError = function (img) {
+      if (!img.dataset.retried) {
+        img.dataset.retried = '1';
+        const src = img.src;
+        setTimeout(() => { img.src = src + (src.includes('?') ? '&' : '?') + 'r=1'; }, 800 + Math.random() * 1500);
+        return;
+      }
+      img.onerror = null;
+      img.src = FALLBACK_IMG;
+    };
 
     async function membershipRpc(fnName, params) {
       const res = await fetch(MEMBERSHIP_SUPABASE_URL + '/rest/v1/rpc/' + fnName, {
@@ -219,126 +262,87 @@
       return `<div class="shop-empty-state"><i class="fas ${icon}"></i><span>${message}</span></div>`;
     }
 
+    // One product tile: picture, category tag (+ status tag), name, price.
+    function cardHTML({ href, image, name, sub, tagClass, tagText, status, price, unavailable }, i) {
+      const statusTag = status ? `<span class="shop-tag ${status.muted ? 'shop-tag-muted' : 'shop-tag-line'}">${status.text}</span>` : '';
+      return `
+        <a class="shop-card reveal reveal-${(i % 4) + 1}${unavailable ? ' is-unavailable' : ''}" href="${href}" target="_blank" rel="noopener">
+          <div class="shop-card-photo">
+            <img src="${image || FALLBACK_IMG}" alt="${escapeHtml(name)}" loading="lazy" onerror="shopImgError(this)">
+          </div>
+          <div class="shop-card-tags"><span class="shop-tag ${tagClass}">${tagText}</span>${statusTag}</div>
+          <div class="shop-card-title">${escapeHtml(name)}</div>
+          ${sub ? `<div class="shop-card-sub">${escapeHtml(sub)}</div>` : ''}
+          <div class="shop-card-price">${price}</div>
+        </a>
+      `;
+    }
+
+    const tokens = n => `<i class="fas fa-coins"></i>${Number(n || 0).toLocaleString()}<small>Token</small>`;
+
     // --- OFFICIAL MERCHANDISE (live from the Membership app's gacha collections) ---
-    async function renderMerch() {
-      const gridEl = document.getElementById('merchGrid');
-      try {
-        const response = await membershipRpc('get_gacha_collections', { p_username: null });
-        const collections = (response && response.data) || [];
-        const items = collections.filter(col => col.CollectionID && col.CollectionID.startsWith('gacha_') && !/NPT48/i.test(col.CollectionName || ''));
-
-        if (!items.length) {
-          gridEl.innerHTML = emptyState('fa-gifts', 'Official Merchandise coming soon.');
-          return;
-        }
-
-        gridEl.innerHTML = items.map((col, i) => {
+    async function loadMerch() {
+      const response = await membershipRpc('get_gacha_collections', { p_username: null });
+      const collections = (response && response.data) || [];
+      return collections
+        .filter(col => col.CollectionID && col.CollectionID.startsWith('gacha_') && !/NPT48/i.test(col.CollectionName || ''))
+        .map(col => {
           const isComingSoon = col.Status === 'Coming Soon';
           const isSoldOut = col.Status === 'Sold Out';
           const isClosed = col.Status === 'Closed';
-          const cover = col.CoverImage || 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=500';
-
-          let badgeHTML = '';
-          if (isComingSoon) badgeHTML = '<span class="shop-badge shop-badge-comingsoon"><i class="fas fa-clock"></i> Coming Soon</span>';
-          else if (isSoldOut) badgeHTML = '<span class="shop-badge shop-badge-soldout"><i class="fas fa-box-archive"></i> Sold Out</span>';
-          else if (isClosed) badgeHTML = '<span class="shop-badge shop-badge-soldout"><i class="fas fa-clock-rotate-left"></i> Ended</span>';
-
-          const priceHTML = isComingSoon
-            ? `<span class="shop-card-price is-muted">Coming Soon</span>`
-            : isClosed
-              ? `<span class="shop-card-price is-muted">Ended</span>`
-              : `<span class="shop-card-price"><i class="fas fa-coins"></i> ${Number(col.CostTokens || 0).toLocaleString()}</span>`;
-
-          return `
-            <div class="shop-card reveal reveal-${(i % 6) + 1}${(isSoldOut || isClosed) ? ' is-unavailable' : ''}">
-              <div class="shop-card-photo">
-                ${badgeHTML}
-                <img src="${cover}" alt="${escapeHtml(col.CollectionName)}" loading="lazy" onerror="this.src='https://placehold.co/500x500/fff0f2/ff85a2?text=BLM48'">
-              </div>
-              <div class="shop-card-body">
-                <span class="kicker kicker-live shop-card-cat">Merchandise</span>
-                <div class="shop-card-title">${escapeHtml(col.CollectionName)}</div>
-                <div class="shop-card-sub">${escapeHtml(col.Description || 'Limited collection - draw for a chance at rare members.')}</div>
-                <div class="shop-card-foot">
-                  ${priceHTML}
-                  <a href="${MEMBERSHIP_APP_URL}/shop#section-gacha" target="_blank" rel="noopener" class="shop-card-cta">View in App <i class="fas fa-arrow-up-right-from-square"></i></a>
-                </div>
-              </div>
-            </div>
-          `;
-        }).join('');
-      } catch (err) {
-        gridEl.innerHTML = emptyState('fa-triangle-exclamation', 'Unable to load merchandise right now.');
-      }
+          return {
+            href: `${MEMBERSHIP_APP_URL}/shop#section-gacha`,
+            image: col.CoverImage,
+            name: col.CollectionName,
+            tagClass: 'shop-tag-merch', tagText: 'Merchandise',
+            status: isComingSoon ? { text: 'Coming Soon' } : isSoldOut ? { text: 'Sold Out', muted: true } : isClosed ? { text: 'Ended', muted: true } : null,
+            price: isComingSoon ? 'Coming Soon' : isClosed ? 'Ended' : tokens(col.CostTokens),
+            unavailable: isSoldOut || isClosed,
+            available: !isSoldOut && !isClosed
+          };
+        });
     }
 
     // --- PRE-ORDER (live from the Membership app, grouped by category) ---
-    async function renderPreorder() {
+    async function loadPreorder() {
+      const response = await membershipRpc('get_preorder_products', {});
+      const products = (response && response.data) || [];
+      return products.map(p => {
+        const isSoldOut = p.status === 'sold_out';
+        const isComingSoon = p.status === 'coming_soon';
+        return {
+          href: `${MEMBERSHIP_APP_URL}/preorder_detail?id=${encodeURIComponent(p.productId)}`,
+          image: p.coverImage,
+          name: p.name,
+          category: p.category,
+          tagClass: 'shop-tag-preorder', tagText: 'Pre-Order',
+          status: isComingSoon ? { text: 'Coming Soon' } : isSoldOut ? { text: 'Sold Out', muted: true } : null,
+          price: isComingSoon ? 'Coming Soon' : tokens(p.costTokens),
+          unavailable: isSoldOut,
+          available: !isSoldOut
+        };
+      });
+    }
+
+    function renderMerch(items) {
+      const gridEl = document.getElementById('merchGrid');
+      gridEl.innerHTML = items.length ? items.map(cardHTML).join('') : emptyState('fa-gifts', 'Official Merchandise coming soon.');
+    }
+
+    function renderPreorder(items) {
       const gridEl = document.getElementById('preorderGrid');
-      try {
-        const response = await membershipRpc('get_preorder_products', {});
-        const products = (response && response.data) || [];
-
-        if (!products.length) {
-          gridEl.innerHTML = emptyState('fa-box', 'No pre-order items right now.');
-          return;
-        }
-
-        const NO_CATEGORY_LABEL = 'Pre-Order';
-        const grouped = {};
-        products.forEach(p => {
-          const key = p.category || NO_CATEGORY_LABEL;
-          (grouped[key] = grouped[key] || []).push(p);
-        });
-
-        let html = '';
-        Object.keys(grouped).forEach(category => {
-          if (category !== NO_CATEGORY_LABEL) {
-            html += `<div class="shop-group-title"><i class="fas fa-microphone"></i> ${escapeHtml(category)}</div>`;
-          }
-          html += grouped[category].map((p, i) => {
-            const isSoldOut = p.status === 'sold_out';
-            const isComingSoon = p.status === 'coming_soon';
-
-            let badgeHTML = '';
-            if (isSoldOut) badgeHTML = '<span class="shop-badge shop-badge-soldout"><i class="fas fa-box-archive"></i> Sold Out</span>';
-            else if (isComingSoon) badgeHTML = '<span class="shop-badge shop-badge-comingsoon"><i class="fas fa-clock"></i> Coming Soon</span>';
-
-            const priceHTML = isComingSoon
-              ? `<span class="shop-card-price is-muted">Coming Soon</span>`
-              : `<span class="shop-card-price"><i class="fas fa-coins"></i> ${Number(p.costTokens || 0).toLocaleString()}</span>`;
-
-            const detailUrl = `${MEMBERSHIP_APP_URL}/preorder_detail?id=${encodeURIComponent(p.productId)}`;
-
-            return `
-              <div class="shop-card reveal reveal-${(i % 6) + 1}${isSoldOut ? ' is-unavailable' : ''}">
-                <div class="shop-card-photo">
-                  ${badgeHTML}
-                  <img src="${p.coverImage || 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=500'}" alt="${escapeHtml(p.name)}" loading="lazy" onerror="this.src='https://placehold.co/500x500/fff6e0/c9932c?text=Pre-order'">
-                </div>
-                <div class="shop-card-body">
-                  <span class="kicker kicker-gold shop-card-cat">Pre-Order</span>
-                  <div class="shop-card-title">${escapeHtml(p.name)}</div>
-                  <div class="shop-card-sub">order today · ship later</div>
-                  <div class="shop-card-foot">
-                    ${priceHTML}
-                    <a href="${detailUrl}" target="_blank" rel="noopener" class="shop-card-cta">View in App <i class="fas fa-arrow-up-right-from-square"></i></a>
-                  </div>
-                </div>
-              </div>
-            `;
-          }).join('');
-        });
-
-        gridEl.innerHTML = html;
-      } catch (err) {
-        gridEl.innerHTML = emptyState('fa-triangle-exclamation', 'Unable to load pre-order items right now.');
-      }
+      if (!items.length) { gridEl.innerHTML = emptyState('fa-box', 'No pre-order items right now.'); return; }
+      const NO_CATEGORY_LABEL = 'Pre-Order';
+      const grouped = {};
+      items.forEach(p => { const key = p.category || NO_CATEGORY_LABEL; (grouped[key] = grouped[key] || []).push(p); });
+      gridEl.innerHTML = Object.keys(grouped).map(category =>
+        (category !== NO_CATEGORY_LABEL ? `<div class="shop-group-title"><i class="fas fa-microphone"></i> ${escapeHtml(category)}</div>` : '') +
+        grouped[category].map(cardHTML).join('')
+      ).join('');
     }
 
     // --- BLM48 CAFE (same fixed catalog the Membership app's Cafe section ships) ---
-    function renderCafe() {
-      const gridEl = document.getElementById('cafeGrid');
+    function loadCafe() {
       const CAFE_ITEMS = [
         { name: 'Suiito Matcha', sub: 'いちごミニパフェ', price: 5, image: 'https://lh3.googleusercontent.com/d/1hc_AQblGKyamIOmspWseUcnY2gwW9dyg=s1000' },
         { name: 'Pinku Milk', sub: 'ピンクミルク', price: 5, image: 'https://lh3.googleusercontent.com/d/1_KC4glssnDILv1GP7BtUnjT1-uP1omlB=s1000' },
@@ -346,28 +350,49 @@
         { name: 'Thai Miruku Tea', sub: 'タイミルクティー', price: 5, image: 'https://lh3.googleusercontent.com/d/11kPILdW6tOh5xZZ-Kl6JpAUsJeYWrlXE=s1000' },
         { name: 'BLM48 Cafe', sub: 'Background V.1', price: 0, image: 'https://lh3.googleusercontent.com/d/1xhN872cKyptZ-vO8N6jHkCfSACE2okVo=s1000' }
       ];
-
-      gridEl.innerHTML = CAFE_ITEMS.map((item, i) => `
-        <div class="shop-card reveal reveal-${(i % 6) + 1}">
-          <div class="shop-card-photo">
-            <img src="${item.image}" alt="${escapeHtml(item.name)}" loading="lazy" onerror="this.src='https://placehold.co/500x500/e8f7ee/5fa896?text=BLM48+Cafe'">
-          </div>
-          <div class="shop-card-body">
-            <span class="kicker shop-card-cat" style="color:#5fa896;">BLM48 Cafe</span>
-            <div class="shop-card-title">${escapeHtml(item.name)}</div>
-            <div class="shop-card-sub">${escapeHtml(item.sub)}</div>
-            <div class="shop-card-foot">
-              <span class="shop-card-price">${item.price > 0 ? `<i class="fas fa-coins"></i> ${item.price}` : 'Free'}</span>
-              <a href="${MEMBERSHIP_APP_URL}/shop#section-cafe" target="_blank" rel="noopener" class="shop-card-cta">View in App <i class="fas fa-arrow-up-right-from-square"></i></a>
-            </div>
-          </div>
-        </div>
-      `).join('');
+      return CAFE_ITEMS.map(item => ({
+        href: `${MEMBERSHIP_APP_URL}/shop#section-cafe`,
+        image: item.image, name: item.name, sub: item.sub,
+        tagClass: 'shop-tag-cafe', tagText: 'Cafe',
+        price: item.price > 0 ? tokens(item.price) : 'Free',
+        available: true
+      }));
     }
 
-    renderMerch();
-    renderPreorder();
-    renderCafe();
+    // Featured row: everything with a picture, what you can get right now first.
+    function renderFeature(items) {
+      const withImage = items.filter(it => it.image);
+      const picks = [...withImage.filter(it => it.available), ...withImage.filter(it => !it.available)].slice(0, 8);
+      if (!picks.length) return;
+      document.getElementById('featureRail').innerHTML = picks.map(it => `
+        <a class="shop-feature-card" href="${it.href}" target="_blank" rel="noopener">
+          <img src="${it.image}" alt="${escapeHtml(it.name)}" onerror="shopImgError(this)">
+          <span class="shop-feature-label">${escapeHtml(it.name)}</span>
+        </a>
+      `).join('');
+      document.getElementById('shopFeature').hidden = false;
+    }
+
+    (function wireFeatureNav() {
+      const rail = document.getElementById('featureRail');
+      const step = dir => () => rail.scrollBy({ left: dir * rail.clientWidth * 0.6, behavior: 'smooth' });
+      document.getElementById('featurePrev').addEventListener('click', step(-1));
+      document.getElementById('featureNext').addEventListener('click', step(1));
+    })();
+
+    (async function renderShop() {
+      const cafe = loadCafe();
+      document.getElementById('cafeGrid').innerHTML = cafe.map(cardHTML).join('');
+      const [merch, preorder] = await Promise.all([
+        loadMerch().catch(() => null),
+        loadPreorder().catch(() => null)
+      ]);
+      if (merch) renderMerch(merch);
+      else document.getElementById('merchGrid').innerHTML = emptyState('fa-triangle-exclamation', 'Unable to load merchandise right now.');
+      if (preorder) renderPreorder(preorder);
+      else document.getElementById('preorderGrid').innerHTML = emptyState('fa-triangle-exclamation', 'Unable to load pre-order items right now.');
+      renderFeature([...(merch || []), ...(preorder || []), ...cafe]);
+    })();
   </script>
 
 </body>
