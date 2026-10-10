@@ -86,18 +86,6 @@
           '<div class="footer-emblem">' +
             '<img src="https://lh3.googleusercontent.com/d/12PFpDx6bOmQpf_UMhhh6ltZwvOAkVyvW=s1000" alt="BLM48">' +
           '</div>' +
-          '<div class="footer-link-grid">' +
-            '<a class="footer-link-box" href="news.html">News</a>' +
-            '<a class="footer-link-box" href="schedule.html">Schedule</a>' +
-            '<a class="footer-link-box" href="profile.html">Profile</a>' +
-            '<a class="footer-link-box" href="discography.html">Discography</a>' +
-          '</div>' +
-          '<div class="footer-link-grid footer-link-grid-secondary">' +
-            '<a class="footer-link-box" href="shop.html">Shop</a>' +
-            '<a class="footer-link-box" href="token.html">Token</a>' +
-            '<a class="footer-link-box" href="about.html">About BLM48</a>' +
-            '<a class="footer-link-box" href="https://blm48-membership.vercel.app/" target="_blank" rel="noopener">Membership</a>' +
-          '</div>' +
           '<div class="footer-brand-name">BLM48</div>' +
           '<div class="footer-bottom-row">' +
             '<div class="copyright-text">&copy; 2026 BLM48, Inc. All Rights Reserved.</div>' +

@@ -501,30 +501,6 @@ h1, h2, h3, .font-display { font-family: var(--font-display); }
 .footer-emblem { margin-bottom: 44px; }
 .footer-emblem img { height: 46px; width: auto; opacity: 0.9; }
 
-.footer-link-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 14px;
-  margin-bottom: 14px;
-}
-.footer-link-grid-secondary { grid-template-columns: repeat(3, 1fr); }
-.footer-link-box {
-  display: flex; align-items: center; justify-content: center;
-  border: 1px solid var(--blm-line);
-  color: var(--blm-ink-soft);
-  text-decoration: none;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.6px;
-  text-transform: uppercase;
-  padding: 16px 10px;
-  transition: background 0.2s, color 0.2s, border-color 0.2s;
-}
-.footer-link-box:hover { background: var(--blm-pink-pale); border-color: var(--blm-pink); color: var(--blm-pink-deep); }
-@media (max-width: 680px) {
-  .footer-link-grid, .footer-link-grid-secondary { grid-template-columns: repeat(2, 1fr); }
-}
-
 .footer-brand-name {
   font-family: var(--font-display);
   font-size: 13px;
