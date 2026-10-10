@@ -7,6 +7,7 @@
     { href: 'news.html', page: 'news', label: 'News' },
     { href: 'schedule.html', page: 'schedule', label: 'Schedule' },
     { href: 'profile.html', page: 'profile', label: 'Profile' },
+    { href: 'champ.html', page: 'champ', label: 'Champ' },
     { href: 'discography.html', page: 'discography', label: 'Discography' },
     { href: 'shop.html', page: 'shop', label: 'Shop' },
     { href: 'token.html', page: 'token', label: 'Token' },

@@ -214,65 +214,45 @@
 
     /* --- CHAMP OF THE MONTH --- */
     .champ-section { max-width: 1300px; width: 92%; margin: 0 auto 100px; }
-
-    /* --- BLM48 TOKEN promo (links to token.html) --- */
-    .home-token { max-width: 1300px; width: 92%; margin: 0 auto 100px; }
-    .home-token-card {
-      position: relative; overflow: hidden;
-      display: grid; grid-template-columns: auto 1fr auto; gap: clamp(20px, 4vw, 48px); align-items: center;
-      padding: clamp(26px, 4vw, 44px) clamp(22px, 5vw, 60px);
-      background: linear-gradient(120deg, var(--blm-pink-pale) 0%, var(--blm-gold-pale) 100%);
-      border-radius: var(--radius-xl);
-      text-decoration: none; color: var(--blm-ink);
-      transition: box-shadow 0.25s, transform 0.25s;
+    /* tall rounded photo cards in a zigzag, cookie count over the photo, the
+       champ's avatar overlapping the bottom-left corner */
+    .champ-section { padding-top: 30px; }
+    .champ-section .sec-head { margin-bottom: 30px; }
+    .champ-grid { gap: clamp(20px, 3.2vw, 44px); }
+    @media (min-width: 901px) { .champ-grid .champ-post-card:nth-child(even) { margin-top: 52px; } }
+    .champ-post-card { max-width: 260px; width: 100%; border: none; border-radius: 0; background: transparent; overflow: visible; }
+    .champ-post-card:hover { box-shadow: none; transform: none; }
+    .champ-post-photo {
+      aspect-ratio: 5 / 8; border-radius: 28px; overflow: hidden;
+      box-shadow: 0 16px 32px rgba(59, 47, 38, 0.18);
+      transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s;
     }
-    .home-token-card:hover { box-shadow: var(--shadow-hover); transform: translateY(-3px); }
-    .home-token-coin {
-      width: clamp(96px, 14vw, 150px); height: auto; display: block;
-      filter: drop-shadow(0 14px 20px rgba(217, 148, 0, 0.25));
-    }
-    .home-token-kicker { font-size: 11px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: var(--blm-ink); margin-bottom: 6px; }
-    .home-token-title { font-family: var(--font-display); font-weight: 900; font-size: clamp(1.5rem, 3.6vw, 2.2rem); letter-spacing: -0.6px; line-height: 1.1; margin-bottom: 8px; }
-    .home-token-blm { color: var(--blm-gold); }
-    .home-token-text { font-size: 14px; color: var(--blm-ink-soft); line-height: 1.7; max-width: 560px; }
-    .home-token-card .btn { white-space: nowrap; }
-    @media (max-width: 760px) {
-      .home-token-card { grid-template-columns: 1fr; text-align: center; justify-items: center; }
-    }
+    .champ-post-card:hover .champ-post-photo { transform: translateY(-6px); box-shadow: 0 22px 40px rgba(59, 47, 38, 0.22); }
+    .champ-post-cookie { padding: 60px 16px 46px; font-size: 14px; font-weight: 700; letter-spacing: 0.04em; background: linear-gradient(0deg, rgba(30, 22, 18, 0.75) 0%, rgba(30, 22, 18, 0) 100%); }
+    .champ-post-foot { position: relative; display: block; padding: 14px 0 0 80px; min-height: 64px; }
+    .champ-post-avatar { position: absolute; left: -14px; top: -34px; width: 68px; height: 68px; border: 3px solid #fff; box-shadow: 0 4px 12px rgba(59, 47, 38, 0.15); }
+    .champ-post-meta { gap: 14px; }
+    .champ-post-name { font-size: 15px; font-weight: 600; letter-spacing: 0.06em; color: var(--blm-pink-deep); }
+    .champ-post-when { font-size: 11px; letter-spacing: 0.1em; color: var(--blm-ink-faint); }
 
     /* --- VIDEO SECTION --- */
     .video-section { max-width: 1300px; width: 92%; margin: 0 auto 90px; position: relative; }
-    /* MOVIE uses the shared vision carousel (.release-carousel / .rc-*) with the wide edge-on preset */
-    .release-carousel.movie-carousel { aspect-ratio: 3 / 1; }
-    @media (max-width: 768px) { .release-carousel.movie-carousel { aspect-ratio: 2 / 1; } }
-    @media (max-width: 480px) { .release-carousel.movie-carousel { aspect-ratio: 16 / 9; } }
-    .mc-play { position: absolute; left: 50%; top: 50%; width: 150px; height: 150px; margin: -75px 0 0 -75px; border-radius: 50%; background: rgba(255, 255, 255, 0.92); color: var(--blm-pink-deep); display: flex; align-items: center; justify-content: center; font-size: 56px; padding-left: 10px; box-shadow: 0 12px 40px rgba(51, 38, 31, 0.25); transition: transform 0.3s, background 0.3s, color 0.3s; }
-    .rc-card:hover .mc-play { transform: scale(1.08); background: var(--blm-pink); color: #fff; }
-    @media (max-width: 600px) { .mc-play { transform: scale(1.6); } }
-    .movie-note { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--blm-pink-deep); margin-bottom: 4px; }
-
-    /* --- LATEST RELEASE (Discography) --- */
-    .release-section { max-width: 1300px; width: 92%; margin: 0 auto 90px; }
-    /* 3D "vision" carousel: every Discography cover rides a tilted ellipse (see renderLatestRelease) */
-    .release-carousel { position: relative; width: 100%; aspect-ratio: 2 / 1; overflow: hidden; cursor: grab; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
-    @media (max-width: 768px) { .release-carousel { aspect-ratio: 16 / 10; } }
-    @media (max-width: 480px) { .release-carousel { aspect-ratio: 4 / 3; } }
-    .release-carousel.is-dragging { cursor: grabbing; }
-    .rc-status { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: var(--blm-ink-faint); font-weight: 600; }
-    .rc-scaler { position: absolute; left: 50%; top: 50%; width: 3840px; height: 2160px; transform-origin: 0 0; }
-    .rc-stage { position: absolute; inset: 0; perspective: 5669px; perspective-origin: 50% 50%; }
-    .rc-group { position: absolute; inset: 0; transform-style: preserve-3d; }
-    .rc-card { position: absolute; left: 0; top: 0; display: block; will-change: transform; }
-    .rc-card-inner { position: relative; width: 100%; height: 100%; overflow: hidden; border-radius: 24px; background: var(--blm-paper-soft); opacity: 0; transform: scale(0.72); transition: opacity 0.55s cubic-bezier(0.25, 1, 0.5, 1), transform 0.55s cubic-bezier(0.25, 1, 0.5, 1); transition-delay: var(--rc-delay, 0ms); }
-    .release-carousel.is-in .rc-card-inner { opacity: 1; transform: scale(1); }
-    .rc-card img { display: block; width: 100%; height: 100%; object-fit: cover; pointer-events: none; -webkit-user-drag: none; }
-    .release-caption { text-align: center; margin-top: 8px; min-height: 48px; }
-    .release-title { font-size: 16px; font-weight: 700; color: var(--blm-ink); line-height: 1.4; margin-bottom: 4px; }
-    .release-title a { color: inherit; text-decoration: none; transition: color 0.2s; }
-    .release-title a:hover { color: var(--blm-pink-deep); }
-    .release-date { font-size: 12px; color: var(--blm-ink-faint); font-weight: 600; }
-    @media (prefers-reduced-motion: reduce) { .rc-card-inner { transition: none; } }
-    .release-more { display: flex; justify-content: center; margin-top: 32px; }
+    /* MOVIE: the newest videos as large 16:9 thumbnails in two columns, each
+       with a thin outline play mark; the title only shows as alt/tooltip */
+    .movie-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 4.4vw, 64px) clamp(24px, 3.4vw, 48px); }
+    @media (max-width: 640px) { .movie-grid { grid-template-columns: 1fr; } }
+    .movie-status { grid-column: 1 / -1; text-align: center; color: var(--blm-ink-faint); font-weight: 600; padding: 40px 0; }
+    .movie-tile { position: relative; display: block; aspect-ratio: 16 / 9; overflow: hidden; background: var(--blm-paper-soft); }
+    .movie-tile img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
+    .movie-tile:hover img { transform: scale(1.04); }
+    .movie-play {
+      position: absolute; left: 50%; top: 50%; width: clamp(40px, 4.6vw, 60px);
+      transform: translate(-40%, -50%);
+      filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.45)) drop-shadow(0 2px 10px rgba(0, 0, 0, 0.25));
+    }
+    .movie-play svg { display: block; width: 100%; height: auto; overflow: visible; }
+    .movie-play polygon { fill: rgba(255, 255, 255, 0); stroke: #fff; stroke-width: 2.2; stroke-linejoin: round; transition: fill 0.3s; }
+    .movie-tile:hover .movie-play polygon { fill: rgba(255, 255, 255, 0.3); }
 
     /* --- GROUP NETWORK --- */
     .group-band { background: var(--blm-paper-soft); border-top: 1px solid var(--blm-line); border-bottom: 1px solid var(--blm-line); padding: 56px 0; }
@@ -329,11 +309,7 @@
 
     .content-box-section { grid-template-columns: 1fr; max-width: 1000px; gap: 0; margin: clamp(80px, 9vw, 120px) auto clamp(90px, 10vw, 130px); }
     .content-box-section > div:first-child { padding-bottom: clamp(70px, 8vw, 110px); }
-    .content-box-section > div:nth-child(2) { position: relative; isolation: isolate; padding: clamp(60px, 7vw, 96px) 0; }
-    .content-box-section > div:nth-child(2)::before {
-      content: ''; position: absolute; z-index: -1; top: 0; bottom: 0; left: 50%; width: 100vw; transform: translateX(-50%);
-      background: repeating-linear-gradient(135deg, #f3ece0 0 1px, transparent 1px 13px), #fffdf8;
-    }
+    .content-box-section > div:nth-child(2) { padding: clamp(60px, 7vw, 96px) 0; }
     .home-news-row, .home-sched-row { border-bottom-color: var(--blm-line); }
     .home-news-row:hover, .home-sched-row:hover { background: transparent; margin: 0; padding-left: 0; padding-right: 0; }
     .home-news-thumb { border-radius: 2px; }
@@ -342,10 +318,37 @@
     .home-sched-date-sub { font-size: 10px; letter-spacing: 0.2em; }
     .home-news-cat-tag, .home-sched-cat-tag { border-radius: 2px; }
 
-    .champ-section, .home-token, .video-section, .release-section { max-width: 1000px; }
-    .champ-post-card, .link-banner-tile { border-radius: 4px; }
-    .home-token-card { background: #fffaf0; border: 1px solid var(--blm-line); border-radius: 4px; }
+    .champ-section { max-width: 1000px; }
+    .video-section { max-width: 1240px; }
+    .link-banner-tile { border-radius: 4px; }
     .group-band { background: #fff; }
+
+    /* ---- Big diagonal triangles behind the sections, alternating sides ----
+       Each .tri section paints a full-bleed wedge (::before) behind itself,
+       spilling a little past its own edges so neighbours overlap, plus a thin
+       white hairline (::after) running parallel to the wedge's long edge. */
+    .tri { position: relative; isolation: isolate; }
+    .tri::before, .tri::after {
+      content: ''; position: absolute; z-index: -1; pointer-events: none;
+      top: var(--tri-top, -80px); bottom: var(--tri-bottom, -80px);
+      left: calc(50% - 50vw); width: 100vw;
+    }
+    .tri::before { background: var(--tri-fill); }
+    .tri::after { background: rgba(255, 255, 255, 0.9); }
+    /* wedge hugging the right edge, wide at the top */
+    .tri-r::before { clip-path: polygon(52% 0, 100% 0, 100% 100%); }
+    .tri-r::after  { clip-path: polygon(58% 0, 58.1% 0, 100% 87.3%, 100% 87.5%); }
+    /* wedge hugging the left edge, wide at the top */
+    .tri-l::before { clip-path: polygon(0 0, 50% 0, 0 100%); }
+    .tri-l::after  { clip-path: polygon(42% 0, 42.1% 0, 0 84.2%, 0 84%); }
+    .tri-pink   { --tri-fill: linear-gradient(200deg, #ffdbe9 0%, #fff0f5 55%, #fff8f2 100%); }
+    .tri-gold   { --tri-fill: linear-gradient(160deg, #ffefb8 0%, #fff6d8 50%, #ffeef4 100%); }
+    .tri-stripe { --tri-fill: repeating-linear-gradient(135deg, rgba(242, 169, 0, 0.12) 0 1px, transparent 1px 13px), linear-gradient(170deg, #fff3ce 0%, #fffaf0 100%); }
+    @media (max-width: 760px) {
+      .tri-r::before { clip-path: polygon(30% 0, 100% 0, 100% 100%); }
+      .tri-l::before { clip-path: polygon(0 0, 70% 0, 0 100%); }
+      .tri::after { display: none; }
+    }
     .group-band .eyebrow { letter-spacing: 0.6em; font-weight: 400; color: var(--blm-ink); }
     .group-band .eyebrow::before { width: 12px; height: 12px; background: var(--fl-mark) center / contain no-repeat; }
   </style>
@@ -355,6 +358,7 @@
   <div id="site-header"></div>
   <script src="assets/js/nav.js"></script>
   <script src="assets/js/sheet-data.js"></script>
+  <script src="assets/js/champs.js"></script>
 
   <!-- HERO: Champ of the Month as the key visual in a white-bordered frame -->
   <section class="home-hero">
@@ -397,7 +401,7 @@
 
   <!-- NEWS & SCHEDULE -->
   <section class="content-box-section">
-    <div>
+    <div class="tri tri-r tri-pink">
       <div class="sec-head no-underline">
         <h2 class="sec-title">News</h2>
       </div>
@@ -407,7 +411,7 @@
       <a href="news.html" class="arrow-link">More news</a>
     </div>
 
-    <div>
+    <div class="tri tri-l tri-stripe">
       <div class="sec-head no-underline">
         <h2 class="sec-title">Schedule</h2>
       </div>
@@ -419,7 +423,7 @@
   </section>
 
   <!-- CHAMP OF THE MONTH -->
-  <section class="champ-section" id="champSection">
+  <section class="champ-section tri tri-r tri-gold" id="champSection">
     <div class="sec-head no-underline">
       <h2 class="sec-title">Champ of the Month</h2>
     </div>
@@ -428,47 +432,15 @@
     </div>
   </section>
 
-  <!-- BLM48 TOKEN -->
-  <section class="home-token">
-    <div class="sec-head no-underline">
-      <h2 class="sec-title">BLM Token</h2>
-      <a href="token.html" class="arrow-link">View More</a>
-    </div>
-    <a class="home-token-card reveal" href="token.html">
-      <img class="home-token-coin" src="assets/img/blm48-token.png" alt="BLM Token coin" loading="lazy">
-      <div>
-        <div class="home-token-kicker">BLM48 Membership</div>
-        <div class="home-token-title"><span class="home-token-blm">BLM Token</span></div>
-        <p class="home-token-text">รับฟรี 100 Token ทุกเดือน ใช้โหวต Major Vote แลก Cookie และช้อปใน Shop ผ่านแอป BLM48 Membership</p>
-      </div>
-      <span class="btn btn-gold">About Token <i class="fas fa-arrow-right" aria-hidden="true"></i></span>
-    </a>
-  </section>
-
   <!-- VIDEO -->
-  <section class="video-section">
+  <section class="video-section tri tri-l tri-pink">
     <div class="sec-head no-underline">
       <h2 class="sec-title">MOVIE</h2>
       <a href="https://www.youtube.com/@BLM48Official" target="_blank" class="arrow-link">Official Channel</a>
     </div>
 
-    <div class="release-carousel movie-carousel" id="movieCarousel" aria-roledescription="carousel" aria-label="All videos">
-      <p class="rc-status">Loading...</p>
-    </div>
-    <div class="release-caption" id="movieCaption" aria-live="polite"></div>
-  </section>
-
-  <!-- LATEST RELEASE -->
-  <section class="release-section">
-    <div class="sec-head no-underline">
-      <h2 class="sec-title">Latest Release</h2>
-    </div>
-    <div class="release-carousel" id="releaseCarousel" aria-roledescription="carousel" aria-label="All releases">
-      <p class="rc-status">Loading...</p>
-    </div>
-    <div class="release-caption" id="releaseCaption" aria-live="polite"></div>
-    <div class="release-more">
-      <a href="discography.html" class="btn btn-gold">View More</a>
+    <div class="movie-grid" id="movieGrid">
+      <p class="movie-status">Loading...</p>
     </div>
   </section>
 
@@ -671,41 +643,37 @@
     renderHomeSchedule();
 
     async function renderMovies() {
-      const wrap = document.getElementById('movieCarousel');
+      const grid = document.getElementById('movieGrid');
       let items;
       try {
         const rows = await BLM48Data.fetchSheet('Movie');
         items = rows
           .map(r => ({ ...r, _date: BLM48Data.fmtDate(r.date) }))
           .sort((a, b) => b._date.time - a._date.time)
-          .slice(0, 5);
+          .slice(0, 4);
       } catch (err) {
-        rcSetStatus(wrap, 'Unable to load videos.');
+        grid.innerHTML = '<p class="movie-status">Unable to load videos.</p>';
         return;
       }
-      if (!items.length) { rcSetStatus(wrap, 'No videos yet.'); return; }
+      if (!items.length) { grid.innerHTML = '<p class="movie-status">No videos yet.</p>'; return; }
 
-      mountVisionCarousel({
-        wrap, items, preset: RC_PRESETS.movie,
-        captionEl: document.getElementById('movieCaption'),
-        cardW: 1500, cardH: 844,
-        hrefOf: item => item.link || 'https://www.youtube.com/@BLM48Official',
-        imgOf: item => BLM48Data.driveImg(item.thumbnail),
-        fallbackImg: 'https://via.placeholder.com/640x360?text=BLM48',
-        // Clean thumbnail with just a play badge; the text lives in the caption below.
-        decorate(inner) {
-          const play = document.createElement('span'); play.className = 'mc-play';
-          play.innerHTML = '<i class="fa-solid fa-play"></i>';
-          inner.appendChild(play);
-        },
-        caption(el, item, card) {
-          if (item.note) { const k = document.createElement('div'); k.className = 'movie-note'; k.textContent = item.note; el.appendChild(k); }
-          const t = document.createElement('div'); t.className = 'release-title';
-          t.appendChild(rcCaptionLink(card.href, item.title || ''));
-          const d = document.createElement('div'); d.className = 'release-date'; d.textContent = item._date.full;
-          el.append(t, d);
-        },
-      });
+      grid.replaceChildren(...items.map((item, i) => {
+        const a = document.createElement('a');
+        a.className = 'movie-tile reveal reveal-' + (i + 1);
+        a.href = item.link || 'https://www.youtube.com/@BLM48Official';
+        a.target = '_blank'; a.rel = 'noopener';
+        a.title = item.title || '';
+        const img = document.createElement('img');
+        img.src = BLM48Data.driveImg(item.thumbnail);
+        img.alt = item.title || 'BLM48 video';
+        img.loading = 'lazy';
+        img.onerror = () => { img.onerror = null; img.src = 'https://via.placeholder.com/640x360?text=BLM48'; };
+        const play = document.createElement('span');
+        play.className = 'movie-play';
+        play.innerHTML = '<svg viewBox="0 0 48 54" aria-hidden="true"><polygon points="3,3 45,27 3,51"/></svg>';
+        a.append(img, play);
+        return a;
+      }));
     }
 
     async function renderHeroBanner() {
@@ -754,13 +722,11 @@
     // Hero right side: the latest BLM48 Champ of the Month, shown like the Membership App's
     // Discover header (profile photo + name + month), linking to their special-thanks post.
     async function renderHeroChamp() {
-      const champs = await fetchChamps();
+      const champs = await BLM48Champs.fetch();
       const champ = champs[0];
       if (!champ) { document.getElementById('heroChamp').hidden = true; return; }
 
-      const href = champ.postId
-        ? `https://blm48-membership.vercel.app/postdetail?id=${encodeURIComponent(champ.postId)}`
-        : 'https://blm48-membership.vercel.app/champranking';
+      const href = BLM48Champs.postHref(champ);
 
       const img = document.getElementById('heroChampImg');
       img.src = BLM48Data.driveImg(champ.profileImage || champ.postImage);
@@ -798,39 +764,11 @@
       `).join('');
     }
 
-    // Same public anon key the Membership app (blm48-membership.vercel.app) ships client-side.
-    // Every table behind it is RLS-locked with zero policies - the anon key can only call
-    // read-only RPCs like this one, never touch a table directly.
-    const MEMBERSHIP_SUPABASE_URL = 'https://rqhwzbrcgnpxtuaeoxml.supabase.co';
-    const MEMBERSHIP_SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJxaHd6YnJjZ25weHR1YWVveG1sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUyMjczNjAsImV4cCI6MjEwMDgwMzM2MH0.J0iiUikxLoJKZ5SF9KSz86yf2LU89z8NdPb9rEB89Gw';
-
-    // One request shared by the hero and the Champ of the Month grid.
-    let champsPromise = null;
-    function fetchChamps() {
-      if (!champsPromise) {
-        champsPromise = fetch(MEMBERSHIP_SUPABASE_URL + '/rest/v1/rpc/get_champ_of_the_month', {
-          method: 'POST',
-          headers: {
-            'apikey': MEMBERSHIP_SUPABASE_ANON_KEY,
-            'Authorization': 'Bearer ' + MEMBERSHIP_SUPABASE_ANON_KEY,
-            'Content-Type': 'application/json'
-          },
-          body: '{}'
-        })
-          .then(res => res.json())
-          .then(json => (json && json.status === 'success' && Array.isArray(json.data))
-            ? json.data.filter(c => (c.groupName || 'BLM48') === 'BLM48')
-            : [])
-          .catch(() => []);
-      }
-      return champsPromise;
-    }
-
     async function renderChampOfMonth() {
       const sectionEl = document.getElementById('champSection');
       const gridEl = document.getElementById('champGrid');
       try {
-        const champs = (await fetchChamps()).slice(0, 4);
+        const champs = (await BLM48Champs.fetch()).slice(0, 4);
 
         if (!champs.length) {
           sectionEl.style.display = 'none';
@@ -839,9 +777,7 @@
 
         gridEl.innerHTML = champs.map((champ, i) => {
           const cookieCount = Number(champ.totalCookie || 0).toLocaleString();
-          const href = champ.postId
-            ? `https://blm48-membership.vercel.app/postdetail?id=${encodeURIComponent(champ.postId)}`
-            : 'https://blm48-membership.vercel.app/champranking';
+          const href = BLM48Champs.postHref(champ);
           return `
             <a href="${href}" target="_blank" rel="noopener" class="champ-post-card reveal reveal-${(i % 6) + 1}">
               <div class="champ-post-photo">
@@ -863,262 +799,12 @@
       }
     }
 
-    /* ---- 3D "vision" carousels (ported from the Carousel Vision rigs) ----
-       Cards ride a closed bezier ellipse in a 3840x2160 comp. The ellipse is tilted
-       around X (xSlider), cards turn toward the camera and yaw at the sides.
-       The card nearest the camera (bottom of the path) is the "front" one; the
-       newest item starts there and older ones follow in order. */
-    const RC_COMP = { width: 3840, height: 2160, camera: 5669.2913 };
-    const RC_PRESETS = {
-      // Vision 1 — ring seen from just above, far cards shrink to nothing
-      release: {
-        ctl: { scaleDepth: 130, scaleMin: -45.8, globalScale: 100, xSlider: -106, yAngle3d: -70,
-               parentPos: [1920, 1299, 0], parentAnchor: [1920, 1080, 0] },
-        speed: 0.02,          // ring turns per second (one lap ≈ 50s)
-        intro: 0.755,         // extra spin eased in when the section first appears
-        vertices: [
-          { p: [1920, 230.6],     in: [-463.087, 0], out: [463.087, 0] },
-          { p: [2758.5, 1101.45], in: [0, -480.953], out: [0, 480.953] },
-          { p: [1920, 1972.3],    in: [463.087, 0],  out: [-463.087, 0] },
-          { p: [1081.5, 1101.45], in: [0, 480.953],  out: [0, -480.953] },
-        ],
-        // visible ring ≈ 2800x1200 comp px around (1920, 1130)
-        frame: { w: 2800, wNarrow: 2000, h: 1200, cx: 1920, cy: 1130 },
-      },
-      // Vision 5 — wide ring seen edge-on, cards slide along one horizon line
-      movie: {
-        ctl: { scaleDepth: 56.7, scaleMin: 0, globalScale: 88.4, xSlider: -90, yAngle3d: -50,
-               parentPos: [1920, 1080, 0], parentAnchor: [1920, 1080, 0] },
-        speed: 0.04,          // original was 0.1; slowed so the caption stays readable
-        intro: -0.65,
-        vertices: [
-          { p: [1901.05, 430.925],   in: [-786.051, 0], out: [786.051, 0] },
-          { p: [3324.334, 1099.05],  in: [0, -368.992], out: [0, 368.992] },
-          { p: [1901.05, 1767.175],  in: [786.051, 0],  out: [-786.051, 0] },
-          { p: [477.766, 1099.05],   in: [0, 368.992],  out: [0, -368.992] },
-        ],
-        frame: { w: 3700, wNarrow: 2300, h: 1000, cx: 1920, cy: 1080 },
-      },
-    };
-
-    function rcBuildPath(vertices, center) {
-      const pts = [], S = 64, n = vertices.length;
-      for (let s = 0; s < n; s++) {
-        const a = vertices[s], b = vertices[(s + 1) % n];
-        const p0 = a.p, p1 = [a.p[0] + a.out[0], a.p[1] + a.out[1]], p2 = [b.p[0] + b.in[0], b.p[1] + b.in[1]], p3 = b.p;
-        for (let k = 0; k < (s === n - 1 ? S + 1 : S); k++) {
-          const t = k / S, m = 1 - t;
-          pts.push([0, 1].map(d => m * m * m * p0[d] + 3 * m * m * t * p1[d] + 3 * m * t * t * p2[d] + t * t * t * p3[d]));
-        }
-      }
-      let x0 = Infinity, x1 = -Infinity, y0 = Infinity, y1 = -Infinity;
-      pts.forEach(q => { x0 = Math.min(x0, q[0]); x1 = Math.max(x1, q[0]); y0 = Math.min(y0, q[1]); y1 = Math.max(y1, q[1]); });
-      const sx = center[0] - (x0 + x1) / 2, sy = center[1] - (y0 + y1) / 2;
-      pts.forEach(q => { q[0] += sx; q[1] += sy; });
-      const cum = [0];
-      for (let i = 1; i < pts.length; i++) cum.push(cum[i - 1] + Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]));
-      const total = cum[cum.length - 1];
-      return function pointOnPath(pct) {
-        pct = ((pct % 1) + 1) % 1;
-        const target = pct * total;
-        let lo = 0, hi = cum.length - 1;
-        while (hi - lo > 1) { const mid = (lo + hi) >> 1; if (cum[mid] <= target) lo = mid; else hi = mid; }
-        const f = (target - cum[lo]) / ((cum[hi] - cum[lo]) || 1);
-        return [pts[lo][0] + (pts[hi][0] - pts[lo][0]) * f, pts[lo][1] + (pts[hi][1] - pts[lo][1]) * f];
-      };
-    }
-
-    function rcPoses(ctl, pointOnPath, n, u) {
-      const comp = RC_COMP, DEG = 180 / Math.PI;
-      const cx = comp.width / 2, cy = comp.height / 2, maxDist = Math.hypot(cx, cy);
-      const lin = (v, a, b, c, d) => c + (d - c) * Math.min(1, Math.max(0, (v - a) / (b - a)));
-      const ease = (v, a, b, c, d) => { const t = Math.min(1, Math.max(0, (v - a) / (b - a))); return c + (d - c) * (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2); };
-      const rx = ctl.xSlider / DEG, A = ctl.parentAnchor, P = ctl.parentPos;
-      const out = [];
-      for (let i = 0; i < n; i++) {
-        // pct 0.5 is the bottom of the path = nearest the camera
-        const pos = pointOnPath(0.5 + u - i / n);
-        const norm = ((pos[1] - cy) / maxDist + 1) / 2;
-        const depthScale = lin(norm, 0, 1, ctl.scaleMin, 100);
-        const scale = lin(ctl.scaleDepth / 100, 0, 1, 100, depthScale) * (ctl.globalScale / 100) / 100;
-        const lx = pos[0] - A[0], ly = pos[1] - A[1];
-        const x = P[0] + lx, y = P[1] + ly * Math.cos(rx), z = P[2] + ly * Math.sin(rx);
-        const vx = cx - x, vy = cy - y, vz = -comp.camera - z;
-        let rotY = Math.atan2(vx, -vz) * DEG;
-        const rotX = -Math.atan2(vy, Math.hypot(vx, vz)) * DEG;
-        let r = ease(Math.abs(x - cx), 0, comp.width * (700 / 1920), 0, ctl.yAngle3d);
-        if (x < cx) r = -r;
-        rotY += r;
-        out.push({ x, y, z, scale, rotY, rotX });
-      }
-      return out;
-    }
-
-    function rcSetStatus(wrap, msg) {
-      wrap.innerHTML = '';
-      const p = document.createElement('p'); p.className = 'rc-status'; p.textContent = msg;
-      wrap.appendChild(p);
-    }
-
-    /* opts: { wrap, captionEl, items, preset, cardW, cardH,
-               hrefOf(item), imgOf(item), fallbackImg, decorate(inner, item)?, caption(el, item, href) } */
-    function mountVisionCarousel(opts) {
-      const { wrap, captionEl, items, preset: P } = opts;
-      const n = items.length;
-
-      wrap.innerHTML = '';
-      const scaler = document.createElement('div'); scaler.className = 'rc-scaler';
-      const stage = document.createElement('div'); stage.className = 'rc-stage';
-      const group = document.createElement('div'); group.className = 'rc-group';
-      stage.appendChild(group); scaler.appendChild(stage); wrap.appendChild(scaler);
-
-      const cards = items.map((item, i) => {
-        const href = opts.hrefOf(item);
-        const a = document.createElement('a');
-        a.className = 'rc-card';
-        a.href = href;
-        if (/^https?:/.test(href)) { a.target = '_blank'; a.rel = 'noopener'; }
-        a.setAttribute('aria-label', item.title || '');
-        a.style.cssText = `width:${opts.cardW}px;height:${opts.cardH}px;margin-left:${-opts.cardW / 2}px;margin-top:${-opts.cardH / 2}px`;
-        const inner = document.createElement('div');
-        inner.className = 'rc-card-inner';
-        inner.style.setProperty('--rc-delay', Math.round(i * 450 / n) + 'ms');
-        const img = document.createElement('img');
-        img.src = opts.imgOf(item);
-        img.alt = item.title || '';
-        img.draggable = false;
-        img.onerror = () => { img.onerror = null; img.src = opts.fallbackImg; };
-        inner.appendChild(img);
-        if (opts.decorate) opts.decorate(inner, item);
-        a.appendChild(inner); group.appendChild(a);
-        return a;
-      });
-
-      const pointOnPath = rcBuildPath(P.vertices, [RC_COMP.width / 2, RC_COMP.height / 2]);
-
-      // Frame the visible ring; on phones zoom in and let the ring's far sides crop.
-      function fit() {
-        const w = wrap.clientWidth, h = wrap.clientHeight, F = P.frame;
-        const s = Math.min(h / F.h, w / (w < 600 ? F.wNarrow : F.w));
-        scaler.style.transform = `scale(${s}) translate(${-F.cx}px, ${-F.cy}px)`;
-      }
-      fit();
-      new ResizeObserver(fit).observe(wrap);
-
-      let u = 0, introStart = null, last = null, hovering = false, visible = false, dragging = null, frontIdx = -1;
-
-      function showCaption(i) {
-        if (i === frontIdx) return;
-        frontIdx = i;
-        cards.forEach((c, k) => c.classList.toggle('is-front', k === i));
-        captionEl.innerHTML = '';
-        opts.caption(captionEl, items[i], cards[i]);
-      }
-
-      function render() {
-        let intro = P.intro;
-        if (introStart !== null) {
-          const k = Math.min(1, (performance.now() - introStart) / 1600);
-          intro = P.intro * (1 - Math.pow(1 - k, 4));
-        }
-        const poses = rcPoses(P.ctl, pointOnPath, n, u + intro - P.intro);
-        let best = 0;
-        poses.forEach((p, i) => {
-          if (p.z < poses[best].z) best = i;
-          cards[i].style.transform = `translate3d(${p.x.toFixed(2)}px,${p.y.toFixed(2)}px,${(-p.z).toFixed(2)}px) rotateY(${p.rotY.toFixed(3)}deg) rotateX(${p.rotX.toFixed(3)}deg) scale(${p.scale.toFixed(5)})`;
-        });
-        showCaption(best);
-      }
-
-      function tick(now) {
-        const dt = last === null ? 0 : Math.min(0.1, (now - last) / 1000);
-        last = now;
-        if (!hovering && !dragging) u += P.speed * dt;  // always auto-rotate, even with OS "reduce motion" on
-        render();
-        if (visible) requestAnimationFrame(tick); else last = null;
-      }
-
-      new IntersectionObserver(([entry]) => {
-        const was = visible;
-        visible = entry.isIntersecting;
-        if (visible && introStart === null) { introStart = performance.now(); wrap.classList.add('is-in'); }
-        if (visible && !was) requestAnimationFrame(tick);
-      }, { threshold: 0.15 }).observe(wrap);
-      render();
-
-      // Hover pauses; drag spins the ring (a short tap still follows the card's link).
-      wrap.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') hovering = true; });
-      wrap.addEventListener('pointerleave', () => { hovering = false; });
-      wrap.addEventListener('pointerdown', (e) => {
-        dragging = { x: e.clientX, u, moved: false, id: e.pointerId };
-      });
-      window.addEventListener('pointermove', (e) => {
-        if (!dragging || e.pointerId !== dragging.id) return;
-        const dx = e.clientX - dragging.x;
-        if (Math.abs(dx) > 6 && !dragging.moved) { dragging.moved = true; wrap.classList.add('is-dragging'); }
-        if (dragging.moved) { u = dragging.u - dx / wrap.clientWidth * 0.6; render(); }
-      });
-      let dragEndedAt = 0;
-      wrap.addEventListener('click', (ev) => {
-        if (performance.now() - dragEndedAt < 300) { ev.preventDefault(); ev.stopPropagation(); }
-      }, true);
-      const endDrag = () => {
-        if (!dragging) return;
-        if (dragging.moved) dragEndedAt = performance.now();
-        dragging = null;
-        wrap.classList.remove('is-dragging');
-      };
-      window.addEventListener('pointerup', endDrag);
-      window.addEventListener('pointercancel', endDrag);
-    }
-
-    function rcCaptionLink(href, text) {
-      const a = document.createElement('a');
-      a.href = href; a.textContent = text;
-      if (/^https?:/.test(href)) { a.target = '_blank'; a.rel = 'noopener'; }
-      return a;
-    }
-
-    async function renderLatestRelease() {
-      const wrap = document.getElementById('releaseCarousel');
-      let items;
-      try {
-        const rows = await BLM48Data.fetchSheet('Discography');
-        items = rows
-          .map(r => ({ ...r, _date: BLM48Data.fmtDate(r.date) }))
-          .sort((a, b) => b._date.time - a._date.time)
-          .slice(0, 7);
-      } catch (err) {
-        rcSetStatus(wrap, 'Unable to load releases.');
-        return;
-      }
-      if (!items.length) { rcSetStatus(wrap, 'No releases yet.'); return; }
-
-      // Original rig spaced 12 cards at 1500px; shrink covers as the ring fills up.
-      const size = Math.round(Math.max(760, Math.min(1500, 1500 * Math.sqrt(12 / items.length))));
-      mountVisionCarousel({
-        wrap, items, preset: RC_PRESETS.release,
-        captionEl: document.getElementById('releaseCaption'),
-        cardW: size, cardH: size,
-        hrefOf: item => item.link || 'discography.html',
-        imgOf: item => BLM48Data.driveImg(item.coverImage),
-        fallbackImg: 'https://via.placeholder.com/600x600?text=BLM48',
-        caption(el, item, card) {
-          const t = document.createElement('div'); t.className = 'release-title';
-          t.appendChild(rcCaptionLink(card.href, item.title || ''));
-          const d = document.createElement('div'); d.className = 'release-date'; d.textContent = item._date.full;
-          el.append(t, d);
-        },
-      });
-    }
-
     renderHeroBanner();
     renderHeroChamp();
 
     renderMovies();
     renderLinkBanners();
     renderChampOfMonth();
-    renderLatestRelease();
   </script>
 
 </body>
