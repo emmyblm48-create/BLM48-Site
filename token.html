@@ -17,11 +17,18 @@
     html { scroll-behavior: smooth; }
     body { font-family: var(--font-body); color: var(--blm-ink); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
 
-    /* --- Hero: title + guide card on the left, coin on the right --- */
+    /* Full-bleed sections (like the BNK Token page); content sits in .token-inner */
+    .token-main { overflow-x: hidden; }
+    .token-inner { max-width: 1040px; width: 92%; margin: 0 auto; position: relative; }
+
+    /* --- Hero: white, tall, title on the left, coin on the right --- */
     .token-hero {
-      display: grid; grid-template-columns: 1.1fr 1fr; gap: 48px; align-items: center;
-      max-width: 1040px; margin: 0 auto 90px;
+      background: var(--blm-paper);
+      min-height: min(640px, calc(100vh - var(--header-h) - var(--topbar-h)));
+      display: flex; align-items: center;
+      padding: clamp(48px, 9vw, 120px) 0;
     }
+    .token-hero .token-inner { display: grid; grid-template-columns: 1.1fr 1fr; gap: 48px; align-items: center; }
     .token-hero .eyebrow { margin-bottom: 18px; }
     .token-hero-title {
       font-family: var(--font-display); font-weight: 900; line-height: 1;
@@ -48,27 +55,49 @@
     }
     @media (prefers-reduced-motion: reduce) { .token-coin { animation: none; } }
 
-    /* --- About band --- */
+    /* --- About: full-width pink band, soft frame, white card --- */
     .token-about {
+      position: relative;
       background: var(--blm-pink-pale);
-      border-radius: var(--radius-xl);
-      padding: clamp(32px, 6vw, 64px) clamp(20px, 6vw, 72px);
-      max-width: 1040px; margin: 0 auto 90px;
+      padding: clamp(28px, 4vw, 50px) clamp(12px, 3vw, 50px) clamp(48px, 6vw, 80px);
+    }
+    /* gold diagonal stripes in the lower-left corner */
+    .token-about::before {
+      content: ''; position: absolute; left: 0; bottom: 0;
+      width: clamp(90px, 14vw, 180px); height: clamp(140px, 22vw, 260px);
+      background: repeating-linear-gradient(135deg, var(--blm-gold) 0 14px, transparent 14px 32px);
+      opacity: 0.75;
+      clip-path: polygon(0 0, 100% 100%, 0 100%);
+      pointer-events: none;
+    }
+    .token-about-frame {
+      position: relative; max-width: 1400px; margin: 0 auto;
+      background: rgba(255, 255, 255, 0.5);
+      padding: clamp(10px, 2vw, 24px);
+    }
+    .token-about-card {
+      background: var(--blm-paper);
+      padding: clamp(28px, 4vw, 44px) clamp(20px, 4vw, 44px);
     }
     .token-about h2 {
       font-family: var(--font-display); font-weight: 900; letter-spacing: -0.5px;
-      font-size: clamp(1.4rem, 3.6vw, 2rem); margin-bottom: 22px;
+      font-size: clamp(1.3rem, 3vw, 1.7rem); margin-bottom: 18px;
     }
     .token-about h2 span { color: var(--blm-pink-deep); }
     .token-about-text { color: var(--blm-ink-soft); line-height: 1.9; font-size: 15px; }
-    .token-about-text p { margin-bottom: 14px; }
+    .token-about-text ul { list-style: none; }
+    .token-about-text li { position: relative; padding-left: 20px; margin-bottom: 6px; }
+    .token-about-text li::before {
+      content: ''; position: absolute; left: 4px; top: 0.8em;
+      width: 6px; height: 6px; border-radius: 50%; background: var(--blm-pink);
+    }
     .token-about-text strong { color: var(--blm-ink); }
 
-    .token-benefits { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-top: 30px; }
+    .token-benefits { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 26px; }
     @media (max-width: 1100px) { .token-benefits { grid-template-columns: repeat(2, 1fr); } }
     .token-benefit {
-      background: var(--blm-paper); border-radius: var(--radius-lg);
-      padding: 24px 22px; box-shadow: var(--shadow-card);
+      background: var(--blm-paper-soft); border: 1px solid var(--blm-line);
+      border-radius: var(--radius-lg); padding: 22px 20px;
     }
     .token-benefit-num {
       width: 40px; height: 40px; border-radius: 50%;
@@ -79,22 +108,22 @@
     .token-benefit h3 { font-size: 15px; font-weight: 800; margin-bottom: 6px; }
     .token-benefit p { font-size: 13px; color: var(--blm-ink-soft); line-height: 1.7; }
 
-    /* --- App CTA --- */
+    /* --- App CTA: full-width pink-to-white band --- */
     .token-cta {
-      position: relative; overflow: hidden;
-      display: grid; grid-template-columns: 1fr 1.15fr; gap: clamp(24px, 5vw, 64px); align-items: center;
-      max-width: 1040px; margin: 0 auto;
-      padding: clamp(36px, 6vw, 64px) clamp(20px, 6vw, 72px);
-      background: linear-gradient(180deg, var(--blm-pink-pale) 0%, var(--blm-paper-soft) 100%);
-      border-radius: var(--radius-xl);
+      position: relative;
+      background: linear-gradient(180deg, var(--blm-pink-pale) 0%, #fff 100%);
+      padding: clamp(64px, 10vw, 130px) 0;
     }
-    /* dotted pattern on the left edge, like the reference */
+    /* white dot grid hugging the left edge */
     .token-cta::before {
-      content: ''; position: absolute; left: 18px; top: 50%; transform: translateY(-50%);
-      width: 110px; height: 220px;
-      background-image: radial-gradient(circle, rgba(255,255,255,0.95) 7px, transparent 8px);
-      background-size: 36px 36px;
+      content: ''; position: absolute; left: -18px; top: 50%; transform: translateY(-50%);
+      width: clamp(120px, 14vw, 230px); height: 440px;
+      background-image: radial-gradient(circle, rgba(255,255,255,0.95) 13px, transparent 14px);
+      background-size: 72px 80px;
       pointer-events: none;
+    }
+    .token-cta .token-inner {
+      display: grid; grid-template-columns: 1fr 1.15fr; gap: clamp(24px, 5vw, 64px); align-items: center;
     }
     .token-cta-phone { position: relative; display: flex; justify-content: center; }
     .token-cta-phone img {
@@ -118,15 +147,16 @@
     }
 
     @media (max-width: 860px) {
-      .token-hero { grid-template-columns: 1fr; gap: 40px; text-align: center; }
+      .token-hero { min-height: 0; }
+      .token-hero .token-inner { grid-template-columns: 1fr; gap: 40px; text-align: center; }
       .token-hero-lead { margin-left: auto; margin-right: auto; }
       .token-coin-wrap { order: -1; }
       .token-benefits { grid-template-columns: 1fr; }
     }
     @media (max-width: 760px) {
-      .token-cta { grid-template-columns: 1fr; text-align: center; }
+      .token-cta .token-inner { grid-template-columns: 1fr; text-align: center; }
       .token-cta-actions { justify-content: center; }
-      .token-cta::before { top: 70px; transform: none; }
+      .token-cta::before { top: 60px; transform: none; height: 320px; opacity: 0.8; }
     }
   </style>
 </head>
@@ -135,68 +165,78 @@
   <div id="site-header"></div>
   <script src="assets/js/nav.js"></script>
 
-  <main class="page-shell">
+
+  <main class="token-main">
 
     <section class="token-hero">
-      <div>
-        <span class="eyebrow">BLM48 Membership</span>
-        <h1 class="token-hero-title">BLM48</h1>
-        <div class="token-hero-sub">Token</div>
-        <p class="token-hero-lead">Be a part of our blooming fan community — collect, use and enjoy BLM48 Token across the Membership App.</p>
-      </div>
-
-      <div class="token-coin-wrap reveal">
-        <img class="token-coin" src="assets/img/blm48-token.png" alt="BLM48 Token coin">
-
-      </div>
-    </section>
-
-    <section class="token-about reveal">
-      <h2>About <span>BLM48 Token</span></h2>
-      <div class="token-about-text">
-        <p><strong>BLM48 Token</strong> คือโทเคนดิจิทัลสำหรับแฟนคลับ BLM48 ใช้งานผ่านแอป <strong>BLM48 Membership</strong> เป็นหลัก</p>
-        <p>โทเคนช่วยให้แฟน ๆ มีส่วนร่วมกับกิจกรรมของวงได้มากขึ้น และเป็นส่วนหนึ่งในการเติบโตไปพร้อมกับสมาชิก</p>
-        <p>รับ Token และใช้สิทธิประโยชน์ได้ในแอป BLM48 Membership ดังนี้</p>
-      </div>
-
-      <div class="token-benefits">
-        <div class="token-benefit">
-          <div class="token-benefit-num"><i class="fas fa-calendar-check" aria-hidden="true"></i></div>
-          <h3>รับฟรี 100 Token ทุกเดือน</h3>
-          <p>เช็คอินในแอปครบทั้งเดือน กดรับ 100 Token ได้เลย ถ้าลืมกด ระบบจะโอนให้อัตโนมัติเมื่อเปิดแอปในเดือนถัดไป</p>
+      <div class="token-inner">
+        <div>
+          <span class="eyebrow">BLM48 Membership</span>
+          <h1 class="token-hero-title">BLM48</h1>
+          <div class="token-hero-sub">Token</div>
+          <p class="token-hero-lead">Be a part of our blooming fan community — collect, use and enjoy BLM48 Token across the Membership App.</p>
         </div>
-        <div class="token-benefit">
-          <div class="token-benefit-num"><i class="fas fa-check-to-slot" aria-hidden="true"></i></div>
-          <h3>โหวต Major Vote</h3>
-          <p>ใช้ Token ร่วมโหวตให้สมาชิกที่ชื่นชอบในกิจกรรม BLM48 Major Vote</p>
-        </div>
-        <div class="token-benefit">
-          <div class="token-benefit-num"><i class="fas fa-cookie-bite" aria-hidden="true"></i></div>
-          <h3>แลก Cookie</h3>
-          <p>แลก 10 Token เป็น 100 Cookie หรือ 100 Token เป็น 1,000 Cookie</p>
-        </div>
-        <div class="token-benefit">
-          <div class="token-benefit-num"><i class="fas fa-mug-hot" aria-hidden="true"></i></div>
-          <h3>ช้อปใน Shop</h3>
-          <p>ใช้ Token สุ่ม Gacha และสั่งเมนู Café (5 Token) ดูสินค้าได้ที่หน้า <a href="shop.html" style="color:var(--blm-pink-deep);font-weight:700">Shop</a></p>
+
+        <div class="token-coin-wrap reveal">
+          <img class="token-coin" src="assets/img/blm48-token.png" alt="BLM48 Token coin">
         </div>
       </div>
     </section>
 
-    <section class="token-cta reveal">
-      <div class="token-cta-phone">
-        <img src="assets/img/blm48-app-phone.webp" alt="BLM48 Membership App — Discover screen" loading="lazy">
+    <section class="token-about">
+      <div class="token-about-frame">
+        <div class="token-about-card reveal">
+          <h2>About <span>BLM48 Token</span></h2>
+          <div class="token-about-text">
+            <ul>
+              <li><strong>BLM48 Token</strong> คือโทเคนดิจิทัลสำหรับแฟนคลับ BLM48 ใช้งานผ่านแอป <strong>BLM48 Membership</strong> เป็นหลัก</li>
+              <li>โทเคนช่วยให้แฟน ๆ มีส่วนร่วมกับกิจกรรมของวงได้มากขึ้น และเป็นส่วนหนึ่งในการเติบโตไปพร้อมกับสมาชิก</li>
+              <li>รับ Token และใช้สิทธิประโยชน์ได้ในแอป BLM48 Membership ดังนี้</li>
+            </ul>
+          </div>
+
+          <div class="token-benefits">
+            <div class="token-benefit">
+              <div class="token-benefit-num"><i class="fas fa-calendar-check" aria-hidden="true"></i></div>
+              <h3>รับฟรี 100 Token ทุกเดือน</h3>
+              <p>เช็คอินในแอปครบทั้งเดือน กดรับ 100 Token ได้เลย ถ้าลืมกด ระบบจะโอนให้อัตโนมัติเมื่อเปิดแอปในเดือนถัดไป</p>
+            </div>
+            <div class="token-benefit">
+              <div class="token-benefit-num"><i class="fas fa-check-to-slot" aria-hidden="true"></i></div>
+              <h3>โหวต Major Vote</h3>
+              <p>ใช้ Token ร่วมโหวตให้สมาชิกที่ชื่นชอบในกิจกรรม BLM48 Major Vote</p>
+            </div>
+            <div class="token-benefit">
+              <div class="token-benefit-num"><i class="fas fa-cookie-bite" aria-hidden="true"></i></div>
+              <h3>แลก Cookie</h3>
+              <p>แลก 10 Token เป็น 100 Cookie หรือ 100 Token เป็น 1,000 Cookie</p>
+            </div>
+            <div class="token-benefit">
+              <div class="token-benefit-num"><i class="fas fa-mug-hot" aria-hidden="true"></i></div>
+              <h3>ช้อปใน Shop</h3>
+              <p>ใช้ Token สุ่ม Gacha และสั่งเมนู Café (5 Token) ดูสินค้าได้ที่หน้า <a href="shop.html" style="color:var(--blm-pink-deep);font-weight:700">Shop</a></p>
+            </div>
+          </div>
+        </div>
       </div>
-      <div>
-        <h2 class="token-cta-title">Download our <span>App</span><br>to get started now</h2>
-        <p class="token-cta-sub">เริ่มสะสมและใช้ BLM48 Token ได้ที่แอป BLM48 Membership</p>
-        <div class="token-cta-actions">
-          <a href="https://blm48-membership.vercel.app/" target="_blank" rel="noopener" class="btn btn-gold">
-            Open Membership App <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>
-          </a>
-          <div class="token-cta-qr">
-            <img src="assets/img/blm48-app-qr.png" alt="QR code to open the BLM48 Membership App">
-            Scan to open
+    </section>
+
+    <section class="token-cta">
+      <div class="token-inner reveal">
+        <div class="token-cta-phone">
+          <img src="assets/img/blm48-app-phone.webp" alt="BLM48 Membership App — Discover screen" loading="lazy">
+        </div>
+        <div>
+          <h2 class="token-cta-title">Download our <span>App</span><br>to get started now</h2>
+          <p class="token-cta-sub">เริ่มสะสมและใช้ BLM48 Token ได้ที่แอป BLM48 Membership</p>
+          <div class="token-cta-actions">
+            <a href="https://blm48-membership.vercel.app/" target="_blank" rel="noopener" class="btn btn-gold">
+              Open Membership App <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>
+            </a>
+            <div class="token-cta-qr">
+              <img src="assets/img/blm48-app-qr.png" alt="QR code to open the BLM48 Membership App">
+              Scan to open
+            </div>
           </div>
         </div>
       </div>
