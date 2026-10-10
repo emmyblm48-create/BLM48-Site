@@ -39,21 +39,16 @@
     .hh-title-main {
       display: block; font-size: clamp(4rem, 11vw, 9.5rem); letter-spacing: -4px;
       color: var(--blm-gold);
-      text-shadow: 0 2px 0 #fff, 0 10px 30px rgba(242, 169, 0, 0.18);
     }
     .hh-title-sub {
       display: block; margin-top: 10px; font-size: clamp(2rem, 5.2vw, 4.4rem); letter-spacing: -1px;
       color: var(--blm-pink-deep);
     }
-    /* a little stem with a bud growing under the title */
-    .hh-title-stem { display: block; width: 60px; height: clamp(60px, 9vw, 100px); margin: 14px 0 0 clamp(60px, 9vw, 150px); }
 
     /* champ photo in a flower-shaped frame */
     .hh-champ { position: relative; justify-self: center; width: min(440px, 80vw); aspect-ratio: 1; }
     .hh-champ[hidden] { display: none; }
     .hh-bloom { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
-    .hh-bloom-back { transform-origin: 50% 50%; animation: hh-spin 60s linear infinite; }
-    .hh-bloom-line { transform-origin: 50% 50%; animation: hh-spin 80s linear infinite reverse; }
     .hh-photo {
       position: absolute; inset: 4%;
       clip-path: url(#hhFlowerClip);
@@ -65,12 +60,10 @@
     /* small ticket card */
     .hh-ticket {
       position: absolute; left: -14%; bottom: 6%; z-index: 3;
-      width: clamp(120px, 13vw, 150px); padding: 12px 8px 10px;
-      background-color: #fff; border: 1.5px solid var(--blm-gold); border-radius: 6px;
+      width: clamp(120px, 13vw, 150px); padding: 10px 8px;
+      background-color: #fff; border: 1px solid var(--blm-line); border-radius: 10px;
       text-align: center; text-decoration: none; color: var(--blm-ink);
-      box-shadow: 0 10px 24px rgba(59, 47, 38, 0.12);
-      background-image: repeating-linear-gradient(90deg, var(--blm-gold) 0 6px, transparent 6px 12px);
-      background-size: 100% 5px; background-repeat: no-repeat; background-position: top;
+      box-shadow: 0 10px 24px rgba(59, 47, 38, 0.08);
     }
     .hh-ticket-kicker { font-size: 9px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; color: var(--blm-gold-deep); }
     .hh-ticket-month { font-size: 12px; font-weight: 800; margin: 2px 0 6px; }
@@ -118,32 +111,11 @@
     .hh-fl.f9  { left: 31%; top: 72%; width: 40px; color: #8fcf8f; animation-delay: -1.5s; }
     .hh-fl.f10 { right: 22%; top: 8%; width: 26px; color: var(--blm-gold); animation-delay: -3.5s; }
     @keyframes hh-sway {
-      0%, 100% { transform: translateY(0) rotate(-6deg); }
-      50%      { transform: translateY(-8px) rotate(6deg); }
+      0%, 100% { transform: translateY(0) rotate(-3deg); }
+      50%      { transform: translateY(-4px) rotate(3deg); }
     }
 
     /* petals drifting down across the hero */
-    .hh-petal {
-      position: absolute; top: -30px; width: 14px; height: 10px;
-      background: var(--blm-pink); border-radius: 80% 0 80% 0; opacity: 0.75;
-      animation: hh-fall 14s linear infinite;
-    }
-    .hh-petal:nth-child(2n) { background: #ffd0e2; width: 11px; height: 8px; }
-    .hh-petal:nth-child(3n) { background: #fff; }
-    .hh-petal.p1 { left: 8%;  animation-delay: 0s; }
-    .hh-petal.p2 { left: 22%; animation-delay: -4s; animation-duration: 17s; }
-    .hh-petal.p3 { left: 37%; animation-delay: -9s; }
-    .hh-petal.p4 { left: 54%; animation-delay: -2s; animation-duration: 19s; }
-    .hh-petal.p5 { left: 68%; animation-delay: -11s; }
-    .hh-petal.p6 { left: 83%; animation-delay: -6s; animation-duration: 16s; }
-    .hh-petal.p7 { left: 94%; animation-delay: -13s; }
-    @keyframes hh-fall {
-      0%   { transform: translate(0, 0) rotate(0deg); }
-      25%  { transform: translate(30px, 25vh) rotate(90deg); }
-      50%  { transform: translate(-20px, 50vh) rotate(200deg); }
-      75%  { transform: translate(25px, 75vh) rotate(290deg); }
-      100% { transform: translate(-10px, 105vh) rotate(380deg); }
-    }
 
     /* banner cards sliding over the meadow */
     .hh-banners { position: relative; z-index: 3; padding-left: 4%; }
@@ -172,119 +144,74 @@
     @media (max-width: 860px) {
       .hh-stage { grid-template-columns: 1fr; min-height: 0; gap: 60px; padding-top: 36px; }
       .hh-title { justify-self: start; }
-      .hh-title-stem { display: none; }
       .hh-champ { width: min(300px, 66vw); margin-bottom: 50px; }
       .hh-ticket { left: -16%; bottom: -2%; width: 104px; padding: 10px 6px 8px; }
       .hh-ticket-month { font-size: 11px; }
       .hh-pick { right: -18%; bottom: -16%; width: 140px; gap: 5px; }
-      .hh-fl.f2 { left: 72%; top: 3%; }
-      .hh-fl.f4, .hh-fl.f5, .hh-fl.f9 { display: none; }
       .hh-fl.f6 { top: 16%; left: auto; right: 4%; }
       .hh-fl.f7 { top: 52%; right: 1%; }
-      .hh-fl.f8 { top: 49%; right: 0; }
     }
 
     /* ---- Hero motion: entrance choreography + idle loops + mouse parallax ----
        Like the Home carousels, these run even with OS reduce-motion on (gentle,
        decorative, no flashing). */
     .hh-parallax { transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1); will-change: transform; }
-    .hh-deco.hh-parallax  { transform: translate(calc(var(--mx, 0) * -22px), calc(var(--my, 0) * -16px)); }
-    .hh-title.hh-parallax { transform: translate(calc(var(--mx, 0) * 10px), calc(var(--my, 0) * 8px)); }
-    .hh-champ.hh-parallax { transform: translate(calc(var(--mx, 0) * 16px), calc(var(--my, 0) * 12px)); }
+    .hh-deco.hh-parallax  { transform: translate(calc(var(--mx, 0) * -10px), calc(var(--my, 0) * -8px)); }
+    .hh-title.hh-parallax { transform: translate(calc(var(--mx, 0) * 4px), calc(var(--my, 0) * 3px)); }
+    .hh-champ.hh-parallax { transform: translate(calc(var(--mx, 0) * 6px), calc(var(--my, 0) * 5px)); }
 
-    /* title letters rise one by one, then keep bobbing like flowers in the wind */
-    .hh-ch { display: inline-block; animation: hh-rise 0.9s cubic-bezier(0.2, 0.9, 0.3, 1.35) both, hh-bob 4.5s ease-in-out infinite; animation-delay: calc(var(--i) * 90ms), calc(1.4s + var(--i) * 160ms); }
-    .hh-title-main:hover .hh-ch { animation-play-state: paused, running; }
-    .hh-ch:hover { color: var(--blm-pink); transition: color 0.2s; }
+    /* title letters rise one by one */
+    .hh-ch { display: inline-block; animation: hh-rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) both; animation-delay: calc(var(--i) * 70ms); }
     @keyframes hh-rise {
-      0%   { opacity: 0; transform: translateY(70%) rotate(-10deg) scale(0.7); }
+      0%   { opacity: 0; transform: translateY(40%); }
       100% { opacity: 1; transform: none; }
-    }
-    @keyframes hh-bob {
-      0%, 100% { translate: 0 0; }
-      50%      { translate: 0 -8px; }
     }
     .hh-title-sub { animation: hh-sub-in 1.1s cubic-bezier(0.22, 1, 0.36, 1) 0.55s both; }
     @keyframes hh-sub-in {
-      0%   { opacity: 0; letter-spacing: 0.35em; filter: blur(6px); }
-      100% { opacity: 1; letter-spacing: -1px; filter: blur(0); }
+      0%   { opacity: 0; transform: translateY(12px); }
+      100% { opacity: 1; transform: none; }
     }
-
-    /* the stem grows, leaves unfurl, bud pops and sways */
-    .hh-stem-line { stroke-dasharray: 90; stroke-dashoffset: 90; animation: hh-draw 1.2s ease-out 0.9s forwards; }
-    .hh-stem-leaf, .hh-stem-bud { transform-box: fill-box; transform: scale(0); animation: hh-pop 0.7s cubic-bezier(0.3, 1.6, 0.5, 1) forwards; }
-    .hh-stem-leaf.l1 { transform-origin: 100% 100%; animation-delay: 1.5s; }
-    .hh-stem-leaf.l2 { transform-origin: 0% 100%; animation-delay: 1.7s; }
-    .hh-stem-bud { transform-origin: 50% 100%; animation: hh-pop 0.7s cubic-bezier(0.3, 1.6, 0.5, 1) 2s forwards, hh-bud-sway 3.2s ease-in-out 2.7s infinite; }
-    @keyframes hh-draw { to { stroke-dashoffset: 0; } }
     @keyframes hh-pop { to { transform: scale(1); } }
-    @keyframes hh-bud-sway {
-      0%, 100% { transform: rotate(-10deg); }
-      50%      { transform: rotate(10deg); }
-    }
 
     /* champ: the flower frame blooms open, then cards fly in */
-    .hh-bloom, .hh-photo { animation: hh-bloom-in 1.2s cubic-bezier(0.2, 0.9, 0.3, 1.2) 0.25s both; }
+    .hh-bloom, .hh-photo { animation: hh-bloom-in 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.25s both; }
     .hh-photo { animation-delay: 0.45s; }
     @keyframes hh-bloom-in {
-      0%   { opacity: 0; transform: scale(0.2) rotate(-120deg); }
+      0%   { opacity: 0; transform: scale(0.85); }
       100% { opacity: 1; transform: none; }
     }
     .hh-photo img { transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1); }
     .hh-champ:hover .hh-photo img { transform: scale(1.06); }
-    .hh-ticket { animation: hh-ticket-in 0.9s cubic-bezier(0.2, 0.9, 0.3, 1.3) 1.1s both, hh-float 5s ease-in-out 2s infinite; }
+    .hh-ticket { animation: hh-ticket-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.9s both; }
     @keyframes hh-ticket-in {
-      0%   { opacity: 0; transform: translate(-60px, 30px) rotate(-18deg); }
-      100% { opacity: 1; transform: rotate(-4deg); }
-    }
-    @keyframes hh-float {
-      0%, 100% { transform: rotate(-4deg) translateY(0); }
-      50%      { transform: rotate(-1deg) translateY(-10px); }
-    }
-    .hh-ticket:hover { animation-play-state: paused; }
-    .hh-pick { animation: hh-pick-in 0.8s cubic-bezier(0.3, 1.6, 0.5, 1) 1.35s both, hh-pick-bob 4s ease-in-out 2.2s infinite; }
-    .hh-pick > svg { animation: hh-spin 24s linear infinite; }
-    @keyframes hh-pick-in {
-      0%   { opacity: 0; transform: scale(0) rotate(-90deg); }
+      0%   { opacity: 0; transform: translateX(-20px); }
       100% { opacity: 1; transform: none; }
     }
-    @keyframes hh-pick-bob {
-      0%, 100% { transform: translateY(0); }
-      50%      { transform: translateY(-8px); }
+    .hh-pick { animation: hh-pick-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) 1.05s both; }
+    @keyframes hh-pick-in {
+      0%   { opacity: 0; transform: scale(0.85); }
+      100% { opacity: 1; transform: none; }
     }
 
     /* deco flowers pop in before they start swaying */
-    .hh-deco .hh-fl { opacity: 0; animation: hh-fl-in 0.8s cubic-bezier(0.3, 1.6, 0.5, 1) forwards, hh-sway 6s ease-in-out infinite; }
-    .hh-fl.f1 { animation-delay: 0.2s, 1s; }  .hh-fl.f2 { animation-delay: 0.5s, 1.3s; }
-    .hh-fl.f3 { animation-delay: 0.7s, 1.5s; } .hh-fl.f4 { animation-delay: 0.9s, 1.7s; }
-    .hh-fl.f5 { animation-delay: 1.1s, 1.9s; } .hh-fl.f6 { animation-delay: 0.4s, 1.2s; }
-    .hh-fl.f7 { animation-delay: 0.8s, 1.6s; } .hh-fl.f8 { animation-delay: 1s, 1.8s; }
-    .hh-fl.f9 { animation-delay: 1.2s, 2s; }   .hh-fl.f10 { animation-delay: 1.4s, 2.2s; }
-    .hh-fl.f4, .hh-fl.f10 { animation-name: hh-fl-in, hh-twinkle; animation-duration: 0.8s, 2.4s; }
+    .hh-deco .hh-fl { opacity: 0; animation: hh-fl-in 1s ease-out forwards, hh-sway 9s ease-in-out infinite; }
+    .hh-fl.f1 { animation-delay: 0.3s, 1.3s; }  .hh-fl.f6 { animation-delay: 0.5s, 1.5s; }
+    .hh-fl.f7 { animation-delay: 0.7s, 1.7s; }  .hh-fl.f10 { animation-delay: 0.9s, 1.9s; }
+    .hh-fl.f10 { animation-name: hh-fl-in, hh-twinkle; animation-duration: 1s, 4s; }
     @keyframes hh-fl-in {
-      0%   { opacity: 0; transform: scale(0) rotate(-180deg); }
+      0%   { opacity: 0; transform: scale(0.6); }
       100% { opacity: 1; transform: none; }
     }
     @keyframes hh-twinkle {
       0%, 100% { opacity: 1; transform: scale(1) rotate(0deg); }
-      50%      { opacity: 0.35; transform: scale(0.6) rotate(45deg); }
+      50%      { opacity: 0.4; transform: scale(0.8); }
     }
 
     /* banner strip rises in; meadow flowers spring up and sway */
-    .hh-banners { animation: hh-up 1s cubic-bezier(0.22, 1, 0.36, 1) 1s both; }
+    .hh-banners { animation: hh-up 1s cubic-bezier(0.22, 1, 0.36, 1) 0.8s both; }
     @keyframes hh-up {
-      0%   { opacity: 0; transform: translateY(60px); }
+      0%   { opacity: 0; transform: translateY(24px); }
       100% { opacity: 1; transform: none; }
-    }
-    .hh-meadow use {
-      transform-box: fill-box; transform-origin: 50% 100%;
-      animation: hh-pop 0.6s cubic-bezier(0.3, 1.6, 0.5, 1) both, hh-meadow-sway 3.6s ease-in-out infinite;
-      animation-delay: calc(1.2s + var(--d, 0) * 1s), calc(2s + var(--d, 0) * 2s);
-      transform: scale(0);
-    }
-    @keyframes hh-meadow-sway {
-      0%, 100% { transform: rotate(-12deg); }
-      50%      { transform: rotate(12deg); }
     }
 
     /* --- BIRTHDAY BANNER --- */
@@ -529,35 +456,18 @@
 
     <div class="hh-deco hh-parallax" aria-hidden="true">
       <svg class="hh-fl f1"  viewBox="0 0 100 100"><use href="#fl-five"/></svg>
-      <svg class="hh-fl f2"  viewBox="0 0 100 100"><use href="#fl-five"/></svg>
-      <svg class="hh-fl f3"  viewBox="0 0 100 100"><use href="#fl-five"/></svg>
-      <svg class="hh-fl f4"  viewBox="0 0 100 100"><use href="#fl-spark"/></svg>
-      <svg class="hh-fl f5"  viewBox="0 0 100 100"><use href="#fl-five"/></svg>
       <svg class="hh-fl f6"  viewBox="0 0 100 100"><use href="#fl-daisy"/></svg>
       <svg class="hh-fl f7"  viewBox="0 0 100 100"><use href="#fl-five"/></svg>
-      <svg class="hh-fl f8"  viewBox="0 0 100 100"><use href="#fl-daisy"/></svg>
-      <svg class="hh-fl f9"  viewBox="0 0 100 100"><use href="#fl-leaf"/></svg>
       <svg class="hh-fl f10" viewBox="0 0 100 100"><use href="#fl-spark"/></svg>
-      <span class="hh-petal p1"></span><span class="hh-petal p2"></span><span class="hh-petal p3"></span>
-      <span class="hh-petal p4"></span><span class="hh-petal p5"></span><span class="hh-petal p6"></span>
-      <span class="hh-petal p7"></span>
     </div>
 
     <div class="hh-stage">
       <div class="hh-title hh-parallax">
         <h1 aria-label="BLM48 Official Site"><span class="hh-title-main" aria-hidden="true"><span class="hh-ch" style="--i:0">B</span><span class="hh-ch" style="--i:1">L</span><span class="hh-ch" style="--i:2">M</span><span class="hh-ch" style="--i:3">4</span><span class="hh-ch" style="--i:4">8</span></span><span class="hh-title-sub" aria-hidden="true">Official Site</span></h1>
-        <svg class="hh-title-stem" viewBox="0 0 60 100" aria-hidden="true">
-          <path class="hh-stem-line" d="M30,100 C30,70 26,50 30,22" fill="none" stroke="#8fcf8f" stroke-width="2.5" stroke-linecap="round"/>
-          <path class="hh-stem-leaf l1" d="M29,66 C14,62 8,52 6,44 C18,44 26,52 29,66 Z" fill="#a8dba0"/>
-          <path class="hh-stem-leaf l2" d="M31,52 C44,48 52,40 54,32 C42,32 34,40 31,52 Z" fill="#a8dba0"/>
-          <path class="hh-stem-bud" d="M30,24 C20,22 18,8 30,0 C42,8 40,22 30,24 Z" fill="#ff9ac1"/>
-        </svg>
       </div>
 
       <div class="hh-champ hh-parallax" id="heroChamp">
         <svg class="hh-bloom" viewBox="0 0 100 100" aria-hidden="true">
-          <path class="hh-bloom-back" d="M104.0000,50.0000 L103.8819,51.8816 L103.5284,53.7431 L102.9421,55.5644 L102.1262,57.3259 L101.0833,59.0074 L99.8118,60.5878 L98.2965,62.0417 L96.4759,63.3268 L93.7486,64.2148 L95.4331,66.5363 L96.1507,68.6461 L96.5219,70.7129 L96.6217,72.7389 L96.4770,74.7123 L96.1018,76.6169 L95.5055,78.4350 L94.6973,80.1487 L93.6869,81.7404 L92.4854,83.1932 L91.1053,84.4914 L89.5604,85.6203 L87.8649,86.5658 L86.0329,87.3131 L84.0752,87.8443 L81.9948,88.1299 L79.7665,88.0994 L77.0381,87.2148 L77.0363,90.0830 L76.3768,92.2117 L75.4623,94.1020 L74.3521,95.7997 L73.0752,97.3111 L71.6521,98.6314 L70.1011,99.7519 L68.4399,100.6633 L66.6869,101.3571 L64.8609,101.8262 L62.9813,102.0652 L61.0679,102.0704 L59.1406,101.8388 L57.2191,101.3665 L55.3231,100.6456 L53.4721,99.6538 L51.6874,98.3194 L50.0000,96.0000 L48.3126,98.3194 L46.5279,99.6538 L44.6769,100.6456 L42.7809,101.3665 L40.8594,101.8388 L38.9321,102.0704 L37.0187,102.0652 L35.1391,101.8262 L33.3131,101.3571 L31.5601,100.6633 L29.8989,99.7519 L28.3479,98.6314 L26.9248,97.3111 L25.6479,95.7997 L24.5377,94.1020 L23.6232,92.2117 L22.9637,90.0830 L22.9619,87.2148 L20.2335,88.0994 L18.0052,88.1299 L15.9248,87.8443 L13.9671,87.3131 L12.1351,86.5658 L10.4396,85.6203 L8.8947,84.4914 L7.5146,83.1932 L6.3131,81.7404 L5.3027,80.1487 L4.4945,78.4350 L3.8982,76.6169 L3.5230,74.7123 L3.3783,72.7389 L3.4781,70.7129 L3.8493,68.6461 L4.5669,66.5363 L6.2514,64.2148 L3.5241,63.3268 L1.7035,62.0417 L0.1882,60.5878 L-1.0833,59.0074 L-2.1262,57.3259 L-2.9421,55.5644 L-3.5284,53.7431 L-3.8819,51.8816 L-4.0000,50.0000 L-3.8819,48.1184 L-3.5284,46.2569 L-2.9421,44.4356 L-2.1262,42.6741 L-1.0833,40.9926 L0.1882,39.4122 L1.7035,37.9583 L3.5241,36.6732 L6.2514,35.7852 L4.5669,33.4637 L3.8493,31.3539 L3.4781,29.2871 L3.3783,27.2611 L3.5230,25.2877 L3.8982,23.3831 L4.4945,21.5650 L5.3027,19.8513 L6.3131,18.2596 L7.5146,16.8068 L8.8947,15.5086 L10.4396,14.3797 L12.1351,13.4342 L13.9671,12.6869 L15.9248,12.1557 L18.0052,11.8701 L20.2335,11.9006 L22.9619,12.7852 L22.9637,9.9170 L23.6232,7.7883 L24.5377,5.8980 L25.6479,4.2003 L26.9248,2.6889 L28.3479,1.3686 L29.8989,0.2481 L31.5601,-0.6633 L33.3131,-1.3571 L35.1391,-1.8262 L37.0187,-2.0652 L38.9321,-2.0704 L40.8594,-1.8388 L42.7809,-1.3665 L44.6769,-0.6456 L46.5279,0.3462 L48.3126,1.6806 L50.0000,4.0000 L51.6874,1.6806 L53.4721,0.3462 L55.3231,-0.6456 L57.2191,-1.3665 L59.1406,-1.8388 L61.0679,-2.0704 L62.9813,-2.0652 L64.8609,-1.8262 L66.6869,-1.3571 L68.4399,-0.6633 L70.1011,0.2481 L71.6521,1.3686 L73.0752,2.6889 L74.3521,4.2003 L75.4623,5.8980 L76.3768,7.7883 L77.0363,9.9170 L77.0381,12.7852 L79.7665,11.9006 L81.9948,11.8701 L84.0752,12.1557 L86.0329,12.6869 L87.8649,13.4342 L89.5604,14.3797 L91.1053,15.5086 L92.4854,16.8068 L93.6869,18.2596 L94.6973,19.8513 L95.5055,21.5650 L96.1018,23.3831 L96.4770,25.2877 L96.6217,27.2611 L96.5219,29.2871 L96.1507,31.3539 L95.4331,33.4637 L93.7486,35.7852 L96.4759,36.6732 L98.2965,37.9583 L99.8118,39.4122 L101.0833,40.9926 L102.1262,42.6741 L102.9421,44.4356 L103.5284,46.2569 L103.8819,48.1184 Z" fill="#fff" opacity="0.85"/>
-          <path class="hh-bloom-line" d="M103.5000,50.0000 L103.3754,51.8639 L103.0026,53.7063 L102.3842,55.5058 L101.5227,57.2410 L100.4157,58.8896 L99.0416,60.4241 L97.2872,61.7900 L96.8469,63.4331 L97.6833,65.4932 L98.1061,67.5092 L98.2405,69.4904 L98.1190,71.4239 L97.7547,73.2915 L97.1564,75.0735 L96.3324,76.7500 L95.2925,78.3019 L94.0484,79.7110 L92.6132,80.9603 L90.9995,82.0323 L89.2164,82.9065 L87.2592,83.5483 L85.0569,83.8541 L83.8541,85.0569 L83.5483,87.2592 L82.9065,89.2164 L82.0323,90.9995 L80.9603,92.6132 L79.7110,94.0484 L78.3019,95.2925 L76.7500,96.3324 L75.0735,97.1564 L73.2915,97.7547 L71.4239,98.1190 L69.4904,98.2405 L67.5092,98.1061 L65.4932,97.6833 L63.4331,96.8469 L61.7900,97.2872 L60.4241,99.0416 L58.8896,100.4157 L57.2410,101.5227 L55.5058,102.3842 L53.7063,103.0026 L51.8639,103.3754 L50.0000,103.5000 L48.1361,103.3754 L46.2937,103.0026 L44.4942,102.3842 L42.7590,101.5227 L41.1104,100.4157 L39.5759,99.0416 L38.2100,97.2872 L36.5669,96.8469 L34.5068,97.6833 L32.4908,98.1061 L30.5096,98.2405 L28.5761,98.1190 L26.7085,97.7547 L24.9265,97.1564 L23.2500,96.3324 L21.6981,95.2925 L20.2890,94.0484 L19.0397,92.6132 L17.9677,90.9995 L17.0935,89.2164 L16.4517,87.2592 L16.1459,85.0569 L14.9431,83.8541 L12.7408,83.5483 L10.7836,82.9065 L9.0005,82.0323 L7.3868,80.9603 L5.9516,79.7110 L4.7075,78.3019 L3.6676,76.7500 L2.8436,75.0735 L2.2453,73.2915 L1.8810,71.4239 L1.7595,69.4904 L1.8939,67.5092 L2.3167,65.4932 L3.1531,63.4331 L2.7128,61.7900 L0.9584,60.4241 L-0.4157,58.8896 L-1.5227,57.2410 L-2.3842,55.5058 L-3.0026,53.7063 L-3.3754,51.8639 L-3.5000,50.0000 L-3.3754,48.1361 L-3.0026,46.2937 L-2.3842,44.4942 L-1.5227,42.7590 L-0.4157,41.1104 L0.9584,39.5759 L2.7128,38.2100 L3.1531,36.5669 L2.3167,34.5068 L1.8939,32.4908 L1.7595,30.5096 L1.8810,28.5761 L2.2453,26.7085 L2.8436,24.9265 L3.6676,23.2500 L4.7075,21.6981 L5.9516,20.2890 L7.3868,19.0397 L9.0005,17.9677 L10.7836,17.0935 L12.7408,16.4517 L14.9431,16.1459 L16.1459,14.9431 L16.4517,12.7408 L17.0935,10.7836 L17.9677,9.0005 L19.0397,7.3868 L20.2890,5.9516 L21.6981,4.7075 L23.2500,3.6676 L24.9265,2.8436 L26.7085,2.2453 L28.5761,1.8810 L30.5096,1.7595 L32.4908,1.8939 L34.5068,2.3167 L36.5669,3.1531 L38.2100,2.7128 L39.5759,0.9584 L41.1104,-0.4157 L42.7590,-1.5227 L44.4942,-2.3842 L46.2937,-3.0026 L48.1361,-3.3754 L50.0000,-3.5000 L51.8639,-3.3754 L53.7063,-3.0026 L55.5058,-2.3842 L57.2410,-1.5227 L58.8896,-0.4157 L60.4241,0.9584 L61.7900,2.7128 L63.4331,3.1531 L65.4932,2.3167 L67.5092,1.8939 L69.4904,1.7595 L71.4239,1.8810 L73.2915,2.2453 L75.0735,2.8436 L76.7500,3.6676 L78.3019,4.7075 L79.7110,5.9516 L80.9603,7.3868 L82.0323,9.0005 L82.9065,10.7836 L83.5483,12.7408 L83.8541,14.9431 L85.0569,16.1459 L87.2592,16.4517 L89.2164,17.0935 L90.9995,17.9677 L92.6132,19.0397 L94.0484,20.2890 L95.2925,21.6981 L96.3324,23.2500 L97.1564,24.9265 L97.7547,26.7085 L98.1190,28.5761 L98.2405,30.5096 L98.1061,32.4908 L97.6833,34.5068 L96.8469,36.5669 L97.2872,38.2100 L99.0416,39.5759 L100.4157,41.1104 L101.5227,42.7590 L102.3842,44.4942 L103.0026,46.2937 L103.3754,48.1361 Z" fill="none" stroke="#ff9ac1" stroke-width="0.6" stroke-dasharray="1.6 1.4"/>
           <path d="M101.0000,50.0000 L100.8837,51.7769 L100.5357,53.5338 L99.9585,55.2509 L99.1554,56.9083 L98.1289,58.4864 L96.8773,59.9641 L95.3857,61.3159 L93.5921,62.4998 L90.8954,63.2877 L92.6140,65.5102 L93.3691,67.5223 L93.7813,69.4927 L93.9253,71.4238 L93.8282,73.3038 L93.5037,75.1169 L92.9614,76.8453 L92.2102,78.4712 L91.2599,79.9770 L90.1214,81.3462 L88.8072,82.5631 L87.3309,83.6129 L85.7069,84.4818 L83.9489,85.1551 L82.0678,85.6149 L80.0664,85.8318 L77.9196,85.7354 L75.2748,84.7877 L75.3588,87.5959 L74.7870,89.6675 L73.9623,91.5039 L72.9437,93.1508 L71.7601,94.6148 L70.4319,95.8908 L68.9772,96.9703 L67.4139,97.8442 L65.7599,98.5039 L64.0340,98.9424 L62.2556,99.1543 L60.4442,99.1360 L58.6196,98.8843 L56.8016,98.3957 L55.0095,97.6620 L53.2629,96.6611 L51.5827,95.3212 L50.0000,93.0000 L48.4173,95.3212 L46.7371,96.6611 L44.9905,97.6620 L43.1984,98.3957 L41.3804,98.8843 L39.5558,99.1360 L37.7444,99.1543 L35.9660,98.9424 L34.2401,98.5039 L32.5861,97.8442 L31.0228,96.9703 L29.5681,95.8908 L28.2399,94.6148 L27.0563,93.1508 L26.0377,91.5039 L25.2130,89.6675 L24.6412,87.5959 L24.7252,84.7877 L22.0804,85.7354 L19.9336,85.8318 L17.9322,85.6149 L16.0511,85.1551 L14.2931,84.4818 L12.6691,83.6129 L11.1928,82.5631 L9.8786,81.3462 L8.7401,79.9770 L7.7898,78.4712 L7.0386,76.8453 L6.4963,75.1169 L6.1718,73.3038 L6.0747,71.4238 L6.2187,69.4927 L6.6309,67.5223 L7.3860,65.5102 L9.1046,63.2877 L6.4079,62.4998 L4.6143,61.3159 L3.1227,59.9641 L1.8711,58.4864 L0.8446,56.9083 L0.0415,55.2509 L-0.5357,53.5338 L-0.8837,51.7769 L-1.0000,50.0000 L-0.8837,48.2231 L-0.5357,46.4662 L0.0415,44.7491 L0.8446,43.0917 L1.8711,41.5136 L3.1227,40.0359 L4.6143,38.6841 L6.4079,37.5002 L9.1046,36.7123 L7.3860,34.4898 L6.6309,32.4777 L6.2187,30.5073 L6.0747,28.5762 L6.1718,26.6962 L6.4963,24.8831 L7.0386,23.1547 L7.7898,21.5288 L8.7401,20.0230 L9.8786,18.6538 L11.1928,17.4369 L12.6691,16.3871 L14.2931,15.5182 L16.0511,14.8449 L17.9322,14.3851 L19.9336,14.1682 L22.0804,14.2646 L24.7252,15.2123 L24.6412,12.4041 L25.2130,10.3325 L26.0377,8.4961 L27.0563,6.8492 L28.2399,5.3852 L29.5681,4.1092 L31.0228,3.0297 L32.5861,2.1558 L34.2401,1.4961 L35.9660,1.0576 L37.7444,0.8457 L39.5558,0.8640 L41.3804,1.1157 L43.1984,1.6043 L44.9905,2.3380 L46.7371,3.3389 L48.4173,4.6788 L50.0000,7.0000 L51.5827,4.6788 L53.2629,3.3389 L55.0095,2.3380 L56.8016,1.6043 L58.6196,1.1157 L60.4442,0.8640 L62.2556,0.8457 L64.0340,1.0576 L65.7599,1.4961 L67.4139,2.1558 L68.9772,3.0297 L70.4319,4.1092 L71.7601,5.3852 L72.9437,6.8492 L73.9623,8.4961 L74.7870,10.3325 L75.3588,12.4041 L75.2748,15.2123 L77.9196,14.2646 L80.0664,14.1682 L82.0678,14.3851 L83.9489,14.8449 L85.7069,15.5182 L87.3309,16.3871 L88.8072,17.4369 L90.1214,18.6538 L91.2599,20.0230 L92.2102,21.5288 L92.9614,23.1547 L93.5037,24.8831 L93.8282,26.6962 L93.9253,28.5762 L93.7813,30.5073 L93.3691,32.4777 L92.6140,34.4898 L90.8954,36.7123 L93.5921,37.5002 L95.3857,38.6841 L96.8773,40.0359 L98.1289,41.5136 L99.1554,43.0917 L99.9585,44.7491 L100.5357,46.4662 L100.8837,48.2231 Z" fill="none" stroke="#ffc93c" stroke-width="0.9"/>
         </svg>
         <div class="hh-photo"><img id="heroChampImg" alt=""></div>
@@ -585,9 +495,7 @@
     </div>
 
     <svg class="hh-meadow" viewBox="0 0 1440 290" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
-      <path d="M0,120 C240,70 420,150 700,118 C980,86 1180,60 1440,104 L1440,290 L0,290 Z" fill="#dff2cf"/>
-      <path d="M0,164.7 L20,169.1 L40,173.3 L60,177.0 L80,180.3 L100,183.0 L120,185.0 L140,186.3 L160,186.9 L180,186.6 L200,185.7 L220,184.1 L240,181.9 L260,179.3 L280,176.2 L300,173.0 L320,169.6 L340,166.2 L360,163.0 L380,160.0 L400,157.3 L420,155.0 L440,153.2 L460,151.8 L480,150.9 L500,150.3 L520,150.1 L540,150.2 L560,150.5 L580,150.8 L600,151.1 L620,151.3 L640,151.3 L660,150.9 L680,150.1 L700,149.0 L720,147.3 L740,145.2 L760,142.7 L780,139.8 L800,136.6 L820,133.2 L840,129.7 L860,126.2 L880,122.9 L900,119.9 L920,117.2 L940,115.2 L960,113.7 L980,112.9 L1000,112.9 L1020,113.6 L1040,115.0 L1060,117.2 L1080,120.1 L1100,123.5 L1120,127.3 L1140,131.5 L1160,135.9 L1180,140.4 L1200,144.8 L1220,148.9 L1240,152.8 L1260,156.3 L1280,159.3 L1300,161.7 L1320,163.6 L1340,164.9 L1360,165.6 L1380,165.9 L1400,165.8 L1420,165.4 L1440,164.7 L1440,290 L0,290 Z" fill="#ecf8e2"/>
-      <use href="#fl-daisy" x="22.5" y="197.3" width="15.0" height="15.0" style="color:#ff9ac1;--d:0.02"/><use href="#fl-five" x="88.6" y="211.2" width="10.7" height="10.7" style="color:#ffe08a;--d:0.06"/><use href="#fl-daisy" x="147.5" y="203.7" width="17.0" height="17.0" style="color:#f5629e;--d:0.10"/><use href="#fl-five" x="214.0" y="199.3" width="16.0" height="16.0" style="color:#ff9ac1;--d:0.15"/><use href="#fl-five" x="281.8" y="190.9" width="10.5" height="10.5" style="color:#ffe08a;--d:0.20"/><use href="#fl-five" x="328.7" y="189.0" width="18.6" height="18.6" style="color:#ff9ac1;--d:0.23"/><use href="#fl-five" x="399.7" y="191.2" width="12.5" height="12.5" style="color:#ff9ac1;--d:0.28"/><use href="#fl-daisy" x="462.5" y="167.1" width="14.9" height="14.9" style="color:#ffc93c;--d:0.32"/><use href="#fl-five" x="540.4" y="171.8" width="13.2" height="13.2" style="color:#ff9ac1;--d:0.38"/><use href="#fl-five" x="595.9" y="193.4" width="14.2" height="14.2" style="color:#ffc93c;--d:0.41"/><use href="#fl-daisy" x="657.1" y="187.2" width="15.9" height="15.9" style="color:#ff9ac1;--d:0.46"/><use href="#fl-five" x="723.8" y="158.8" width="10.4" height="10.4" style="color:#ffffff;--d:0.50"/><use href="#fl-five" x="794.5" y="182.2" width="12.9" height="12.9" style="color:#ffffff;--d:0.55"/><use href="#fl-daisy" x="858.0" y="165.9" width="14.1" height="14.1" style="color:#ffffff;--d:0.60"/><use href="#fl-five" x="914.4" y="155.4" width="11.2" height="11.2" style="color:#ffc93c;--d:0.64"/><use href="#fl-five" x="990.8" y="156.4" width="18.3" height="18.3" style="color:#ffe08a;--d:0.69"/><use href="#fl-five" x="1066.9" y="149.9" width="10.2" height="10.2" style="color:#ffc93c;--d:0.74"/><use href="#fl-daisy" x="1118.9" y="150.4" width="16.2" height="16.2" style="color:#f5629e;--d:0.78"/><use href="#fl-five" x="1204.4" y="154.8" width="13.2" height="13.2" style="color:#ffffff;--d:0.84"/><use href="#fl-five" x="1253.9" y="203.0" width="14.1" height="14.1" style="color:#ffe08a;--d:0.87"/><use href="#fl-daisy" x="1317.4" y="174.5" width="17.1" height="17.1" style="color:#ffe08a;--d:0.91"/><use href="#fl-five" x="1364.8" y="177.9" width="16.4" height="16.4" style="color:#f5629e;--d:0.95"/>
+      <path d="M0,164.7 L20,169.1 L40,173.3 L60,177.0 L80,180.3 L100,183.0 L120,185.0 L140,186.3 L160,186.9 L180,186.6 L200,185.7 L220,184.1 L240,181.9 L260,179.3 L280,176.2 L300,173.0 L320,169.6 L340,166.2 L360,163.0 L380,160.0 L400,157.3 L420,155.0 L440,153.2 L460,151.8 L480,150.9 L500,150.3 L520,150.1 L540,150.2 L560,150.5 L580,150.8 L600,151.1 L620,151.3 L640,151.3 L660,150.9 L680,150.1 L700,149.0 L720,147.3 L740,145.2 L760,142.7 L780,139.8 L800,136.6 L820,133.2 L840,129.7 L860,126.2 L880,122.9 L900,119.9 L920,117.2 L940,115.2 L960,113.7 L980,112.9 L1000,112.9 L1020,113.6 L1040,115.0 L1060,117.2 L1080,120.1 L1100,123.5 L1120,127.3 L1140,131.5 L1160,135.9 L1180,140.4 L1200,144.8 L1220,148.9 L1240,152.8 L1260,156.3 L1280,159.3 L1300,161.7 L1320,163.6 L1340,164.9 L1360,165.6 L1380,165.9 L1400,165.8 L1420,165.4 L1440,164.7 L1440,290 L0,290 Z" fill="#f1f8e8"/>
       <path d="M0,236 C260,206 520,262 760,244 C1000,226 1220,204 1440,226 L1440,290 L0,290 Z" fill="#fff"/>
     </svg>
   </section>
