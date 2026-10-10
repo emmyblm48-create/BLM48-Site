@@ -9,6 +9,7 @@
     { href: 'profile.html', page: 'profile', label: 'Profile' },
     { href: 'discography.html', page: 'discography', label: 'Discography' },
     { href: 'shop.html', page: 'shop', label: 'Shop' },
+    { href: 'token.html', page: 'token', label: 'Token' },
     { href: 'about.html', page: 'about', label: 'About' }
   ];
 
@@ -93,6 +94,7 @@
           '</div>' +
           '<div class="footer-link-grid footer-link-grid-secondary">' +
             '<a class="footer-link-box" href="shop.html">Shop</a>' +
+            '<a class="footer-link-box" href="token.html">Token</a>' +
             '<a class="footer-link-box" href="about.html">About BLM48</a>' +
             '<a class="footer-link-box" href="https://blm48-membership.vercel.app/" target="_blank" rel="noopener">Membership</a>' +
           '</div>' +
