@@ -49,13 +49,51 @@
 }
 
 /* ---------------- Global base ---------------- */
-html { background: var(--blm-paper); }
+/* Soft pink page field fading to white, with the Token-page decorations
+   (gold corner stripes + white dot grid) on the left edge of every page.
+   The gradient lives on <html> (not <body>) so the z-index:-1 decorations
+   paint above it but still behind all page content. */
+html {
+  background: linear-gradient(180deg, var(--blm-pink-pale) 0%, #fff2f7 55%, var(--blm-paper) 100%);
+  background-color: var(--blm-paper);
+  min-height: 100%;
+}
 body {
   font-family: var(--font-body);
   color: var(--blm-ink);
-  background: var(--blm-paper);
+  background: transparent;
   padding-top: calc(var(--header-h) + var(--topbar-h));
   position: relative;
+}
+body::before,
+body::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+/* gold diagonal stripes, top-left corner under the header */
+body::before {
+  top: calc(var(--header-h) + var(--topbar-h));
+  width: clamp(90px, 13vw, 180px);
+  height: clamp(140px, 20vw, 260px);
+  background: repeating-linear-gradient(135deg, var(--blm-gold) 0 14px, transparent 14px 32px);
+  opacity: 0.7;
+  clip-path: polygon(0 0, 100% 0, 0 100%);
+}
+/* white dot grid hugging the left edge */
+body::after {
+  left: -18px;
+  top: clamp(380px, 48vw, 560px);
+  width: clamp(110px, 14vw, 230px);
+  height: 440px;
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.95) 13px, transparent 14px);
+  background-size: 72px 80px;
+}
+@media (max-width: 760px) {
+  body::before { opacity: 0.55; }
+  body::after { height: 320px; opacity: 0.8; }
 }
 h1, h2, h3, .font-display { font-family: var(--font-display); }
 
@@ -95,16 +133,7 @@ h1, h2, h3, .font-display { font-family: var(--font-display); }
   margin-bottom: 44px;
   border-bottom: 1px solid var(--blm-line);
 }
-.page-hero::before {
-  content: '';
-  position: absolute;
-  z-index: -1;
-  top: 0; left: 0;
-  width: 130px; height: 130px;
-  background-image: var(--stripe-corner);
-  clip-path: polygon(0 0, 100% 0, 0 100%);
-  pointer-events: none;
-}
+/* corner decoration now comes from body::before (site-wide) */
 .page-hero .eyebrow { justify-content: center; margin-bottom: 14px; }
 .page-hero-title {
   font-family: var(--font-display);
@@ -482,6 +511,18 @@ h1, h2, h3, .font-display { font-family: var(--font-display); }
   padding: 80px 0 34px;
   margin-top: 90px;
   text-align: center;
+}
+/* gold stripes rising from the bottom-left corner, just above the footer */
+.ske-footer::before {
+  content: '';
+  position: absolute; z-index: -1;
+  left: 0; bottom: 100%;
+  width: clamp(90px, 13vw, 180px);
+  height: clamp(140px, 20vw, 260px);
+  background: repeating-linear-gradient(135deg, var(--blm-gold) 0 14px, transparent 14px 32px);
+  opacity: 0.7;
+  clip-path: polygon(0 0, 100% 100%, 0 100%);
+  pointer-events: none;
 }
 .footer-inner { max-width: 900px; width: 92%; margin: 0 auto; }
 
