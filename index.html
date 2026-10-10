@@ -17,58 +17,162 @@
     html { scroll-behavior: smooth; }
     body { font-family: var(--font-body); color: var(--blm-ink); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
 
-    /* --- HERO BANNER (big slide on top, thumbnail strip looping below) --- */
-    .hero-banner { max-width: 1300px; width: 92%; margin: 28px auto 0; }
-    .hero-banner-main {
-      position: relative; width: 100%;
-      aspect-ratio: 1445 / 820;
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-      background: var(--blm-paper-soft);
-      border: 1px solid var(--blm-line);
+    /* --- HERO (STU48-style): big title left, Champ of the Month photo right,
+           floating circles, banner cards sliding over a wave at the bottom --- */
+    .home-hero {
+      position: relative; overflow: hidden;
+      background: linear-gradient(180deg, #fff3c9 0%, #fff6dc 100%);
+      padding-bottom: clamp(110px, 13vw, 210px);
     }
-    .hero-swiper, .hero-swiper .swiper-slide { width: 100%; height: 100%; }
-    .hero-slide-link { display: block; width: 100%; height: 100%; }
+    .hh-stage {
+      position: relative; z-index: 2;
+      max-width: 1300px; width: 92%; margin: 0 auto;
+      min-height: clamp(520px, calc(100vh - var(--header-h) - var(--topbar-h) - 140px), 720px);
+      display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 40px;
+      padding: clamp(30px, 5vw, 60px) 0 clamp(24px, 3vw, 40px);
+    }
+
+    /* title */
+    .hh-title { position: relative; justify-self: center; text-align: left; }
+    .hh-title h1 { font-family: var(--font-display); font-weight: 300; line-height: 0.95; }
+    .hh-title-main {
+      display: block; font-size: clamp(4rem, 11vw, 9.5rem); letter-spacing: -4px;
+      color: var(--blm-gold);
+      text-shadow: 0 2px 0 #fff, 0 10px 30px rgba(242, 169, 0, 0.18);
+    }
+    .hh-title-sub {
+      display: block; margin-top: 10px; font-size: clamp(2rem, 5.2vw, 4.4rem); letter-spacing: -1px;
+      color: var(--blm-pink-deep);
+    }
+    .hh-title-line { display: block; width: 1.5px; height: clamp(50px, 8vw, 90px); background: var(--blm-ink-faint); margin: 18px 0 0 clamp(70px, 10vw, 160px); }
+
+    /* champ photo */
+    .hh-champ { position: relative; justify-self: center; width: min(440px, 80vw); aspect-ratio: 1 / 1.08; }
+    .hh-champ[hidden] { display: none; }
+    .hh-blob-line {
+      position: absolute; inset: -3% -6% -4% -4%;
+      border: 2px solid var(--blm-gold);
+      border-radius: 44% 56% 48% 52% / 56% 44% 56% 44%;
+      animation: hh-morph 12s ease-in-out infinite;
+    }
+    .hh-blob-line.is-pink {
+      inset: -6% -2% -1% -7%; border: 1.5px dashed var(--blm-pink);
+      animation-duration: 15s; animation-direction: reverse;
+    }
+    .hh-blob {
+      position: absolute; inset: 0; overflow: hidden;
+      border-radius: 52% 48% 44% 56% / 46% 54% 46% 54%;
+      background: #fff;
+      box-shadow: 0 0 0 10px rgba(255, 255, 255, 0.65), 0 24px 50px rgba(242, 169, 0, 0.18);
+      animation: hh-morph 10s ease-in-out infinite;
+    }
+    .hh-blob img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    @keyframes hh-morph {
+      0%, 100% { border-radius: 52% 48% 44% 56% / 46% 54% 46% 54%; }
+      50%      { border-radius: 44% 56% 54% 46% / 56% 44% 54% 46%; }
+    }
+
+    /* small ticket card (like the reference's playlist card) */
+    .hh-ticket {
+      position: absolute; left: -14%; bottom: 8%; z-index: 3;
+      width: clamp(120px, 13vw, 150px); padding: 12px 8px 10px;
+      background-color: #fff; border: 1.5px solid var(--blm-gold); border-radius: 6px;
+      text-align: center; text-decoration: none; color: var(--blm-ink);
+      box-shadow: 0 10px 24px rgba(59, 47, 38, 0.12);
+      background-image: repeating-linear-gradient(90deg, var(--blm-gold) 0 6px, transparent 6px 12px);
+      background-size: 100% 5px; background-repeat: no-repeat; background-position: top;
+    }
+    .hh-ticket-kicker { font-size: 9px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; color: var(--blm-gold-deep); }
+    .hh-ticket-month { font-size: 12px; font-weight: 800; margin: 2px 0 6px; }
+    .hh-ticket img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; border-radius: 3px; }
+    .hh-ticket-cookie { font-size: 10.5px; font-weight: 700; color: var(--blm-ink-soft); margin-top: 6px; }
+    .hh-ticket-cookie i { color: var(--blm-gold-deep); }
+
+    /* round "PICK UP!" badge */
+    .hh-pick {
+      position: absolute; right: -10%; bottom: -8%; z-index: 3;
+      width: clamp(150px, 15vw, 196px); aspect-ratio: 1; border-radius: 50%;
+      background: #fff; border: 1.5px solid var(--blm-pink);
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+      text-decoration: none; color: var(--blm-ink);
+      box-shadow: 0 12px 28px rgba(245, 98, 158, 0.15);
+      transition: transform 0.25s;
+    }
+    .hh-pick:hover { transform: translateY(-4px) rotate(-3deg); }
+    .hh-pick-label {
+      font-size: clamp(12px, 1.2vw, 15px); font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--blm-pink-deep);
+      background: linear-gradient(transparent 62%, var(--blm-gold) 62%);
+    }
+    .hh-pick-name {
+      min-width: 76%; padding: 8px 18px 8px 12px; text-align: center;
+      font-weight: 800; font-size: clamp(13px, 1.3vw, 16px);
+      background: var(--blm-gold-pale); box-shadow: inset 0 0 0 1.5px var(--blm-ink);
+      clip-path: polygon(0 0, 100% 0, 90% 50%, 100% 100%, 0 100%);
+    }
+    .hh-pick-link { font-size: clamp(11px, 1.1vw, 13px); font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--blm-ink-soft); }
+    .hh-pick-link::before { content: ''; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--blm-pink); margin-right: 6px; vertical-align: 1px; }
+
+    /* floating circles */
+    .hh-deco { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
+    .hh-dot { position: absolute; border-radius: 50%; }
+    .hh-dot.d1 { left: -28px; top: 26%; width: 60px; height: 60px; background: var(--blm-pink); }
+    .hh-dot.d2 { left: 25%; top: 13%; width: 26px; height: 26px; border: 1.5px solid var(--blm-pink-deep); }
+    .hh-dot.d3 { left: 39%; top: 20%; width: 12px; height: 12px; background: var(--blm-pink); }
+    .hh-dot.d4 { left: 48%; top: 44%; width: 20px; height: 20px; background: #fff; }
+    .hh-dot.d5 { left: 41%; top: 58%; width: 46px; height: 46px; background: var(--blm-gold-deep); }
+    .hh-dot.d6 { /* white striped disc, bottom-left */
+      left: 6%; top: 52%; width: clamp(80px, 9vw, 116px); height: clamp(80px, 9vw, 116px);
+      background: repeating-linear-gradient(180deg, #fff 0 8px, transparent 8px 14px);
+    }
+    .hh-dot.d7 { /* gold striped disc beside the photo */
+      right: 7%; top: 36%; width: clamp(70px, 8vw, 110px); height: clamp(70px, 8vw, 110px);
+      background: repeating-linear-gradient(180deg, var(--blm-gold-deep) 0 6px, transparent 6px 11px);
+    }
+    .hh-dot.d8 { /* small pink striped disc */
+      right: 5%; top: 34%; width: 40px; height: 40px;
+      background: repeating-linear-gradient(180deg, var(--blm-pink) 0 4px, transparent 4px 8px);
+    }
+
+    /* banner cards sliding over the wave */
+    .hh-banners { position: relative; z-index: 3; padding-left: 4%; }
+    .hero-swiper { overflow: visible; }
+    .hero-swiper .swiper-slide { width: clamp(260px, 30vw, 480px); }
+    .hero-slide-link {
+      display: block; position: relative; aspect-ratio: 1445 / 820;
+      border-radius: var(--radius-md); overflow: hidden; background: #fff;
+      box-shadow: 0 14px 30px rgba(59, 47, 38, 0.12);
+      transition: transform 0.3s;
+    }
+    .hero-slide-link:hover { transform: translateY(-6px); }
     .hero-slide-link img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .hero-slide-loading { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; color: var(--blm-ink-faint); font-weight: 600; }
+    .hero-slide-loading { display: flex; align-items: center; justify-content: center; aspect-ratio: 1445 / 820; color: var(--blm-ink-faint); font-weight: 600; background: rgba(255,255,255,0.6); border-radius: var(--radius-md); }
     .hero-slide-caption {
       position: absolute; left: 0; right: 0; bottom: 0;
-      padding: 30px clamp(20px, 4vw, 44px) 22px;
+      padding: 24px 18px 14px;
       background: linear-gradient(0deg, rgba(59,47,38,0.55) 0%, rgba(59,47,38,0) 100%);
       color: #fff;
     }
-    .hero-slide-caption-title { font-family: var(--font-display); font-size: clamp(18px, 2.6vw, 28px); font-weight: 700; }
-    .hero-slide-caption-sub { font-size: 12.5px; font-weight: 600; opacity: 0.85; margin-top: 4px; }
+    .hero-slide-caption-title { font-family: var(--font-display); font-size: clamp(14px, 1.4vw, 18px); font-weight: 700; }
+    .hero-slide-caption-sub { font-size: 11.5px; font-weight: 600; opacity: 0.85; margin-top: 3px; }
 
-    .hero-nav-prev, .hero-nav-next {
-      position: absolute; top: 50%; transform: translateY(-50%);
-      width: 44px; height: 44px; border-radius: 50%;
-      background: rgba(255,255,255,0.85); border: 1px solid var(--blm-line);
-      color: var(--blm-ink); display: flex; align-items: center; justify-content: center;
-      cursor: pointer; z-index: 6; transition: background 0.2s, color 0.2s;
-    }
-    .hero-nav-prev:hover, .hero-nav-next:hover { background: var(--blm-gold); color: var(--blm-on-gold); }
-    .hero-nav-prev { left: 16px; } .hero-nav-next { right: 16px; }
-    .hero-nav-prev.swiper-button-disabled, .hero-nav-next.swiper-button-disabled { opacity: 0.35; cursor: default; }
+    .hh-wave { position: absolute; left: 0; right: 0; bottom: -1px; width: 100%; height: clamp(110px, 16vw, 260px); z-index: 2; display: block; }
 
-    .hero-fraction {
-      position: absolute !important; right: 20px; top: 18px; left: auto !important; bottom: auto !important; width: auto !important; z-index: 6;
-      display: flex; align-items: baseline; gap: 3px;
-      font-family: var(--font-display); font-weight: 700; color: #fff; font-size: 13px;
-      background: rgba(59,47,38,0.45); padding: 5px 12px; border-radius: var(--radius-pill);
+    @media (max-width: 860px) {
+      .hh-stage { grid-template-columns: 1fr; min-height: 0; gap: 60px; padding-top: 36px; }
+      .hh-title { justify-self: start; }
+      .hh-title-line { display: none; }
+      .hh-champ { width: min(300px, 64vw); margin-bottom: 50px; }
+      .hh-ticket { left: -16%; bottom: 0; width: 104px; padding: 10px 6px 8px; }
+      .hh-ticket-month { font-size: 11px; }
+      .hh-pick { right: -16%; bottom: -14%; width: 132px; gap: 6px; }
+      .hh-dot.d2 { left: 72%; top: 3%; }
+      .hh-dot.d4, .hh-dot.d5 { display: none; }
+      .hh-dot.d6 { top: 18%; left: auto; right: 6%; }
+      .hh-dot.d7 { top: 52%; right: 2%; }
+      .hh-dot.d8 { top: 50%; right: 1%; }
     }
-    .hero-fraction .swiper-pagination-current { font-size: 20px; }
-    .hero-fraction .swiper-pagination-total { opacity: 0.7; }
-
-    .hero-thumbs { margin-top: 14px; }
-    .hero-thumbs .swiper-slide {
-      width: clamp(88px, 12vw, 150px); aspect-ratio: 16/9;
-      border-radius: var(--radius-md); overflow: hidden; cursor: pointer;
-      opacity: 0.5; border: 2px solid transparent; transition: opacity 0.25s, border-color 0.25s;
-    }
-    .hero-thumbs .swiper-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .hero-thumbs .swiper-slide:hover { opacity: 0.8; }
-    .hero-thumbs .swiper-slide-thumb-active { opacity: 1; border-color: var(--blm-gold); }
+    @media (prefers-reduced-motion: reduce) { .hh-blob, .hh-blob-line { animation: none; } }
 
     /* --- BIRTHDAY BANNER --- */
     .birthday-banner {
@@ -276,21 +380,52 @@
   <script src="assets/js/nav.js"></script>
   <script src="assets/js/sheet-data.js"></script>
 
-  <!-- HERO BANNER -->
-  <section class="hero-banner">
-    <div class="hero-banner-main">
+  <!-- HERO: title + Champ of the Month + sliding banners -->
+  <section class="home-hero">
+    <div class="hh-deco" aria-hidden="true">
+      <span class="hh-dot d1"></span><span class="hh-dot d2"></span><span class="hh-dot d3"></span>
+      <span class="hh-dot d4"></span><span class="hh-dot d5"></span><span class="hh-dot d6"></span>
+      <span class="hh-dot d7"></span><span class="hh-dot d8"></span>
+    </div>
+
+    <div class="hh-stage">
+      <div class="hh-title">
+        <h1><span class="hh-title-main">BLM48</span><span class="hh-title-sub">Official Site</span></h1>
+        <span class="hh-title-line" aria-hidden="true"></span>
+      </div>
+
+      <div class="hh-champ" id="heroChamp">
+        <span class="hh-blob-line" aria-hidden="true"></span>
+        <span class="hh-blob-line is-pink" aria-hidden="true"></span>
+        <div class="hh-blob"><img id="heroChampImg" alt=""></div>
+        <a class="hh-ticket" id="heroChampTicket" href="#" target="_blank" rel="noopener">
+          <div class="hh-ticket-kicker">Champ of the Month</div>
+          <div class="hh-ticket-month" id="heroChampMonth"></div>
+          <img id="heroChampPost" alt="">
+          <div class="hh-ticket-cookie"><i class="fa-solid fa-cookie"></i> <span id="heroChampCookie"></span> Cookies</div>
+        </a>
+        <a class="hh-pick" id="heroChampPick" href="#" target="_blank" rel="noopener">
+          <span class="hh-pick-label">Pick Up!</span>
+          <span class="hh-pick-name" id="heroChampName"></span>
+          <span class="hh-pick-link">Special Thanks</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="hh-banners">
       <div class="swiper hero-swiper">
         <div class="swiper-wrapper" id="heroSwiperWrapper">
           <div class="swiper-slide"><div class="hero-slide-loading">Loading...</div></div>
         </div>
       </div>
-      <button type="button" class="hero-nav-prev" id="heroPrev" aria-label="Previous banner"><i class="fas fa-chevron-left"></i></button>
-      <button type="button" class="hero-nav-next" id="heroNext" aria-label="Next banner"><i class="fas fa-chevron-right"></i></button>
-      <div class="hero-fraction" id="heroFraction"></div>
     </div>
-    <div class="swiper hero-thumbs" id="heroThumbs">
-      <div class="swiper-wrapper" id="heroThumbsWrapper"></div>
-    </div>
+
+    <svg class="hh-wave" viewBox="0 0 1440 260" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0,70 C260,40 420,150 720,150 C1010,150 1150,60 1440,110 L1440,260 L0,260 Z" fill="#fff"/>
+      <path d="M0,60 C260,30 430,140 720,140 C1010,140 1150,50 1440,100" fill="none" stroke="#ffc93c" stroke-width="3"/>
+      <path d="M0,88 C280,60 440,175 730,172 C1010,168 1170,80 1440,132" fill="none" stroke="#ff9ac1" stroke-width="2"/>
+      <path d="M0,40 C300,10 470,110 760,118 C1040,124 1180,40 1440,70" fill="none" stroke="#fff" stroke-width="2" opacity="0.9"/>
+    </svg>
   </section>
 
   <!-- BIRTHDAY THIS MONTH -->
@@ -616,8 +751,6 @@
 
     async function renderHeroBanner() {
       const mainWrap = document.getElementById('heroSwiperWrapper');
-      const thumbsWrap = document.getElementById('heroThumbsWrapper');
-      const thumbsEl = document.getElementById('heroThumbs');
 
       let rows = [];
       try {
@@ -627,16 +760,15 @@
       }
 
       if (!rows.length) {
-        mainWrap.innerHTML = '<div class="swiper-slide"><div class="hero-slide-loading">No banners yet.</div></div>';
-        thumbsEl.style.display = 'none';
-        document.getElementById('heroPrev').style.display = 'none';
-        document.getElementById('heroNext').style.display = 'none';
-        document.getElementById('heroFraction').style.display = 'none';
-        new Swiper('.hero-swiper', { loop: false });
+        document.querySelector('.hh-banners').style.display = 'none';
         return;
       }
 
-      mainWrap.innerHTML = rows.map(item => `
+      // Repeat short lists so the looping strip always has enough cards to fill wide screens.
+      let slides = rows.slice();
+      while (slides.length < 8) slides = slides.concat(rows);
+
+      mainWrap.innerHTML = slides.map(item => `
         <div class="swiper-slide">
           <a href="${item.link || '#'}" ${item.link ? 'target="_blank" rel="noopener"' : ''} class="hero-slide-link">
             <img src="${BLM48Data.driveImg(item.image || item.thumbnail)}" alt="${item.title || 'BLM48'}" onerror="this.src='https://via.placeholder.com/1600x680?text=BLM48'">
@@ -650,28 +782,38 @@
         </div>
       `).join('');
 
-      thumbsWrap.innerHTML = rows.map(item => `
-        <div class="swiper-slide">
-          <img src="${BLM48Data.driveImg(item.image || item.thumbnail)}" alt="${item.title || 'BLM48'}" onerror="this.src='https://via.placeholder.com/300x170?text=BLM48'">
-        </div>
-      `).join('');
-
-      const heroThumbsSwiper = new Swiper('.hero-thumbs', {
-        slidesPerView: 'auto',
-        spaceBetween: 12,
-        watchSlidesProgress: true,
-        loop: rows.length > 2
-      });
-
       new Swiper('.hero-swiper', {
-        loop: rows.length > 1,
-        autoplay: rows.length > 1 ? { delay: 4500, disableOnInteraction: false } : false,
-        navigation: { nextEl: '#heroNext', prevEl: '#heroPrev' },
-        pagination: { el: '#heroFraction', type: 'fraction' },
-        thumbs: { swiper: heroThumbsSwiper },
-        effect: 'fade',
-        fadeEffect: { crossFade: true }
+        slidesPerView: 'auto',
+        spaceBetween: 28,
+        loop: true,
+        grabCursor: true,
+        autoplay: { delay: 3500, disableOnInteraction: false, pauseOnMouseEnter: true },
+        speed: 800
       });
+    }
+
+    // Hero right side: the latest BLM48 Champ of the Month, shown like the Membership App's
+    // Discover header (profile photo + name + month), linking to their special-thanks post.
+    async function renderHeroChamp() {
+      const champs = await fetchChamps();
+      const champ = champs[0];
+      if (!champ) { document.getElementById('heroChamp').hidden = true; return; }
+
+      const href = champ.postId
+        ? `https://blm48-membership.vercel.app/postdetail?id=${encodeURIComponent(champ.postId)}`
+        : 'https://blm48-membership.vercel.app/champranking';
+
+      const img = document.getElementById('heroChampImg');
+      img.src = BLM48Data.driveImg(champ.profileImage || champ.postImage);
+      img.alt = champ.name || 'Champ of the Month';
+      const post = document.getElementById('heroChampPost');
+      post.src = BLM48Data.driveImg(champ.postImage || champ.profileImage);
+      post.alt = '';
+      document.getElementById('heroChampName').textContent = champ.name || '';
+      document.getElementById('heroChampMonth').textContent = champ.monthYear || '';
+      document.getElementById('heroChampCookie').textContent = Number(champ.totalCookie || 0).toLocaleString();
+      document.getElementById('heroChampTicket').href = href;
+      document.getElementById('heroChampPick').href = href;
     }
 
     async function renderLinkBanners() {
@@ -702,11 +844,11 @@
     const MEMBERSHIP_SUPABASE_URL = 'https://rqhwzbrcgnpxtuaeoxml.supabase.co';
     const MEMBERSHIP_SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJxaHd6YnJjZ25weHR1YWVveG1sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUyMjczNjAsImV4cCI6MjEwMDgwMzM2MH0.J0iiUikxLoJKZ5SF9KSz86yf2LU89z8NdPb9rEB89Gw';
 
-    async function renderChampOfMonth() {
-      const sectionEl = document.getElementById('champSection');
-      const gridEl = document.getElementById('champGrid');
-      try {
-        const res = await fetch(MEMBERSHIP_SUPABASE_URL + '/rest/v1/rpc/get_champ_of_the_month', {
+    // One request shared by the hero and the Champ of the Month grid.
+    let champsPromise = null;
+    function fetchChamps() {
+      if (!champsPromise) {
+        champsPromise = fetch(MEMBERSHIP_SUPABASE_URL + '/rest/v1/rpc/get_champ_of_the_month', {
           method: 'POST',
           headers: {
             'apikey': MEMBERSHIP_SUPABASE_ANON_KEY,
@@ -714,11 +856,21 @@
             'Content-Type': 'application/json'
           },
           body: '{}'
-        });
-        const json = await res.json();
-        const champs = (json && json.status === 'success' && Array.isArray(json.data))
-          ? json.data.filter(c => (c.groupName || 'BLM48') === 'BLM48').slice(0, 4)
-          : [];
+        })
+          .then(res => res.json())
+          .then(json => (json && json.status === 'success' && Array.isArray(json.data))
+            ? json.data.filter(c => (c.groupName || 'BLM48') === 'BLM48')
+            : [])
+          .catch(() => []);
+      }
+      return champsPromise;
+    }
+
+    async function renderChampOfMonth() {
+      const sectionEl = document.getElementById('champSection');
+      const gridEl = document.getElementById('champGrid');
+      try {
+        const champs = (await fetchChamps()).slice(0, 4);
 
         if (!champs.length) {
           sectionEl.style.display = 'none';
@@ -1001,6 +1153,7 @@
     }
 
     renderHeroBanner();
+    renderHeroChamp();
     renderMovies();
     renderLinkBanners();
     renderChampOfMonth();
