@@ -17,119 +17,87 @@
     html { scroll-behavior: smooth; }
     body { font-family: var(--font-body); color: var(--blm-ink); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
 
-    /* --- HERO ("Blooming" flower field): big title left, Champ of the Month photo
-           in a flower-shaped frame right, floating flowers + falling petals,
-           banner cards sliding over rolling meadow hills at the bottom --- */
-    .home-hero {
+    /* --- HERO (quiet editorial): one large Champ of the Month visual inside a
+           white-bordered frame over a soft blurred wash of the same picture, a
+           thin centred wordmark with two tiny flowers, and a small caption +
+           credit link in the bottom corners --- */
+    html, body { overflow-x: clip; }
+    :root {
+      --fl-mark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-50 -50 100 100'%3E%3Cg fill='%23ffc93c'%3E%3Cellipse cy='-24' rx='15' ry='24'/%3E%3Cellipse cy='-24' rx='15' ry='24' transform='rotate(72)'/%3E%3Cellipse cy='-24' rx='15' ry='24' transform='rotate(144)'/%3E%3Cellipse cy='-24' rx='15' ry='24' transform='rotate(216)'/%3E%3Cellipse cy='-24' rx='15' ry='24' transform='rotate(288)'/%3E%3C/g%3E%3Ccircle r='10' fill='%23ff9ac1'/%3E%3C/svg%3E");
+    }
+    .home-hero { padding: 0 clamp(10px, 1.4vw, 20px); background: #fff; }
+    .hh-frame {
       position: relative; overflow: hidden;
-      background: linear-gradient(180deg, #fff3c9 0%, #fff7e0 70%, #fff9ea 100%);
-      padding-bottom: clamp(120px, 14vw, 230px);
+      height: max(560px, calc(100svh - var(--header-h) - var(--topbar-h) - clamp(10px, 1.4vw, 20px)));
+      background: #f7f2ea;
     }
-    .hh-stage {
-      position: relative; z-index: 2;
-      max-width: 1300px; width: 92%; margin: 0 auto;
-      min-height: clamp(520px, calc(100vh - var(--header-h) - var(--topbar-h) - 140px), 720px);
-      display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 40px;
-      padding: clamp(30px, 5vw, 60px) 0 clamp(24px, 3vw, 40px);
+    .hh-wash { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform: scale(1.2); filter: blur(40px) saturate(1.05); opacity: 0.5; }
+    .hh-frame::after {
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.1) 45%, rgba(255, 251, 242, 0.45) 100%);
     }
 
-    /* title */
-    .hh-title { position: relative; justify-self: center; text-align: left; }
-    .hh-title h1 { font-family: var(--font-display); font-weight: 300; line-height: 0.95; }
-    .hh-title-main {
-      display: block; font-size: clamp(4rem, 11vw, 9.5rem); letter-spacing: -4px;
-      color: var(--blm-gold);
-    }
-    .hh-title-sub {
-      display: block; margin-top: 10px; font-size: clamp(2rem, 5.2vw, 4.4rem); letter-spacing: -1px;
-      color: var(--blm-pink-deep);
-    }
+    .hh-logo { position: absolute; z-index: 3; top: clamp(26px, 4.5vh, 50px); left: 50%; transform: translateX(-50%); text-align: center; white-space: nowrap; }
+    .hh-logo h1 { display: flex; align-items: center; justify-content: center; gap: 16px; font-family: var(--font-display); font-weight: 300; font-size: clamp(30px, 3.4vw, 50px); letter-spacing: 0.08em; line-height: 1; color: var(--blm-ink); }
+    .hh-logo h1::before, .hh-logo h1::after { content: ''; width: 12px; height: 12px; background: var(--fl-mark) center / contain no-repeat; flex-shrink: 0; }
+    .hh-logo-sub { display: block; margin-top: 12px; padding-left: 0.6em; font-size: 10px; letter-spacing: 0.6em; text-transform: uppercase; color: var(--blm-ink-soft); }
 
-    /* champ photo in a flower-shaped frame */
-    .hh-champ { position: relative; justify-self: center; width: min(440px, 80vw); aspect-ratio: 1; }
     .hh-champ[hidden] { display: none; }
-    .hh-bloom { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
-    .hh-photo {
-      position: absolute; inset: 4%;
-      clip-path: url(#hhFlowerClip);
-      background: #fff;
+    .hh-visual {
+      position: absolute; z-index: 2; left: 50%; transform: translateX(-50%);
+      top: clamp(118px, 17vh, 160px); bottom: clamp(64px, 9vh, 96px);
     }
-    .hh-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    @keyframes hh-spin { to { transform: rotate(360deg); } }
-
-    /* small ticket card */
-    .hh-ticket {
-      position: absolute; left: -14%; bottom: 6%; z-index: 3;
-      width: clamp(120px, 13vw, 150px); padding: 10px 8px;
-      background-color: #fff; border: 1px solid var(--blm-line); border-radius: 10px;
-      text-align: center; text-decoration: none; color: var(--blm-ink);
-      box-shadow: 0 10px 24px rgba(59, 47, 38, 0.08);
+    .hh-visual img {
+      display: block; height: 100%; width: auto; max-width: min(84vw, 900px); object-fit: cover;
+      box-shadow: 0 30px 60px rgba(59, 47, 38, 0.14);
     }
-    .hh-ticket-kicker { font-size: 9px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; color: var(--blm-gold-deep); }
-    .hh-ticket-month { font-size: 12px; font-weight: 800; margin: 2px 0 6px; }
-    .hh-ticket img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; border-radius: 3px; }
-    .hh-ticket-cookie { font-size: 10.5px; font-weight: 700; color: var(--blm-ink-soft); margin-top: 6px; }
-    .hh-ticket-cookie i { color: var(--blm-gold-deep); }
 
-    /* "PICK UP!" badge shaped like a flower */
-    .hh-pick {
-      position: absolute; right: -12%; bottom: -10%; z-index: 3;
-      width: clamp(160px, 16vw, 206px); aspect-ratio: 1;
-      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 9px;
+    .hh-cap {
+      position: absolute; z-index: 3; left: clamp(18px, 3vw, 44px); bottom: clamp(18px, 3vh, 34px);
+      display: flex; align-items: center; gap: 12px; max-width: 46%;
       text-decoration: none; color: var(--blm-ink);
-      filter: drop-shadow(0 12px 20px rgba(245, 98, 158, 0.18));
-      transition: transform 0.25s;
     }
-    .hh-pick > svg { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; transition: transform 0.6s; }
-    .hh-pick:hover { transform: translateY(-4px); }
-    .hh-pick:hover > svg { transform: rotate(36deg); }
-    .hh-pick-label {
-      font-size: clamp(12px, 1.2vw, 15px); font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase;
-      color: var(--blm-pink-deep);
-      background: linear-gradient(transparent 62%, var(--blm-gold) 62%);
-    }
-    .hh-pick-name {
-      min-width: 66%; padding: 7px 18px 7px 12px; text-align: center;
-      font-weight: 800; font-size: clamp(13px, 1.3vw, 16px);
-      background: var(--blm-gold-pale); box-shadow: inset 0 0 0 1.5px var(--blm-ink);
-      clip-path: polygon(0 0, 100% 0, 90% 50%, 100% 100%, 0 100%);
-    }
-    .hh-pick-link { font-size: clamp(10px, 1vw, 12px); font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--blm-ink-soft); }
-    .hh-pick-link::before { content: '\2740'; color: var(--blm-pink); margin-right: 5px; }
+    .hh-cap-avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; flex-shrink: 0; border: 2px solid #fff; }
+    .hh-cap-kicker { display: block; font-size: 9px; letter-spacing: 0.35em; text-transform: uppercase; color: var(--blm-gold-deep); }
+    .hh-cap-name { display: block; font-size: 15px; font-weight: 700; margin: 3px 0 2px; transition: color 0.2s; }
+    .hh-cap-meta { display: block; font-size: 11px; color: var(--blm-ink-soft); }
+    .hh-cap-meta i { color: var(--blm-gold-deep); }
+    .hh-cap:hover .hh-cap-name { color: var(--blm-pink-deep); }
 
-    /* floating flowers, leaves and sparkles */
-    .hh-deco { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
-    .hh-fl { position: absolute; display: block; overflow: visible; animation: hh-sway 6s ease-in-out infinite; }
-    .hh-fl.f1  { left: -26px; top: 24%; width: 76px; color: var(--blm-pink); animation-duration: 7s; }
-    .hh-fl.f2  { left: 24%; top: 10%; width: 34px; color: #fff; animation-delay: -2s; }
-    .hh-fl.f3  { left: 39%; top: 19%; width: 18px; color: var(--blm-pink); animation-delay: -4s; }
-    .hh-fl.f4  { left: 48%; top: 44%; width: 22px; color: var(--blm-gold-deep); animation-delay: -1s; }
-    .hh-fl.f5  { left: 41%; top: 60%; width: 54px; color: var(--blm-gold); animation-delay: -3s; }
-    .hh-fl.f6  { left: 6%; top: 54%; width: clamp(80px, 9vw, 116px); animation-duration: 8s; }
-    .hh-fl.f7  { right: 6%; top: 34%; width: clamp(74px, 8vw, 108px); color: var(--blm-pink); animation-delay: -5s; }
-    .hh-fl.f8  { right: 4%; top: 30%; width: 34px; animation-delay: -2.5s; }
-    .hh-fl.f9  { left: 31%; top: 72%; width: 40px; color: #8fcf8f; animation-delay: -1.5s; }
-    .hh-fl.f10 { right: 22%; top: 8%; width: 26px; color: var(--blm-gold); animation-delay: -3.5s; }
-    @keyframes hh-sway {
-      0%, 100% { transform: translateY(0) rotate(-3deg); }
-      50%      { transform: translateY(-4px) rotate(3deg); }
+    .hh-credit {
+      position: absolute; z-index: 3; right: clamp(18px, 3vw, 44px); bottom: clamp(26px, 3.6vh, 42px);
+      display: inline-flex; align-items: center; gap: 12px;
+      font-size: 10px; letter-spacing: 0.35em; text-transform: uppercase; text-decoration: none; color: var(--blm-ink);
+      transition: gap 0.3s, color 0.2s;
+    }
+    .hh-credit::after { content: ''; width: 36px; height: 1px; background: currentColor; }
+    .hh-credit:hover { gap: 18px; color: var(--blm-pink-deep); }
+
+    @media (max-width: 760px) {
+      .hh-frame { height: max(520px, 78svh); }
+      .hh-visual { top: 104px; bottom: 112px; }
+      .hh-cap { max-width: 64%; }
+      .hh-credit { display: none; } /* the caption links to the same post */
     }
 
-    /* petals drifting down across the hero */
+    /* entrance: wordmark settles, the visual rises softly */
+    .hh-logo { animation: hh-fade 1.2s ease-out 0.1s both; }
+    .hh-visual { animation: hh-rise 1.4s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both; }
+    .hh-cap, .hh-credit { animation: hh-fade 1s ease-out 0.9s both; }
+    @keyframes hh-fade { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes hh-rise {
+      from { opacity: 0; transform: translate(-50%, 24px); }
+      to   { opacity: 1; transform: translate(-50%, 0); }
+    }
 
-    /* banner cards sliding over the meadow */
-    .hh-banners { position: relative; z-index: 3; padding-left: 4%; }
+    /* banner strip under the hero */
+    .hh-banners { overflow: hidden; padding: 0 4%; margin-top: clamp(56px, 7vw, 96px); }
     .hero-swiper { overflow: visible; }
-    .hero-swiper .swiper-slide { width: clamp(260px, 30vw, 480px); }
-    .hero-slide-link {
-      display: block; position: relative; aspect-ratio: 1445 / 820;
-      border-radius: var(--radius-md); overflow: hidden; background: #fff;
-      box-shadow: 0 14px 30px rgba(59, 47, 38, 0.12);
-      transition: transform 0.3s;
-    }
-    .hero-slide-link:hover { transform: translateY(-6px); }
+    .hero-swiper .swiper-slide { width: clamp(260px, 30vw, 460px); }
+    .hero-slide-link { display: block; position: relative; aspect-ratio: 1445 / 820; border-radius: 4px; overflow: hidden; background: var(--blm-paper-soft); transition: opacity 0.3s; }
+    .hero-slide-link:hover { opacity: 0.85; }
     .hero-slide-link img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .hero-slide-loading { display: flex; align-items: center; justify-content: center; aspect-ratio: 1445 / 820; color: var(--blm-ink-faint); font-weight: 600; background: rgba(255,255,255,0.6); border-radius: var(--radius-md); }
+    .hero-slide-loading { display: flex; align-items: center; justify-content: center; aspect-ratio: 1445 / 820; color: var(--blm-ink-faint); font-weight: 600; background: var(--blm-paper-soft); border-radius: 4px; }
     .hero-slide-caption {
       position: absolute; left: 0; right: 0; bottom: 0;
       padding: 24px 18px 14px;
@@ -138,81 +106,6 @@
     }
     .hero-slide-caption-title { font-family: var(--font-display); font-size: clamp(14px, 1.4vw, 18px); font-weight: 700; }
     .hero-slide-caption-sub { font-size: 11.5px; font-weight: 600; opacity: 0.85; margin-top: 3px; }
-
-    .hh-meadow { position: absolute; left: 0; right: 0; bottom: -1px; width: 100%; height: clamp(130px, 18vw, 290px); z-index: 2; display: block; }
-
-    @media (max-width: 860px) {
-      .hh-stage { grid-template-columns: 1fr; min-height: 0; gap: 60px; padding-top: 36px; }
-      .hh-title { justify-self: start; }
-      .hh-champ { width: min(300px, 66vw); margin-bottom: 50px; }
-      .hh-ticket { left: -16%; bottom: -2%; width: 104px; padding: 10px 6px 8px; }
-      .hh-ticket-month { font-size: 11px; }
-      .hh-pick { right: -18%; bottom: -16%; width: 140px; gap: 5px; }
-      .hh-fl.f6 { top: 16%; left: auto; right: 4%; }
-      .hh-fl.f7 { top: 52%; right: 1%; }
-    }
-
-    /* ---- Hero motion: entrance choreography + idle loops + mouse parallax ----
-       Like the Home carousels, these run even with OS reduce-motion on (gentle,
-       decorative, no flashing). */
-    .hh-parallax { transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1); will-change: transform; }
-    .hh-deco.hh-parallax  { transform: translate(calc(var(--mx, 0) * -10px), calc(var(--my, 0) * -8px)); }
-    .hh-title.hh-parallax { transform: translate(calc(var(--mx, 0) * 4px), calc(var(--my, 0) * 3px)); }
-    .hh-champ.hh-parallax { transform: translate(calc(var(--mx, 0) * 6px), calc(var(--my, 0) * 5px)); }
-
-    /* title letters rise one by one */
-    .hh-ch { display: inline-block; animation: hh-rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) both; animation-delay: calc(var(--i) * 70ms); }
-    @keyframes hh-rise {
-      0%   { opacity: 0; transform: translateY(40%); }
-      100% { opacity: 1; transform: none; }
-    }
-    .hh-title-sub { animation: hh-sub-in 1.1s cubic-bezier(0.22, 1, 0.36, 1) 0.55s both; }
-    @keyframes hh-sub-in {
-      0%   { opacity: 0; transform: translateY(12px); }
-      100% { opacity: 1; transform: none; }
-    }
-    @keyframes hh-pop { to { transform: scale(1); } }
-
-    /* champ: the flower frame blooms open, then cards fly in */
-    .hh-bloom, .hh-photo { animation: hh-bloom-in 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.25s both; }
-    .hh-photo { animation-delay: 0.45s; }
-    @keyframes hh-bloom-in {
-      0%   { opacity: 0; transform: scale(0.85); }
-      100% { opacity: 1; transform: none; }
-    }
-    .hh-photo img { transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1); }
-    .hh-champ:hover .hh-photo img { transform: scale(1.06); }
-    .hh-ticket { animation: hh-ticket-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.9s both; }
-    @keyframes hh-ticket-in {
-      0%   { opacity: 0; transform: translateX(-20px); }
-      100% { opacity: 1; transform: none; }
-    }
-    .hh-pick { animation: hh-pick-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) 1.05s both; }
-    @keyframes hh-pick-in {
-      0%   { opacity: 0; transform: scale(0.85); }
-      100% { opacity: 1; transform: none; }
-    }
-
-    /* deco flowers pop in before they start swaying */
-    .hh-deco .hh-fl { opacity: 0; animation: hh-fl-in 1s ease-out forwards, hh-sway 9s ease-in-out infinite; }
-    .hh-fl.f1 { animation-delay: 0.3s, 1.3s; }  .hh-fl.f6 { animation-delay: 0.5s, 1.5s; }
-    .hh-fl.f7 { animation-delay: 0.7s, 1.7s; }  .hh-fl.f10 { animation-delay: 0.9s, 1.9s; }
-    .hh-fl.f10 { animation-name: hh-fl-in, hh-twinkle; animation-duration: 1s, 4s; }
-    @keyframes hh-fl-in {
-      0%   { opacity: 0; transform: scale(0.6); }
-      100% { opacity: 1; transform: none; }
-    }
-    @keyframes hh-twinkle {
-      0%, 100% { opacity: 1; transform: scale(1) rotate(0deg); }
-      50%      { opacity: 0.4; transform: scale(0.8); }
-    }
-
-    /* banner strip rises in; meadow flowers spring up and sway */
-    .hh-banners { animation: hh-up 1s cubic-bezier(0.22, 1, 0.36, 1) 0.8s both; }
-    @keyframes hh-up {
-      0%   { opacity: 0; transform: translateY(24px); }
-      100% { opacity: 1; transform: none; }
-    }
 
     /* --- BIRTHDAY BANNER --- */
     .birthday-banner {
@@ -412,6 +305,49 @@
     }
     .link-banner-tile img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s; }
     .link-banner-tile:hover img { transform: scale(1.04); }
+    /* ---- Quiet editorial sections: small widely-spaced labels with a tiny
+       flower mark, thin rules, big light dates, a striped schedule band ---- */
+    .sec-head, .sec-head.no-underline { border-bottom: none; padding-bottom: 0; margin-bottom: 40px; align-items: flex-end; }
+    .sec-title {
+      position: relative; padding-bottom: 20px;
+      font-size: 18px; font-weight: 400; letter-spacing: 1.1em; text-transform: uppercase; color: var(--blm-ink);
+    }
+    .sec-title::after { content: ''; position: absolute; left: 0; bottom: 0; width: 12px; height: 12px; background: var(--fl-mark) center / contain no-repeat; }
+    .arrow-link { font-size: 11px; font-weight: 400; letter-spacing: 0.3em; gap: 14px; }
+    .arrow-link::after { content: ''; font-family: inherit; width: 36px; height: 1px; background: currentColor; transition: width 0.3s; }
+    .arrow-link:hover { gap: 14px; }
+    .arrow-link:hover::after { width: 52px; }
+
+    .birthday-banner {
+      max-width: 1000px; margin: clamp(56px, 7vw, 90px) auto 0;
+      background: transparent; border: none; border-radius: 0;
+      border-top: 1px solid var(--blm-line); border-bottom: 1px solid var(--blm-line);
+      padding: 20px 4px;
+    }
+    .birthday-banner-label { font-weight: 400; font-size: 11px; letter-spacing: 0.35em; text-transform: uppercase; color: var(--blm-ink); }
+    .birthday-banner-label i { color: var(--blm-pink); }
+
+    .content-box-section { grid-template-columns: 1fr; max-width: 1000px; gap: 0; margin: clamp(80px, 9vw, 120px) auto clamp(90px, 10vw, 130px); }
+    .content-box-section > div:first-child { padding-bottom: clamp(70px, 8vw, 110px); }
+    .content-box-section > div:nth-child(2) { position: relative; isolation: isolate; padding: clamp(60px, 7vw, 96px) 0; }
+    .content-box-section > div:nth-child(2)::before {
+      content: ''; position: absolute; z-index: -1; top: 0; bottom: 0; left: 50%; width: 100vw; transform: translateX(-50%);
+      background: repeating-linear-gradient(135deg, #f3ece0 0 1px, transparent 1px 13px), #fffdf8;
+    }
+    .home-news-row, .home-sched-row { border-bottom-color: var(--blm-line); }
+    .home-news-row:hover, .home-sched-row:hover { background: transparent; margin: 0; padding-left: 0; padding-right: 0; }
+    .home-news-thumb { border-radius: 2px; }
+    .home-sched-date-block { min-width: 104px; }
+    .home-sched-date-big { font-size: 34px; font-weight: 300; letter-spacing: 0.02em; }
+    .home-sched-date-sub { font-size: 10px; letter-spacing: 0.2em; }
+    .home-news-cat-tag, .home-sched-cat-tag { border-radius: 2px; }
+
+    .champ-section, .home-token, .video-section, .release-section { max-width: 1000px; }
+    .champ-post-card, .link-banner-tile { border-radius: 4px; }
+    .home-token-card { background: #fffaf0; border: 1px solid var(--blm-line); border-radius: 4px; }
+    .group-band { background: #fff; }
+    .group-band .eyebrow { letter-spacing: 0.6em; font-weight: 400; color: var(--blm-ink); }
+    .group-band .eyebrow::before { width: 12px; height: 12px; background: var(--fl-mark) center / contain no-repeat; }
   </style>
 </head>
 <body>
@@ -420,85 +356,36 @@
   <script src="assets/js/nav.js"></script>
   <script src="assets/js/sheet-data.js"></script>
 
-  <!-- HERO: "Blooming" flower field — title + Champ of the Month + sliding banners -->
+  <!-- HERO: Champ of the Month as the key visual in a white-bordered frame -->
   <section class="home-hero">
-    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-      <defs>
-        <symbol id="fl-five" viewBox="-50 -50 100 100">
-          <g fill="currentColor">
-            <ellipse cx="0" cy="-24" rx="17" ry="25"/>
-            <ellipse cx="0" cy="-24" rx="17" ry="25" transform="rotate(72)"/>
-            <ellipse cx="0" cy="-24" rx="17" ry="25" transform="rotate(144)"/>
-            <ellipse cx="0" cy="-24" rx="17" ry="25" transform="rotate(216)"/>
-            <ellipse cx="0" cy="-24" rx="17" ry="25" transform="rotate(288)"/>
-          </g>
-          <circle r="12" fill="#ffd95e" stroke="#fff" stroke-width="3"/>
-        </symbol>
-        <symbol id="fl-daisy" viewBox="-50 -50 100 100">
-          <g fill="#fff" stroke="#f3e3c0" stroke-width="1.5">
-            <ellipse cx="0" cy="-26" rx="7.5" ry="21" transform="rotate(0)"/><ellipse cx="0" cy="-26" rx="7.5" ry="21" transform="rotate(30)"/><ellipse cx="0" cy="-26" rx="7.5" ry="21" transform="rotate(60)"/><ellipse cx="0" cy="-26" rx="7.5" ry="21" transform="rotate(90)"/><ellipse cx="0" cy="-26" rx="7.5" ry="21" transform="rotate(120)"/><ellipse cx="0" cy="-26" rx="7.5" ry="21" transform="rotate(150)"/><ellipse cx="0" cy="-26" rx="7.5" ry="21" transform="rotate(180)"/><ellipse cx="0" cy="-26" rx="7.5" ry="21" transform="rotate(210)"/><ellipse cx="0" cy="-26" rx="7.5" ry="21" transform="rotate(240)"/><ellipse cx="0" cy="-26" rx="7.5" ry="21" transform="rotate(270)"/><ellipse cx="0" cy="-26" rx="7.5" ry="21" transform="rotate(300)"/><ellipse cx="0" cy="-26" rx="7.5" ry="21" transform="rotate(330)"/>
-          </g>
-          <circle r="14" fill="#ffc93c"/>
-          <circle r="14" fill="none" stroke="#f2a900" stroke-width="2" stroke-dasharray="2 3"/>
-        </symbol>
-        <symbol id="fl-leaf" viewBox="-50 -50 100 100">
-          <path d="M0,46 C-34,14 -26,-28 0,-48 C26,-28 34,14 0,46 Z" fill="currentColor"/>
-          <path d="M0,40 L0,-38" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity="0.7"/>
-        </symbol>
-        <symbol id="fl-spark" viewBox="-50 -50 100 100">
-          <path d="M0,-48 C6,-10 10,-6 48,0 C10,6 6,10 0,48 C-6,10 -10,6 -48,0 C-10,-6 -6,-10 0,-48 Z" fill="currentColor"/>
-        </symbol>
-        <clipPath id="hhFlowerClip" clipPathUnits="objectBoundingBox">
-          <path d="M1.0000,0.5000 L0.9988,0.5174 L0.9954,0.5346 L0.9896,0.5515 L0.9817,0.5677 L0.9714,0.5831 L0.9590,0.5976 L0.9442,0.6107 L0.9263,0.6222 L0.8994,0.6298 L0.9167,0.6517 L0.9244,0.6715 L0.9287,0.6909 L0.9303,0.7099 L0.9295,0.7283 L0.9264,0.7462 L0.9211,0.7632 L0.9138,0.7791 L0.9045,0.7939 L0.8933,0.8073 L0.8804,0.8192 L0.8659,0.8294 L0.8499,0.8379 L0.8325,0.8444 L0.8140,0.8487 L0.7942,0.8507 L0.7730,0.8495 L0.7469,0.8398 L0.7480,0.8677 L0.7426,0.8882 L0.7346,0.9064 L0.7247,0.9227 L0.7132,0.9372 L0.7003,0.9498 L0.6860,0.9604 L0.6707,0.9690 L0.6545,0.9755 L0.6376,0.9798 L0.6201,0.9818 L0.6024,0.9816 L0.5845,0.9790 L0.5666,0.9741 L0.5490,0.9667 L0.5319,0.9566 L0.5155,0.9432 L0.5000,0.9200 L0.4845,0.9432 L0.4681,0.9566 L0.4510,0.9667 L0.4334,0.9741 L0.4155,0.9790 L0.3976,0.9816 L0.3799,0.9818 L0.3624,0.9798 L0.3455,0.9755 L0.3293,0.9690 L0.3140,0.9604 L0.2997,0.9498 L0.2868,0.9372 L0.2753,0.9227 L0.2654,0.9064 L0.2574,0.8882 L0.2520,0.8677 L0.2531,0.8398 L0.2270,0.8495 L0.2058,0.8507 L0.1860,0.8487 L0.1675,0.8444 L0.1501,0.8379 L0.1341,0.8294 L0.1196,0.8192 L0.1067,0.8073 L0.0955,0.7939 L0.0862,0.7791 L0.0789,0.7632 L0.0736,0.7462 L0.0705,0.7283 L0.0697,0.7099 L0.0713,0.6909 L0.0756,0.6715 L0.0833,0.6517 L0.1006,0.6298 L0.0737,0.6222 L0.0558,0.6107 L0.0410,0.5976 L0.0286,0.5831 L0.0183,0.5677 L0.0104,0.5515 L0.0046,0.5346 L0.0012,0.5174 L0.0000,0.5000 L0.0012,0.4826 L0.0046,0.4654 L0.0104,0.4485 L0.0183,0.4323 L0.0286,0.4169 L0.0410,0.4024 L0.0558,0.3893 L0.0737,0.3778 L0.1006,0.3702 L0.0833,0.3483 L0.0756,0.3285 L0.0713,0.3091 L0.0697,0.2901 L0.0705,0.2717 L0.0736,0.2538 L0.0789,0.2368 L0.0862,0.2209 L0.0955,0.2061 L0.1067,0.1927 L0.1196,0.1808 L0.1341,0.1706 L0.1501,0.1621 L0.1675,0.1556 L0.1860,0.1513 L0.2058,0.1493 L0.2270,0.1505 L0.2531,0.1602 L0.2520,0.1323 L0.2574,0.1118 L0.2654,0.0936 L0.2753,0.0773 L0.2868,0.0628 L0.2997,0.0502 L0.3140,0.0396 L0.3293,0.0310 L0.3455,0.0245 L0.3624,0.0202 L0.3799,0.0182 L0.3976,0.0184 L0.4155,0.0210 L0.4334,0.0259 L0.4510,0.0333 L0.4681,0.0434 L0.4845,0.0568 L0.5000,0.0800 L0.5155,0.0568 L0.5319,0.0434 L0.5490,0.0333 L0.5666,0.0259 L0.5845,0.0210 L0.6024,0.0184 L0.6201,0.0182 L0.6376,0.0202 L0.6545,0.0245 L0.6707,0.0310 L0.6860,0.0396 L0.7003,0.0502 L0.7132,0.0628 L0.7247,0.0773 L0.7346,0.0936 L0.7426,0.1118 L0.7480,0.1323 L0.7469,0.1602 L0.7730,0.1505 L0.7942,0.1493 L0.8140,0.1513 L0.8325,0.1556 L0.8499,0.1621 L0.8659,0.1706 L0.8804,0.1808 L0.8933,0.1927 L0.9045,0.2061 L0.9138,0.2209 L0.9211,0.2368 L0.9264,0.2538 L0.9295,0.2717 L0.9303,0.2901 L0.9287,0.3091 L0.9244,0.3285 L0.9167,0.3483 L0.8994,0.3702 L0.9263,0.3778 L0.9442,0.3893 L0.9590,0.4024 L0.9714,0.4169 L0.9817,0.4323 L0.9896,0.4485 L0.9954,0.4654 L0.9988,0.4826 Z"/>
-        </clipPath>
-      </defs>
-    </svg>
-
-    <div class="hh-deco hh-parallax" aria-hidden="true">
-      <svg class="hh-fl f1"  viewBox="0 0 100 100"><use href="#fl-five"/></svg>
-      <svg class="hh-fl f6"  viewBox="0 0 100 100"><use href="#fl-daisy"/></svg>
-      <svg class="hh-fl f7"  viewBox="0 0 100 100"><use href="#fl-five"/></svg>
-      <svg class="hh-fl f10" viewBox="0 0 100 100"><use href="#fl-spark"/></svg>
-    </div>
-
-    <div class="hh-stage">
-      <div class="hh-title hh-parallax">
-        <h1 aria-label="BLM48 Official Site"><span class="hh-title-main" aria-hidden="true"><span class="hh-ch" style="--i:0">B</span><span class="hh-ch" style="--i:1">L</span><span class="hh-ch" style="--i:2">M</span><span class="hh-ch" style="--i:3">4</span><span class="hh-ch" style="--i:4">8</span></span><span class="hh-title-sub" aria-hidden="true">Official Site</span></h1>
+    <div class="hh-frame">
+      <img class="hh-wash" id="heroChampWash" alt="" aria-hidden="true">
+      <div class="hh-logo">
+        <h1>BLM48</h1>
+        <span class="hh-logo-sub">Official Site</span>
       </div>
-
-      <div class="hh-champ hh-parallax" id="heroChamp">
-        <svg class="hh-bloom" viewBox="0 0 100 100" aria-hidden="true">
-          <path d="M101.0000,50.0000 L100.8837,51.7769 L100.5357,53.5338 L99.9585,55.2509 L99.1554,56.9083 L98.1289,58.4864 L96.8773,59.9641 L95.3857,61.3159 L93.5921,62.4998 L90.8954,63.2877 L92.6140,65.5102 L93.3691,67.5223 L93.7813,69.4927 L93.9253,71.4238 L93.8282,73.3038 L93.5037,75.1169 L92.9614,76.8453 L92.2102,78.4712 L91.2599,79.9770 L90.1214,81.3462 L88.8072,82.5631 L87.3309,83.6129 L85.7069,84.4818 L83.9489,85.1551 L82.0678,85.6149 L80.0664,85.8318 L77.9196,85.7354 L75.2748,84.7877 L75.3588,87.5959 L74.7870,89.6675 L73.9623,91.5039 L72.9437,93.1508 L71.7601,94.6148 L70.4319,95.8908 L68.9772,96.9703 L67.4139,97.8442 L65.7599,98.5039 L64.0340,98.9424 L62.2556,99.1543 L60.4442,99.1360 L58.6196,98.8843 L56.8016,98.3957 L55.0095,97.6620 L53.2629,96.6611 L51.5827,95.3212 L50.0000,93.0000 L48.4173,95.3212 L46.7371,96.6611 L44.9905,97.6620 L43.1984,98.3957 L41.3804,98.8843 L39.5558,99.1360 L37.7444,99.1543 L35.9660,98.9424 L34.2401,98.5039 L32.5861,97.8442 L31.0228,96.9703 L29.5681,95.8908 L28.2399,94.6148 L27.0563,93.1508 L26.0377,91.5039 L25.2130,89.6675 L24.6412,87.5959 L24.7252,84.7877 L22.0804,85.7354 L19.9336,85.8318 L17.9322,85.6149 L16.0511,85.1551 L14.2931,84.4818 L12.6691,83.6129 L11.1928,82.5631 L9.8786,81.3462 L8.7401,79.9770 L7.7898,78.4712 L7.0386,76.8453 L6.4963,75.1169 L6.1718,73.3038 L6.0747,71.4238 L6.2187,69.4927 L6.6309,67.5223 L7.3860,65.5102 L9.1046,63.2877 L6.4079,62.4998 L4.6143,61.3159 L3.1227,59.9641 L1.8711,58.4864 L0.8446,56.9083 L0.0415,55.2509 L-0.5357,53.5338 L-0.8837,51.7769 L-1.0000,50.0000 L-0.8837,48.2231 L-0.5357,46.4662 L0.0415,44.7491 L0.8446,43.0917 L1.8711,41.5136 L3.1227,40.0359 L4.6143,38.6841 L6.4079,37.5002 L9.1046,36.7123 L7.3860,34.4898 L6.6309,32.4777 L6.2187,30.5073 L6.0747,28.5762 L6.1718,26.6962 L6.4963,24.8831 L7.0386,23.1547 L7.7898,21.5288 L8.7401,20.0230 L9.8786,18.6538 L11.1928,17.4369 L12.6691,16.3871 L14.2931,15.5182 L16.0511,14.8449 L17.9322,14.3851 L19.9336,14.1682 L22.0804,14.2646 L24.7252,15.2123 L24.6412,12.4041 L25.2130,10.3325 L26.0377,8.4961 L27.0563,6.8492 L28.2399,5.3852 L29.5681,4.1092 L31.0228,3.0297 L32.5861,2.1558 L34.2401,1.4961 L35.9660,1.0576 L37.7444,0.8457 L39.5558,0.8640 L41.3804,1.1157 L43.1984,1.6043 L44.9905,2.3380 L46.7371,3.3389 L48.4173,4.6788 L50.0000,7.0000 L51.5827,4.6788 L53.2629,3.3389 L55.0095,2.3380 L56.8016,1.6043 L58.6196,1.1157 L60.4442,0.8640 L62.2556,0.8457 L64.0340,1.0576 L65.7599,1.4961 L67.4139,2.1558 L68.9772,3.0297 L70.4319,4.1092 L71.7601,5.3852 L72.9437,6.8492 L73.9623,8.4961 L74.7870,10.3325 L75.3588,12.4041 L75.2748,15.2123 L77.9196,14.2646 L80.0664,14.1682 L82.0678,14.3851 L83.9489,14.8449 L85.7069,15.5182 L87.3309,16.3871 L88.8072,17.4369 L90.1214,18.6538 L91.2599,20.0230 L92.2102,21.5288 L92.9614,23.1547 L93.5037,24.8831 L93.8282,26.6962 L93.9253,28.5762 L93.7813,30.5073 L93.3691,32.4777 L92.6140,34.4898 L90.8954,36.7123 L93.5921,37.5002 L95.3857,38.6841 L96.8773,40.0359 L98.1289,41.5136 L99.1554,43.0917 L99.9585,44.7491 L100.5357,46.4662 L100.8837,48.2231 Z" fill="none" stroke="#ffc93c" stroke-width="0.9"/>
-        </svg>
-        <div class="hh-photo"><img id="heroChampImg" alt=""></div>
-        <a class="hh-ticket" id="heroChampTicket" href="#" target="_blank" rel="noopener">
-          <div class="hh-ticket-kicker">Champ of the Month</div>
-          <div class="hh-ticket-month" id="heroChampMonth"></div>
-          <img id="heroChampPost" alt="">
-          <div class="hh-ticket-cookie"><i class="fa-solid fa-cookie"></i> <span id="heroChampCookie"></span> Cookies</div>
+      <div class="hh-champ" id="heroChamp">
+        <div class="hh-visual"><img id="heroChampPost" alt=""></div>
+        <a class="hh-cap" id="heroChampTicket" href="#" target="_blank" rel="noopener">
+          <img class="hh-cap-avatar" id="heroChampImg" alt="">
+          <span>
+            <span class="hh-cap-kicker">Champ of the Month</span>
+            <span class="hh-cap-name" id="heroChampName"></span>
+            <span class="hh-cap-meta"><span id="heroChampMonth"></span> · <i class="fa-solid fa-cookie"></i> <span id="heroChampCookie"></span></span>
+          </span>
         </a>
-        <a class="hh-pick" id="heroChampPick" href="#" target="_blank" rel="noopener">
-          <svg viewBox="0 0 100 100" aria-hidden="true"><path d="M99.0000,50.0000 L98.8956,51.7075 L98.5831,53.3973 L98.0647,55.0518 L97.3434,56.6537 L96.4213,58.1853 L95.2970,59.6282 L93.9575,60.9598 L92.3486,62.1433 L89.9444,62.9787 L91.3984,65.0678 L92.0044,66.9709 L92.3054,68.8356 L92.3668,70.6637 L92.2125,72.4448 L91.8546,74.1648 L91.3014,75.8080 L90.5610,77.3587 L89.6418,78.8015 L88.5537,80.1215 L87.3077,81.3049 L85.9158,82.3387 L84.3907,83.2107 L82.7444,83.9078 L80.9868,84.4143 L79.1203,84.7043 L77.1231,84.7160 L74.6870,83.9787 L74.6354,86.5235 L74.0070,88.4193 L73.1545,90.1048 L72.1297,91.6199 L70.9579,92.9701 L69.6574,94.1512 L68.2440,95.1555 L66.7335,95.9748 L65.1418,96.6018 L63.4857,97.0301 L61.7820,97.2551 L60.0483,97.2734 L58.3019,97.0823 L56.5603,96.6787 L54.8406,96.0553 L53.1602,95.1928 L51.5375,94.0284 L50.0000,92.0000 L48.4625,94.0284 L46.8398,95.1928 L45.1594,96.0553 L43.4397,96.6787 L41.6981,97.0823 L39.9517,97.2734 L38.2180,97.2551 L36.5143,97.0301 L34.8582,96.6018 L33.2665,95.9748 L31.7560,95.1555 L30.3426,94.1512 L29.0421,92.9701 L27.8703,91.6199 L26.8455,90.1048 L25.9930,88.4193 L25.3646,86.5235 L25.3130,83.9787 L22.8769,84.7160 L20.8797,84.7043 L19.0132,84.4143 L17.2556,83.9078 L15.6093,83.2107 L14.0842,82.3387 L12.6923,81.3049 L11.4463,80.1215 L10.3582,78.8015 L9.4390,77.3587 L8.6986,75.8080 L8.1454,74.1648 L7.7875,72.4448 L7.6332,70.6637 L7.6946,68.8356 L7.9956,66.9709 L8.6016,65.0678 L10.0556,62.9787 L7.6514,62.1433 L6.0425,60.9598 L4.7030,59.6282 L3.5787,58.1853 L2.6566,56.6537 L1.9353,55.0518 L1.4169,53.3973 L1.1044,51.7075 L1.0000,50.0000 L1.1044,48.2925 L1.4169,46.6027 L1.9353,44.9482 L2.6566,43.3463 L3.5787,41.8147 L4.7030,40.3718 L6.0425,39.0402 L7.6514,37.8567 L10.0556,37.0213 L8.6016,34.9322 L7.9956,33.0291 L7.6946,31.1644 L7.6332,29.3363 L7.7875,27.5552 L8.1454,25.8352 L8.6986,24.1920 L9.4390,22.6413 L10.3582,21.1985 L11.4463,19.8785 L12.6923,18.6951 L14.0842,17.6613 L15.6093,16.7893 L17.2556,16.0922 L19.0132,15.5857 L20.8797,15.2957 L22.8769,15.2840 L25.3130,16.0213 L25.3646,13.4765 L25.9930,11.5807 L26.8455,9.8952 L27.8703,8.3801 L29.0421,7.0299 L30.3426,5.8488 L31.7560,4.8445 L33.2665,4.0252 L34.8582,3.3982 L36.5143,2.9699 L38.2180,2.7449 L39.9517,2.7266 L41.6981,2.9177 L43.4397,3.3213 L45.1594,3.9447 L46.8398,4.8072 L48.4625,5.9716 L50.0000,8.0000 L51.5375,5.9716 L53.1602,4.8072 L54.8406,3.9447 L56.5603,3.3213 L58.3019,2.9177 L60.0483,2.7266 L61.7820,2.7449 L63.4857,2.9699 L65.1418,3.3982 L66.7335,4.0252 L68.2440,4.8445 L69.6574,5.8488 L70.9579,7.0299 L72.1297,8.3801 L73.1545,9.8952 L74.0070,11.5807 L74.6354,13.4765 L74.6870,16.0213 L77.1231,15.2840 L79.1203,15.2957 L80.9868,15.5857 L82.7444,16.0922 L84.3907,16.7893 L85.9158,17.6613 L87.3077,18.6951 L88.5537,19.8785 L89.6418,21.1985 L90.5610,22.6413 L91.3014,24.1920 L91.8546,25.8352 L92.2125,27.5552 L92.3668,29.3363 L92.3054,31.1644 L92.0044,33.0291 L91.3984,34.9322 L89.9444,37.0213 L92.3486,37.8567 L93.9575,39.0402 L95.2970,40.3718 L96.4213,41.8147 L97.3434,43.3463 L98.0647,44.9482 L98.5831,46.6027 L98.8956,48.2925 Z" fill="#fff" stroke="#ff9ac1" stroke-width="0.8"/></svg>
-          <span class="hh-pick-label">Pick Up!</span>
-          <span class="hh-pick-name" id="heroChampName"></span>
-          <span class="hh-pick-link">Special Thanks</span>
-        </a>
+        <a class="hh-credit" id="heroChampPick" href="#" target="_blank" rel="noopener">Special Thanks</a>
       </div>
     </div>
-
-    <div class="hh-banners">
-      <div class="swiper hero-swiper">
-        <div class="swiper-wrapper" id="heroSwiperWrapper">
-          <div class="swiper-slide"><div class="hero-slide-loading">Loading...</div></div>
-        </div>
-      </div>
-    </div>
-
-    <svg class="hh-meadow" viewBox="0 0 1440 290" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
-      <path d="M0,164.7 L20,169.1 L40,173.3 L60,177.0 L80,180.3 L100,183.0 L120,185.0 L140,186.3 L160,186.9 L180,186.6 L200,185.7 L220,184.1 L240,181.9 L260,179.3 L280,176.2 L300,173.0 L320,169.6 L340,166.2 L360,163.0 L380,160.0 L400,157.3 L420,155.0 L440,153.2 L460,151.8 L480,150.9 L500,150.3 L520,150.1 L540,150.2 L560,150.5 L580,150.8 L600,151.1 L620,151.3 L640,151.3 L660,150.9 L680,150.1 L700,149.0 L720,147.3 L740,145.2 L760,142.7 L780,139.8 L800,136.6 L820,133.2 L840,129.7 L860,126.2 L880,122.9 L900,119.9 L920,117.2 L940,115.2 L960,113.7 L980,112.9 L1000,112.9 L1020,113.6 L1040,115.0 L1060,117.2 L1080,120.1 L1100,123.5 L1120,127.3 L1140,131.5 L1160,135.9 L1180,140.4 L1200,144.8 L1220,148.9 L1240,152.8 L1260,156.3 L1280,159.3 L1300,161.7 L1320,163.6 L1340,164.9 L1360,165.6 L1380,165.9 L1400,165.8 L1420,165.4 L1440,164.7 L1440,290 L0,290 Z" fill="#f1f8e8"/>
-      <path d="M0,236 C260,206 520,262 760,244 C1000,226 1220,204 1440,226 L1440,290 L0,290 Z" fill="#fff"/>
-    </svg>
   </section>
+
+  <div class="hh-banners">
+    <div class="swiper hero-swiper">
+      <div class="swiper-wrapper" id="heroSwiperWrapper">
+        <div class="swiper-slide"><div class="hero-slide-loading">Loading...</div></div>
+      </div>
+    </div>
+  </div>
 
   <!-- BIRTHDAY THIS MONTH -->
   <div class="birthday-banner">
@@ -880,7 +767,8 @@
       img.alt = champ.name || 'Champ of the Month';
       const post = document.getElementById('heroChampPost');
       post.src = BLM48Data.driveImg(champ.postImage || champ.profileImage);
-      post.alt = '';
+      post.alt = champ.name ? champ.name + ' — Champ of the Month' : 'Champ of the Month';
+      document.getElementById('heroChampWash').src = post.src;
       document.getElementById('heroChampName').textContent = champ.name || '';
       document.getElementById('heroChampMonth').textContent = champ.monthYear || '';
       document.getElementById('heroChampCookie').textContent = Number(champ.totalCookie || 0).toLocaleString();
@@ -1227,26 +1115,6 @@
     renderHeroBanner();
     renderHeroChamp();
 
-    // Hero parallax: layers drift toward / away from the pointer (CSS reads --mx / --my).
-    (function heroParallax() {
-      const hero = document.querySelector('.home-hero');
-      if (!hero || !window.matchMedia('(hover: hover)').matches) return;
-      let raf = 0, mx = 0, my = 0;
-      hero.addEventListener('pointermove', e => {
-        const r = hero.getBoundingClientRect();
-        mx = ((e.clientX - r.left) / r.width - 0.5) * 2;
-        my = ((e.clientY - r.top) / r.height - 0.5) * 2;
-        if (!raf) raf = requestAnimationFrame(() => {
-          raf = 0;
-          hero.style.setProperty('--mx', mx.toFixed(3));
-          hero.style.setProperty('--my', my.toFixed(3));
-        });
-      });
-      hero.addEventListener('pointerleave', () => {
-        hero.style.setProperty('--mx', 0);
-        hero.style.setProperty('--my', 0);
-      });
-    })();
     renderMovies();
     renderLinkBanners();
     renderChampOfMonth();
