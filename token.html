@@ -99,15 +99,41 @@
 
     /* --- App CTA --- */
     .token-cta {
-      display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;
+      position: relative; overflow: hidden;
+      display: grid; grid-template-columns: 1fr 1.15fr; gap: clamp(24px, 5vw, 64px); align-items: center;
       max-width: 1040px; margin: 0 auto;
-      padding: 30px clamp(20px, 5vw, 44px);
-      background: var(--blm-gold-pale); border: 1.5px solid var(--blm-gold);
-      border-radius: var(--radius-lg);
+      padding: clamp(36px, 6vw, 64px) clamp(20px, 6vw, 72px);
+      background: linear-gradient(180deg, var(--blm-pink-pale) 0%, var(--blm-paper-soft) 100%);
+      border-radius: var(--radius-xl);
     }
-    .token-cta-title { font-family: var(--font-display); font-weight: 900; font-size: clamp(1.2rem, 3vw, 1.6rem); letter-spacing: -0.3px; }
+    /* dotted pattern on the left edge, like the reference */
+    .token-cta::before {
+      content: ''; position: absolute; left: 18px; top: 50%; transform: translateY(-50%);
+      width: 110px; height: 220px;
+      background-image: radial-gradient(circle, rgba(255,255,255,0.95) 7px, transparent 8px);
+      background-size: 36px 36px;
+      pointer-events: none;
+    }
+    .token-cta-phone { position: relative; display: flex; justify-content: center; }
+    .token-cta-phone img {
+      width: min(260px, 60vw); height: auto; display: block;
+      filter: drop-shadow(18px 26px 28px rgba(59, 47, 38, 0.22));
+    }
+    .token-cta-title {
+      font-family: var(--font-display); font-weight: 900; line-height: 1.15;
+      font-size: clamp(1.7rem, 4.2vw, 2.6rem); letter-spacing: -0.8px; margin-bottom: 10px;
+    }
     .token-cta-title span { color: var(--blm-pink-deep); }
-    .token-cta-sub { font-size: 13px; color: var(--blm-ink-soft); margin-top: 4px; }
+    .token-cta-sub { font-size: 14px; color: var(--blm-ink-soft); line-height: 1.7; margin-bottom: 26px; }
+    .token-cta-actions { display: flex; align-items: center; gap: 22px; flex-wrap: wrap; }
+    .token-cta-qr {
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      font-size: 10.5px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; color: var(--blm-ink-soft);
+    }
+    .token-cta-qr img {
+      width: 112px; height: 112px; display: block;
+      padding: 8px; background: #fff; border-radius: var(--radius-md); box-shadow: var(--shadow-card);
+    }
 
     @media (max-width: 860px) {
       .token-hero { grid-template-columns: 1fr; gap: 40px; text-align: center; }
@@ -116,7 +142,11 @@
       .token-coin-wrap { order: -1; }
       .token-benefits { grid-template-columns: 1fr; }
     }
-    @media (max-width: 640px) { .token-cta { flex-direction: column; align-items: flex-start; } }
+    @media (max-width: 760px) {
+      .token-cta { grid-template-columns: 1fr; text-align: center; }
+      .token-cta-actions { justify-content: center; }
+      .token-cta::before { top: 70px; transform: none; }
+    }
   </style>
 </head>
 <body>
@@ -178,13 +208,22 @@
     </section>
 
     <section class="token-cta reveal">
-      <div>
-        <div class="token-cta-title">Download our <span>App</span> to get started now</div>
-        <div class="token-cta-sub">เริ่มสะสมและใช้ BLM48 Token ได้ที่แอป BLM48 Membership</div>
+      <div class="token-cta-phone">
+        <img src="assets/img/blm48-app-phone.webp" alt="BLM48 Membership App — Discover screen" loading="lazy">
       </div>
-      <a href="https://blm48-membership.vercel.app/" target="_blank" rel="noopener" class="btn btn-gold">
-        Open Membership App <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>
-      </a>
+      <div>
+        <h2 class="token-cta-title">Download our <span>App</span><br>to get started now</h2>
+        <p class="token-cta-sub">เริ่มสะสมและใช้ BLM48 Token ได้ที่แอป BLM48 Membership</p>
+        <div class="token-cta-actions">
+          <a href="https://blm48-membership.vercel.app/" target="_blank" rel="noopener" class="btn btn-gold">
+            Open Membership App <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>
+          </a>
+          <div class="token-cta-qr">
+            <img src="assets/img/blm48-app-qr.png" alt="QR code to open the BLM48 Membership App">
+            Scan to open
+          </div>
+        </div>
+      </div>
     </section>
 
   </main>
