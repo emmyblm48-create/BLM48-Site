@@ -11,8 +11,6 @@ window.BLM48_DATA_URL = 'https://script.google.com/macros/s/AKfycbyKX1fncf8dJuPW
 window.BLM48_STATIC_SHEETS = {
   HeroBanner: [
     {"image":"https://lh3.googleusercontent.com/d/1AKP0H6417zPUssTVn6AaHLgt60X_Bnyg=s1000","title":"","subtitle":"","link":"https://youtu.be/1Vwg1iQUDtc?si=jq78uvQLabZ6j44V","ggDrive":"https://drive.google.com/file/d/1AKP0H6417zPUssTVn6AaHLgt60X_Bnyg/view?usp=drive_link"},
-    {"image":"https://lh3.googleusercontent.com/d/1rezOvfDM4d-2EJfX5j2AWPyuUlT2kE5X=s1000","title":"","subtitle":"","link":"https://blm48-app.vercel.app/","ggDrive":"https://drive.google.com/file/d/1rezOvfDM4d-2EJfX5j2AWPyuUlT2kE5X/view?usp=drive_link"},
-    {"image":"https://lh3.googleusercontent.com/d/1PROUWSWJ5CldeAGPtRt09-f53UcvQzbU=s1000","title":"","subtitle":"","link":"https://www.instagram.com/emmy.blm48official/","ggDrive":""},
     {"image":"https://lh3.googleusercontent.com/d/1HcFyA1Wj70W1H_DXcjQP1Gui1Xv260WM=s1000","title":"","subtitle":"","link":"https://youtu.be/euoIySADf2c?si=NDHOgZ6sifpKzZ5-","ggDrive":""},
     {"image":"https://lh3.googleusercontent.com/d/1UfiAb17cBmh0ArobQ29aqRnn6NCRXPQi=s1000","title":"","subtitle":"","link":"https://blm48-app.vercel.app/","ggDrive":"https://drive.google.com/file/d/1UfiAb17cBmh0ArobQ29aqRnn6NCRXPQi/view?usp=drive_link"}
   ],
