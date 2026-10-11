@@ -53,6 +53,7 @@ window.BLM48_STATIC_SHEETS = {
     {"category":"single","kicker":"1st Single","kickerStyle":"outline","date":"2023-03-14","title":"ดีอะ - D.AAA","coverImage":"https://lh3.googleusercontent.com/d/1Y4osXIzBhSAAt2IVsn_9GNRmHR7HN3uN=s1000","link":"https://www.youtube.com/playlist?list=PLIZN3HRIc9-AVOTfFixnfvl83Bcw3R-Hg"}
   ],
   Movie: [
+    {"date":"2026-10-04","note":"special tracks","title":"「มปร. (It's OK.)」 Promotional Video","thumbnail":"https://lh3.googleusercontent.com/d/1_YU62p83JdEfJtzyMEnF_0iCWyHmQbVq=s1000","link":"https://youtu.be/gxRNWB1iBJA?si=D0nYYlM6NUCpZvDE"},    
     {"date":"2026-09-26","note":"special song & 3rd album c/w","title":"「Rapsodi」 Promotional Video","thumbnail":"https://lh3.googleusercontent.com/d/1w76J_EDRQBmuxedSm7NkJ6kLL4WCn6J9=s1000","link":"https://youtu.be/g-IiXvDfBRg"},    
     {"date":"2026-09-05","note":"5th gen debut song","title":"「NEW SHIP」 Music Video","thumbnail":"https://lh3.googleusercontent.com/d/17_oA1gsb5v8B3OdnAqhy_RWaGrrYh-QK=s1000","link":"https://youtu.be/z8E1PEdRCac?si=qQOS7Hhnu_T71vVJ"},
     {"date":"2026-08-16","note":"pre-3rd album","title":"「Suki-ish」 Promotional Video","thumbnail":"https://lh3.googleusercontent.com/d/1cVLuEr53ofCWXbE-A97t0bZ5MFDWHv__=s1000","link":"https://youtu.be/euoIySADf2c?si=6PD3GYd202Ye6phA"},
