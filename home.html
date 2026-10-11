@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="google-site-verification" content="nUjG8w2pz2CXK7Uvg8EMmn2S6hvwQOCNbg_IDFtMRcg" />
+  <title>BLM48 Official Home</title>
+  <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1flevUZLFmIodF1RHG0QgRJkCMpgW1KM7=s1000">
+  <link href="https://fonts.googleapis.com/css?family=Comfortaa:300,400" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=K2D:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/site.css">
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font-body); color: var(--blm-ink); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+
+    /* --- HERO (quiet editorial): one large Champ of the Month visual inside a
+           white-bordered frame over a soft blurred wash of the same picture, a
+           thin centred wordmark with two tiny flowers, and a small caption +
+           credit link in the bottom corners --- */
+    html, body { overflow-x: clip; }
+    :root {
+      --fl-mark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-50 -50 100 100'%3E%3Cg fill='%23ffc93c'%3E%3Cellipse cy='-24' rx='15' ry='24'/%3E%3Cellipse cy='-24' rx='15' ry='24' transform='rotate(72)'/%3E%3Cellipse cy='-24' rx='15' ry='24' transform='rotate(144)'/%3E%3Cellipse cy='-24' rx='15' ry='24' transform='rotate(216)'/%3E%3Cellipse cy='-24' rx='15' ry='24' transform='rotate(288)'/%3E%3C/g%3E%3Ccircle r='10' fill='%23ff9ac1'/%3E%3C/svg%3E");
+    }
+    .home-hero { padding: 0 clamp(10px, 1.4vw, 20px); background: #fff; }
+    .hh-frame {
+      position: relative; overflow: hidden;
+      height: max(560px, calc(100svh - var(--header-h) - var(--topbar-h) - clamp(10px, 1.4vw, 20px)));
+      background: #f7f2ea;
+    }
+    .hh-wash { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform: scale(1.2); filter: blur(40px) saturate(1.05); opacity: 0.5; }
+    .hh-frame::after {
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.1) 45%, rgba(255, 251, 242, 0.45) 100%);
+    }
+
+    .hh-logo { position: absolute; z-index: 3; top: clamp(26px, 4.5vh, 50px); left: 50%; transform: translateX(-50%); text-align: center; white-space: nowrap; }
+    .hh-logo h1 { display: flex; align-items: center; justify-content: center; gap: 16px; font-family: var(--font-display); font-weight: 300; font-size: clamp(30px, 3.4vw, 50px); letter-spacing: 0.08em; line-height: 1; color: var(--blm-ink); }
+    .hh-logo h1::before, .hh-logo h1::after { content: ''; width: 12px; height: 12px; background: var(--fl-mark) center / contain no-repeat; flex-shrink: 0; }
+    .hh-logo-sub { display: block; margin-top: 12px; padding-left: 0.6em; font-size: 10px; letter-spacing: 0.6em; text-transform: uppercase; color: var(--blm-ink-soft); }
+
+    .hh-champ[hidden] { display: none; }
+    .hh-visual {
+      position: absolute; z-index: 2; left: 50%; transform: translateX(-50%);
+      top: clamp(118px, 17vh, 160px); bottom: clamp(64px, 9vh, 96px);
+    }
+    .hh-visual img {
+      display: block; height: 100%; width: auto; max-width: min(84vw, 900px); object-fit: cover;
+      box-shadow: 0 30px 60px rgba(59, 47, 38, 0.14);
+    }
+
+    .hh-cap {
+      position: absolute; z-index: 3; left: clamp(18px, 3vw, 44px); bottom: clamp(18px, 3vh, 34px);
+      display: flex; align-items: center; gap: 12px; max-width: 46%;
+      text-decoration: none; color: var(--blm-ink);
+    }
+    .hh-cap-avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; flex-shrink: 0; border: 2px solid #fff; }
+    .hh-cap-kicker { display: block; font-size: 9px; letter-spacing: 0.35em; text-transform: uppercase; color: var(--blm-gold-deep); }
+    .hh-cap-name { display: block; font-size: 15px; font-weight: 700; margin: 3px 0 2px; transition: color 0.2s; }
+    .hh-cap-meta { display: block; font-size: 11px; color: var(--blm-ink-soft); }
+    .hh-cap-meta i { color: var(--blm-gold-deep); }
+    .hh-cap:hover .hh-cap-name { color: var(--blm-pink-deep); }
+
+    .hh-credit {
+      position: absolute; z-index: 3; right: clamp(18px, 3vw, 44px); bottom: clamp(26px, 3.6vh, 42px);
+      display: inline-flex; align-items: center; gap: 12px;
+      font-size: 10px; letter-spacing: 0.35em; text-transform: uppercase; text-decoration: none; color: var(--blm-ink);
+      transition: gap 0.3s, color 0.2s;
+    }
+    .hh-credit::after { content: ''; width: 36px; height: 1px; background: currentColor; }
+    .hh-credit:hover { gap: 18px; color: var(--blm-pink-deep); }
+
+    @media (max-width: 760px) {
+      .hh-frame { height: max(520px, 78svh); }
+      .hh-visual { top: 104px; bottom: 112px; }
+      .hh-cap { max-width: 64%; }
+      .hh-credit { display: none; } /* the caption links to the same post */
+    }
+
+    /* entrance: wordmark settles, the visual rises softly */
+    .hh-logo { animation: hh-fade 1.2s ease-out 0.1s both; }
+    .hh-visual { animation: hh-rise 1.4s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both; }
+    .hh-cap, .hh-credit { animation: hh-fade 1s ease-out 0.9s both; }
+    @keyframes hh-fade { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes hh-rise {
+      from { opacity: 0; transform: translate(-50%, 24px); }
+      to   { opacity: 1; transform: translate(-50%, 0); }
+    }
+
+    /* banner strip under the hero */
+    .hh-banners { overflow: hidden; padding: 0 4%; margin-top: clamp(56px, 7vw, 96px); }
+    .hero-swiper { overflow: visible; }
+    .hero-swiper .swiper-slide { width: clamp(260px, 30vw, 460px); }
+    .hero-slide-link { display: block; position: relative; aspect-ratio: 1445 / 820; border-radius: 4px; overflow: hidden; background: var(--blm-paper-soft); transition: opacity 0.3s; }
+    .hero-slide-link:hover { opacity: 0.85; }
+    .hero-slide-link img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .hero-slide-loading { display: flex; align-items: center; justify-content: center; aspect-ratio: 1445 / 820; color: var(--blm-ink-faint); font-weight: 600; background: var(--blm-paper-soft); border-radius: 4px; }
+    .hero-slide-caption {
+      position: absolute; left: 0; right: 0; bottom: 0;
+      padding: 24px 18px 14px;
+      background: linear-gradient(0deg, rgba(59,47,38,0.55) 0%, rgba(59,47,38,0) 100%);
+      color: #fff;
+    }
+    .hero-slide-caption-title { font-family: var(--font-display); font-size: clamp(14px, 1.4vw, 18px); font-weight: 700; }
+    .hero-slide-caption-sub { font-size: 11.5px; font-weight: 600; opacity: 0.85; margin-top: 3px; }
+
+    /* --- BIRTHDAY BANNER --- */
+    .birthday-banner {
+      max-width: 1300px; width: 92%; margin: 28px auto 48px;
+      border: 3px double var(--blm-gold-deep);
+      border-radius: var(--radius-lg);
+      padding: 18px 28px;
+      display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap;
+      background: var(--blm-gold-pale);
+    }
+    .birthday-banner-label {
+      display: flex; align-items: center; gap: 10px;
+      font-family: var(--font-display); font-weight: 800; font-size: 15px;
+      color: var(--blm-gold-deep); letter-spacing: 0.3px; white-space: nowrap;
+    }
+    .birthday-chips { display: flex; gap: 10px; flex-wrap: wrap; }
+    .birthday-chip {
+      display: flex; align-items: center; gap: 8px;
+      background: var(--blm-gold); color: var(--blm-on-gold); text-decoration: none;
+      padding: 5px 16px 5px 5px; border-radius: var(--radius-pill);
+      font-weight: 700; font-size: 13px;
+      transition: transform 0.2s, background 0.2s;
+    }
+    .birthday-chip:hover { background: var(--blm-gold-deep); transform: translateY(-2px); }
+    .birthday-chip img { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(255,255,255,0.7); }
+    .birthday-empty { font-size: 13.5px; font-weight: 600; color: var(--blm-gold-deep); opacity: 0.75; }
+    @media (max-width: 640px) { .birthday-banner { flex-direction: column; align-items: flex-start; } }
+
+    .sec-head.no-underline { border-bottom: none; padding-bottom: 0; }
+
+    /* --- NEWS & SCHEDULE --- */
+    .content-box-section { max-width: 1300px; width: 92%; margin: 0 auto 76px; display: grid; grid-template-columns: 1fr 1fr; gap: 56px; }
+    @media (max-width: 900px) { .content-box-section { grid-template-columns: 1fr; gap: 56px; } }
+    .data-list { display: flex; flex-direction: column; margin-bottom: 20px; }
+    .data-row { display: flex; align-items: center; gap: 18px; text-decoration: none; color: inherit; padding: 16px 0; border-bottom: 1px solid var(--blm-line); }
+    .data-row:first-child { padding-top: 0; }
+    .data-row:hover { background: var(--blm-paper-soft); border-radius: var(--radius-md); margin: 0 -14px; padding-left: 14px; padding-right: 14px; }
+    .data-row:hover .data-title { color: var(--blm-pink-deep); }
+    @media (max-width: 600px) { .data-row { flex-direction: column; align-items: flex-start; gap: 8px; } }
+    .data-date-group { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; min-width: 96px; flex-shrink: 0; }
+    .data-date { font-size: 12px; color: var(--blm-ink-faint); font-weight: 600; }
+    .data-title { font-size: 14.5px; font-weight: 600; color: var(--blm-ink); line-height: 1.4; transition: color 0.2s; }
+
+    /* --- News column: thumbnail + tag + date + NEW badge rows --- */
+    .home-news-row {
+      display: flex; align-items: flex-start; gap: 14px;
+      text-decoration: none; color: inherit;
+      padding: 16px 0; border-bottom: 1px solid var(--blm-line);
+      transition: background 0.2s, padding 0.2s;
+    }
+    .home-news-row:first-child { padding-top: 0; }
+    .home-news-row:hover { background: var(--blm-paper-soft); border-radius: var(--radius-md); margin: 0 -14px; padding-left: 14px; padding-right: 14px; }
+    .home-news-thumb {
+      width: 88px; height: 88px; flex-shrink: 0;
+      overflow: hidden; background: var(--blm-paper-soft);
+      border: 1px solid var(--blm-line); border-radius: var(--radius-sm);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .home-news-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .home-news-thumb-placeholder { font-family: var(--font-display); font-weight: 800; font-size: 9.5px; letter-spacing: 2px; color: var(--blm-ink-faint); text-transform: uppercase; }
+    .home-news-content { flex-grow: 1; min-width: 0; padding-top: 2px; }
+    .home-news-meta { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; flex-wrap: wrap; }
+    .home-news-cat-tag {
+      border: 1px solid var(--blm-tag-color, var(--blm-ink-faint));
+      color: var(--blm-tag-color, var(--blm-ink-faint));
+      font-size: 9.5px; font-weight: 800; letter-spacing: 0.8px; text-transform: uppercase;
+      padding: 2px 8px;
+    }
+    .home-news-date { font-size: 11.5px; color: var(--blm-ink-faint); font-weight: 600; }
+    .home-news-new { font-size: 10px; font-weight: 800; letter-spacing: 0.5px; color: var(--blm-pink-deep); text-transform: uppercase; }
+    .home-news-title {
+      font-size: 13.5px; font-weight: 700; color: var(--blm-ink); line-height: 1.5;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+      transition: color 0.2s;
+    }
+    .home-news-row:hover .home-news-title { color: var(--blm-pink-deep); }
+    @media (max-width: 600px) { .home-news-thumb { width: 72px; height: 72px; } }
+
+    /* --- Schedule column: big date + tag + NEW badge rows --- */
+    .home-sched-row {
+      display: flex; align-items: flex-start; gap: 20px;
+      text-decoration: none; color: inherit;
+      padding: 16px 0; border-bottom: 1px solid var(--blm-line);
+      transition: background 0.2s, padding 0.2s;
+    }
+    .home-sched-row:first-child { padding-top: 0; }
+    .home-sched-row:hover { background: var(--blm-paper-soft); border-radius: var(--radius-md); margin: 0 -14px; padding-left: 14px; padding-right: 14px; }
+    .home-sched-date-block { min-width: 70px; flex-shrink: 0; }
+    .home-sched-date-big { font-family: var(--font-display); font-size: 25px; font-weight: 800; color: var(--blm-ink); line-height: 1; display: block; }
+    .home-sched-date-sub { font-size: 10.5px; color: var(--blm-ink-faint); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 5px; display: block; }
+    .home-sched-content { flex-grow: 1; min-width: 0; padding-top: 4px; }
+    .home-sched-meta { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; flex-wrap: wrap; }
+    .home-sched-cat-tag {
+      border: 1px solid var(--blm-tag-color, var(--blm-ink-faint));
+      color: var(--blm-tag-color, var(--blm-ink-faint));
+      font-size: 9.5px; font-weight: 800; letter-spacing: 0.8px; text-transform: uppercase;
+      padding: 2px 8px;
+    }
+    .home-sched-new { font-size: 10px; font-weight: 800; letter-spacing: 0.5px; color: var(--blm-pink-deep); text-transform: uppercase; }
+    .home-sched-title {
+      font-size: 13.5px; font-weight: 700; color: var(--blm-ink); line-height: 1.5;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+      transition: color 0.2s;
+    }
+    .home-sched-row:hover .home-sched-title { color: var(--blm-pink-deep); }
+
+    /* --- CHAMP OF THE MONTH --- */
+    .champ-section { max-width: 1300px; width: 92%; margin: 0 auto 100px; }
+    /* tall rounded photo cards in a zigzag, cookie count over the photo, the
+       champ's avatar overlapping the bottom-left corner */
+    .champ-section { padding-top: 30px; }
+    .champ-section .sec-head { margin-bottom: 30px; }
+    .champ-grid { gap: clamp(20px, 3.2vw, 44px); }
+    @media (min-width: 901px) { .champ-grid .champ-post-card:nth-child(even) { margin-top: 52px; } }
+    .champ-post-card { max-width: 260px; width: 100%; border: none; border-radius: 0; background: transparent; overflow: visible; }
+    .champ-post-card:hover { box-shadow: none; transform: none; }
+    .champ-post-photo {
+      aspect-ratio: 5 / 8; border-radius: 28px; overflow: hidden;
+      box-shadow: 0 16px 32px rgba(59, 47, 38, 0.18);
+      transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s;
+    }
+    .champ-post-card:hover .champ-post-photo { transform: translateY(-6px); box-shadow: 0 22px 40px rgba(59, 47, 38, 0.22); }
+    .champ-post-cookie { padding: 60px 16px 46px; font-size: 14px; font-weight: 700; letter-spacing: 0.04em; background: linear-gradient(0deg, rgba(30, 22, 18, 0.75) 0%, rgba(30, 22, 18, 0) 100%); }
+    .champ-post-foot { position: relative; display: block; padding: 14px 0 0 80px; min-height: 64px; }
+    .champ-post-avatar { position: absolute; left: -14px; top: -34px; width: 68px; height: 68px; border: 3px solid #fff; box-shadow: 0 4px 12px rgba(59, 47, 38, 0.15); }
+    .champ-post-meta { gap: 14px; }
+    .champ-post-name { font-size: 15px; font-weight: 600; letter-spacing: 0.06em; color: var(--blm-pink-deep); }
+    .champ-post-when { font-size: 11px; letter-spacing: 0.1em; color: var(--blm-ink-faint); }
+
+    /* --- VIDEO SECTION --- */
+    .video-section { max-width: 1300px; width: 92%; margin: 0 auto 90px; position: relative; }
+    /* MOVIE: the newest videos as large 16:9 thumbnails in two columns, each
+       with a thin outline play mark; the title only shows as alt/tooltip */
+    .movie-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 4.4vw, 64px) clamp(24px, 3.4vw, 48px); }
+    @media (max-width: 640px) { .movie-grid { grid-template-columns: 1fr; } }
+    .movie-status { grid-column: 1 / -1; text-align: center; color: var(--blm-ink-faint); font-weight: 600; padding: 40px 0; }
+    .movie-tile { position: relative; display: block; aspect-ratio: 16 / 9; overflow: hidden; background: var(--blm-paper-soft); }
+    .movie-tile img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
+    .movie-tile:hover img { transform: scale(1.04); }
+    .movie-play {
+      position: absolute; left: 50%; top: 50%; width: clamp(40px, 4.6vw, 60px);
+      transform: translate(-40%, -50%);
+      filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.45)) drop-shadow(0 2px 10px rgba(0, 0, 0, 0.25));
+    }
+    .movie-play svg { display: block; width: 100%; height: auto; overflow: visible; }
+    .movie-play polygon { fill: rgba(255, 255, 255, 0); stroke: #fff; stroke-width: 2.2; stroke-linejoin: round; transition: fill 0.3s; }
+    .movie-tile:hover .movie-play polygon { fill: rgba(255, 255, 255, 0.3); }
+
+    /* --- GROUP NETWORK --- */
+    .group-band { background: var(--blm-paper-soft); border-top: 1px solid var(--blm-line); border-bottom: 1px solid var(--blm-line); padding: 56px 0; }
+    .group-inner { max-width: 1300px; width: 92%; margin: 0 auto; text-align: center; }
+    .logo-grid {
+      display: flex; flex-wrap: nowrap; align-items: center; justify-content: flex-start;
+      gap: clamp(10px, 2vw, 28px);
+      overflow-x: auto; padding: 4px 2px 10px;
+      scroll-snap-type: x proximity;
+      -webkit-overflow-scrolling: touch;
+    }
+    @media (min-width: 1180px) { .logo-grid { justify-content: center; } }
+    .logo-grid::-webkit-scrollbar { height: 5px; }
+    .logo-grid::-webkit-scrollbar-thumb { background: var(--blm-line); }
+    .logo-grid a { flex: 0 0 auto; scroll-snap-align: start; display: flex; justify-content: center; opacity: 0.85; transition: opacity 0.2s, transform 0.2s; }
+    .logo-grid a:hover { opacity: 1; transform: translateY(-3px); }
+    .logo-grid img { width: clamp(42px, 5.2vw, 70px); height: auto; flex-shrink: 0; }
+
+    /* --- LINK BANNERS --- */
+    .link-banners { max-width: 1300px; width: 92%; margin: 56px auto 90px; }
+    .link-banners-grid { display: flex; flex-wrap: wrap; gap: 16px; }
+    .link-banner-tile {
+      flex: 1 1 260px;
+      aspect-ratio: 2048 / 546;
+      display: block;
+      overflow: hidden;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--blm-line);
+      background: var(--blm-paper-soft);
+    }
+    .link-banner-tile img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s; }
+    .link-banner-tile:hover img { transform: scale(1.04); }
+    /* ---- Quiet editorial sections: small widely-spaced labels with a tiny
+       flower mark, thin rules, big light dates, a striped schedule band ---- */
+    .sec-head, .sec-head.no-underline { border-bottom: none; padding-bottom: 0; margin-bottom: 40px; align-items: flex-end; }
+    .sec-title {
+      position: relative; padding-bottom: 20px;
+      font-size: 18px; font-weight: 400; letter-spacing: 1.1em; text-transform: uppercase; color: var(--blm-ink);
+    }
+    .sec-title::after { content: ''; position: absolute; left: 0; bottom: 0; width: 12px; height: 12px; background: var(--fl-mark) center / contain no-repeat; }
+    .arrow-link { font-size: 11px; font-weight: 400; letter-spacing: 0.3em; gap: 14px; }
+    .arrow-link::after { content: ''; font-family: inherit; width: 36px; height: 1px; background: currentColor; transition: width 0.3s; }
+    .arrow-link:hover { gap: 14px; }
+    .arrow-link:hover::after { width: 52px; }
+
+    .birthday-banner {
+      max-width: 1000px; margin: clamp(56px, 7vw, 90px) auto 0;
+      background: transparent; border: none; border-radius: 0;
+      border-top: 1px solid var(--blm-line); border-bottom: 1px solid var(--blm-line);
+      padding: 20px 4px;
+    }
+    .birthday-banner-label { font-weight: 400; font-size: 11px; letter-spacing: 0.35em; text-transform: uppercase; color: var(--blm-ink); }
+    .birthday-banner-label i { color: var(--blm-pink); }
+
+    .content-box-section { grid-template-columns: 1fr; max-width: 1000px; gap: 0; margin: clamp(80px, 9vw, 120px) auto clamp(90px, 10vw, 130px); }
+    .content-box-section > div:first-child { padding-bottom: clamp(70px, 8vw, 110px); }
+    .content-box-section > div:nth-child(2) { padding: clamp(60px, 7vw, 96px) 0; }
+    .home-news-row, .home-sched-row { border-bottom-color: var(--blm-line); }
+    .home-news-row:hover, .home-sched-row:hover { background: transparent; margin: 0; padding-left: 0; padding-right: 0; }
+    .home-news-thumb { border-radius: 2px; }
+    .home-sched-date-block { min-width: 104px; }
+    .home-sched-date-big { font-size: 34px; font-weight: 300; letter-spacing: 0.02em; }
+    .home-sched-date-sub { font-size: 10px; letter-spacing: 0.2em; }
+    .home-news-cat-tag, .home-sched-cat-tag { border-radius: 2px; }
+
+    .champ-section { max-width: 1000px; }
+    .video-section { max-width: 1240px; }
+    .link-banner-tile { border-radius: 4px; }
+    .group-band { background: #fff; }
+
+    /* ---- Big diagonal triangles behind the sections, alternating sides ----
+       Each .tri section paints a full-bleed wedge (::before) behind itself,
+       spilling a little past its own edges so neighbours overlap, plus a thin
+       white hairline (::after) running parallel to the wedge's long edge. */
+    .tri { position: relative; isolation: isolate; }
+    .tri::before, .tri::after {
+      content: ''; position: absolute; z-index: -1; pointer-events: none;
+      top: var(--tri-top, -80px); bottom: var(--tri-bottom, -80px);
+      left: calc(50% - 50vw); width: 100vw;
+    }
+    .tri::before { background: var(--tri-fill); }
+    .tri::after { background: rgba(255, 255, 255, 0.9); }
+    /* wedge hugging the right edge, wide at the top */
+    .tri-r::before { clip-path: polygon(52% 0, 100% 0, 100% 100%); }
+    .tri-r::after  { clip-path: polygon(58% 0, 58.1% 0, 100% 87.3%, 100% 87.5%); }
+    /* wedge hugging the left edge, wide at the top */
+    .tri-l::before { clip-path: polygon(0 0, 50% 0, 0 100%); }
+    .tri-l::after  { clip-path: polygon(42% 0, 42.1% 0, 0 84.2%, 0 84%); }
+    .tri-pink   { --tri-fill: linear-gradient(200deg, #ffdbe9 0%, #fff0f5 55%, #fff8f2 100%); }
+    .tri-gold   { --tri-fill: linear-gradient(160deg, #ffefb8 0%, #fff6d8 50%, #ffeef4 100%); }
+    .tri-stripe { --tri-fill: repeating-linear-gradient(135deg, rgba(242, 169, 0, 0.12) 0 1px, transparent 1px 13px), linear-gradient(170deg, #fff3ce 0%, #fffaf0 100%); }
+    @media (max-width: 760px) {
+      .tri-r::before { clip-path: polygon(30% 0, 100% 0, 100% 100%); }
+      .tri-l::before { clip-path: polygon(0 0, 70% 0, 0 100%); }
+      .tri::after { display: none; }
+    }
+    .group-band .eyebrow { letter-spacing: 0.6em; font-weight: 400; color: var(--blm-ink); }
+    .group-band .eyebrow::before { width: 12px; height: 12px; background: var(--fl-mark) center / contain no-repeat; }
+  </style>
+</head>
+<body>
+
+  <div id="site-header"></div>
+  <script src="assets/js/nav.js"></script>
+  <script src="assets/js/sheet-data.js"></script>
+  <script src="assets/js/champs.js"></script>
+
+  <!-- HERO: Champ of the Month as the key visual in a white-bordered frame -->
+  <section class="home-hero">
+    <div class="hh-frame">
+      <img class="hh-wash" id="heroChampWash" alt="" aria-hidden="true">
+      <div class="hh-logo">
+        <h1>BLM48</h1>
+        <span class="hh-logo-sub">Official Site</span>
+      </div>
+      <div class="hh-champ" id="heroChamp">
+        <div class="hh-visual"><img id="heroChampPost" alt=""></div>
+        <a class="hh-cap" id="heroChampTicket" href="#" target="_blank" rel="noopener">
+          <img class="hh-cap-avatar" id="heroChampImg" alt="">
+          <span>
+            <span class="hh-cap-kicker">Champ of the Month</span>
+            <span class="hh-cap-name" id="heroChampName"></span>
+            <span class="hh-cap-meta"><span id="heroChampMonth"></span> · <i class="fa-solid fa-cookie"></i> <span id="heroChampCookie"></span></span>
+          </span>
+        </a>
+        <a class="hh-credit" id="heroChampPick" href="#" target="_blank" rel="noopener">Special Thanks</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="hh-banners">
+    <div class="swiper hero-swiper">
+      <div class="swiper-wrapper" id="heroSwiperWrapper">
+        <div class="swiper-slide"><div class="hero-slide-loading">Loading...</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BIRTHDAY THIS MONTH -->
+  <div class="birthday-banner">
+    <span class="birthday-banner-label"><i class="fas fa-cake-candles" aria-hidden="true"></i> Birthday This Month</span>
+    <div class="birthday-chips" id="birthdayList">
+      <span class="birthday-empty">...</span>
+    </div>
+  </div>
+
+  <!-- NEWS & SCHEDULE -->
+  <section class="content-box-section">
+    <div class="tri tri-r tri-pink">
+      <div class="sec-head no-underline">
+        <h2 class="sec-title">News</h2>
+      </div>
+      <div class="data-list" id="homeNewsList">
+        <div class="data-row" style="border-bottom:none;"><div class="data-title" style="color:var(--blm-ink-faint);">Loading...</div></div>
+      </div>
+      <a href="news" class="arrow-link">More news</a>
+    </div>
+
+    <div class="tri tri-l tri-stripe">
+      <div class="sec-head no-underline">
+        <h2 class="sec-title">Schedule</h2>
+      </div>
+      <div class="data-list" id="homeScheduleList">
+        <div class="data-row" style="border-bottom:none;"><div class="data-title" style="color:var(--blm-ink-faint);">Loading...</div></div>
+      </div>
+      <a href="schedule" class="arrow-link">More schedule</a>
+    </div>
+  </section>
+
+  <!-- CHAMP OF THE MONTH -->
+  <section class="champ-section tri tri-r tri-gold" id="champSection">
+    <div class="sec-head no-underline">
+      <h2 class="sec-title">Champ of the Month</h2>
+    </div>
+    <div class="champ-grid" id="champGrid">
+      <p style="color:var(--blm-ink-faint);font-weight:600;">Loading...</p>
+    </div>
+  </section>
+
+  <!-- VIDEO -->
+  <section class="video-section tri tri-l tri-pink">
+    <div class="sec-head no-underline">
+      <h2 class="sec-title">MOVIE</h2>
+      <a href="https://www.youtube.com/@BLM48Official" target="_blank" class="arrow-link">Official Channel</a>
+    </div>
+
+    <div class="movie-grid" id="movieGrid">
+      <p class="movie-status">Loading...</p>
+    </div>
+  </section>
+
+  <!-- GROUP NETWORK -->
+  <div class="group-band">
+    <div class="group-inner">
+      <div class="eyebrow" style="justify-content:center; margin-bottom: 24px;">AKB48 Group</div>
+      <div class="logo-grid">
+        <a href="https://www.akb48.co.jp/" target="_blank"><img src="https://s.akb48.co.jp/v2/index/img/g_akb48.png?ver=53" alt="AKB48"></a>
+        <a href="https://www.ske48.co.jp/" target="_blank"><img src="https://s.akb48.co.jp/v2/index/img/g_ske48.png?ver=53" alt="SKE48"></a>
+        <a href="https://nmb48.com/" target="_blank"><img src="https://s.akb48.co.jp/v2/index/img/g_nmb48.png?ver=53" alt="NMB48"></a>
+        <a href="http://www.hkt48.jp/" target="_blank"><img src="https://s.akb48.co.jp/v2/index/img/g_hkt48.png?ver=53" alt="HKT48"></a>
+        <a href="https://ngt48.jp/" target="_blank"><img src="https://s.akb48.co.jp/v2/index/img/g_ngt48.png?ver=53" alt="NGT48"></a>
+        <a href="https://www.stu48.com/" target="_blank"><img src="https://s.akb48.co.jp/v2/index/img/g_stu48.png?ver=53" alt="STU48"></a>
+        <a href="https://www.jkt48.com/" target="_blank"><img src="https://s.akb48.co.jp/v2/index/img/g_jkt48.png?ver=53" alt="JKT48"></a>
+        <a href="https://www.bnk48.com/" target="_blank"><img src="https://s.akb48.co.jp/v2/index/img/g_bnk48.png?ver=53" alt="BNK48"></a>
+        <a href="https://weibo.com/akb48teamsh" target="_blank"><img src="https://s.akb48.co.jp/v2/index/img/g_tsh48.png?ver=53" alt="TSH48"></a>
+        <a href="https://www.tpe48.tw/" target="_blank"><img src="https://s.akb48.co.jp/v2/index/img/g_tpe48.png" alt="TPE48"></a>
+        <a href="https://www.cgm48official.com/" target="_blank"><img src="https://s.akb48.co.jp/v2/index/img/g_cgm48.png?ver=53" alt="CGM48"></a>
+        <a href="https://klp48.my/" target="_blank"><img src="https://s.akb48.co.jp/v2/index/img/g_klp48.png?ver=53" alt="KLP48"></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- LINK BANNERS -->
+  <section class="link-banners" id="linkBanners">
+    <div class="link-banners-grid" id="linkBannersGrid"></div>
+  </section>
+
+  <!-- FOOTER -->
+  <div id="site-footer"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+  <!-- Birthday This Month -->
+  <script>
+    let allMembersData = [];
+
+    function renderBirthdayMonth() {
+      const today = new Date();
+      const listEl = document.getElementById('birthdayList');
+      if (!listEl) return;
+
+      const celebrants = allMembersData
+        .map(m => {
+          const bday = m.birthday ? new Date(m.birthday) : null;
+          return bday && !isNaN(bday) ? { member: m, bday } : null;
+        })
+        .filter(entry => entry && entry.bday.getMonth() === today.getMonth())
+        .sort((a, b) => a.bday.getDate() - b.bday.getDate());
+
+      if (!celebrants.length) {
+        listEl.innerHTML = `<span class="birthday-empty">No birthdays this month</span>`;
+        return;
+      }
+
+      listEl.innerHTML = celebrants.map(({ member, bday }) => `
+        <a href="profile" class="birthday-chip">
+          <img src="${BLM48Data.driveImg(member.image, 'https://via.placeholder.com/100x100?text=BLM48')}" alt="${member.name}" onerror="this.src='https://via.placeholder.com/100x100?text=BLM48'">
+          <span>${member.name} · ${bday.toLocaleDateString('en-US', { day: 'numeric', month: 'short' })}</span>
+        </a>
+      `).join('');
+    }
+
+    async function initMembersData() {
+      try {
+        allMembersData = await BLM48Data.fetchMembers();
+      } catch (err) {
+        allMembersData = [];
+      }
+      renderBirthdayMonth();
+    }
+
+    initMembersData();
+  </script>
+
+  <!-- News & Schedule previews -->
+  <script>
+    function homeIsRecent(dateValue) {
+      const d = dateValue instanceof Date ? dateValue : new Date(dateValue);
+      if (isNaN(d)) return false;
+      const diffDays = (Date.now() - d.getTime()) / (1000 * 60 * 60 * 24);
+      return diffDays >= 0 && diffDays <= 3;
+    }
+
+    // News column - same palette + alphabetical-order lookup as news.html,
+    // so a given tag always renders the same color on both pages.
+    const NEWS_TAG_PALETTE = ['#f5629e', '#4d8fdb', '#7ec8e3', '#c9932c', '#9b7fd4', '#6fbf8b', '#8a7c68'];
+    function newsTagOrderFrom(items) {
+      const seen = {}; const tags = [];
+      items.forEach(item => {
+        const key = (item.tag || '').trim().toLowerCase();
+        if (key && !seen[key]) { seen[key] = true; tags.push(key); }
+      });
+      return tags.sort();
+    }
+    function newsTagColor(tag, tagOrder) {
+      const idx = tagOrder.indexOf((tag || '').toLowerCase());
+      return NEWS_TAG_PALETTE[idx % NEWS_TAG_PALETTE.length] || 'var(--blm-ink-faint)';
+    }
+
+    async function renderHomeNews() {
+      const listEl = document.getElementById('homeNewsList');
+      try {
+        const rows = await BLM48Data.fetchSheet('News');
+        const tagOrder = newsTagOrderFrom(rows);
+        const items = rows
+          .map(r => ({ ...r, _date: BLM48Data.fmtDate(r.date) }))
+          .sort((a, b) => b._date.time - a._date.time)
+          .slice(0, 5);
+
+        if (!items.length) {
+          listEl.innerHTML = `<div class="home-news-row" style="border-bottom:none;"><div class="home-news-title" style="color:var(--blm-ink-faint);">No news yet.</div></div>`;
+          return;
+        }
+
+        listEl.innerHTML = items.map((item, i) => {
+          const imgSrc = item.image || item.thumbnail || item.thumb || '';
+          const thumbHTML = imgSrc
+            ? `<img src="${BLM48Data.driveImg(imgSrc)}" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/200x200?text=BLM48'">`
+            : `<span class="home-news-thumb-placeholder">News</span>`;
+          return `
+            <a href="${item.link || '#'}" target="_blank" rel="noopener" class="home-news-row reveal reveal-${(i % 6) + 1}">
+              <div class="home-news-thumb">${thumbHTML}</div>
+              <div class="home-news-content">
+                <div class="home-news-meta">
+                  <span class="home-news-cat-tag" style="--blm-tag-color:${newsTagColor(item.tag, tagOrder)};">${item.tag || 'News'}</span>
+                  <span class="home-news-date">${item._date.full}</span>
+                  ${homeIsRecent(item.date) ? '<span class="home-news-new">New</span>' : ''}
+                </div>
+                <div class="home-news-title">${item.title || ''}</div>
+              </div>
+            </a>
+          `;
+        }).join('');
+      } catch (err) {
+        listEl.innerHTML = `<div class="home-news-row" style="border-bottom:none;"><div class="home-news-title" style="color:var(--blm-ink-faint);">Unable to load news right now.</div></div>`;
+      }
+    }
+
+    // Schedule column - same palette as schedule.html's calendar, assigned
+    // in the same "first tag seen in the raw fetch" order (schedule.html
+    // does not sort before computing tag order), so colors match that page.
+    const SCHEDULE_TAG_PALETTE = ['#f5629e', '#6fbf8b', '#9b7fd4', '#4d8fdb', '#7ec8e3', '#e07a3f', '#8a7c68', '#c9932c'];
+    function scheduleTagOrderFrom(rawRows) {
+      const seen = {}; const tags = [];
+      rawRows.forEach(item => {
+        const key = (item.tag || '').trim().toLowerCase();
+        if (key && !seen[key]) { seen[key] = true; tags.push(key); }
+      });
+      return tags;
+    }
+    function scheduleTagColor(tag, tagOrder) {
+      const idx = tagOrder.indexOf((tag || '').toLowerCase());
+      return SCHEDULE_TAG_PALETTE[idx % SCHEDULE_TAG_PALETTE.length] || 'var(--blm-ink-faint)';
+    }
+
+    // Schedule column - big MM.DD date + weekday.year + bordered tag pill + NEW badge.
+    async function renderHomeSchedule() {
+      const listEl = document.getElementById('homeScheduleList');
+      try {
+        const rows = await BLM48Data.fetchSheet('Schedule');
+        const tagOrder = scheduleTagOrderFrom(rows.filter(r => r.date));
+        const items = rows
+          .map(r => ({ ...r, _date: BLM48Data.fmtDate(r.date) }))
+          .sort((a, b) => b._date.time - a._date.time)
+          .slice(0, 6);
+
+        if (!items.length) {
+          listEl.innerHTML = `<div class="home-sched-row" style="border-bottom:none;"><div class="home-sched-title" style="color:var(--blm-ink-faint);">No schedule yet.</div></div>`;
+          return;
+        }
+
+        listEl.innerHTML = items.map((item, i) => {
+          const d = new Date(item.date);
+          const dateBig = isNaN(d) ? '' : String(d.getMonth() + 1).padStart(2, '0') + '.' + String(d.getDate()).padStart(2, '0');
+          const dateSub = isNaN(d) ? '' : item._date.weekday.toUpperCase() + '.' + d.getFullYear();
+          return `
+            <a href="${item.link || '#'}" target="_blank" rel="noopener" class="home-sched-row reveal reveal-${(i % 6) + 1}">
+              <div class="home-sched-date-block">
+                <span class="home-sched-date-big">${dateBig}</span>
+                <span class="home-sched-date-sub">${dateSub}</span>
+              </div>
+              <div class="home-sched-content">
+                <div class="home-sched-meta">
+                  <span class="home-sched-cat-tag" style="--blm-tag-color:${scheduleTagColor(item.tag, tagOrder)};">${item.tag || ''}</span>
+                  ${homeIsRecent(item.date) ? '<span class="home-sched-new">New</span>' : ''}
+                </div>
+                <div class="home-sched-title">${item.title || ''}</div>
+              </div>
+            </a>
+          `;
+        }).join('');
+      } catch (err) {
+        listEl.innerHTML = `<div class="home-sched-row" style="border-bottom:none;"><div class="home-sched-title" style="color:var(--blm-ink-faint);">Unable to load schedule right now.</div></div>`;
+      }
+    }
+
+    renderHomeNews();
+    renderHomeSchedule();
+
+    async function renderMovies() {
+      const grid = document.getElementById('movieGrid');
+      let items;
+      try {
+        const rows = await BLM48Data.fetchSheet('Movie');
+        items = rows
+          .map(r => ({ ...r, _date: BLM48Data.fmtDate(r.date) }))
+          .sort((a, b) => b._date.time - a._date.time)
+          .slice(0, 4);
+      } catch (err) {
+        grid.innerHTML = '<p class="movie-status">Unable to load videos.</p>';
+        return;
+      }
+      if (!items.length) { grid.innerHTML = '<p class="movie-status">No videos yet.</p>'; return; }
+
+      grid.replaceChildren(...items.map((item, i) => {
+        const a = document.createElement('a');
+        a.className = 'movie-tile reveal reveal-' + (i + 1);
+        a.href = item.link || 'https://www.youtube.com/@BLM48Official';
+        a.target = '_blank'; a.rel = 'noopener';
+        a.title = item.title || '';
+        const img = document.createElement('img');
+        img.src = BLM48Data.driveImg(item.thumbnail);
+        img.alt = item.title || 'BLM48 video';
+        img.loading = 'lazy';
+        img.onerror = () => { img.onerror = null; img.src = 'https://via.placeholder.com/640x360?text=BLM48'; };
+        const play = document.createElement('span');
+        play.className = 'movie-play';
+        play.innerHTML = '<svg viewBox="0 0 48 54" aria-hidden="true"><polygon points="3,3 45,27 3,51"/></svg>';
+        a.append(img, play);
+        return a;
+      }));
+    }
+
+    async function renderHeroBanner() {
+      const mainWrap = document.getElementById('heroSwiperWrapper');
+
+      let rows = [];
+      try {
+        rows = await BLM48Data.fetchSheet('HeroBanner');
+      } catch (err) {
+        rows = [];
+      }
+
+      if (!rows.length) {
+        document.querySelector('.hh-banners').style.display = 'none';
+        return;
+      }
+
+      // Repeat short lists so the looping strip always has enough cards to fill wide screens.
+      let slides = rows.slice();
+      while (slides.length < 8) slides = slides.concat(rows);
+
+      mainWrap.innerHTML = slides.map(item => `
+        <div class="swiper-slide">
+          <a href="${item.link || '#'}" ${item.link ? 'target="_blank" rel="noopener"' : ''} class="hero-slide-link">
+            <img src="${BLM48Data.driveImg(item.image || item.thumbnail)}" alt="${item.title || 'BLM48'}" onerror="this.src='https://via.placeholder.com/1600x680?text=BLM48'">
+            ${item.title ? `
+              <div class="hero-slide-caption">
+                <div class="hero-slide-caption-title">${item.title}</div>
+                ${item.subtitle ? `<div class="hero-slide-caption-sub">${item.subtitle}</div>` : ''}
+              </div>
+            ` : ''}
+          </a>
+        </div>
+      `).join('');
+
+      new Swiper('.hero-swiper', {
+        slidesPerView: 'auto',
+        spaceBetween: 28,
+        loop: true,
+        grabCursor: true,
+        autoplay: { delay: 3500, disableOnInteraction: false, pauseOnMouseEnter: true },
+        speed: 800
+      });
+    }
+
+    // Hero right side: the latest BLM48 Champ of the Month, shown like the Membership App's
+    // Discover header (profile photo + name + month), linking to their special-thanks post.
+    async function renderHeroChamp() {
+      const champs = await BLM48Champs.fetch();
+      const champ = champs[0];
+      if (!champ) { document.getElementById('heroChamp').hidden = true; return; }
+
+      const href = BLM48Champs.postHref(champ);
+
+      const img = document.getElementById('heroChampImg');
+      img.src = BLM48Data.driveImg(champ.profileImage || champ.postImage);
+      img.alt = champ.name || 'Champ of the Month';
+      const post = document.getElementById('heroChampPost');
+      post.src = BLM48Data.driveImg(champ.postImage || champ.profileImage);
+      post.alt = champ.name ? champ.name + ' — Champ of the Month' : 'Champ of the Month';
+      document.getElementById('heroChampWash').src = post.src;
+      document.getElementById('heroChampName').textContent = champ.name || '';
+      document.getElementById('heroChampMonth').textContent = champ.monthYear || '';
+      document.getElementById('heroChampCookie').textContent = Number(champ.totalCookie || 0).toLocaleString();
+      document.getElementById('heroChampTicket').href = href;
+      document.getElementById('heroChampPick').href = href;
+    }
+
+    async function renderLinkBanners() {
+      const sectionEl = document.getElementById('linkBanners');
+      const gridEl = document.getElementById('linkBannersGrid');
+      let rows = [];
+      try {
+        rows = await BLM48Data.fetchSheet('LinkBanners');
+      } catch (err) {
+        rows = [];
+      }
+
+      if (!rows.length) {
+        sectionEl.style.display = 'none';
+        return;
+      }
+
+      gridEl.innerHTML = rows.map((item, i) => `
+        <a href="${item.link || '#'}" ${item.link ? 'target="_blank" rel="noopener"' : ''} class="link-banner-tile reveal reveal-${(i % 6) + 1}">
+          <img src="${BLM48Data.driveImg(item.image || item.thumbnail)}" alt="${item.title || 'BLM48'}" loading="lazy" onerror="this.src='https://via.placeholder.com/2048x546?text=BLM48'">
+        </a>
+      `).join('');
+    }
+
+    async function renderChampOfMonth() {
+      const sectionEl = document.getElementById('champSection');
+      const gridEl = document.getElementById('champGrid');
+      try {
+        const champs = (await BLM48Champs.fetch()).slice(0, 4);
+
+        if (!champs.length) {
+          sectionEl.style.display = 'none';
+          return;
+        }
+
+        gridEl.innerHTML = champs.map((champ, i) => {
+          const cookieCount = Number(champ.totalCookie || 0).toLocaleString();
+          const href = BLM48Champs.postHref(champ);
+          return `
+            <a href="${href}" target="_blank" rel="noopener" class="champ-post-card reveal reveal-${(i % 6) + 1}">
+              <div class="champ-post-photo">
+                <img src="${BLM48Data.driveImg(champ.postImage || champ.profileImage)}" alt="${champ.name || ''}" loading="lazy" onerror="this.src='https://via.placeholder.com/500x500?text=BLM48'">
+                <div class="champ-post-cookie"><i class="fa-solid fa-cookie"></i> ${cookieCount} Cookies</div>
+              </div>
+              <div class="champ-post-foot">
+                <div class="champ-post-avatar"><img src="${BLM48Data.driveImg(champ.profileImage)}" alt="" onerror="this.src='https://via.placeholder.com/68x68?text=BLM48'"></div>
+                <div class="champ-post-meta">
+                  <span class="champ-post-name">${champ.name || ''}</span>
+                  <span class="champ-post-when">${champ.monthYear || ''}</span>
+                </div>
+              </div>
+            </a>
+          `;
+        }).join('');
+      } catch (err) {
+        sectionEl.style.display = 'none';
+      }
+    }
+
+    renderHeroBanner();
+    renderHeroChamp();
+
+    renderMovies();
+    renderLinkBanners();
+    renderChampOfMonth();
+  </script>
+
+</body>
+</html>

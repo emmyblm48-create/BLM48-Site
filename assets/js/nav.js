@@ -3,21 +3,21 @@
    ========================================================= */
 (function () {
   var NAV_LINKS = [
-    { href: 'index.html', page: 'index', label: 'Home' },
-    { href: 'news.html', page: 'news', label: 'News' },
-    { href: 'schedule.html', page: 'schedule', label: 'Schedule' },
-    { href: 'profile.html', page: 'profile', label: 'Profile' },
-    { href: 'champ.html', page: 'champ', label: 'Champ' },
-    { href: 'discography.html', page: 'discography', label: 'Discography' },
-    { href: 'shop.html', page: 'shop', label: 'Shop' },
-    { href: 'token.html', page: 'token', label: 'Token' },
-    { href: 'about.html', page: 'about', label: 'About' }
+    { href: 'home', page: 'home', label: 'Home' },
+    { href: 'news', page: 'news', label: 'News' },
+    { href: 'schedule', page: 'schedule', label: 'Schedule' },
+    { href: 'profile', page: 'profile', label: 'Profile' },
+    { href: 'champ', page: 'champ', label: 'Champ' },
+    { href: 'discography', page: 'discography', label: 'Discography' },
+    { href: 'shop', page: 'shop', label: 'Shop' },
+    { href: 'token', page: 'token', label: 'Token' },
+    { href: 'about', page: 'about', label: 'About' }
   ];
 
   function currentPage() {
-    var path = window.location.pathname.split('/').pop() || 'index.html';
-    var name = path.replace('.html', '');
-    return name === '' ? 'index' : name;
+    // Links are clean URLs (/shop, not /shop.html); the site root and index redirect to /home.
+    var name = window.location.pathname.split('/').pop().replace('.html', '');
+    return (name === '' || name === 'index') ? 'home' : name;
   }
 
   var SOCIAL_LINKS = [
@@ -49,7 +49,7 @@
       '<div class="site-topbar" aria-hidden="true"></div>' +
       '<header class="site-header">' +
         '<div class="site-header-inner">' +
-          '<a href="index.html" class="site-logo">' +
+          '<a href="home" class="site-logo">' +
             '<img class="logo-img" src="https://lh3.googleusercontent.com/d/12PFpDx6bOmQpf_UMhhh6ltZwvOAkVyvW=s1000" alt="BLM48">' +
             '<span class="logo-sub">Official Site</span>' +
           '</a>' +
