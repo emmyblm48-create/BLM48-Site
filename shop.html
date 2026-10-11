@@ -16,7 +16,7 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; background: #cfe5f5; }
     html, body { overflow-x: clip; }
-    body { font-family: var(--font-body); color: var(--blm-ink); background: transparent; -webkit-font-smoothing: antialiased; }
+    body { padding-top: 0; font-family: var(--font-body); color: var(--blm-ink); background: transparent; -webkit-font-smoothing: antialiased; }
     :root {
       --shop-wrap: min(1700px, 92%);
       --shop-line: #b9dcf2;
@@ -98,7 +98,7 @@
     @media (max-width: 640px) { .shop-note { border-radius: 20px; } }
 
     /* --- Product panels: white boards split by thin sky-blue lines --- */
-    .shop-section { width: var(--shop-wrap); margin: clamp(30px, 4vw, 50px) auto 0; scroll-margin-top: 110px; background: #fff; }
+    .shop-section { width: var(--shop-wrap); margin: clamp(30px, 4vw, 50px) auto 0; scroll-margin-top: 24px; background: #fff; }
     .shop-section:last-of-type { margin-bottom: 40px; }
     .shop-section-head {
       display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
@@ -151,14 +151,14 @@
 </head>
 <body>
 
-  <div id="site-header"></div>
+  <!-- No #site-header here: the store header below is this page's navbar (nav.js still renders the footer). -->
   <script src="assets/js/nav.js"></script>
 
   <div class="shop-sky" aria-hidden="true"></div>
 
   <main>
     <header class="shop-top">
-      <a class="shop-brand" href="shop.html">
+      <a class="shop-brand" href="index.html" aria-label="BLM48 Home">
         <img src="https://lh3.googleusercontent.com/d/12PFpDx6bOmQpf_UMhhh6ltZwvOAkVyvW=s1000" alt="BLM48">
         <span class="shop-brand-text">
           <span class="shop-brand-name">BLM48</span>
@@ -166,9 +166,9 @@
         </span>
       </a>
       <nav class="shop-links" aria-label="Shop categories">
-        <a href="#section-merch">Merchandise</a>
-        <a href="#section-preorder">Pre-Order</a>
-        <a href="#section-cafe">BLM48 Cafe</a>
+        <a href="#section-merch" data-section="section-merch">Merchandise</a>
+        <a href="#section-preorder" data-section="section-preorder">Pre-Order</a>
+        <a href="#section-cafe" data-section="section-cafe">BLM48 Cafe</a>
         <a class="shop-links-app" href="https://blm48-membership.vercel.app/shop" target="_blank" rel="noopener"><i class="fas fa-mobile-screen-button" aria-hidden="true"></i> เปิดในแอป</a>
       </nav>
     </header>
@@ -324,14 +324,25 @@
       });
     }
 
+    // Only items open for sale are listed (no Coming Soon / Sold Out / Ended).
+    // A category with nothing on sale is hidden along with its header link.
+    const onSale = it => it.available && !it.status;
+
+    function showSection(id, visible) {
+      document.getElementById(id).hidden = !visible;
+      const link = document.querySelector(`.shop-links [data-section="${id}"]`);
+      if (link) link.hidden = !visible;
+    }
+
     function renderMerch(items) {
-      const gridEl = document.getElementById('merchGrid');
-      gridEl.innerHTML = items.length ? items.map(cardHTML).join('') : emptyState('fa-gifts', 'Official Merchandise coming soon.');
+      document.getElementById('merchGrid').innerHTML = items.map(cardHTML).join('');
+      showSection('section-merch', items.length > 0);
     }
 
     function renderPreorder(items) {
       const gridEl = document.getElementById('preorderGrid');
-      if (!items.length) { gridEl.innerHTML = emptyState('fa-box', 'No pre-order items right now.'); return; }
+      showSection('section-preorder', items.length > 0);
+      if (!items.length) return;
       const NO_CATEGORY_LABEL = 'Pre-Order';
       const grouped = {};
       items.forEach(p => { const key = p.category || NO_CATEGORY_LABEL; (grouped[key] = grouped[key] || []).push(p); });
@@ -359,10 +370,9 @@
       }));
     }
 
-    // Featured row: everything with a picture, what you can get right now first.
+    // Featured row: on-sale items that have a picture.
     function renderFeature(items) {
-      const withImage = items.filter(it => it.image);
-      const picks = [...withImage.filter(it => it.available), ...withImage.filter(it => !it.available)].slice(0, 8);
+      const picks = items.filter(it => it.image).slice(0, 8);
       if (!picks.length) return;
       document.getElementById('featureRail').innerHTML = picks.map(it => `
         <a class="shop-feature-card" href="${it.href}" target="_blank" rel="noopener">
@@ -381,17 +391,18 @@
     })();
 
     (async function renderShop() {
-      const cafe = loadCafe();
+      const cafe = loadCafe().filter(onSale);
       document.getElementById('cafeGrid').innerHTML = cafe.map(cardHTML).join('');
+      showSection('section-cafe', cafe.length > 0);
       const [merch, preorder] = await Promise.all([
         loadMerch().catch(() => null),
         loadPreorder().catch(() => null)
       ]);
-      if (merch) renderMerch(merch);
+      if (merch) renderMerch(merch.filter(onSale));
       else document.getElementById('merchGrid').innerHTML = emptyState('fa-triangle-exclamation', 'Unable to load merchandise right now.');
-      if (preorder) renderPreorder(preorder);
+      if (preorder) renderPreorder(preorder.filter(onSale));
       else document.getElementById('preorderGrid').innerHTML = emptyState('fa-triangle-exclamation', 'Unable to load pre-order items right now.');
-      renderFeature([...(merch || []), ...(preorder || []), ...cafe]);
+      renderFeature([...(merch || []), ...(preorder || []), ...cafe].filter(onSale));
     })();
   </script>
 
