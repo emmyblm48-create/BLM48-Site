@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="google-site-verification" content="nUjG8w2pz2CXK7Uvg8EMmn2S6hvwQOCNbg_IDFtMRcg" />
+  <title>BLM48 Official - Cafe</title>
+  <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1flevUZLFmIodF1RHG0QgRJkCMpgW1KM7=s1000">
+
+  <link href="https://fonts.googleapis.com/css?family=Comfortaa:300,400,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=K2D:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/site.css">
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font-body); color: var(--blm-ink); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+    :root {
+      --cafe-green: #1f9e6e;
+      --cafe-green-pale: #e3f5ec;
+      --cafe-stage-h: max(480px, calc(100svh - var(--header-h) - var(--topbar-h)));
+    }
+
+    /* --- 3D stage: the whole storefront fills the first screen --- */
+    .cafe-stage {
+      position: relative; height: var(--cafe-stage-h); overflow: hidden;
+      background: linear-gradient(180deg, #fde9f1 0%, #fff6dc 100%);
+      touch-action: none;
+    }
+    .cafe-stage canvas { display: block; width: 100%; height: 100%; outline: none; }
+    .cafe-stage.is-hover canvas { cursor: pointer; }
+
+    .cafe-loading {
+      position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
+      color: var(--cafe-green); font-weight: 700; letter-spacing: 0.08em; font-size: 13px;
+      background: linear-gradient(180deg, #fde9f1 0%, #fff6dc 100%); transition: opacity 0.6s;
+    }
+    .cafe-loading i { font-size: 26px; }
+    .cafe-loading.is-done { opacity: 0; pointer-events: none; }
+
+    .cafe-hud {
+      position: absolute; left: 16px; right: 16px; bottom: 16px; z-index: 2;
+      display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+      pointer-events: none;
+    }
+    .cafe-hud > * { pointer-events: auto; }
+    .cafe-hint {
+      display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px; border-radius: 999px;
+      background: rgba(255, 255, 255, 0.88); backdrop-filter: blur(6px);
+      font-size: 12px; color: var(--blm-ink-soft); box-shadow: 0 6px 16px rgba(59, 47, 38, 0.08);
+    }
+    .cafe-hint i { color: var(--cafe-green); }
+    .cafe-hud-actions { display: flex; gap: 8px; }
+    .cafe-btn {
+      display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; border-radius: 999px; border: none;
+      font-family: inherit; font-size: 12.5px; font-weight: 700; letter-spacing: 0.06em; cursor: pointer; text-decoration: none;
+      background: rgba(255, 255, 255, 0.92); color: var(--blm-ink); box-shadow: 0 6px 16px rgba(59, 47, 38, 0.1);
+      transition: transform 0.2s, background 0.2s;
+    }
+    .cafe-btn:hover { transform: translateY(-2px); background: #fff; }
+    .cafe-btn-green { background: var(--cafe-green); color: #fff; }
+    .cafe-btn-green:hover { background: #18865c; }
+
+    /* --- Drink card that pops up when a cup / menu panel is tapped --- */
+    .cafe-pop {
+      position: absolute; top: 16px; right: 16px; z-index: 3; width: min(300px, calc(100% - 32px));
+      background: rgba(255, 255, 255, 0.96); backdrop-filter: blur(8px); border-radius: 22px; overflow: hidden;
+      box-shadow: 0 18px 40px rgba(59, 47, 38, 0.18);
+      transform: translateY(-8px) scale(0.98); opacity: 0; pointer-events: none;
+      transition: opacity 0.25s, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .cafe-pop.is-open { opacity: 1; transform: none; pointer-events: auto; }
+    .cafe-pop-img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; display: block; background: var(--blm-paper-soft); }
+    .cafe-pop-body { padding: 16px 18px 18px; }
+    .cafe-pop-tag { display: inline-block; padding: 3px 12px; border-radius: 999px; background: var(--cafe-green); color: #fff; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; }
+    .cafe-pop-name { margin-top: 10px; font-family: var(--font-display); font-weight: 700; font-size: 18px; letter-spacing: 0.04em; }
+    .cafe-pop-sub { font-size: 12px; color: var(--blm-ink-faint); margin-top: 2px; }
+    .cafe-pop-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 14px; }
+    .cafe-pop-price { font-size: 14px; font-weight: 700; color: var(--blm-ink-soft); }
+    .cafe-pop-price i { color: var(--blm-gold-deep); margin-right: 4px; }
+    .cafe-pop-close {
+      position: absolute; top: 10px; right: 10px; width: 32px; height: 32px; border-radius: 50%; border: none; cursor: pointer;
+      background: rgba(255, 255, 255, 0.92); color: var(--blm-ink); font-size: 14px; box-shadow: 0 4px 10px rgba(59, 47, 38, 0.12);
+    }
+
+    .cafe-fallback { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 24px; text-align: center; color: var(--blm-ink-soft); }
+
+    @media (max-width: 640px) {
+      :root { --cafe-stage-h: max(440px, 70svh); }
+      .cafe-hint span { display: none; }
+      .cafe-pop { top: auto; bottom: 74px; right: 16px; }
+      .cafe-pop-img { aspect-ratio: 16 / 9; }
+    }
+
+    /* --- Plain menu list under the stage (same items, readable without 3D) --- */
+    .cafe-menu { width: min(1200px, 100% - 32px); margin: clamp(40px, 6vw, 72px) auto clamp(50px, 6vw, 80px); }
+    .cafe-menu-head { text-align: center; margin-bottom: clamp(24px, 4vw, 40px); }
+    .cafe-menu-kicker { font-size: 12px; letter-spacing: 0.24em; color: var(--cafe-green); font-weight: 700; }
+    .cafe-menu-title { font-family: var(--font-display); font-weight: 400; font-size: clamp(24px, 3.4vw, 36px); letter-spacing: 0.1em; margin-top: 6px; }
+    .cafe-menu-note { margin-top: 10px; font-size: 13px; color: var(--blm-ink-soft); }
+    .cafe-menu-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(12px, 2vw, 24px); }
+    @media (max-width: 900px) { .cafe-menu-grid { grid-template-columns: repeat(2, 1fr); } }
+    .cafe-item {
+      display: flex; flex-direction: column; border-radius: 20px; overflow: hidden; background: #fff; text-decoration: none; color: inherit;
+      border: 1px solid var(--blm-line); transition: transform 0.3s, box-shadow 0.3s; cursor: pointer; font-family: inherit; text-align: left;
+    }
+    .cafe-item:hover { transform: translateY(-4px); box-shadow: 0 14px 30px rgba(59, 47, 38, 0.1); }
+    .cafe-item img { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; background: var(--blm-paper-soft); }
+    .cafe-item-body { padding: 14px 16px 16px; border-top: 4px solid var(--item-color, var(--cafe-green)); }
+    .cafe-item-name { font-size: 14px; font-weight: 700; letter-spacing: 0.04em; }
+    .cafe-item-sub { font-size: 12px; color: var(--blm-ink-faint); margin-top: 2px; }
+    .cafe-item-price { margin-top: 8px; font-size: 13px; color: var(--blm-ink-soft); }
+    .cafe-item-price i { color: var(--blm-gold-deep); margin-right: 4px; }
+  </style>
+
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+<body>
+
+  <div id="site-header"></div>
+  <script src="assets/js/nav.js"></script>
+
+  <main>
+    <section class="cafe-stage" id="cafeStage" aria-label="BLM48 Cafe The Campus - 3D storefront">
+      <div class="cafe-loading" id="cafeLoading"><i class="fas fa-mug-hot fa-bounce"></i><span>OPENING THE CAFE...</span></div>
+
+      <div class="cafe-pop" id="cafePop" role="dialog" aria-live="polite" aria-label="Drink details">
+        <button type="button" class="cafe-pop-close" id="cafePopClose" aria-label="Close"><i class="fas fa-xmark"></i></button>
+        <img class="cafe-pop-img" id="cafePopImg" alt="">
+        <div class="cafe-pop-body">
+          <span class="cafe-pop-tag">BLM48 Cafe</span>
+          <div class="cafe-pop-name" id="cafePopName"></div>
+          <div class="cafe-pop-sub" id="cafePopSub"></div>
+          <div class="cafe-pop-row">
+            <div class="cafe-pop-price" id="cafePopPrice"></div>
+            <a class="cafe-btn cafe-btn-green" href="https://blm48-membership.vercel.app/shop#section-cafe" target="_blank" rel="noopener">สั่งในแอป ›</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="cafe-hud">
+        <div class="cafe-hint"><i class="fas fa-hand-pointer" aria-hidden="true"></i><span>ลากเพื่อหมุน · เลื่อนเพื่อซูม · แตะแก้วหรือเมนูเพื่อดูรายละเอียด</span></div>
+        <div class="cafe-hud-actions">
+          <button type="button" class="cafe-btn" id="cafeReset"><i class="fas fa-rotate-left" aria-hidden="true"></i> Reset</button>
+          <a class="cafe-btn cafe-btn-green" href="shop#section-cafe"><i class="fas fa-bag-shopping" aria-hidden="true"></i> Shop</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="cafe-menu" aria-labelledby="cafeMenuTitle">
+      <div class="cafe-menu-head">
+        <div class="cafe-menu-kicker">THE CAMPUS · ショップとカフェ</div>
+        <h1 class="cafe-menu-title" id="cafeMenuTitle">BLM48 CAFE MENU</h1>
+        <p class="cafe-menu-note">สั่งเครื่องดื่มได้ทางแอป BLM48 Membership</p>
+      </div>
+      <div class="cafe-menu-grid" id="cafeMenuGrid"></div>
+    </section>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script>
+    // Same fixed drink catalog as the Cafe section on shop.html / the Membership app.
+    // `color` tints the menu board panel; `cup` is the 800x1000 cup photo the Membership app
+    // builds its realistic 3D cup from (the same model is used on the counter here).
+    window.CAFE_MENU = [
+      { name: 'Suiito Matcha', sub: 'いちごミニパフェ', price: 5, color: '#5f9b4f', drink: '#9cc96b', image: 'https://lh3.googleusercontent.com/d/1hc_AQblGKyamIOmspWseUcnY2gwW9dyg=s1000', cup: 'https://lh3.googleusercontent.com/d/1thW4VJVyFLsgMQNI0wAFaIC7gsqnATeM=s1000' },
+      { name: 'Pinku Milk', sub: 'ピンクミルク', price: 5, color: '#f19bbd', drink: '#f7b9cf', image: 'https://lh3.googleusercontent.com/d/1_KC4glssnDILv1GP7BtUnjT1-uP1omlB=s1000', cup: 'https://lh3.googleusercontent.com/d/1b_wl3lpi_QPd9-9nXBofw5mBL-jUu0Hn=s1000' },
+      { name: 'Koi Cocoa', sub: '濃いココア', price: 5, color: '#8b5a3c', drink: '#9a6646', image: 'https://lh3.googleusercontent.com/d/1ERV8sH_M0fv3dIFqfGGyf23JTTK3z0F-=s1000', cup: 'https://lh3.googleusercontent.com/d/1fHP-8N6VcRalynHDEZZWrjWhd7zYyHfF=s1000' },
+      { name: 'Thai Miruku Tea', sub: 'タイミルクティー', price: 5, color: '#f39a3a', drink: '#f2a55a', image: 'https://lh3.googleusercontent.com/d/11kPILdW6tOh5xZZ-Kl6JpAUsJeYWrlXE=s1000', cup: 'https://lh3.googleusercontent.com/d/1HBOXvqFCL_-wrxbZlaEf15JvrGDUurhf=s1000' }
+    ];
+
+    // Release covers hung on the pink wall beside the counter.
+    window.CAFE_POSTERS = [
+      'https://lh3.googleusercontent.com/d/1E1Usx32Bov92lz6_1BbfMqUcA7YwOivz=s1000',
+      'https://lh3.googleusercontent.com/d/1qXtFoBEr2DdfPDZGiF53ZW_PNytLPBSw=s1000',
+      'https://lh3.googleusercontent.com/d/1eBeiupo0dGwXd3ramURgVG57LNYtGgxu=s1000',
+      'https://lh3.googleusercontent.com/d/1f95utx33yfxcFUsr_OlTSt0pZllO-CSi=s1000',
+      'https://lh3.googleusercontent.com/d/1OdLLWspqoQ4LI6UAXJ4NOkRotcAvdF6S=s1000',
+      'https://lh3.googleusercontent.com/d/1NlFzsvfhexq2-XqMkcbC9QjyX_zdFEv-=s1000'
+    ];
+
+    (function cafePopup() {
+      const pop = document.getElementById('cafePop');
+      const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+      window.openCafeItem = function (i) {
+        const item = CAFE_MENU[i];
+        document.getElementById('cafePopImg').src = item.image;
+        document.getElementById('cafePopImg').alt = item.name;
+        document.getElementById('cafePopName').textContent = item.name;
+        document.getElementById('cafePopSub').textContent = item.sub;
+        document.getElementById('cafePopPrice').innerHTML = `<i class="fas fa-coins"></i>${item.price} Token`;
+        pop.classList.add('is-open');
+      };
+      window.closeCafeItem = () => pop.classList.remove('is-open');
+      document.getElementById('cafePopClose').addEventListener('click', closeCafeItem);
+      document.addEventListener('keydown', e => { if (e.key === 'Escape') closeCafeItem(); });
+
+      document.getElementById('cafeMenuGrid').innerHTML = CAFE_MENU.map((item, i) => `
+        <button type="button" class="cafe-item reveal reveal-${i + 1}" style="--item-color:${item.color}" data-i="${i}">
+          <img src="${item.image}" alt="${esc(item.name)}" loading="lazy">
+          <div class="cafe-item-body">
+            <div class="cafe-item-name">${esc(item.name)}</div>
+            <div class="cafe-item-sub">${esc(item.sub)}</div>
+            <div class="cafe-item-price"><i class="fas fa-coins"></i>${item.price} Token</div>
+          </div>
+        </button>
+      `).join('');
+      document.getElementById('cafeMenuGrid').addEventListener('click', e => {
+        const btn = e.target.closest('.cafe-item');
+        if (!btn) return;
+        document.getElementById('cafeStage').scrollIntoView({ behavior: 'smooth' });
+        if (window.focusCafeItem) window.focusCafeItem(+btn.dataset.i);
+        else openCafeItem(+btn.dataset.i);
+      });
+    })();
+  </script>
+
+  <script type="module">
+    import * as THREE from 'three';
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+    import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+    import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+    import { setupCups, realCup, CUP_BOTTOM } from './assets/js/cup-model.js';
+
+    const stage = document.getElementById('cafeStage');
+    const loading = document.getElementById('cafeLoading');
+
+    let renderer;
+    try {
+      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+    } catch (err) {
+      loading.remove();
+      stage.insertAdjacentHTML('beforeend', '<div class="cafe-fallback">เบราว์เซอร์นี้ไม่รองรับการแสดงผล 3D — ดูเมนูด้านล่างได้เลย</div>');
+      throw err;
+    }
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.05;
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    stage.prepend(renderer.domElement);
+    renderer.domElement.setAttribute('aria-hidden', 'true');
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color('#fbeef3');
+    scene.fog = new THREE.Fog('#fbeef3', 18, 34);
+    // Soft studio reflections so chrome and glass read as shiny instead of black.
+    const envMap = new THREE.PMREMGenerator(renderer).fromScene(new RoomEnvironment(), 0.04).texture;
+    setupCups({ envMap, maxAniso: renderer.capabilities.getMaxAnisotropy() });
+
+    const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
+    // Default framing. Portrait screens centre on the counter and stand further back
+    // so the sign, menu board and cups all fit across the narrow width.
+    function homeView() {
+      const narrow = Math.max(0, 1.2 - camera.aspect);
+      const x = narrow ? 0.4 : -0.6;
+      return { pos: new THREE.Vector3(x, 2.5 + narrow, 9.6 + narrow * 7), target: new THREE.Vector3(x, 2.4, -1) };
+    }
+
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.08;
+    controls.enablePan = false;
+    controls.minDistance = 3.5;
+    controls.maxDistance = 18;
+    controls.minPolarAngle = Math.PI * 0.28;
+    controls.maxPolarAngle = Math.PI * 0.52;
+    controls.minAzimuthAngle = -Math.PI * 0.32;
+    controls.maxAzimuthAngle = Math.PI * 0.32;
+
+    // ---------- Lights ----------
+    scene.add(new THREE.HemisphereLight('#fff8ef', '#f3d9a4', 1.6));
+    const sun = new THREE.DirectionalLight('#ffffff', 1.8);
+    sun.position.set(4, 9, 8);
+    sun.castShadow = true;
+    sun.shadow.mapSize.set(2048, 2048);
+    Object.assign(sun.shadow.camera, { left: -12, right: 12, top: 10, bottom: -4, near: 1, far: 30 });
+    sun.shadow.bias = -0.0005;
+    sun.shadow.radius = 4;
+    scene.add(sun);
+    const fill = new THREE.DirectionalLight('#ffe3ef', 0.6);
+    fill.position.set(-8, 4, 6);
+    scene.add(fill);
+
+    // ---------- Helpers ----------
+    const maxAniso = renderer.capabilities.getMaxAnisotropy();
+    function canvasTexture(w, h, draw, repeat) {
+      const c = document.createElement('canvas');
+      c.width = w; c.height = h;
+      draw(c.getContext('2d'), w, h);
+      const tex = new THREE.CanvasTexture(c);
+      tex.colorSpace = THREE.SRGBColorSpace;
+      tex.anisotropy = maxAniso;
+      if (repeat) { tex.wrapS = tex.wrapT = THREE.RepeatWrapping; tex.repeat.set(repeat[0], repeat[1]); }
+      return tex;
+    }
+    const std = (color, extra) => new THREE.MeshStandardMaterial(Object.assign({ color, roughness: 0.6, metalness: 0 }, extra));
+    function box(w, h, d, mat, x, y, z, opts = {}) {
+      const geo = opts.round ? new RoundedBoxGeometry(w, h, d, 3, opts.round) : new THREE.BoxGeometry(w, h, d);
+      const m = new THREE.Mesh(geo, mat);
+      m.position.set(x, y, z);
+      m.castShadow = opts.cast !== false;
+      m.receiveShadow = true;
+      (opts.parent || scene).add(m);
+      return m;
+    }
+
+    // Remote picture as a texture, cropped like CSS object-fit: cover for a plane of `aspect` (w/h).
+    // Google Drive image links (lh3) throttle (429) when many load at once, so loads are
+    // staggered and a failure retries a few times with growing delays before giving up.
+    // A counter lifts the loading veil once every picture is in (or has given up).
+    const loader = new THREE.TextureLoader();
+    loader.setCrossOrigin('anonymous');
+    let pending = 0, queued = 0;
+    function settle() { if (--pending === 0) loading.classList.add('is-done'); }
+    function coverTexture(url, aspect, fallbackColor) {
+      const placeholder = canvasTexture(64, 64, (g, w, h) => { g.fillStyle = fallbackColor || '#f4e3ea'; g.fillRect(0, 0, w, h); });
+      const mat = new THREE.MeshStandardMaterial({ map: placeholder, roughness: 0.55 });
+      const src = url.replace(/=s\d+$/, '=s640');
+      pending++;
+      const attempt = n => loader.load(n ? src + '?r=' + n : src, tex => {
+        tex.colorSpace = THREE.SRGBColorSpace;
+        tex.anisotropy = maxAniso;
+        const imgAspect = tex.image.width / tex.image.height;
+        if (imgAspect > aspect) { tex.repeat.set(aspect / imgAspect, 1); tex.offset.set((1 - tex.repeat.x) / 2, 0); }
+        else { tex.repeat.set(1, imgAspect / aspect); tex.offset.set(0, (1 - tex.repeat.y) / 2); }
+        mat.map = tex;
+        mat.needsUpdate = true;
+        settle();
+      }, undefined, () => {
+        if (n < 3) setTimeout(() => attempt(n + 1), 1200 * (n + 1) + Math.random() * 1500);
+        else settle();
+      });
+      setTimeout(() => attempt(0), queued++ * 180);
+      return mat;
+    }
+
+    const pickables = [];
+
+    // ---------- Floor: butter-yellow tiles with the faint crown watermark ----------
+    const floorTex = canvasTexture(512, 512, (g, w, h) => {
+      g.fillStyle = '#f4cf5d'; g.fillRect(0, 0, w, h);
+      const grad = g.createLinearGradient(0, 0, w, h);
+      grad.addColorStop(0, 'rgba(255,255,255,0.18)'); grad.addColorStop(1, 'rgba(255,255,255,0)');
+      g.fillStyle = grad; g.fillRect(0, 0, w, h);
+      g.strokeStyle = 'rgba(255,248,225,0.9)'; g.lineWidth = 6; g.strokeRect(0, 0, w, h);
+      g.strokeStyle = 'rgba(255,255,255,0.55)'; g.lineWidth = 4;
+      g.beginPath(); g.arc(w / 2, h / 2, 120, 0, Math.PI * 2); g.stroke();
+      g.fillStyle = 'rgba(255,255,255,0.6)'; g.textAlign = 'center';
+      g.font = 'italic 700 68px Georgia, serif'; g.fillText('BLM', w / 2, h / 2 + 10);
+      g.font = '600 26px Georgia, serif'; g.fillText('48', w / 2 + 70, h / 2 + 50);
+      g.font = '22px Georgia, serif'; g.fillText('Since 2024', w / 2, h / 2 + 88);
+      // little crown
+      g.beginPath(); g.moveTo(w / 2 - 40, h / 2 - 50); g.lineTo(w / 2 - 28, h / 2 - 90); g.lineTo(w / 2 - 12, h / 2 - 62);
+      g.lineTo(w / 2, h / 2 - 100); g.lineTo(w / 2 + 12, h / 2 - 62); g.lineTo(w / 2 + 28, h / 2 - 90); g.lineTo(w / 2 + 40, h / 2 - 50); g.closePath(); g.fill();
+    }, [10, 6]);
+    const floor = new THREE.Mesh(new THREE.PlaneGeometry(40, 24), new THREE.MeshStandardMaterial({ map: floorTex, roughness: 0.35, metalness: 0.05 }));
+    floor.rotation.x = -Math.PI / 2;
+    floor.position.set(0, 0, 4);
+    floor.receiveShadow = true;
+    scene.add(floor);
+
+    // ---------- Kitchen behind the counter ----------
+    const KITCHEN_Z = -4.2;
+    const tileTex = canvasTexture(256, 256, (g, w, h) => {
+      g.fillStyle = '#f7f5f2'; g.fillRect(0, 0, w, h);
+      g.strokeStyle = '#e6e1db'; g.lineWidth = 3;
+      for (let y = 0; y <= h; y += 64) { g.beginPath(); g.moveTo(0, y); g.lineTo(w, y); g.stroke(); }
+      for (let y = 0; y < h; y += 64) for (let x = (y / 64) % 2 ? 64 : 0; x <= w; x += 128) { g.beginPath(); g.moveTo(x, y); g.lineTo(x, y + 64); g.stroke(); }
+    }, [8, 3]);
+    box(13, 6, 0.2, new THREE.MeshStandardMaterial({ map: tileTex, roughness: 0.4 }), 1.5, 3, KITCHEN_Z - 0.1, { cast: false });
+
+    const woodTex = canvasTexture(512, 256, (g, w, h) => {
+      g.fillStyle = '#e8d3b5'; g.fillRect(0, 0, w, h);
+      for (let i = 0; i < 70; i++) {
+        g.strokeStyle = `rgba(${170 + Math.random() * 40},${130 + Math.random() * 30},${90 + Math.random() * 20},${0.15 + Math.random() * 0.2})`;
+        g.lineWidth = 1 + Math.random() * 2;
+        const y = Math.random() * h;
+        g.beginPath(); g.moveTo(0, y); g.bezierCurveTo(w * 0.3, y + 6, w * 0.6, y - 6, w, y + Math.random() * 6); g.stroke();
+      }
+    }, [2, 1]);
+    const wood = new THREE.MeshStandardMaterial({ map: woodTex, roughness: 0.7 });
+    box(8.2, 1.9, 0.3, wood, 3.9, 5.05, KITCHEN_Z + 0.1);
+
+    const cabinetMat = std('#f2f0ee', { roughness: 0.35 });
+    const handleMat = std('#b9b4ad', { metalness: 0.8, roughness: 0.3, envMap });
+    // upper cabinets
+    for (let i = 0; i < 4; i++) {
+      box(1.15, 1.1, 0.5, cabinetMat, -0.9 + i * 1.2, 3.35, KITCHEN_Z + 0.3, { round: 0.03 });
+      box(0.04, 0.3, 0.04, handleMat, -0.9 + i * 1.2 + (i % 2 ? -0.45 : 0.45), 3.0, KITCHEN_Z + 0.57);
+    }
+    // back worktop + lower cabinets
+    box(10, 0.95, 0.75, cabinetMat, 1.5, 0.475, KITCHEN_Z + 0.45);
+    box(10.1, 0.08, 0.85, std('#ffffff', { roughness: 0.2 }), 1.5, 0.99, KITCHEN_Z + 0.45);
+    for (let i = 0; i < 8; i++) box(0.3, 0.03, 0.03, handleMat, -2.6 + i * 1.18, 0.82, KITCHEN_Z + 0.85);
+    // tall fridge on the left
+    box(1.3, 3.4, 0.8, std('#e9e8e6', { roughness: 0.25, metalness: 0.2 }), -3.9, 1.7, KITCHEN_Z + 0.45, { round: 0.04 });
+    box(0.05, 1.1, 0.05, handleMat, -3.4, 2.2, KITCHEN_Z + 0.88);
+    // window glow on the right
+    const windowMat = new THREE.MeshBasicMaterial({ color: '#fff9ee' });
+    box(2.6, 1.4, 0.05, windowMat, 6.1, 2.6, KITCHEN_Z + 0.02, { cast: false });
+    // shelf with bottles and jars
+    box(2.4, 0.06, 0.35, wood, 3.3, 2.15, KITCHEN_Z + 0.2);
+    const bottleColors = ['#4f8a5b', '#6aa678', '#3f7a52', '#f2c38b', '#e88aa8'];
+    bottleColors.forEach((c, i) => {
+      const b = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.08, 0.32, 16), std(c, { roughness: 0.2, transparent: true, opacity: 0.85 }));
+      b.position.set(2.4 + i * 0.4, 2.34, KITCHEN_Z + 0.2);
+      scene.add(b);
+    });
+    // espresso machine on the worktop
+    box(0.9, 0.7, 0.55, std('#c7c2bd', { metalness: 0.6, roughness: 0.25 }), 0.9, 1.38, KITCHEN_Z + 0.4, { round: 0.06 });
+    box(0.7, 0.12, 0.3, std('#3b3b3b', { metalness: 0.5, roughness: 0.3 }), 0.9, 1.15, KITCHEN_Z + 0.6);
+
+    // ---------- Big sign: BLM48 CAFE · THE CAMPUS ----------
+    const SIGN_W = 9.6, SIGN_H = 1.55;
+    const signTex = canvasTexture(2048, 330, (g, w, h) => {
+      g.fillStyle = '#ffffff'; g.fillRect(0, 0, w, h);
+      g.fillStyle = '#ffd6e6';
+      for (let x = 40; x < w; x += 80) for (let y = 30; y < h; y += 60) {
+        g.fillRect(x - 1.5, y - 7, 3, 14); g.fillRect(x - 7, y - 1.5, 14, 3);
+      }
+      g.strokeStyle = '#f19bc3'; g.lineWidth = 14; g.strokeRect(7, 7, w - 14, h - 14);
+      g.fillStyle = '#1f9e6e'; g.textAlign = 'center'; g.textBaseline = 'middle';
+      g.font = '700 54px Comfortaa, K2D, sans-serif'; g.fillText('BLM48', w / 2, 58);
+      g.font = '700 116px Comfortaa, K2D, sans-serif';
+      g.lineWidth = 10; g.strokeStyle = '#1f9e6e'; g.fillStyle = '#e3f5ec';
+      g.strokeText('CAFE', w / 2, 145); g.fillText('CAFE', w / 2, 145);
+      g.fillStyle = '#1f9e6e';
+      g.font = '700 64px Comfortaa, K2D, sans-serif'; g.fillText('THE CAMPUS', w / 2, 232);
+      g.font = '500 38px "Yu Gothic", "Hiragino Sans", "Noto Sans JP", sans-serif'; g.fillText('シ ョ ッ プ と カ フ ェ', w / 2, 290);
+    });
+    const signMats = Array(6).fill(std('#ffffff')).map((m, i) => i === 4 ? new THREE.MeshBasicMaterial({ map: signTex }) : m);
+    const sign = new THREE.Mesh(new THREE.BoxGeometry(SIGN_W, SIGN_H, 0.18), signMats);
+    sign.position.set(1.4, 5.35, -0.25);
+    sign.castShadow = true;
+    scene.add(sign);
+
+    // ---------- Hanging menu board: one panel per drink ----------
+    const PANEL_W = 1.05, PANEL_H = 1.3;
+    const menuGroup = new THREE.Group();
+    menuGroup.position.set(-1.0, 3.75, -0.45);
+    scene.add(menuGroup);
+    box(PANEL_W * 4 + 0.12, PANEL_H + 0.12, 0.06, std('#ffffff'), 0, 0, -0.04, { parent: menuGroup });
+    const panels = CAFE_MENU.map((item, i) => {
+      const mat = coverTexture(item.image, PANEL_W / PANEL_H, item.color);
+      const p = new THREE.Mesh(new THREE.PlaneGeometry(PANEL_W, PANEL_H), mat);
+      p.position.set((i - 1.5) * PANEL_W, 0, 0.001);
+      p.userData.item = i;
+      menuGroup.add(p);
+      pickables.push(p);
+      return p;
+    });
+    // wires from the sign
+    [-1.9, 1.9].forEach(x => box(0.015, 0.95, 0.015, handleMat, menuGroup.position.x + x, 4.85, -0.45, { cast: false }));
+
+    // ---------- Front counter + register sign ----------
+    const counterWhite = std('#fbfbfa', { roughness: 0.3 });
+    box(5.6, 1.15, 0.8, counterWhite, 3.15, 0.575, 0.15, { round: 0.04 });
+    box(5.7, 0.07, 0.95, std('#ffffff', { roughness: 0.15 }), 3.15, 1.185, 0.15);
+    box(5.6, 0.12, 0.7, std('#e9e6e1'), 3.15, 0.06, 0.25);
+    const miniSignTex = canvasTexture(512, 360, (g, w, h) => {
+      g.fillStyle = '#fff'; g.fillRect(0, 0, w, h);
+      g.strokeStyle = '#f19bc3'; g.lineWidth = 14; g.strokeRect(7, 7, w - 14, h - 14);
+      g.fillStyle = '#1f9e6e'; g.textAlign = 'center'; g.textBaseline = 'middle';
+      g.font = '700 40px Comfortaa, sans-serif'; g.fillText('BLM48', w / 2, 80);
+      g.font = '700 88px Comfortaa, sans-serif'; g.fillText('CAFE', w / 2, 160);
+      g.font = '700 42px Comfortaa, sans-serif'; g.fillText('THE CAMPUS', w / 2, 240);
+      g.font = '28px "Yu Gothic", sans-serif'; g.fillText('ショップとカフェ', w / 2, 295);
+    });
+    box(1.0, 0.7, 0.05, [std('#fff'), std('#fff'), std('#fff'), std('#fff'), new THREE.MeshBasicMaterial({ map: miniSignTex }), std('#fff')], 1.3, 1.95, -0.05);
+    box(0.06, 0.45, 0.06, std('#dedad5'), 1.3, 1.45, -0.05);
+
+    // ---------- Glass cake display ----------
+    const caseGroup = new THREE.Group();
+    caseGroup.position.set(-0.6, 0, 0.25);
+    scene.add(caseGroup);
+    box(2.6, 0.95, 0.95, counterWhite, 0, 0.475, 0, { parent: caseGroup });
+    const glassMat = new THREE.MeshPhysicalMaterial({ color: '#e9f6ff', roughness: 0.05, metalness: 0, transparent: true, opacity: 0.18, side: THREE.DoubleSide, depthWrite: false });
+    box(2.5, 0.95, 0.85, glassMat, 0, 1.43, 0, { parent: caseGroup, cast: false });
+    box(2.6, 0.06, 0.95, std('#d9d6d2', { metalness: 0.4, roughness: 0.3 }), 0, 1.93, 0, { parent: caseGroup });
+    const shelfMat = new THREE.MeshPhysicalMaterial({ color: '#ffffff', transparent: true, opacity: 0.4, roughness: 0.1 });
+    [1.27, 1.6].forEach(y => box(2.4, 0.025, 0.8, shelfMat, 0, y, 0, { parent: caseGroup, cast: false }));
+    [-1.27, 1.27].forEach(x => box(0.04, 0.95, 0.9, std('#d9d6d2', { metalness: 0.4 }), x, 1.43, 0, { parent: caseGroup }));
+    // inner light
+    const caseLight = new THREE.PointLight('#fff4e0', 1.2, 3, 2);
+    caseLight.position.set(0, 1.85, 0);
+    caseGroup.add(caseLight);
+
+    function cake(x, y, z, r, h, base, cream, topping) {
+      const g = new THREE.Group();
+      const body = new THREE.Mesh(new THREE.CylinderGeometry(r, r, h, 28), std(base, { roughness: 0.8 }));
+      body.position.y = h / 2;
+      const layer = new THREE.Mesh(new THREE.CylinderGeometry(r * 1.01, r * 1.01, h * 0.12, 28), std(cream, { roughness: 0.9 }));
+      layer.position.y = h * 0.5;
+      const top = new THREE.Mesh(new THREE.CylinderGeometry(r * 1.02, r, h * 0.14, 28), std(cream, { roughness: 0.9 }));
+      top.position.y = h + h * 0.05;
+      g.add(body, layer, top);
+      if (topping) for (let i = 0; i < 6; i++) {
+        const a = (i / 6) * Math.PI * 2;
+        const berry = new THREE.Mesh(new THREE.SphereGeometry(r * 0.13, 10, 8), std(topping, { roughness: 0.4 }));
+        berry.position.set(Math.cos(a) * r * 0.7, h + h * 0.18, Math.sin(a) * r * 0.7);
+        g.add(berry);
+      }
+      g.position.set(x, y, z);
+      g.traverse(o => { o.castShadow = true; });
+      caseGroup.add(g);
+    }
+    // bottom shelf: whole cakes
+    cake(-0.85, 0.96, 0, 0.22, 0.2, '#f3e2c4', '#fff7ec', '#e8475f');
+    cake(-0.25, 0.96, 0, 0.22, 0.18, '#d9a46b', '#f6e3c4', null);
+    cake(0.35, 0.96, 0, 0.22, 0.2, '#f6d7a8', '#ffffff', '#e8475f');
+    cake(0.9, 0.96, 0, 0.2, 0.26, '#5a3324', '#6b3d2b', null);
+    // middle + top shelves: small pastries
+    const pastry = ['#f7c6d6', '#fff2d6', '#c9e3b0', '#6b3d2b', '#f7c6d6', '#fff2d6'];
+    for (let row = 0; row < 2; row++) for (let i = 0; i < 6; i++) {
+      cake(-1.0 + i * 0.4, row ? 1.62 : 1.29, 0.05 - row * 0.05, 0.08, 0.1, pastry[(i + row) % 6], '#ffffff', i % 2 ? '#e8475f' : null);
+    }
+
+    // ---------- Drinks on the counter (clickable) ----------
+    const cups = CAFE_MENU.map((item, i) => {
+      const g = new THREE.Group();
+      const H = 0.42;
+      const glass = new THREE.Mesh(new THREE.CylinderGeometry(0.13, 0.1, H, 32, 1, true),
+        new THREE.MeshPhysicalMaterial({ color: '#ffffff', transparent: true, opacity: 0.3, roughness: 0.05, side: THREE.DoubleSide, depthWrite: false }));
+      glass.position.y = H / 2;
+      const drink = new THREE.Mesh(new THREE.CylinderGeometry(0.122, 0.097, H * 0.82, 32), std(item.drink, { roughness: 0.35 }));
+      drink.position.y = H * 0.41;
+      const foam = new THREE.Mesh(new THREE.CylinderGeometry(0.124, 0.122, H * 0.1, 32), std('#fffaf2', { roughness: 0.9 }));
+      foam.position.y = H * 0.87;
+      const lid = new THREE.Mesh(new THREE.SphereGeometry(0.135, 32, 12, 0, Math.PI * 2, 0, Math.PI / 2),
+        new THREE.MeshPhysicalMaterial({ color: '#ffffff', transparent: true, opacity: 0.35, roughness: 0.05, depthWrite: false }));
+      lid.position.y = H;
+      const straw = new THREE.Mesh(new THREE.CylinderGeometry(0.014, 0.014, 0.42, 10), std(item.color));
+      straw.position.set(0.03, H + 0.12, 0);
+      straw.rotation.z = -0.15;
+      const sleeve = new THREE.Mesh(new THREE.CylinderGeometry(0.118, 0.108, 0.12, 32, 1, true), std(item.color, { side: THREE.DoubleSide }));
+      sleeve.position.y = H * 0.42;
+      const simple = new THREE.Group();
+      simple.add(drink, foam, sleeve, glass, lid, straw);
+      g.add(simple);
+      const pickable = root => root.traverse(o => { if (o.isMesh) { o.userData.item = i; pickables.push(o); } });
+      simple.traverse(o => { if (o.isMesh) o.castShadow = true; });
+      pickable(simple);
+      g.position.set(2.0 + i * 0.75, 1.22, 0.25);
+      g.userData.baseY = g.position.y;
+      g.userData.spin = 0;
+      scene.add(g);
+      // Swap in the realistic cup (same model as the Membership app) once its photo has loaded.
+      realCup(item.cup).then(model => {
+        if (!model) return;
+        const S = 0.6;
+        model.group.scale.setScalar(S);
+        model.group.position.y = CUP_BOTTOM * S;
+        g.remove(simple);
+        g.add(model.group);
+        pickable(model.group);
+        g.userData.model = model;
+      });
+      return g;
+    });
+
+    // ---------- Pink wall with neon + release posters ----------
+    const WALL_X0 = -9.6, WALL_X1 = -3.4, WALL_Z = -0.9;
+    const wallW = WALL_X1 - WALL_X0;
+    const wallTex = canvasTexture(1024, 900, (g, w, h) => {
+      g.fillStyle = '#ffd1e3'; g.fillRect(0, 0, w, h);
+      g.fillStyle = '#fff4c6';
+      for (let i = -2; i < 6; i++) {
+        g.beginPath(); g.moveTo(i * 260, h); g.lineTo(i * 260 + 120, h); g.lineTo(i * 260 + 520, 0); g.lineTo(i * 260 + 400, 0); g.closePath(); g.fill();
+      }
+      const fade = g.createLinearGradient(0, 0, 0, h);
+      fade.addColorStop(0, 'rgba(255,255,255,0)'); fade.addColorStop(1, 'rgba(255,255,255,0.35)');
+      g.fillStyle = fade; g.fillRect(0, 0, w, h);
+    });
+    box(wallW, 6.2, 0.25, new THREE.MeshStandardMaterial({ map: wallTex, roughness: 0.8 }), (WALL_X0 + WALL_X1) / 2, 3.1, WALL_Z);
+    box(0.25, 6.2, 3.5, std('#fff6dc'), WALL_X1 + 0.12, 3.1, WALL_Z - 1.6);
+
+    const neonTex = canvasTexture(1400, 260, (g, w, h) => {
+      g.fillStyle = '#111014'; g.fillRect(0, 0, w, h);
+      g.textAlign = 'center'; g.textBaseline = 'middle';
+      g.font = '300 150px Comfortaa, sans-serif';
+      g.shadowColor = '#ffcf6b'; g.shadowBlur = 40; g.fillStyle = '#fff1c4';
+      g.fillText('BY THE BLM48', w / 2, h / 2 + 6);
+      g.shadowBlur = 12; g.fillText('BY THE BLM48', w / 2, h / 2 + 6);
+    });
+    const neon = new THREE.Mesh(new THREE.BoxGeometry(5.2, 0.96, 0.12),
+      [std('#111'), std('#111'), std('#111'), std('#111'), new THREE.MeshBasicMaterial({ map: neonTex, toneMapped: false }), std('#111')]);
+    neon.position.set((WALL_X0 + WALL_X1) / 2, 5.0, WALL_Z + 0.2);
+    scene.add(neon);
+    const neonGlow = new THREE.PointLight('#ffcf6b', 2.5, 5, 2);
+    neonGlow.position.set(neon.position.x, 4.8, WALL_Z + 1.2);
+    scene.add(neonGlow);
+
+    const POSTER_W = 1.25, POSTER_H = 1.5;
+    CAFE_POSTERS.forEach((url, i) => {
+      const col = i % 3, row = Math.floor(i / 3);
+      const x = WALL_X0 + 1.0 + POSTER_W / 2 + col * (POSTER_W + 0.55);
+      const y = 3.45 - row * (POSTER_H + 0.35);
+      box(POSTER_W + 0.1, POSTER_H + 0.1, 0.06, std('#2b2626', { roughness: 0.4 }), x, y, WALL_Z + 0.16);
+      const p = new THREE.Mesh(new THREE.PlaneGeometry(POSTER_W, POSTER_H), coverTexture(url, POSTER_W / POSTER_H, '#f6e6ee'));
+      p.position.set(x, y, WALL_Z + 0.195);
+      scene.add(p);
+    });
+
+    // ---------- Queue poles with a pink belt ----------
+    const chrome = std('#e7e7ea', { metalness: 0.95, roughness: 0.18, envMap });
+    const poleXs = [-8, -5.6, -3.2, -0.8, 1.6, 4.0, 6.4];
+    poleXs.forEach(x => {
+      const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.045, 0.045, 1.05, 16), chrome);
+      pole.position.set(x, 0.55, 2.4); pole.castShadow = true; scene.add(pole);
+      const base = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.22, 0.05, 28), chrome);
+      base.position.set(x, 0.025, 2.4); base.castShadow = true; scene.add(base);
+      const cap = new THREE.Mesh(new THREE.SphereGeometry(0.06, 16, 12), chrome);
+      cap.position.set(x, 1.1, 2.4); scene.add(cap);
+    });
+    const beltMat = std('#f5629e', { roughness: 0.5 });
+    for (let i = 0; i < poleXs.length - 1; i++) {
+      const a = poleXs[i], b = poleXs[i + 1];
+      const curve = new THREE.QuadraticBezierCurve3(new THREE.Vector3(a, 1.0, 2.4), new THREE.Vector3((a + b) / 2, 0.82, 2.4), new THREE.Vector3(b, 1.0, 2.4));
+      const belt = new THREE.Mesh(new THREE.TubeGeometry(curve, 20, 0.022, 6), beltMat);
+      belt.castShadow = true;
+      scene.add(belt);
+    }
+
+    // ---------- Floating sparkles ----------
+    const sparkleGeo = new THREE.BufferGeometry();
+    const SPARKS = 60;
+    const sparkPos = new Float32Array(SPARKS * 3);
+    for (let i = 0; i < SPARKS; i++) {
+      sparkPos[i * 3] = -9 + Math.random() * 17;
+      sparkPos[i * 3 + 1] = 0.5 + Math.random() * 6;
+      sparkPos[i * 3 + 2] = -3 + Math.random() * 6;
+    }
+    sparkleGeo.setAttribute('position', new THREE.BufferAttribute(sparkPos, 3));
+    const sparkTex = canvasTexture(64, 64, (g, w, h) => {
+      const grad = g.createRadialGradient(w / 2, h / 2, 0, w / 2, h / 2, w / 2);
+      grad.addColorStop(0, 'rgba(255,255,255,1)'); grad.addColorStop(0.4, 'rgba(255,214,230,0.6)'); grad.addColorStop(1, 'rgba(255,214,230,0)');
+      g.fillStyle = grad; g.fillRect(0, 0, w, h);
+    });
+    const sparkles = new THREE.Points(sparkleGeo, new THREE.PointsMaterial({ size: 0.14, map: sparkTex, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }));
+    scene.add(sparkles);
+
+    // ---------- Interaction ----------
+    const raycaster = new THREE.Raycaster();
+    const pointer = new THREE.Vector2();
+    let hovered = -1, selected = -1, downAt = null;
+
+    function pick(ev) {
+      const r = renderer.domElement.getBoundingClientRect();
+      pointer.set(((ev.clientX - r.left) / r.width) * 2 - 1, -((ev.clientY - r.top) / r.height) * 2 + 1);
+      raycaster.setFromCamera(pointer, camera);
+      const hit = raycaster.intersectObjects(pickables, false)[0];
+      return hit ? hit.object.userData.item : -1;
+    }
+    renderer.domElement.addEventListener('pointermove', ev => {
+      if (ev.pointerType !== 'mouse') return;
+      hovered = pick(ev);
+      stage.classList.toggle('is-hover', hovered >= 0);
+    });
+    renderer.domElement.addEventListener('pointerleave', () => { hovered = -1; stage.classList.remove('is-hover'); });
+    renderer.domElement.addEventListener('pointerdown', ev => { downAt = { x: ev.clientX, y: ev.clientY }; });
+    renderer.domElement.addEventListener('pointerup', ev => {
+      if (!downAt || Math.hypot(ev.clientX - downAt.x, ev.clientY - downAt.y) > 6) return;
+      const i = pick(ev);
+      if (i >= 0) focusCafeItem(i);
+      else { selected = -1; closeCafeItem(); }
+    });
+
+    // Smooth camera fly-to; user input cancels it.
+    let fly = null;
+    function flyTo(pos, target, ms = 1100) {
+      fly = { fromP: camera.position.clone(), fromT: controls.target.clone(), toP: pos, toT: target, t0: performance.now(), ms };
+    }
+    controls.addEventListener('start', () => { fly = null; });
+
+    window.focusCafeItem = function (i) {
+      selected = i;
+      openCafeItem(i);
+      const cup = cups[i].position;
+      flyTo(new THREE.Vector3(cup.x - 0.4, 2.3, 3.6), new THREE.Vector3(cup.x - 0.6, 1.9, -0.2));
+    };
+    document.getElementById('cafeReset').addEventListener('click', () => {
+      selected = -1;
+      closeCafeItem();
+      const home = homeView();
+      flyTo(home.pos, home.target);
+    });
+
+    // ---------- Resize + render loop ----------
+    function resize() {
+      const w = stage.clientWidth, h = stage.clientHeight;
+      renderer.setSize(w, h, false);
+      camera.aspect = w / h;
+      // Narrow screens see the storefront from further back so the whole sign fits.
+      camera.fov = camera.aspect < 0.8 ? 62 : camera.aspect < 1.2 ? 52 : 45;
+      camera.updateProjectionMatrix();
+    }
+    new ResizeObserver(resize).observe(stage);
+    resize();
+
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const ease = t => 1 - Math.pow(1 - t, 3);
+    // Opening shot: drift in from a wider angle.
+    const home = homeView();
+    camera.position.copy(home.pos);
+    controls.target.copy(home.target);
+    if (!reduceMotion) {
+      camera.position.set(-5.5, 3.6, home.pos.z + 3.4);
+      flyTo(home.pos, home.target, 2200);
+    }
+
+    let visible = true;
+    new IntersectionObserver(([e]) => { visible = e.isIntersecting; }).observe(stage);
+
+    const clock = new THREE.Clock();
+    renderer.setAnimationLoop(() => {
+      if (!visible) return;
+      const dt = Math.min(clock.getDelta(), 0.05);
+      const t = clock.elapsedTime;
+      if (fly) {
+        const k = Math.min(1, (performance.now() - fly.t0) / fly.ms);
+        camera.position.lerpVectors(fly.fromP, fly.toP, ease(k));
+        controls.target.lerpVectors(fly.fromT, fly.toT, ease(k));
+        if (k >= 1) fly = null;
+      }
+      controls.update();
+      cups.forEach((c, i) => {
+        const active = i === hovered || i === selected;
+        const s = THREE.MathUtils.lerp(c.scale.x, active ? 1.18 : 1, 0.15);
+        c.scale.setScalar(s);
+        c.position.y = c.userData.baseY + (active && !reduceMotion ? Math.sin(t * 4) * 0.02 + 0.03 : 0);
+        if (c.userData.model) {
+          // turn the real cup while it is picked; the drink sloshes a little as it starts moving
+          if (active && !reduceMotion) c.userData.spin += dt * 0.8;
+          c.userData.stir = THREE.MathUtils.lerp(c.userData.stir || 0, active ? 1 : 0, dt * 2);
+          c.userData.model.step(dt, c.userData.spin, c.userData.stir);
+        } else {
+          c.rotation.y = active && !reduceMotion ? t * 0.8 : THREE.MathUtils.lerp(c.rotation.y, 0, 0.1);
+        }
+      });
+      panels.forEach((p, i) => {
+        const z = (i === hovered || i === selected) ? 0.08 : 0.001;
+        p.position.z = THREE.MathUtils.lerp(p.position.z, z, 0.15);
+      });
+      if (!reduceMotion) {
+        sparkles.rotation.y = Math.sin(t * 0.1) * 0.05;
+        sparkles.position.y = Math.sin(t * 0.5) * 0.08;
+        neonGlow.intensity = 2.4 + Math.sin(t * 3) * 0.15 + (Math.random() < 0.01 ? -1 : 0);
+      }
+      renderer.render(scene, camera);
+    });
+
+    // Veil lifts when the pictures are in, or after a few seconds regardless.
+    setTimeout(() => loading.classList.add('is-done'), 4000);
+  </script>
+
+</body>
+</html>

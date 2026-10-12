@@ -10,6 +10,7 @@
     { href: 'champ', page: 'champ', label: 'Champ' },
     { href: 'discography', page: 'discography', label: 'Discography' },
     { href: 'shop', page: 'shop', label: 'Shop' },
+    { href: 'cafe', page: 'cafe', label: 'Cafe' },
     { href: 'token', page: 'token', label: 'Token' },
     { href: 'about', page: 'about', label: 'About' }
   ];
