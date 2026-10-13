@@ -15,66 +15,41 @@
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
-    body { font-family: var(--font-body); color: var(--blm-ink); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+    body { overflow-x: hidden; -webkit-font-smoothing: antialiased; }
 
-    .disco-filter { width: 100%; }
-    .disco-filter input[type="radio"] { display: none; }
+    /* Radio inputs drive the filter, styled as the shared .cat-tabs */
+    .disco-filter input[type="radio"] { position: absolute; opacity: 0; pointer-events: none; }
+    .cat-tabs label[for="single"] { --tag: var(--blm-cat-single); }
+    .cat-tabs label[for="album"] { --tag: var(--blm-cat-album); }
+    .cat-tabs label[for="special"] { --tag: var(--blm-cat-special); }
+    .cat-tabs label[for="concert"] { --tag: var(--blm-cat-concert); }
+    #all:checked ~ .cat-tabs label[for="all"],
+    #single:checked ~ .cat-tabs label[for="single"],
+    #album:checked ~ .cat-tabs label[for="album"],
+    #special:checked ~ .cat-tabs label[for="special"],
+    #concert:checked ~ .cat-tabs label[for="concert"] { border-bottom-color: currentColor; }
+    .disco-filter input:focus-visible ~ .cat-tabs { outline: 1px dotted var(--blm-ink-faint); outline-offset: 6px; }
 
-    .filter-tabs { display: flex; justify-content: flex-start; gap: 28px; margin-bottom: 52px; flex-wrap: wrap; border-bottom: none; padding-bottom: 0; }
-    .filter-tabs label {
-      background: none; border: none;
-      font-family: var(--font-body); font-size: 12.5px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
-      cursor: pointer; padding: 0 0 8px; transition: opacity 0.2s ease; text-align: center;
-      position: relative; color: var(--blm-tab-color, var(--blm-ink-soft)); opacity: 0.6;
-    }
-    .filter-tabs label[for="single"] { --blm-tab-color: var(--blm-cat-single); }
-    .filter-tabs label[for="album"] { --blm-tab-color: var(--blm-cat-album); }
-    .filter-tabs label[for="special"] { --blm-tab-color: var(--blm-cat-special); }
-    .filter-tabs label[for="concert"] { --blm-tab-color: var(--blm-cat-concert); }
-    .filter-tabs label:hover { opacity: 1; }
-    #all:checked ~ .filter-tabs label[for="all"],
-    #single:checked ~ .filter-tabs label[for="single"],
-    #album:checked ~ .filter-tabs label[for="album"],
-    #special:checked ~ .filter-tabs label[for="special"],
-    #concert:checked ~ .filter-tabs label[for="concert"] {
-      opacity: 1;
-    }
-    #all:checked ~ .filter-tabs label[for="all"]::after,
-    #single:checked ~ .filter-tabs label[for="single"]::after,
-    #album:checked ~ .filter-tabs label[for="album"]::after,
-    #special:checked ~ .filter-tabs label[for="special"]::after,
-    #concert:checked ~ .filter-tabs label[for="concert"]::after {
-      content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: currentColor;
-    }
-
-    .disco-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px 32px; }
-    @media (max-width: 900px) { .disco-grid { grid-template-columns: repeat(2, 1fr); gap: 36px 20px; } }
-    @media (max-width: 480px) { .disco-grid { grid-template-columns: 1fr; } .filter-tabs { gap: 18px; } }
+    .disco-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 46px clamp(14px, 2.4vw, 24px); }
+    @media (max-width: 760px) { .disco-grid { grid-template-columns: repeat(2, 1fr); gap: 32px 14px; } }
 
     .disco-item { display: none; }
-    #all:checked ~ .disco-grid .disco-item { display: flex; }
-    #single:checked ~ .disco-grid .cat-single { display: flex; }
-    #album:checked ~ .disco-grid .cat-album { display: flex; }
-    #special:checked ~ .disco-grid .cat-special { display: flex; }
-    #concert:checked ~ .disco-grid .cat-concert { display: flex; }
+    #all:checked ~ .disco-grid .disco-item { display: block; }
+    #single:checked ~ .disco-grid .cat-single { display: block; }
+    #album:checked ~ .disco-grid .cat-album { display: block; }
+    #special:checked ~ .disco-grid .cat-special { display: block; }
+    #concert:checked ~ .disco-grid .cat-concert { display: block; }
 
-    .disco-item { flex-direction: column; }
-    .cover-link { width: 100%; text-decoration: none; color: inherit; }
-
-    .cover-box { width: 100%; aspect-ratio: 1/1; overflow: hidden; background: var(--blm-paper-soft); margin-bottom: 16px; position: relative; }
+    .cover-link { display: block; text-decoration: none; color: inherit; }
+    .cover-box { width: 100%; aspect-ratio: 1; overflow: hidden; background: var(--blm-paper-soft); margin-bottom: 14px; }
     .cover-box img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s ease; }
-    .disco-item:hover .cover-box img { transform: scale(1.04); }
-
-    .item-info { width: 100%; }
-    .meta { font-size: 12.5px; font-weight: 700; color: var(--blm-ink); margin-bottom: 8px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
-    .cat-tag { border: 1px solid var(--blm-tag-color, var(--blm-ink-faint)); color: var(--blm-tag-color, var(--blm-ink-faint)); font-size: 10px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; padding: 3px 9px; }
-    .cat-single .cat-tag { --blm-tag-color: var(--blm-cat-single); }
-    .cat-album .cat-tag { --blm-tag-color: var(--blm-cat-album); }
-    .cat-special .cat-tag { --blm-tag-color: var(--blm-cat-special); }
-    .cat-concert .cat-tag { --blm-tag-color: var(--blm-cat-concert); }
-    .date { color: var(--blm-ink-faint); font-weight: 600; }
-
-    .title { font-family: var(--font-body); font-size: 14px; font-weight: 500; margin: 0; color: var(--blm-ink-soft); line-height: 1.5; }
+    .cover-link:hover .cover-box img { transform: scale(1.04); }
+    .meta { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; font-size: 10px; letter-spacing: 0.1em; }
+    .cat-single .cat-box { --tag: var(--blm-cat-single); }
+    .cat-album .cat-box { --tag: var(--blm-cat-album); }
+    .cat-special .cat-box { --tag: var(--blm-cat-special); }
+    .cat-concert .cat-box { --tag: var(--blm-cat-concert); }
+    .title { font-family: var(--font-body); font-size: 13.5px; font-weight: 400; line-height: 1.6; }
   </style>
 </head>
 <body>
@@ -84,10 +59,7 @@
 
   <main class="page-shell">
 
-    <div class="page-hero">
-      <span class="eyebrow">Music &amp; Releases</span>
-      <h1 class="page-hero-title">Discography</h1>
-    </div>
+    <div class="page-hero"><h1 class="page-hero-title">Discography</h1></div>
 
     <nav class="disco-filter">
         <input type="radio" id="all" name="disco_cat" checked>
@@ -96,7 +68,7 @@
         <input type="radio" id="special" name="disco_cat">
         <input type="radio" id="concert" name="disco_cat">
 
-        <div class="filter-tabs">
+        <div class="cat-tabs">
             <label for="all">All</label>
             <label for="single">Single</label>
             <label for="album">Album</label>
@@ -105,7 +77,7 @@
         </div>
 
         <div class="disco-grid" id="discoGrid">
-            <p style="color:var(--blm-ink-faint);font-weight:600;padding:20px 4px;">Loading discography...</p>
+            <p class="status-line" style="grid-column:1/-1;">Loading discography...</p>
         </div>
     </nav>
   </main>
@@ -123,7 +95,7 @@
           .sort((a, b) => b._date.time - a._date.time);
 
         if (!items.length) {
-          gridEl.innerHTML = '<p style="color:var(--blm-ink-faint);font-weight:600;padding:20px 4px;">No releases yet.</p>';
+          gridEl.innerHTML = '<p class="status-line" style="grid-column:1/-1;">No releases yet.</p>';
           return;
         }
 
@@ -132,14 +104,17 @@
 
         gridEl.innerHTML = items.map((item, i) => {
           const key = catKey(item.category);
+          const d = new Date(item.date);
+          const dateText = isNaN(d) ? item._date.full
+            : d.getFullYear() + '.' + String(d.getMonth() + 1).padStart(2, '0') + '.' + String(d.getDate()).padStart(2, '0');
           return `
           <div class="disco-item cat-${key} reveal reveal-${(i % 6) + 1}">
             <a href="${item.link || '#'}" target="_blank" rel="noopener" class="cover-link">
               <div class="cover-box">
-                <img src="${BLM48Data.driveImg(item.coverImage)}" alt="${item.title || ''}" onerror="this.src='https://via.placeholder.com/600x600?text=BLM48'">
+                <img src="${BLM48Data.driveImg(item.coverImage)}" alt="${item.title || ''}" loading="lazy" onerror="BLM48Data.imgRetry(this, 'https://via.placeholder.com/600x600?text=BLM48')">
               </div>
               <div class="item-info">
-                <div class="meta"><span class="cat-tag">${catLabel(key)}</span><span>RELEASE</span><span class="date">${item._date.full}</span></div>
+                <div class="meta"><span class="cat-box">${catLabel(key)}</span><span>${dateText} RELEASE</span></div>
                 <h3 class="title">${item.title || ''}</h3>
               </div>
             </a>
@@ -147,7 +122,7 @@
         `;
         }).join('');
       } catch (err) {
-        gridEl.innerHTML = '<p style="color:var(--blm-ink-faint);font-weight:600;padding:20px 4px;">Unable to load discography right now.</p>';
+        gridEl.innerHTML = '<p class="status-line" style="grid-column:1/-1;">Unable to load discography right now.</p>';
       }
     }
     renderDiscography();

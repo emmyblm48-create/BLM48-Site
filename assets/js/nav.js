@@ -1,18 +1,25 @@
 /* =========================================================
    BLM48 — Shared Header / Footer Injection & Interactions
+   Header: a small logo (top-left) and a two-line menu button
+   (top-right) that opens a full-screen yellow menu.
+   Footer: grey band with two boxed links + copyright; on Home it
+   also shows the social circles, logo and the page's .footer-slot.
    ========================================================= */
 (function () {
+  var LOGO_SRC = 'https://lh3.googleusercontent.com/d/12PFpDx6bOmQpf_UMhhh6ltZwvOAkVyvW=s1000';
+
   var NAV_LINKS = [
     { href: 'home', page: 'home', label: 'Home' },
     { href: 'news', page: 'news', label: 'News' },
     { href: 'schedule', page: 'schedule', label: 'Schedule' },
     { href: 'profile', page: 'profile', label: 'Profile' },
-    { href: 'champ', page: 'champ', label: 'Champ' },
     { href: 'discography', page: 'discography', label: 'Discography' },
-    { href: 'shop', page: 'shop', label: 'Shop' },
+    { href: 'about', page: 'about', label: 'About BLM48' },
+    { href: 'champ', page: 'champ', label: 'Champ' },
     { href: 'cafe', page: 'cafe', label: 'Cafe' },
     { href: 'token', page: 'token', label: 'Token' },
-    { href: 'about', page: 'about', label: 'About' }
+    { href: 'https://blm48-membership.vercel.app/', page: '', label: 'Membership' },
+    { href: 'shop', page: 'shop', label: 'Official Shop' }
   ];
 
   function currentPage() {
@@ -29,16 +36,16 @@
     { href: 'https://www.instagram.com/blm48.official', label: 'Instagram', icon: '<i class="fab fa-instagram"></i>' }
   ];
 
-  function navLinksHTML(linkClass) {
+  function navLinksHTML() {
     return NAV_LINKS.map(function (l) {
-      return '<a href="' + l.href + '" class="' + linkClass + '" data-page="' + l.page + '">' + l.label + '</a>';
+      var ext = /^https?:/.test(l.href) ? ' target="_blank" rel="noopener"' : '';
+      return '<a href="' + l.href + '" data-page="' + l.page + '"' + ext + '>' + l.label + '</a>';
     }).join('');
   }
 
-  function socialIconsHTML(extraClass) {
-    var cls = 'social-btn-icon' + (extraClass ? ' ' + extraClass : '');
+  function socialIconsHTML(cls) {
     return SOCIAL_LINKS.map(function (s) {
-      return '<a href="' + s.href + '" target="_blank" rel="noopener" class="' + cls + '" aria-label="' + s.label + '">' + s.icon + '</a>';
+      return '<a href="' + s.href + '" target="_blank" rel="noopener"' + (cls ? ' class="' + cls + '"' : '') + ' aria-label="' + s.label + '">' + s.icon + '</a>';
     }).join('');
   }
 
@@ -47,30 +54,27 @@
     if (!mount) return;
 
     mount.innerHTML =
-      '<div class="site-topbar" aria-hidden="true"></div>' +
       '<header class="site-header">' +
-        '<div class="site-header-inner">' +
-          '<a href="home" class="site-logo">' +
-            '<img class="logo-img" src="https://lh3.googleusercontent.com/d/12PFpDx6bOmQpf_UMhhh6ltZwvOAkVyvW=s1000" alt="BLM48">' +
-            '<span class="logo-sub">Official Site</span>' +
-          '</a>' +
-          '<nav class="site-nav" aria-label="Main navigation">' + navLinksHTML('') + '</nav>' +
-          '<div class="header-actions">' +
-            '<a href="https://blm48-membership.vercel.app/" class="header-cta">Membership</a>' +
-            '<button type="button" class="nav-hamburger" id="navHamburger" aria-label="Open menu" aria-expanded="false">' +
-              '<span class="nav-hamburger-bars"><span></span><span></span><span></span></span>' +
-              '<span class="nav-hamburger-label">Menu</span>' +
-            '</button>' +
-          '</div>' +
-        '</div>' +
+        '<a href="home" class="site-logo" aria-label="BLM48 Home">' +
+          '<img class="logo-img" src="' + LOGO_SRC + '" alt="">' +
+          '<span class="logo-word">BLM48</span>' +
+        '</a>' +
+        '<button type="button" class="drawer-btn" id="navHamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileNavPanel">' +
+          '<span></span><span></span>' +
+        '</button>' +
       '</header>' +
-      '<div class="mobile-nav-backdrop" id="mobileNavBackdrop"></div>' +
-      '<aside class="mobile-nav-panel" id="mobileNavPanel">' +
-        '<button type="button" class="mobile-nav-close" id="mobileNavClose" aria-label="Close menu"><i class="fas fa-xmark" aria-hidden="true"></i></button>' +
-        '<nav class="mobile-nav-links" aria-label="Mobile navigation">' + navLinksHTML('') + '</nav>' +
-        '<div class="mobile-nav-social">' + socialIconsHTML() + '</div>' +
-        '<a href="https://blm48-membership.vercel.app/" class="mobile-nav-cta">Membership</a>' +
-      '</aside>';
+      '<div class="drawer" id="mobileNavPanel" role="dialog" aria-modal="true" aria-label="Menu">' +
+        '<button type="button" class="drawer-close" id="mobileNavClose" aria-label="Close menu"></button>' +
+        '<a href="home" class="drawer-logo">' +
+          '<span class="drawer-logo-word">BLM48</span>' +
+          '<small>Official Site</small>' +
+        '</a>' +
+        '<div class="drawer-inner">' +
+          '<nav class="drawer-links" aria-label="Main navigation">' + navLinksHTML() + '</nav>' +
+          '<div class="drawer-sns">' + socialIconsHTML('') + '</div>' +
+          '<div class="drawer-bnr" id="drawerBnr"></div>' +
+        '</div>' +
+      '</div>';
 
     markActiveLinks();
     wireHeaderEvents();
@@ -81,69 +85,77 @@
     var mount = document.getElementById('site-footer');
     if (!mount) return;
 
+    // A page can put extra footer content (banners) inside the mount as
+    // <div class="footer-slot">; it is moved in under the logo (Home only).
+    var slot = mount.querySelector('.footer-slot');
+
     mount.innerHTML =
-      '<footer class="ske-footer">' +
-        '<div class="footer-inner">' +
-          '<div class="footer-social-row">' + socialIconsHTML() + '</div>' +
-          '<div class="footer-emblem">' +
-            '<img src="https://lh3.googleusercontent.com/d/12PFpDx6bOmQpf_UMhhh6ltZwvOAkVyvW=s1000" alt="BLM48">' +
+      '<footer class="site-foot">' +
+        '<div class="foot-inner">' +
+          '<div class="foot-sns">' + socialIconsHTML('social-btn-icon') + '</div>' +
+          '<div class="foot-logo"><img src="' + LOGO_SRC + '" alt="BLM48"></div>' +
+          '<div class="foot-slot" id="footSlot"></div>' +
+          '<div class="foot-links">' +
+            '<a href="https://blm48-membership.vercel.app/" target="_blank" rel="noopener">BLM48 Membership</a>' +
+            '<a href="about">About BLM48</a>' +
           '</div>' +
-          '<div class="footer-brand-name">BLM48</div>' +
-          '<div class="footer-bottom-row">' +
-            '<div class="copyright-text">&copy; 2026 BLM48, Inc. All Rights Reserved.</div>' +
-            '<button type="button" class="page-top-btn" id="pageTopBtn">' +
-              '<span>Page Top</span><i class="fas fa-arrow-up" aria-hidden="true"></i>' +
-            '</button>' +
-          '</div>' +
+          '<div class="foot-company">BLM48</div>' +
         '</div>' +
-      '</footer>';
+        '<div class="foot-copy">&copy; 2026 BLM48, Inc. All Rights Reserved.</div>' +
+      '</footer>' +
+      '<button type="button" class="page-top-btn" id="pageTopBtn" aria-label="Page top"><i class="fas fa-arrow-up" aria-hidden="true"></i></button>';
+
+    if (slot) document.getElementById('footSlot').appendChild(slot);
 
     var topBtn = document.getElementById('pageTopBtn');
-    if (topBtn) {
-      topBtn.addEventListener('click', function () {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      });
-    }
+    topBtn.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+    function toggleTop() { topBtn.classList.toggle('show', window.scrollY > 600); }
+    toggleTop();
+    window.addEventListener('scroll', toggleTop, { passive: true });
   }
 
   function markActiveLinks() {
     var page = currentPage();
-    document.querySelectorAll('.site-nav a, .mobile-nav-links a').forEach(function (a) {
-      if (a.getAttribute('data-page') === page) {
-        a.classList.add('active');
-      }
+    document.querySelectorAll('.drawer-links a').forEach(function (a) {
+      if (a.getAttribute('data-page') === page) a.classList.add('active');
     });
+  }
+
+  // The menu's small banner column reuses the LinkBanners list (sheet-data.js),
+  // filled the first time the menu opens since that script loads later.
+  function fillDrawerBanners() {
+    var box = document.getElementById('drawerBnr');
+    var rows = window.BLM48_STATIC_SHEETS && window.BLM48_STATIC_SHEETS.LinkBanners;
+    if (!box || box.childElementCount || !rows) return;
+    box.innerHTML = rows.slice(0, 3).map(function (r) {
+      return '<a href="' + (r.link || '#') + '" target="_blank" rel="noopener"><img src="' + r.image + '" alt="' + (r.title || 'BLM48') + '" loading="lazy"></a>';
+    }).join('');
   }
 
   function closeMobileMenu() {
     var panel = document.getElementById('mobileNavPanel');
-    var backdrop = document.getElementById('mobileNavBackdrop');
     var hamburger = document.getElementById('navHamburger');
     if (panel) panel.classList.remove('open');
-    if (backdrop) backdrop.classList.remove('open');
     if (hamburger) hamburger.setAttribute('aria-expanded', 'false');
-    document.body.style.overflow = '';
+    document.body.classList.remove('menu-open');
   }
 
   function openMobileMenu() {
     var panel = document.getElementById('mobileNavPanel');
-    var backdrop = document.getElementById('mobileNavBackdrop');
     var hamburger = document.getElementById('navHamburger');
+    fillDrawerBanners();
     if (panel) panel.classList.add('open');
-    if (backdrop) backdrop.classList.add('open');
     if (hamburger) hamburger.setAttribute('aria-expanded', 'true');
-    document.body.style.overflow = 'hidden';
+    document.body.classList.add('menu-open');
   }
 
   function wireHeaderEvents() {
     var hamburger = document.getElementById('navHamburger');
     var closeBtn = document.getElementById('mobileNavClose');
-    var backdrop = document.getElementById('mobileNavBackdrop');
     var panel = document.getElementById('mobileNavPanel');
 
     if (hamburger) hamburger.addEventListener('click', openMobileMenu);
     if (closeBtn) closeBtn.addEventListener('click', closeMobileMenu);
-    if (backdrop) backdrop.addEventListener('click', closeMobileMenu);
     if (panel) {
       panel.querySelectorAll('a').forEach(function (a) {
         a.addEventListener('click', closeMobileMenu);
@@ -155,22 +167,22 @@
     });
   }
 
-  // On desktop, start with a compact bar (logo + menu button only); once the
-  // page scrolls past the hero, swap in the full inline nav links.
+  // A soft white backing once the page scrolls, so the fixed logo/menu stay
+  // readable over content. On Home the small logo stays hidden over the hero.
   function setupHeaderScroll() {
     var header = document.querySelector('.site-header');
-    var topbar = document.querySelector('.site-topbar');
     if (!header) return;
-    var threshold = 60;
+    var isHome = document.body.classList.contains('home-page');
 
     function update() {
-      var isTop = window.scrollY <= threshold;
-      header.classList.toggle('nav-top', isTop);
-      if (topbar) topbar.classList.toggle('nav-top', isTop);
+      var overHero = isHome && window.scrollY < window.innerHeight * 0.85;
+      header.classList.toggle('is-scrolled', window.scrollY > 10 && !overHero);
+      header.classList.toggle('is-hero', overHero);
     }
 
     update();
     window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update, { passive: true });
   }
 
   // Scroll-reveal: any element with class="reveal" (see site.css) fades/lifts

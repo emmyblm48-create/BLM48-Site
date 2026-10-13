@@ -15,81 +15,57 @@
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
-    body { font-family: var(--font-body); color: var(--blm-ink); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+    body { overflow-x: hidden; -webkit-font-smoothing: antialiased; }
 
     /* --- Loading --- */
-    #loading-overlay { text-align: center; padding: 90px 0; color: var(--blm-ink-soft); font-weight: 700; letter-spacing: 1px; text-transform: uppercase; font-size: 13px; }
-    .spinner-ring { width: 40px; height: 40px; margin: 0 auto 18px; border-radius: 50%; border: 4px solid var(--blm-line); border-top-color: var(--blm-gold); animation: spin 0.9s linear infinite; }
+    #loading-overlay { text-align: center; padding: 90px 0; color: var(--blm-ink-soft); letter-spacing: 0.2em; text-transform: uppercase; font-size: 11px; }
+    .spinner-ring { width: 36px; height: 36px; margin: 0 auto 18px; border-radius: 50%; border: 3px solid var(--blm-line); border-top-color: var(--blm-gold); animation: spin 0.9s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* --- Filter Tabs --- */
-    .filter-tabs { display: flex; justify-content: flex-start; gap: 28px; margin-bottom: 52px; flex-wrap: wrap; }
-    .tab-btn {
-      background: none; border: none;
-      font-family: var(--font-body); font-size: 12.5px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
-      color: var(--blm-ink-soft); cursor: pointer; padding: 0 0 8px; transition: opacity 0.2s ease;
-      position: relative; opacity: 0.6;
-    }
-    .tab-btn:hover { opacity: 1; }
-    .tab-btn.active { color: var(--blm-ink); opacity: 1; }
-    .tab-btn.active::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: var(--blm-pink); }
+    /* rounded-square ("squircle") photo frame */
+    .squircle { border-radius: 26%; overflow: hidden; background: var(--blm-gold-pale); }
 
-    /* --- Main Grid --- */
+    /* --- Grid: 3 across, everything centred under the photo --- */
     #main-view { display: none; }
-    .members-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px 32px; }
-    @media (max-width: 900px) { .members-grid { grid-template-columns: repeat(2, 1fr); gap: 36px 20px; } }
-    @media (max-width: 480px) { .members-grid { grid-template-columns: 1fr; } }
+    .members-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 50px clamp(14px, 2.4vw, 24px); }
+    @media (max-width: 760px) { .members-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px 14px; } }
 
-    .member-card { display: flex; flex-direction: column; }
-    .photo-box { width: 100%; aspect-ratio: 1/1; overflow: hidden; background: var(--blm-paper-soft); margin-bottom: 16px; cursor: pointer; }
-    .member-photo { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
-    .member-card:hover .member-photo { transform: scale(1.04); }
+    .member-card { text-align: center; }
+    .photo-box { display: block; width: 100%; aspect-ratio: 1; cursor: pointer; margin-bottom: 14px; }
+    .photo-box img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s ease; }
+    .member-card:hover .photo-box img { transform: scale(1.04); }
+    .member-name-main { font-size: 14.5px; letter-spacing: 0.08em; cursor: pointer; }
+    .member-name-sub { font-size: 11px; letter-spacing: 0.04em; overflow-wrap: anywhere; color: var(--blm-ink); margin-top: 6px; text-transform: uppercase; cursor: pointer; }
+    .card-socials { display: flex; justify-content: center; gap: 10px; margin-top: 10px; min-height: 20px; }
+    .card-social-link { color: var(--blm-ink); font-size: 17px; transition: opacity 0.2s; }
+    .card-social-link:hover { opacity: 0.55; }
 
-    .card-info { width: 100%; }
-    .card-name-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-    .member-name-main { font-family: var(--font-display); font-size: 17px; font-weight: 800; color: var(--blm-ink); line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; cursor: pointer; }
-    .member-name-sub { font-size: 11px; font-weight: 700; color: var(--blm-ink-faint); letter-spacing: 0.5px; margin-top: 3px; text-transform: uppercase; cursor: pointer; }
-    .card-socials { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
-    .card-social-link { color: var(--blm-ink-faint); font-size: 13px; transition: color 0.2s, transform 0.2s; }
-    .card-social-link:hover { color: var(--blm-pink-deep); transform: translateY(-2px); }
-
-    /* --- Detail View --- */
+    /* --- Detail view --- */
     #detail-view { display: none; animation: fadeIn 0.4s ease; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-
-    .back-btn { display: inline-flex; align-items: center; gap: 8px; color: var(--blm-ink); cursor: pointer; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 32px; transition: gap 0.2s, color 0.2s; font-size: 12.5px; }
-    .back-btn::before { content: '\f060'; font-family: 'Font Awesome 6 Free'; font-weight: 900; font-size: 12px; }
-    .back-btn:hover { gap: 12px; color: var(--blm-gold-deep); }
-
-    .detail-layout { display: flex; flex-direction: row; gap: 48px; text-align: left; }
-    .detail-image-box { flex: 1; min-width: 280px; max-width: 400px; }
-    .detail-image { width: 100%; border: 1px solid var(--blm-line); border-radius: var(--radius-lg); display: block; }
-    .detail-content { flex: 1.5; min-width: 280px; }
-
-    .info-header { border-bottom: 3px solid var(--blm-pink); padding-bottom: 18px; margin-bottom: 22px; }
-    #m-name-th { font-family: var(--font-display); font-size: 34px; margin: 0; color: var(--blm-ink); font-weight: 800; letter-spacing: -0.5px; }
-    #m-name-en { color: var(--blm-ink-faint); font-size: 13px; margin: 6px 0 0 0; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
-
-    .info-row { display: grid; grid-template-columns: 140px 1fr; padding: 13px 0; border-bottom: 1px solid var(--blm-line); }
-    .info-label { color: var(--blm-ink-faint); font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
-    .info-value { color: var(--blm-ink); font-size: 15px; font-weight: 600; }
-
-    .social-section { display: flex; gap: 10px; margin-top: 28px; }
-    .social-link {
-      display: inline-flex; align-items: center; justify-content: center;
-      width: 40px; height: 40px; border-radius: 50%;
-      background: transparent; border: 1px solid var(--blm-line); color: var(--blm-ink); font-size: 16px;
-      text-decoration: none; transition: all 0.25s ease;
-    }
-    .social-link:hover { background: var(--blm-gold); border-color: var(--blm-gold); color: var(--blm-on-gold); }
-
-    @media (max-width: 768px) {
+    .back-btn { display: inline-flex; align-items: center; gap: 10px; cursor: pointer; font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 40px; transition: opacity 0.2s; }
+    .back-btn::before { content: '\2190'; font-size: 13px; }
+    .back-btn:hover { opacity: 0.55; }
+    .detail-layout { display: flex; gap: clamp(30px, 5vw, 70px); align-items: flex-start; }
+    .detail-image-box { flex: 0 0 min(380px, 42%); }
+    .detail-image { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; }
+    .detail-content { flex: 1; min-width: 0; }
+    .info-header { margin-bottom: 28px; }
+    #m-name-th { font-family: var(--font-display); font-size: clamp(24px, 2.6vw, 32px); font-weight: 300; letter-spacing: 0.06em; }
+    #m-name-en { margin-top: 8px; font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--blm-ink-soft); }
+    .info-row { display: grid; grid-template-columns: 130px 1fr; gap: 10px; padding: 13px 0; border-bottom: 1px solid var(--blm-line); }
+    .info-row:first-child { border-top: 1px solid var(--blm-line); }
+    .info-label { font-size: 10.5px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--blm-ink-soft); padding-top: 2px; }
+    .info-value { font-size: 14px; }
+    .social-section { display: flex; gap: 12px; margin-top: 30px; }
+    .social-link { width: 40px; height: 40px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; background: var(--blm-gold); color: var(--blm-ink); font-size: 16px; text-decoration: none; transition: transform 0.2s; }
+    .social-link:hover { transform: translateY(-3px); }
+    @media (max-width: 760px) {
       .detail-layout { flex-direction: column; align-items: center; }
-      .detail-image-box, .detail-content { min-width: 100%; max-width: 100%; }
+      .detail-image-box { flex-basis: auto; width: min(320px, 80%); }
+      .detail-content { width: 100%; }
       .info-header { text-align: center; }
       .social-section { justify-content: center; }
-    }
-    @media (max-width: 480px) {
       .info-row { grid-template-columns: 1fr; gap: 4px; }
     }
   </style>
@@ -101,10 +77,7 @@
   <script src="assets/js/sheet-data.js"></script>
 
   <main class="page-shell">
-    <div class="page-hero">
-      <span class="eyebrow">The Lineup</span>
-      <h1 class="page-hero-title">Profile</h1>
-    </div>
+    <div class="page-hero"><h1 class="page-hero-title">Profile</h1></div>
 
     <div id="loading-overlay">
       <div class="spinner-ring"></div>
@@ -112,10 +85,10 @@
     </div>
 
     <div id="main-view">
-      <div class="filter-tabs">
-        <button class="tab-btn active" onclick="filterByTeam(this, 'ALL')">All</button>
-        <button class="tab-btn" onclick="filterByTeam(this, 'Bloom')">Team Bloom</button>
-        <button class="tab-btn" onclick="filterByTeam(this, 'Trainee')">Trainee</button>
+      <div class="cat-tabs" id="teamTabs">
+        <button type="button" class="is-current" onclick="filterByTeam(this, 'ALL')">All</button>
+        <button type="button" onclick="filterByTeam(this, 'Bloom')">Team Bloom</button>
+        <button type="button" onclick="filterByTeam(this, 'Trainee')">Trainee</button>
       </div>
       <div id="member-grid" class="members-grid"></div>
     </div>
@@ -123,7 +96,7 @@
     <div id="detail-view">
       <div class="back-btn" onclick="goBack()"><span>Back</span></div>
       <div class="detail-layout">
-        <div class="detail-image-box"><img id="m-img" class="detail-image" alt="Member Photo"></div>
+        <div class="detail-image-box squircle"><img id="m-img" class="detail-image" alt="Member Photo"></div>
         <div class="detail-content">
           <div class="info-header">
             <h1 id="m-name-th"></h1>
@@ -161,8 +134,8 @@
     }
 
     function filterByTeam(btn, team) {
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
+      document.querySelectorAll('#teamTabs button').forEach(b => b.classList.remove('is-current'));
+      btn.classList.add('is-current');
       currentTeamFilter = team;
       renderGrid(team);
     }
@@ -183,16 +156,12 @@
 
         grid.innerHTML += `
           <div class="member-card reveal reveal-${(i % 6) + 1}" data-name="${m.name}">
-            <div class="photo-box" onclick="viewDetail('${m.name}')">
-              <img src="${getDirectImgLink(m.image)}" class="member-photo" onerror="this.src='https://via.placeholder.com/400x400?text=BLM48'">
+            <div class="photo-box squircle" onclick="viewDetail('${m.name}')">
+              <img src="${getDirectImgLink(m.image)}" alt="${m.name}" loading="lazy" onerror="BLM48Data.imgRetry(this, 'https://via.placeholder.com/400x400?text=BLM48')">
             </div>
-            <div class="card-info">
-              <div class="card-name-row">
-                <div class="member-name-main" onclick="viewDetail('${m.name}')">${nameMain}</div>
-                <div class="card-socials">${socialsHTML}</div>
-              </div>
-              <div class="member-name-sub" onclick="viewDetail('${m.name}')">${nameSub}</div>
-            </div>
+            <div class="member-name-main" onclick="viewDetail('${m.name}')">${nameMain}</div>
+            <div class="member-name-sub" onclick="viewDetail('${m.name}')">${nameSub}</div>
+            <div class="card-socials">${socialsHTML}</div>
           </div>
         `;
       });

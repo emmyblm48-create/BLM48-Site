@@ -15,28 +15,12 @@
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
-    body { font-family: var(--font-body); color: var(--blm-ink); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+    body { overflow-x: hidden; -webkit-font-smoothing: antialiased; }
 
-    .about-wrap { max-width: 760px; margin: 0 auto; }
-    .about-logo { display: block; height: clamp(64px, 12vw, 92px); width: auto; margin: 0 auto 22px; }
-    .about-name { font-family: var(--font-display); text-align: center; font-size: clamp(1.8rem, 5vw, 2.4rem); font-weight: 900; letter-spacing: -1px; text-transform: uppercase; margin-bottom: 4px; }
-    .about-sub { text-align: center; color: var(--blm-ink-faint); font-size: 13px; letter-spacing: 3px; font-weight: 700; margin-bottom: 42px; text-transform: uppercase; }
-
-    .text-content { line-height: 1.9; color: var(--blm-ink-soft); font-size: clamp(0.98rem, 2.4vw, 1.08rem); }
-    .text-content p { margin-bottom: 22px; }
-    .highlight { color: var(--blm-ink); font-weight: 700; background: linear-gradient(transparent 68%, var(--blm-gold-pale) 68%); }
-
-    .slogan {
-      margin-top: 40px;
-      padding-top: 28px;
-      border-top: 3px solid var(--blm-pink);
-      font-family: var(--font-display);
-      font-size: clamp(1.15rem, 3vw, 1.4rem);
-      font-weight: 800;
-      color: var(--blm-ink);
-      text-align: center;
-      letter-spacing: -0.3px;
-    }
+    .about-lead { font-size: clamp(16px, 1.5vw, 19px); line-height: 1.8; letter-spacing: 0.04em; margin-bottom: 26px; }
+    .about-text p { font-size: 13.5px; line-height: 2; letter-spacing: 0.04em; margin-bottom: 26px; }
+    .about-slogan { margin-top: 40px; font-size: 13.5px; letter-spacing: 0.06em; }
+    .about-slogan::before { content: ''; display: inline-block; width: 30px; height: 1px; margin: 0 14px 4px 0; background: var(--blm-gold-deep); vertical-align: middle; }
   </style>
 </head>
 <body>
@@ -45,28 +29,17 @@
   <script src="assets/js/nav.js"></script>
 
   <main class="page-shell">
-    <div class="page-hero">
-      <span class="eyebrow">Who we are</span>
-      <h1 class="page-hero-title">About</h1>
+    <div class="page-hero"><h1 class="page-hero-title">About BLM48</h1></div>
+
+    <p class="about-lead">&ldquo;BLM48&rdquo; (Blooming48) — the male &amp; female cover group of the AKB48 Group.</p>
+
+    <div class="about-text">
+      <p>BLM48 (Blooming48) is a virtual idol cover group inspired by the AKB48 Group, bringing the charm and spirit of 48Group songs to life through the virtual platform ZEPETO.</p>
+      <p>The word &ldquo;Blooming&rdquo; represents growth, development, and the moment when dreams begin to blossom. BLM48 serves as a creative space where members can learn, express themselves, and grow together alongside their fans.</p>
+      <p>The group focuses on delivering cover performances that respect the original works, while presenting them in a fresh, accessible, and modern style. By connecting Japanese idol culture with a digital community, BLM48 aims to share positive energy, dreams, and smiles with audiences everywhere.</p>
     </div>
 
-    <div class="about-wrap">
-      <img class="about-logo" src="https://lh3.googleusercontent.com/d/12PFpDx6bOmQpf_UMhhh6ltZwvOAkVyvW=s1000" alt="BLM48 Logo">
-      <div class="about-name">BLM48</div>
-      <div class="about-sub">( Blooming48 )</div>
-
-      <div class="text-content">
-        <p><span class="highlight">BLM48 is the male &amp; female cover group of the AKB48 Group.</span></p>
-
-        <p>BLM48 (Blooming48) is a virtual idol cover group inspired by the AKB48 Group, bringing the charm and spirit of 48Group songs to life through the virtual platform ZEPETO.</p>
-
-        <p>The word &ldquo;Blooming&rdquo; represents growth, development, and the moment when dreams begin to blossom. BLM48 serves as a creative space where members can learn, express themselves, and grow together alongside their fans.</p>
-
-        <p>The group focuses on delivering cover performances that respect the original works, while presenting them in a fresh, accessible, and modern style. By connecting Japanese idol culture with a digital community, BLM48 aims to share positive energy, dreams, and smiles with audiences everywhere.</p>
-
-        <div class="slogan">BLM48 — Where idols bloom in the virtual world.</div>
-      </div>
-    </div>
+    <p class="about-slogan">BLM48 — Where idols bloom in the virtual world.</p>
   </main>
 
   <div id="site-footer"></div>

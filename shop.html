@@ -9,215 +9,154 @@
 
   <link href="https://fonts.googleapis.com/css?family=Comfortaa:300,400" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=K2D:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="assets/css/site.css">
 
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; background: #cfe5f5; }
+    html { scroll-behavior: smooth; }
     html, body { overflow-x: clip; }
-    body { padding-top: 0; font-family: var(--font-body); color: var(--blm-ink); background: transparent; -webkit-font-smoothing: antialiased; }
-    :root {
-      --shop-wrap: min(1700px, 92%);
-      --shop-line: #b9dcf2;
-      --shop-sky: #5fb3e4;
+    body { padding-top: 0; -webkit-font-smoothing: antialiased; }
+    :root { --shop-wrap: min(1000px, 90%); }
+
+    /* --- Store header: logo + OFFICIAL SHOP, category links, app + menu --- */
+    .shop-top { position: sticky; top: 0; z-index: 2000; background: #fff; border-bottom: 1px solid #f0f0f0; }
+    .shop-top-inner { width: min(1200px, 94%); margin: 0 auto; height: 96px; display: flex; align-items: center; gap: 28px; }
+    .shop-brand { display: flex; flex-direction: column; align-items: center; text-decoration: none; color: var(--blm-ink); line-height: 1; flex-shrink: 0; }
+    .shop-brand-name { font-family: var(--font-display); font-weight: 300; font-size: 32px; letter-spacing: 0.04em; }
+    .shop-brand-sub { margin-top: 6px; font-size: 10px; letter-spacing: 0.16em; }
+    .shop-links { display: flex; align-items: center; gap: 4px 26px; flex-wrap: wrap; flex: 1; }
+    .shop-links a { font-size: 11px; letter-spacing: 0.08em; color: var(--blm-ink); text-decoration: none; transition: opacity 0.2s; }
+    .shop-links a:hover { opacity: 0.55; }
+    .shop-actions { display: flex; align-items: center; gap: 18px; flex-shrink: 0; }
+    .shop-app { display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 9px; letter-spacing: 0.06em; color: var(--blm-ink-soft); text-decoration: none; }
+    .shop-app i { font-size: 18px; color: var(--blm-ink); }
+    .shop-menu { display: flex; flex-direction: column; align-items: center; gap: 5px; background: none; border: none; cursor: pointer; font-family: var(--font-body); font-size: 9px; letter-spacing: 0.1em; color: var(--blm-ink); }
+    .shop-menu span { display: block; width: 26px; height: 1px; background: var(--blm-ink); }
+    @media (max-width: 860px) {
+      .shop-top-inner { height: 74px; gap: 14px; justify-content: space-between; }
+      .shop-links { display: none; }
+      .shop-brand-name { font-size: 24px; }
     }
 
-    /* --- Sky with soft pastel clouds behind the whole page --- */
-    .shop-sky {
-      position: fixed; inset: 0; z-index: -1; pointer-events: none;
-      background:
-        radial-gradient(ellipse 22% 13% at 10% 16%, rgba(255, 255, 255, 0.95), transparent 70%),
-        radial-gradient(ellipse 16% 10% at 20% 22%, rgba(255, 255, 255, 0.85), transparent 70%),
-        radial-gradient(ellipse 24% 12% at 86% 10%, rgba(255, 255, 255, 0.9), transparent 70%),
-        radial-gradient(ellipse 18% 11% at 74% 16%, rgba(255, 255, 255, 0.8), transparent 70%),
-        radial-gradient(ellipse 30% 16% at 64% 58%, rgba(255, 255, 255, 0.75), transparent 70%),
-        radial-gradient(ellipse 28% 18% at 6% 70%, rgba(255, 225, 238, 0.85), transparent 70%),
-        radial-gradient(ellipse 26% 16% at 96% 82%, rgba(255, 228, 240, 0.8), transparent 70%),
-        radial-gradient(ellipse 34% 16% at 46% 100%, rgba(255, 243, 206, 0.9), transparent 70%),
-        linear-gradient(180deg, #b7dcf4 0%, #d6eaf8 45%, #eee7f2 100%);
-    }
+    /* --- Wide image slider --- */
+    .shop-hero { width: var(--shop-wrap); margin: 34px auto 0; }
+    .shop-swiper { padding-bottom: 30px; }
+    .shop-swiper a { display: block; aspect-ratio: 16 / 9; overflow: hidden; background: var(--blm-gold-pale); }
+    .shop-swiper img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .shop-swiper .swiper-pagination { bottom: 0; }
+    .shop-swiper .swiper-pagination-bullet { width: 6px; height: 6px; background: #ccc; opacity: 1; }
+    .shop-swiper .swiper-pagination-bullet-active { background: #555; }
 
-    /* --- Store header panel (white, rounded bottom corners) --- */
-    .shop-top {
-      width: var(--shop-wrap); margin: 0 auto;
-      display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;
-      padding: 22px clamp(20px, 3vw, 42px);
-      background: #fff; border-radius: 0 0 44px 44px;
-      box-shadow: 0 10px 30px rgba(59, 47, 38, 0.06);
-    }
-    .shop-brand { display: flex; align-items: center; gap: 16px; text-decoration: none; color: var(--blm-ink); }
-    .shop-brand img { height: clamp(40px, 4vw, 56px); width: auto; display: block; }
-    .shop-brand-text { display: flex; flex-direction: column; line-height: 1.15; }
-    .shop-brand-name { font-family: var(--font-display); font-weight: 300; font-size: clamp(22px, 2.4vw, 34px); letter-spacing: 0.06em; color: var(--blm-gold-deep); }
-    .shop-brand-sub { font-family: var(--font-display); font-size: clamp(11px, 1vw, 15px); letter-spacing: 0.14em; color: var(--blm-ink-soft); }
-    .shop-links { display: flex; align-items: center; gap: 4px 22px; flex-wrap: wrap; justify-content: flex-end; }
-    .shop-links a { font-size: 13px; letter-spacing: 0.1em; color: var(--blm-pink-deep); text-decoration: none; transition: opacity 0.2s; }
-    .shop-links a:hover { opacity: 0.7; }
-    .shop-links .shop-links-app { display: inline-flex; align-items: center; gap: 6px; padding: 6px 16px; border-radius: 999px; background: var(--blm-gold); color: var(--blm-on-gold); font-weight: 700; }
+    /* --- Big headings (NEWS / item sections) --- */
+    .shop-sec { width: var(--shop-wrap); margin: clamp(50px, 6vw, 80px) auto 0; scroll-margin-top: 110px; }
+    .shop-h { display: flex; align-items: baseline; gap: 16px; margin-bottom: 18px; flex-wrap: wrap; }
+    .shop-h h2 { font-family: var(--font-display); font-weight: 400; font-size: clamp(26px, 2.6vw, 34px); letter-spacing: 0.02em; }
+    .shop-h small { font-size: 11px; color: var(--blm-ink-soft); }
 
-    /* --- Featured row: big rounded cards that scroll sideways --- */
-    .shop-feature { position: relative; margin: clamp(36px, 5vw, 70px) 0 0; }
-    .shop-feature-rail {
-      display: flex; gap: clamp(16px, 2vw, 30px); overflow-x: auto; scroll-snap-type: x mandatory;
-      padding: 6px 4vw 20px; scroll-padding-inline: 4vw; scrollbar-width: none;
-    }
-    .shop-feature-rail::-webkit-scrollbar { display: none; }
-    .shop-feature-card {
-      position: relative; flex: 0 0 auto; width: clamp(260px, 34vw, 600px); aspect-ratio: 1;
-      border-radius: 24px; overflow: hidden; background: #fff; scroll-snap-align: center;
-      box-shadow: 0 16px 34px rgba(59, 47, 38, 0.12);
-      transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-    }
-    .shop-feature-card:hover { transform: translateY(-4px); }
-    .shop-feature-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .shop-feature-label {
-      position: absolute; left: 16px; bottom: 16px; max-width: calc(100% - 32px);
-      padding: 7px 16px; border-radius: 999px; background: rgba(255, 255, 255, 0.92);
-      font-size: 13px; font-weight: 600; color: var(--blm-ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-    }
-    .shop-feature-nav {
-      position: absolute; top: calc(50% - 20px); z-index: 2; width: 46px; height: 46px; border-radius: 50%;
-      border: none; background: rgba(255, 255, 255, 0.9); color: var(--blm-ink); font-size: 16px; cursor: pointer;
-      box-shadow: 0 6px 16px rgba(59, 47, 38, 0.12); transition: background 0.2s;
-    }
-    .shop-feature-nav:hover { background: #fff; }
-    .shop-feature-prev { left: 2vw; }
-    .shop-feature-next { right: 2vw; }
-    @media (max-width: 760px) { .shop-feature-nav { display: none; } }
+    /* notice list (stands in for the store's NEWS) */
+    .shop-news { list-style: none; border-top: 1px solid #eee; }
+    .shop-news li { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 4px; border-bottom: 1px solid #eee; }
+    .shop-news b { display: block; font-size: 12.5px; font-weight: 700; }
+    .shop-news span { display: block; margin-top: 4px; font-size: 10px; color: var(--blm-ink-soft); }
+    .shop-news i { color: #bbb; font-size: 13px; }
+    .shop-news a { color: inherit; text-decoration: none; display: contents; }
 
-    /* --- App-only notice --- */
-    .shop-note {
-      width: var(--shop-wrap); margin: clamp(30px, 4vw, 50px) auto 0;
-      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
-      padding: 14px 24px; border-radius: 999px; background: rgba(255, 255, 255, 0.85);
-      font-size: 13px; color: var(--blm-ink-soft);
-    }
-    .shop-note i { color: var(--blm-gold-deep); }
-    .shop-note strong { color: var(--blm-ink); }
-    @media (max-width: 640px) { .shop-note { border-radius: 20px; } }
-
-    /* --- Product panels: white boards split by thin sky-blue lines --- */
-    .shop-section { width: var(--shop-wrap); margin: clamp(30px, 4vw, 50px) auto 0; scroll-margin-top: 24px; background: #fff; }
-    .shop-section:last-of-type { margin-bottom: 40px; }
-    .shop-section-head {
-      display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
-      padding: 22px clamp(20px, 2.4vw, 32px); border-bottom: 1px solid var(--shop-line);
-    }
-    .shop-section-title { font-family: var(--font-display); font-weight: 400; font-size: clamp(18px, 1.8vw, 22px); letter-spacing: 0.12em; color: var(--blm-ink); }
-    .shop-section-title small { margin-left: 12px; font-family: var(--font-body); font-size: 12px; letter-spacing: 0.1em; color: var(--blm-ink-faint); }
-    .shop-section-link { font-size: 12px; letter-spacing: 0.12em; color: var(--blm-pink-deep); text-decoration: none; }
-    .shop-section-link:hover { text-decoration: underline; text-underline-offset: 4px; }
-
-    .shop-grid { display: grid; grid-template-columns: repeat(4, 1fr); }
-    @media (max-width: 1100px) { .shop-grid { grid-template-columns: repeat(3, 1fr); } }
+    /* --- Product grid: 3 across, white cards --- */
+    .shop-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 34px clamp(14px, 2.6vw, 30px); }
     @media (max-width: 720px) { .shop-grid { grid-template-columns: repeat(2, 1fr); } }
-
-    .shop-card {
-      display: flex; flex-direction: column; padding: clamp(18px, 2.4vw, 40px) clamp(14px, 2vw, 30px) clamp(20px, 2.4vw, 36px);
-      border-right: 1px solid var(--shop-line); border-bottom: 1px solid var(--shop-line);
-      text-decoration: none; color: inherit; transition: background 0.2s;
-    }
-    .shop-card:hover { background: #f7fbfe; }
-    .shop-card-photo { width: min(100%, 300px); aspect-ratio: 1; margin: 0 auto 22px; overflow: hidden; background: var(--blm-paper-soft); }
+    .shop-card { display: block; text-decoration: none; color: var(--blm-ink); }
+    .shop-card-photo { aspect-ratio: 1; overflow: hidden; background: #fff; box-shadow: 0 0 0 1px #f0f0f0, 0 4px 14px rgba(0, 0, 0, 0.05); margin-bottom: 12px; }
     .shop-card-photo img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s; }
     .shop-card:hover .shop-card-photo img { transform: scale(1.04); }
-    .shop-card.is-unavailable .shop-card-photo img { opacity: 0.55; filter: grayscale(0.4); }
-    .shop-card-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
-    .shop-tag { display: inline-flex; align-items: center; padding: 3px 12px; border-radius: 999px; font-size: 11px; font-weight: 600; letter-spacing: 0.04em; white-space: nowrap; }
-    .shop-tag-merch { background: var(--shop-sky); color: #fff; }
-    .shop-tag-preorder { background: var(--blm-gold); color: var(--blm-on-gold); }
-    .shop-tag-cafe { background: #6fc2a6; color: #fff; }
-    .shop-tag-line { border: 1px solid var(--blm-pink); color: var(--blm-pink-deep); }
-    .shop-tag-muted { border: 1px solid var(--blm-ink-faint); color: var(--blm-ink-soft); }
-    .shop-card-title { font-size: 14px; letter-spacing: 0.06em; line-height: 1.6; color: var(--blm-ink); }
-    .shop-card-sub { font-size: 12px; color: var(--blm-ink-faint); margin-top: 2px; }
-    .shop-card-price { margin-top: 8px; font-size: 13px; letter-spacing: 0.06em; color: var(--blm-ink-soft); }
-    .shop-card-price i { color: var(--blm-gold-deep); margin-right: 4px; }
-    .shop-card-price small { font-size: 11px; margin-left: 2px; }
-
-    .shop-group-title {
-      grid-column: 1 / -1; display: flex; align-items: center; gap: 10px;
-      padding: 16px clamp(20px, 2.4vw, 32px); border-bottom: 1px solid var(--shop-line); background: #f7fbfe;
-      font-size: 13px; letter-spacing: 0.1em; color: var(--blm-ink);
-    }
-    .shop-group-title i { color: var(--blm-gold-deep); }
-    .shop-empty-state {
-      grid-column: 1 / -1; display: flex; flex-direction: column; align-items: center; gap: 10px;
-      padding: 50px 20px; color: var(--blm-ink-faint); font-weight: 600; font-size: 13.5px; text-align: center;
-    }
-    .shop-empty-state i { font-size: 26px; }
+    .shop-card.is-unavailable .shop-card-photo img { opacity: 0.55; }
+    .shop-card-tags { display: flex; gap: 6px; margin-bottom: 6px; }
+    .shop-tag { display: inline-block; padding: 2px 8px; font-size: 9px; letter-spacing: 0.06em; border-radius: 3px; }
+    .shop-tag-merch { background: var(--blm-gold); color: var(--blm-ink); }
+    .shop-tag-preorder { background: var(--cat-sky); color: #fff; }
+    .shop-tag-cafe { background: var(--cat-mint); color: #fff; }
+    .shop-card-title { font-size: 12.5px; font-weight: 700; line-height: 1.6; }
+    .shop-card-sub { font-size: 11px; color: var(--blm-ink-soft); }
+    .shop-card-price { margin-top: 4px; font-size: 12px; }
+    .shop-card-price small { font-size: 10px; margin-left: 2px; }
+    .shop-card-status { margin-top: 2px; font-size: 10px; letter-spacing: 0.06em; color: var(--blm-new); text-transform: uppercase; }
+    .shop-group-title { grid-column: 1 / -1; font-size: 12px; letter-spacing: 0.1em; color: var(--blm-ink-soft); padding-top: 6px; border-bottom: 1px solid #eee; padding-bottom: 8px; }
+    .shop-empty-state { grid-column: 1 / -1; text-align: center; padding: 40px 0; font-size: 13px; color: var(--blm-ink-faint); }
+    .shop-more { display: flex; justify-content: center; margin-top: 40px; }
+    .shop-more a { min-width: 150px; padding: 11px 24px; text-align: center; background: var(--blm-ink); color: #fff; font-size: 12px; letter-spacing: 0.08em; text-decoration: none; border-radius: 3px; transition: opacity 0.2s; }
+    .shop-more a:hover { opacity: 0.8; }
+    main { padding-bottom: clamp(80px, 9vw, 120px); }
   </style>
 </head>
 <body>
 
-  <!-- No #site-header here: the store header below is this page's navbar (nav.js still renders the footer). -->
+  <!-- The store header below is this page's navbar; its MENU button opens the
+       site menu that nav.js renders into #site-header (its own bar is hidden). -->
+  <div id="site-header" class="shop-site-header"></div>
+  <style>.shop-site-header .site-header { display: none; }</style>
   <script src="assets/js/nav.js"></script>
 
-  <div class="shop-sky" aria-hidden="true"></div>
-
-  <main>
-    <header class="shop-top">
-      <a class="shop-brand" href="home" aria-label="BLM48 Home">
-        <img src="https://lh3.googleusercontent.com/d/12PFpDx6bOmQpf_UMhhh6ltZwvOAkVyvW=s1000" alt="BLM48">
-        <span class="shop-brand-text">
-          <span class="shop-brand-name">BLM48</span>
-          <span class="shop-brand-sub">OFFICIAL GOODS STORE</span>
-        </span>
+  <header class="shop-top">
+    <div class="shop-top-inner">
+      <a class="shop-brand" href="shop" aria-label="BLM48 Official Shop">
+        <span class="shop-brand-name">BLM48</span>
+        <span class="shop-brand-sub">OFFICIAL SHOP</span>
       </a>
       <nav class="shop-links" aria-label="Shop categories">
         <a href="#section-merch" data-section="section-merch">Merchandise</a>
         <a href="#section-preorder" data-section="section-preorder">Pre-Order</a>
         <a href="#section-cafe" data-section="section-cafe">BLM48 Cafe</a>
-        <a class="shop-links-app" href="https://blm48-membership.vercel.app/shop" target="_blank" rel="noopener"><i class="fas fa-mobile-screen-button" aria-hidden="true"></i> เปิดในแอป</a>
+        <a href="home">Official Site</a>
       </nav>
-    </header>
+      <div class="shop-actions">
+        <a class="shop-app" href="https://blm48-membership.vercel.app/shop" target="_blank" rel="noopener"><i class="fas fa-mobile-screen-button" aria-hidden="true"></i>App</a>
+        <button type="button" class="shop-menu" onclick="document.getElementById('navHamburger').click()" aria-label="Open menu"><span></span><span></span><span></span>MENU</button>
+      </div>
+    </div>
+  </header>
 
-    <section class="shop-feature" id="shopFeature" aria-label="Featured items" hidden>
-      <button type="button" class="shop-feature-nav shop-feature-prev" id="featurePrev" aria-label="Previous"><i class="fas fa-chevron-left"></i></button>
-      <div class="shop-feature-rail" id="featureRail"></div>
-      <button type="button" class="shop-feature-nav shop-feature-next" id="featureNext" aria-label="Next"><i class="fas fa-chevron-right"></i></button>
+  <main>
+    <section class="shop-hero" id="shopFeature" aria-label="Featured items" hidden>
+      <div class="swiper shop-swiper">
+        <div class="swiper-wrapper" id="featureRail"></div>
+        <div class="swiper-pagination"></div>
+      </div>
     </section>
 
-    <p class="shop-note">
-      <i class="fas fa-circle-info" aria-hidden="true"></i>
-      <span><strong>หน้านี้แสดงสินค้าเท่านั้น</strong> — สั่งซื้อได้ทางแอป BLM48 Membership (Purchases are made in the Membership App)</span>
-    </p>
+    <section class="shop-sec">
+      <div class="shop-h"><h2>NEWS</h2><small>Purchases are made in the BLM48 Membership App.</small></div>
+      <ul class="shop-news">
+        <li><a href="https://blm48-membership.vercel.app/shop" target="_blank" rel="noopener"><div><b>หน้านี้แสดงสินค้าเท่านั้น — สั่งซื้อได้ทางแอป BLM48 Membership</b><span>This page shows the catalogue only</span></div><i class="fas fa-circle-chevron-right" aria-hidden="true"></i></a></li>
+        <li><a href="https://blm48-membership.vercel.app/token" target="_blank" rel="noopener"><div><b>ชำระด้วย Token ในแอป BLM48 Membership</b><span>Prices are in Tokens</span></div><i class="fas fa-circle-chevron-right" aria-hidden="true"></i></a></li>
+      </ul>
+    </section>
 
     <!-- OFFICIAL MERCHANDISE -->
-    <section class="shop-section" id="section-merch">
-      <div class="shop-section-head">
-        <h2 class="shop-section-title">OFFICIAL MERCHANDISE<small>limited · collector · pulls</small></h2>
-        <a href="https://blm48-membership.vercel.app/shop#section-gacha" target="_blank" rel="noopener" class="shop-section-link">Buy in App ›</a>
-      </div>
-      <div class="shop-grid" id="merchGrid">
-        <div class="shop-empty-state"><i class="fas fa-spinner fa-spin"></i><span>Loading merchandise...</span></div>
-      </div>
+    <section class="shop-sec" id="section-merch">
+      <div class="shop-h"><h2>MERCHANDISE</h2><small>limited · collector · pulls</small></div>
+      <div class="shop-grid" id="merchGrid"><div class="shop-empty-state">Loading merchandise...</div></div>
+      <p class="shop-more"><a href="https://blm48-membership.vercel.app/shop#section-gacha" target="_blank" rel="noopener">View more</a></p>
     </section>
 
     <!-- PRE-ORDER -->
-    <section class="shop-section" id="section-preorder">
-      <div class="shop-section-head">
-        <h2 class="shop-section-title">PRE-ORDER<small>order today · ship later</small></h2>
-        <a href="https://blm48-membership.vercel.app/shop#section-preorder" target="_blank" rel="noopener" class="shop-section-link">Buy in App ›</a>
-      </div>
-      <div class="shop-grid" id="preorderGrid">
-        <div class="shop-empty-state"><i class="fas fa-spinner fa-spin"></i><span>Loading pre-order items...</span></div>
-      </div>
+    <section class="shop-sec" id="section-preorder">
+      <div class="shop-h"><h2>PRE-ORDER</h2><small>order today · ship later</small></div>
+      <div class="shop-grid" id="preorderGrid"><div class="shop-empty-state">Loading pre-order items...</div></div>
+      <p class="shop-more"><a href="https://blm48-membership.vercel.app/shop#section-preorder" target="_blank" rel="noopener">View more</a></p>
     </section>
 
     <!-- BLM48 CAFE -->
-    <section class="shop-section" id="section-cafe">
-      <div class="shop-section-head">
-        <h2 class="shop-section-title">BLM48 CAFE<small>cream · soda · pudding</small></h2>
-        <a href="https://blm48-membership.vercel.app/shop#section-cafe" target="_blank" rel="noopener" class="shop-section-link">Buy in App ›</a>
-      </div>
+    <section class="shop-sec" id="section-cafe">
+      <div class="shop-h"><h2>BLM48 CAFE</h2><small>cream · soda · pudding</small></div>
       <div class="shop-grid" id="cafeGrid"></div>
+      <p class="shop-more"><a href="https://blm48-membership.vercel.app/shop#section-cafe" target="_blank" rel="noopener">View more</a></p>
     </section>
   </main>
 
   <div id="site-footer"></div>
 
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
   <script>
     // Same public anon key the Membership app (blm48-membership.vercel.app) ships client-side.
     // Every table behind it is RLS-locked with zero policies - the anon key can only call
@@ -226,7 +165,7 @@
     const MEMBERSHIP_SUPABASE_URL = 'https://rqhwzbrcgnpxtuaeoxml.supabase.co';
     const MEMBERSHIP_SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJxaHd6YnJjZ25weHR1YWVveG1sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUyMjczNjAsImV4cCI6MjEwMDgwMzM2MH0.J0iiUikxLoJKZ5SF9KSz86yf2LU89z8NdPb9rEB89Gw';
     const MEMBERSHIP_APP_URL = 'https://blm48-membership.vercel.app';
-    const FALLBACK_IMG = 'https://placehold.co/500x500/fff6e0/c9932c?text=BLM48';
+    const FALLBACK_IMG = 'https://placehold.co/500x500/fff6cf/c9a21c?text=BLM48';
 
     // Google Drive image links (lh3) throttle when many load at once, so a failed
     // picture gets one delayed retry before falling back to the branded placeholder.
@@ -258,27 +197,27 @@
       return String(str || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
     }
 
-    function emptyState(icon, message) {
-      return `<div class="shop-empty-state"><i class="fas ${icon}"></i><span>${message}</span></div>`;
+    function emptyState(message) {
+      return `<div class="shop-empty-state">${message}</div>`;
     }
 
-    // One product tile: picture, category tag (+ status tag), name, price.
+    // One product: picture, category tag, name, price, status line (e.g. SOLD OUT).
     function cardHTML({ href, image, name, sub, tagClass, tagText, status, price, unavailable }, i) {
-      const statusTag = status ? `<span class="shop-tag ${status.muted ? 'shop-tag-muted' : 'shop-tag-line'}">${status.text}</span>` : '';
       return `
-        <a class="shop-card reveal reveal-${(i % 4) + 1}${unavailable ? ' is-unavailable' : ''}" href="${href}" target="_blank" rel="noopener">
+        <a class="shop-card reveal reveal-${(i % 3) + 1}${unavailable ? ' is-unavailable' : ''}" href="${href}" target="_blank" rel="noopener">
           <div class="shop-card-photo">
             <img src="${image || FALLBACK_IMG}" alt="${escapeHtml(name)}" loading="lazy" onerror="shopImgError(this)">
           </div>
-          <div class="shop-card-tags"><span class="shop-tag ${tagClass}">${tagText}</span>${statusTag}</div>
+          <div class="shop-card-tags"><span class="shop-tag ${tagClass}">${tagText}</span></div>
           <div class="shop-card-title">${escapeHtml(name)}</div>
           ${sub ? `<div class="shop-card-sub">${escapeHtml(sub)}</div>` : ''}
           <div class="shop-card-price">${price}</div>
+          ${status ? `<div class="shop-card-status">${status.text}</div>` : ''}
         </a>
       `;
     }
 
-    const tokens = n => `<i class="fas fa-coins"></i>${Number(n || 0).toLocaleString()}<small>Token</small>`;
+    const tokens = n => `${Number(n || 0).toLocaleString()}<small>Token</small>`;
 
     // --- OFFICIAL MERCHANDISE (live from the Membership app's gacha collections) ---
     async function loadMerch() {
@@ -347,7 +286,7 @@
       const grouped = {};
       items.forEach(p => { const key = p.category || NO_CATEGORY_LABEL; (grouped[key] = grouped[key] || []).push(p); });
       gridEl.innerHTML = Object.keys(grouped).map(category =>
-        (category !== NO_CATEGORY_LABEL ? `<div class="shop-group-title"><i class="fas fa-microphone"></i> ${escapeHtml(category)}</div>` : '') +
+        (category !== NO_CATEGORY_LABEL ? `<div class="shop-group-title">${escapeHtml(category)}</div>` : '') +
         grouped[category].map(cardHTML).join('')
       ).join('');
     }
@@ -370,25 +309,24 @@
       }));
     }
 
-    // Featured row: on-sale items that have a picture.
+    // Wide slider: on-sale items that have a picture.
     function renderFeature(items) {
-      const picks = items.filter(it => it.image).slice(0, 8);
+      const picks = items.filter(it => it.image).slice(0, 6);
       if (!picks.length) return;
       document.getElementById('featureRail').innerHTML = picks.map(it => `
-        <a class="shop-feature-card" href="${it.href}" target="_blank" rel="noopener">
-          <img src="${it.image}" alt="${escapeHtml(it.name)}" onerror="shopImgError(this)">
-          <span class="shop-feature-label">${escapeHtml(it.name)}</span>
-        </a>
+        <div class="swiper-slide">
+          <a href="${it.href}" target="_blank" rel="noopener" aria-label="${escapeHtml(it.name)}">
+            <img src="${it.image}" alt="" onerror="shopImgError(this)">
+          </a>
+        </div>
       `).join('');
       document.getElementById('shopFeature').hidden = false;
+      new Swiper('.shop-swiper', {
+        loop: picks.length > 1, speed: 700,
+        autoplay: { delay: 4000, disableOnInteraction: false },
+        pagination: { el: '.shop-swiper .swiper-pagination', clickable: true }
+      });
     }
-
-    (function wireFeatureNav() {
-      const rail = document.getElementById('featureRail');
-      const step = dir => () => rail.scrollBy({ left: dir * rail.clientWidth * 0.6, behavior: 'smooth' });
-      document.getElementById('featurePrev').addEventListener('click', step(-1));
-      document.getElementById('featureNext').addEventListener('click', step(1));
-    })();
 
     (async function renderShop() {
       const cafe = loadCafe().filter(onSale);
@@ -399,9 +337,9 @@
         loadPreorder().catch(() => null)
       ]);
       if (merch) renderMerch(merch.filter(onSale));
-      else document.getElementById('merchGrid').innerHTML = emptyState('fa-triangle-exclamation', 'Unable to load merchandise right now.');
+      else document.getElementById('merchGrid').innerHTML = emptyState('Unable to load merchandise right now.');
       if (preorder) renderPreorder(preorder.filter(onSale));
-      else document.getElementById('preorderGrid').innerHTML = emptyState('fa-triangle-exclamation', 'Unable to load pre-order items right now.');
+      else document.getElementById('preorderGrid').innerHTML = emptyState('Unable to load pre-order items right now.');
       renderFeature([...(merch || []), ...(preorder || []), ...cafe].filter(onSale));
     })();
   </script>

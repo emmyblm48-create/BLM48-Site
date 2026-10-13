@@ -15,81 +15,59 @@
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
-    body { font-family: var(--font-body); color: var(--blm-ink); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+    body { overflow-x: hidden; -webkit-font-smoothing: antialiased; }
 
-    /* --- Category filter pills --- */
-    .cal-tabs { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 44px; }
-    .cal-tab {
-      border: none; cursor: pointer;
-      font-family: var(--font-body); font-size: 12px; font-weight: 800; letter-spacing: 0.4px;
-      padding: 8px 18px; border-radius: var(--radius-pill);
-      color: #fff; background: var(--blm-tab-color, var(--blm-ink-faint));
-      opacity: 0.55;
-      transition: opacity 0.2s ease, transform 0.2s ease;
-    }
-    .cal-tab:hover { opacity: 0.85; }
-    .cal-tab.active { opacity: 1; box-shadow: 0 0 0 2px var(--blm-paper), 0 0 0 3.5px var(--blm-tab-color, var(--blm-ink-faint)); }
-
-    /* --- Month navigation --- */
-    .cal-nav { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-bottom: 36px; flex-wrap: wrap; }
+    /* --- Month bar: "<- September    2026 10 October    November ->" + view toggle --- */
+    .cal-top { position: relative; display: grid; grid-template-columns: 1fr auto 1fr; align-items: end; gap: 16px; margin-bottom: 28px; }
     .cal-nav-btn {
-      background: none; border: none; cursor: pointer;
-      display: flex; align-items: center; gap: 8px;
-      font-family: var(--font-body); font-size: 13px; font-weight: 700; color: var(--blm-ink-soft);
-      transition: color 0.2s;
+      background: none; border: none; cursor: pointer; justify-self: start;
+      font-family: var(--font-body); font-size: 12px; letter-spacing: 0.06em; color: var(--blm-ink);
+      display: inline-flex; align-items: center; gap: 8px; padding-bottom: 6px; transition: opacity 0.2s;
     }
-    .cal-nav-btn:hover { color: var(--blm-pink-deep); }
+    .cal-nav-btn:hover { opacity: 0.55; }
+    #calNext { justify-self: end; }
     .cal-month-display { display: flex; align-items: baseline; gap: 10px; }
-    .cal-year { font-family: var(--font-display); font-size: 15px; font-weight: 700; color: var(--blm-ink-faint); }
-    .cal-month-num { font-family: var(--font-display); font-size: clamp(2.4rem, 6vw, 3.4rem); font-weight: 800; color: var(--blm-ink); line-height: 1; }
-    .cal-month-name { font-family: var(--font-display); font-size: 17px; font-weight: 700; color: var(--blm-ink-soft); }
-
-    /* --- Grid --- */
-    .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); border-top: 1px solid var(--blm-line); border-left: 1px solid var(--blm-line); }
-    .cal-weekday {
-      text-align: center; padding: 12px 0;
-      font-size: 11.5px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;
-      color: var(--blm-ink-soft);
-      border-right: 1px solid var(--blm-line); border-bottom: 1px solid var(--blm-line);
+    .cal-year, .cal-month-name { font-size: 12px; letter-spacing: 0.08em; }
+    .cal-month-num { font-family: var(--font-display); font-size: clamp(30px, 3vw, 40px); font-weight: 300; line-height: 1; }
+    .cal-view-toggle {
+      position: absolute; right: 0; top: -62px; width: 34px; height: 34px; border-radius: 50%; border: none; cursor: pointer;
+      background: var(--blm-ink); color: #fff; font-size: 13px; transition: opacity 0.2s;
     }
-    .cal-weekday.is-sat { color: #4d8fdb; }
-    .cal-weekday.is-sun { color: var(--blm-pink-deep); }
+    .cal-view-toggle:hover { opacity: 0.75; }
 
-    .cal-cell {
-      min-height: 116px;
-      border-right: 1px solid var(--blm-line); border-bottom: 1px solid var(--blm-line);
-      padding: 8px; display: flex; flex-direction: column; gap: 5px;
-    }
-    .cal-cell.is-empty { background: var(--blm-paper-soft); }
+    /* --- Calendar grid --- */
+    .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); border-left: 1px solid #ddd; }
+    .cal-weekday { text-align: center; padding: 14px 0 10px; font-size: 11px; letter-spacing: 0.06em; color: var(--blm-ink); border-right: 1px solid transparent; }
+    .cal-grid > .cal-weekday:first-child { margin-left: -1px; border-left: 1px solid #fff; }
+    .cal-weekday.is-sat { color: var(--cat-sky); }
+    .cal-weekday.is-sun { color: var(--cat-pink); }
+    .cal-cell { min-height: 120px; border-right: 1px solid #ddd; border-bottom: 1px solid #ddd; padding: 8px 8px 10px; display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+    .cal-grid > .cal-cell:nth-child(-n+14) { border-top: 1px solid #ddd; }
+    .cal-cell.is-empty { background: #fafafa; }
     .cal-cell.is-today { background: var(--blm-gold-pale); }
-    .cal-daynum { font-size: 12.5px; font-weight: 700; color: var(--blm-ink); }
-    .cal-daynum.is-sat { color: #4d8fdb; }
-    .cal-daynum.is-sun { color: var(--blm-pink-deep); }
+    .cal-daynum { font-size: 11px; }
+    .cal-daynum.is-sat { color: var(--cat-sky); }
+    .cal-daynum.is-sun { color: var(--cat-pink); }
+    .cal-event { display: block; text-decoration: none; color: inherit; transition: opacity 0.2s; }
+    .cal-event:hover { opacity: 0.6; }
+    .cal-event .cat-box { font-size: 8.5px; padding: 2px 6px 1px; margin-bottom: 3px; max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
+    .cal-event-title { font-size: 10.5px; line-height: 1.45; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .cal-more { font-size: 10px; color: var(--blm-ink-faint); }
+    .cal-empty-state { grid-column: 1 / -1; padding: 60px 16px; text-align: center; color: var(--blm-ink-faint); font-size: 13px; border-right: 1px solid #ddd; border-bottom: 1px solid #ddd; }
 
-    .cal-event { display: block; text-decoration: none; }
-    .cal-event-tag {
-      display: inline-block; font-size: 9px; font-weight: 800; letter-spacing: 0.3px;
-      color: #fff; background: var(--blm-tab-color, var(--blm-ink-faint));
-      padding: 2px 7px; border-radius: 4px; margin-bottom: 2px;
-    }
-    .cal-event-title {
-      font-size: 10.5px; color: var(--blm-ink); line-height: 1.35;
-      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
-    }
-    .cal-more { font-size: 10px; color: var(--blm-ink-faint); font-weight: 700; }
-
-    .cal-empty-state { grid-column: 1 / -1; padding: 60px 16px; text-align: center; color: var(--blm-ink-faint); font-weight: 600; }
+    /* --- List view (the toggle): one row per event in the month --- */
+    .cal-list { display: none; }
+    .is-list .cal-grid { display: none; }
+    .is-list .cal-list { display: flex; }
+    .cal-list .status-line { padding: 40px 0; }
 
     @media (max-width: 720px) {
-      .cal-cell { min-height: 78px; padding: 6px; }
-      .cal-event-tag { font-size: 8px; padding: 1px 5px; }
-      .cal-event-title { font-size: 9.5px; -webkit-line-clamp: 1; }
-      .cal-weekday { font-size: 10px; padding: 8px 0; }
-      .cal-daynum { font-size: 11px; }
-    }
-    @media (max-width: 480px) {
-      .cal-nav { justify-content: center; text-align: center; }
+      .cal-cell { min-height: 76px; padding: 5px; }
+      .cal-event .cat-box { display: none; }
+      .cal-event-title { font-size: 9.5px; -webkit-line-clamp: 2; }
+      .cal-weekday { font-size: 10px; }
       .cal-nav-btn span { display: none; }
+      .cal-view-toggle { top: -58px; }
     }
   </style>
 </head>
@@ -99,25 +77,26 @@
   <script src="assets/js/nav.js"></script>
 
   <main class="page-shell">
-    <div class="page-hero">
-      <span class="eyebrow">What's Coming Up</span>
-      <h1 class="page-hero-title">Schedule</h1>
-    </div>
+    <div class="page-hero"><h1 class="page-hero-title">Schedule</h1></div>
 
-    <div class="cal-tabs" id="calTabs" style="display:none;"></div>
+    <div class="cat-tabs" id="calTabs" hidden></div>
 
-    <div class="cal-nav">
-      <button type="button" class="cal-nav-btn" id="calPrev"><i class="fas fa-arrow-left"></i> <span id="calPrevLabel">&nbsp;</span></button>
-      <div class="cal-month-display">
-        <span class="cal-year" id="calYear"></span>
-        <span class="cal-month-num" id="calMonthNum"></span>
-        <span class="cal-month-name" id="calMonthName"></span>
+    <div id="calView">
+      <div class="cal-top">
+        <button type="button" class="cal-nav-btn" id="calPrev">&larr; <span id="calPrevLabel">&nbsp;</span></button>
+        <div class="cal-month-display">
+          <span class="cal-year" id="calYear"></span>
+          <span class="cal-month-num" id="calMonthNum"></span>
+          <span class="cal-month-name" id="calMonthName"></span>
+        </div>
+        <button type="button" class="cal-nav-btn" id="calNext"><span id="calNextLabel">&nbsp;</span> &rarr;</button>
+        <button type="button" class="cal-view-toggle" id="calViewToggle" aria-label="Show as list" title="Show as list"><i class="fas fa-list" aria-hidden="true"></i></button>
       </div>
-      <button type="button" class="cal-nav-btn" id="calNext"><span id="calNextLabel">&nbsp;</span> <i class="fas fa-arrow-right"></i></button>
-    </div>
 
-    <div class="cal-grid reveal" id="calGrid">
-      <p style="color:var(--blm-ink-faint);font-weight:600;padding:20px 4px;grid-column:1/-1;">Loading schedule...</p>
+      <div class="cal-grid" id="calGrid">
+        <p class="cal-empty-state">Loading schedule...</p>
+      </div>
+      <div class="info-list cal-list" id="calList"></div>
     </div>
   </main>
 
@@ -127,15 +106,19 @@
   <script>
     const WEEKDAY_LABELS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
     const MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-    const TAG_PALETTE = ['#f5629e', '#6fbf8b', '#9b7fd4', '#4d8fdb', '#7ec8e3', '#e07a3f', '#8a7c68', '#c9932c'];
+    // Tags take colours in first-seen order, same as Home's SCHEDULE list.
+    const TAG_PALETTE = ['var(--cat-pink)', 'var(--cat-sky)', 'var(--cat-mint)', 'var(--cat-purple)', 'var(--cat-yellow)', 'var(--cat-blue)', 'var(--cat-gray)'];
 
     let allEvents = [];
+    let tagOrder = [];
     let activeTag = 'all';
     let viewYear, viewMonth; // viewMonth is 0-indexed
 
-    function tagColorFor(tag, tagOrder) {
-      const idx = tagOrder.indexOf((tag || '').toLowerCase());
-      return TAG_PALETTE[idx % TAG_PALETTE.length] || 'var(--blm-ink-faint)';
+    const pad2 = n => String(n).padStart(2, '0');
+
+    function tagColorFor(tag) {
+      const idx = tagOrder.indexOf((tag || '').trim().toLowerCase());
+      return idx < 0 ? 'var(--cat-gray)' : TAG_PALETTE[idx % TAG_PALETTE.length];
     }
 
     function uniqueTags(events) {
@@ -152,18 +135,17 @@
     function renderTabs() {
       const tabsEl = document.getElementById('calTabs');
       const tags = uniqueTags(allEvents);
-      if (!tags.length) { tabsEl.style.display = 'none'; return; }
-      tabsEl.style.display = 'flex';
+      if (!tags.length) return;
+      tabsEl.hidden = false;
 
-      const tagOrder = tags.map(t => t.toLowerCase());
       const buttons = [{ label: 'All', tag: 'all', color: 'var(--blm-ink)' }]
-        .concat(tags.map(t => ({ label: t, tag: t.toLowerCase(), color: tagColorFor(t, tagOrder) })));
+        .concat(tags.map(t => ({ label: t, tag: t.toLowerCase(), color: tagColorFor(t) })));
 
       tabsEl.innerHTML = buttons.map(b => `
-        <button type="button" class="cal-tab${b.tag === activeTag ? ' active' : ''}" data-filter="${b.tag}" style="--blm-tab-color:${b.color};">${b.label}</button>
+        <button type="button" class="${b.tag === activeTag ? 'is-current' : ''}" data-filter="${b.tag}" style="--tag:${b.color};">${b.label}</button>
       `).join('');
 
-      tabsEl.querySelectorAll('.cal-tab').forEach(btn => {
+      tabsEl.querySelectorAll('button').forEach(btn => {
         btn.addEventListener('click', () => {
           activeTag = btn.getAttribute('data-filter');
           renderTabs();
@@ -172,13 +154,15 @@
       });
     }
 
+    function eventLinkAttrs(e) {
+      return `href="${e.link || '#'}" ${e.link ? 'target="_blank" rel="noopener"' : 'onclick="return false;"'}`;
+    }
+
     function renderCalendar() {
       const gridEl = document.getElementById('calGrid');
-      const tags = uniqueTags(allEvents);
-      const tagOrder = tags.map(t => t.toLowerCase());
 
       document.getElementById('calYear').textContent = viewYear;
-      document.getElementById('calMonthNum').textContent = String(viewMonth + 1).padStart(2, '0');
+      document.getElementById('calMonthNum').textContent = viewMonth + 1;
       document.getElementById('calMonthName').textContent = MONTH_NAMES[viewMonth];
 
       const prevMonth = viewMonth === 0 ? 11 : viewMonth - 1;
@@ -186,14 +170,15 @@
       document.getElementById('calPrevLabel').textContent = MONTH_NAMES[prevMonth];
       document.getElementById('calNextLabel').textContent = MONTH_NAMES[nextMonth];
 
-      const filtered = activeTag === 'all' ? allEvents : allEvents.filter(e => (e.tag || '').toLowerCase() === activeTag);
+      const filtered = activeTag === 'all' ? allEvents : allEvents.filter(e => (e.tag || '').trim().toLowerCase() === activeTag);
 
       const byDay = {};
+      const monthEvents = [];
       filtered.forEach(e => {
         const d = new Date(e.date);
         if (isNaN(d) || d.getFullYear() !== viewYear || d.getMonth() !== viewMonth) return;
-        const day = d.getDate();
-        (byDay[day] = byDay[day] || []).push(e);
+        (byDay[d.getDate()] = byDay[d.getDate()] || []).push(e);
+        monthEvents.push(e);
       });
 
       const firstOfMonth = new Date(viewYear, viewMonth, 1);
@@ -221,8 +206,8 @@
         const extra = dayEvents.length - shown.length;
 
         const eventsHTML = shown.map(e => `
-          <a class="cal-event" href="${e.link || '#'}" ${e.link ? 'target="_blank" rel="noopener"' : 'onclick="return false;"'}>
-            <span class="cal-event-tag" style="--blm-tab-color:${tagColorFor(e.tag, tagOrder)};">${e.tag || ''}</span>
+          <a class="cal-event" ${eventLinkAttrs(e)}>
+            ${e.tag ? `<span class="cat-box" style="--tag:${tagColorFor(e.tag)};">${e.tag}</span>` : ''}
             <div class="cal-event-title">${e.title || ''}</div>
           </a>
         `).join('') + (extra > 0 ? `<span class="cal-more">+${extra} more</span>` : '');
@@ -234,8 +219,26 @@
           </div>
         `;
       }
-
       gridEl.innerHTML = html;
+
+      // List view of the same month (big date + tag + title), in date order.
+      const listEl = document.getElementById('calList');
+      monthEvents.sort((a, b) => new Date(a.date) - new Date(b.date) || (a.time || '').localeCompare(b.time || ''));
+      listEl.innerHTML = monthEvents.length ? monthEvents.map(e => {
+        const d = new Date(e.date);
+        return `
+          <a class="sch-row" ${eventLinkAttrs(e)}>
+            <div class="sch-date">
+              <span class="sch-md">${pad2(d.getMonth() + 1)}.${pad2(d.getDate())}</span>
+              <span class="sch-year">${BLM48Data.fmtDate(e.date).weekday.toUpperCase()}.${d.getFullYear()}</span>
+            </div>
+            <div class="sch-body">
+              ${e.tag ? `<span class="cat-box" style="--tag:${tagColorFor(e.tag)};">${e.tag}</span>` : ''}
+              <p class="info-title">${e.title || ''}</p>
+            </div>
+          </a>
+        `;
+      }).join('') : '<p class="status-line">No schedule this month.</p>';
     }
 
     function shiftMonth(delta) {
@@ -244,6 +247,16 @@
       if (viewMonth > 11) { viewMonth = 0; viewYear++; }
       renderCalendar();
     }
+
+    // Round dark button toggles calendar <-> list, like the reference page.
+    document.getElementById('calViewToggle').addEventListener('click', e => {
+      const view = document.getElementById('calView');
+      const isList = view.classList.toggle('is-list');
+      const btn = e.currentTarget;
+      btn.innerHTML = `<i class="fas ${isList ? 'fa-calendar-days' : 'fa-list'}" aria-hidden="true"></i>`;
+      btn.setAttribute('aria-label', isList ? 'Show as calendar' : 'Show as list');
+      btn.title = btn.getAttribute('aria-label');
+    });
 
     async function initSchedule() {
       const gridEl = document.getElementById('calGrid');
@@ -254,6 +267,7 @@
       try {
         const rows = await BLM48Data.fetchSheet('Schedule');
         allEvents = rows.filter(r => r.date);
+        tagOrder = uniqueTags(allEvents).map(t => t.toLowerCase());
 
         if (!allEvents.length) {
           gridEl.innerHTML = '<div class="cal-empty-state">No schedule yet.</div>';

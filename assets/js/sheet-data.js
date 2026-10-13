@@ -164,12 +164,27 @@ window.BLM48_STATIC_SHEETS = {
     return rows;
   }
 
+  // Google Drive image links (lh3) throttle when many load at once, so a failed
+  // picture gets one delayed retry before falling back. Use as
+  // onerror="BLM48Data.imgRetry(this, 'fallback-url')".
+  function imgRetry(img, fallback) {
+    if (!img.dataset.retried) {
+      img.dataset.retried = '1';
+      var src = img.src;
+      setTimeout(function () { img.src = src + (src.indexOf('?') !== -1 ? '&' : '?') + 'r=1'; }, 800 + Math.random() * 1500);
+      return;
+    }
+    img.onerror = null;
+    if (fallback) img.src = fallback;
+  }
+
   window.BLM48Data = {
     fetchSheet: fetchSheet,
     fetchMembers: fetchMembers,
     tagClass: tagClass,
     styleClass: styleClass,
     driveImg: driveImg,
-    fmtDate: fmtDate
+    fmtDate: fmtDate,
+    imgRetry: imgRetry
   };
 })();

@@ -15,65 +15,8 @@
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
-    body { font-family: var(--font-body); color: var(--blm-ink); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
-
-    /* --- Category filter tabs (plain colored text, one hue per tag) --- */
-    .news-tabs { display: flex; gap: 26px; flex-wrap: wrap; margin-bottom: 48px; }
-    .news-tab {
-      background: none; border: none;
-      font-family: var(--font-body); font-size: 12.5px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase;
-      cursor: pointer; padding: 0 0 8px;
-      position: relative; color: var(--blm-tab-color, var(--blm-ink-soft));
-      transition: opacity 0.2s ease;
-    }
-    .news-tab:hover { opacity: 0.75; }
-    .news-tab.active { font-weight: 800; }
-    .news-tab.active::after {
-      content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: currentColor;
-    }
-
-    /* --- List --- */
-    .news-list { display: flex; flex-direction: column; }
-    .news-row {
-      display: flex; align-items: flex-start; gap: 24px;
-      text-decoration: none; color: inherit;
-      padding: 26px 4px;
-      border-bottom: 1px solid var(--blm-line);
-      transition: background 0.2s, padding 0.2s;
-    }
-    .news-row:first-child { padding-top: 4px; }
-    .news-row:hover { background: var(--blm-paper-soft); border-radius: var(--radius-md); padding-left: 16px; padding-right: 16px; }
-
-    .news-thumb {
-      width: 148px; aspect-ratio: 3/2; flex-shrink: 0;
-      overflow: hidden; background: var(--blm-paper-soft);
-      border: 1px solid var(--blm-line); border-radius: var(--radius-sm);
-      display: flex; align-items: center; justify-content: center;
-    }
-    .news-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .news-thumb-placeholder {
-      font-family: var(--font-display); font-weight: 800; font-size: 11px; letter-spacing: 2.5px;
-      color: var(--blm-ink-faint); text-transform: uppercase;
-    }
-
-    .news-content { flex-grow: 1; min-width: 0; padding-top: 3px; }
-    .news-meta { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; flex-wrap: wrap; }
-    .cat-tag {
-      border: 1px solid var(--blm-tag-color, var(--blm-ink-faint));
-      color: var(--blm-tag-color, var(--blm-ink-faint));
-      font-size: 10px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;
-      padding: 3px 9px;
-    }
-    .news-date { font-size: 12px; color: var(--blm-ink-faint); font-weight: 600; }
-    .news-new-badge { font-size: 10.5px; font-weight: 800; letter-spacing: 0.6px; color: var(--blm-pink-deep); text-transform: uppercase; }
-    .news-title-text { color: var(--blm-ink); font-size: 15px; font-weight: 700; line-height: 1.5; transition: color 0.2s; }
-    .news-row:hover .news-title-text { color: var(--blm-pink-deep); }
-
-    @media (max-width: 600px) {
-      .news-thumb { width: 96px; }
-      .news-row { gap: 16px; padding: 20px 4px; }
-      .news-title-text { font-size: 14px; }
-    }
+    body { overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+    /* rows, tabs and pager come from site.css */
   </style>
 </head>
 <body>
@@ -82,138 +25,151 @@
   <script src="assets/js/nav.js"></script>
 
   <main class="page-shell">
-    <div class="page-hero">
-      <span class="eyebrow">Latest Updates</span>
-      <h1 class="page-hero-title">News</h1>
-    </div>
+    <div class="page-hero"><h1 class="page-hero-title">News</h1></div>
 
-    <div class="news-tabs" id="newsTabs" style="display:none;"></div>
+    <div class="cat-tabs" id="newsTabs" hidden></div>
 
-    <div class="news-list" id="newsList">
-      <p style="color:var(--blm-ink-faint);font-weight:600;padding:20px 4px;">Loading news...</p>
-    </div>
+    <div class="info-list" id="newsList"><p class="status-line">Loading news...</p></div>
+
+    <nav class="pager" id="newsPager" aria-label="Pages" hidden></nav>
   </main>
 
   <div id="site-footer"></div>
 
   <script src="assets/js/sheet-data.js"></script>
   <script>
-    // One distinct color per tag (not a generic 4-bucket scheme), so each
-    // category reads at a glance like the reference filter bar. Tags are
-    // assigned a color by alphabetical position, not fetch order, so this
-    // always lines up with the same tags rendered on index.html's News
-    // preview (which computes colors the same way, independently).
-    var NEWS_TAG_PALETTE = ['#f5629e', '#4d8fdb', '#7ec8e3', '#c9932c', '#9b7fd4', '#6fbf8b', '#8a7c68'];
+    var LOGO_SRC = 'https://lh3.googleusercontent.com/d/12PFpDx6bOmQpf_UMhhh6ltZwvOAkVyvW=s1000';
+    var PER_PAGE = 10;
 
-    function tagColor(tag, tagOrder) {
-      var idx = tagOrder.indexOf((tag || '').toLowerCase());
-      return NEWS_TAG_PALETTE[idx % NEWS_TAG_PALETTE.length] || 'var(--blm-ink-faint)';
+    // One colour per tag, assigned by alphabetical position so the same tag
+    // matches the colour on Home's NEWS list (which computes it the same way).
+    var TAG_PALETTE = ['var(--cat-pink)', 'var(--cat-sky)', 'var(--cat-mint)', 'var(--cat-purple)', 'var(--cat-yellow)', 'var(--cat-blue)', 'var(--cat-gray)'];
+
+    var allItems = [];
+    var tagOrder = [];
+    var activeTag = 'all';
+    var page = 1;
+
+    function tagColor(tag) {
+      var idx = tagOrder.indexOf((tag || '').trim().toLowerCase());
+      return idx < 0 ? 'var(--cat-gray)' : TAG_PALETTE[idx % TAG_PALETTE.length];
     }
 
-    // Items from the last 3 days get a NEW badge, same recency window the
-    // reference design uses.
+    // Items from the last 3 days get a "New!" mark.
     function isRecent(dateValue) {
-      var d = dateValue instanceof Date ? dateValue : new Date(dateValue);
+      var d = new Date(dateValue);
       if (isNaN(d)) return false;
       var diffDays = (Date.now() - d.getTime()) / (1000 * 60 * 60 * 24);
       return diffDays >= 0 && diffDays <= 3;
     }
 
-    // Alphabetical (not fetch-order) so the same tag always gets the same
-    // palette index here and on index.html's independent News fetch.
-    function tagOrderFrom(items) {
-      var seen = {};
-      var tags = [];
-      items.forEach(function (item) {
-        var key = (item.tag || '').trim().toLowerCase();
-        if (key && !seen[key]) { seen[key] = true; tags.push(key); }
-      });
-      return tags.sort();
-    }
+    function pad2(n) { return String(n).padStart(2, '0'); }
 
-    function newsRowHTML(item, tagOrder, i) {
+    function rowHTML(item, i) {
       var imgSrc = item.image || item.thumbnail || item.thumb || '';
-      var thumbHTML = imgSrc
-        ? `<img src="${BLM48Data.driveImg(imgSrc)}" alt="" loading="lazy" onerror="this.src='https://via.placeholder.com/300x200?text=BLM48'">`
-        : `<span class="news-thumb-placeholder">News</span>`;
-
-      return `
-        <a href="${item.link || '#'}" target="_blank" rel="noopener" class="news-row reveal reveal-${(i % 6) + 1}" data-tag="${(item.tag || '').toLowerCase()}">
-          <div class="news-thumb">${thumbHTML}</div>
-          <div class="news-content">
-            <div class="news-meta">
-              <span class="cat-tag" style="--blm-tag-color:${tagColor(item.tag, tagOrder)};">${item.tag || 'News'}</span>
-              <span class="news-date">${item._date.full}</span>
-              ${isRecent(item.date) ? '<span class="news-new-badge">New</span>' : ''}
-            </div>
-            <div class="news-title-text">${item.title || ''}</div>
-          </div>
-        </a>
-      `;
+      var thumb = imgSrc
+        ? '<img src="' + BLM48Data.driveImg(imgSrc) + '" alt="" loading="lazy" onerror="if (!this.dataset.retried) { BLM48Data.imgRetry(this); } else { this.onerror = null; this.src = \'' + LOGO_SRC + '\'; this.className = \'is-logo\'; }">'
+        : '<img class="is-logo" src="' + LOGO_SRC + '" alt="">';
+      var d = new Date(item.date);
+      var dateText = isNaN(d) ? item._date.full : d.getFullYear() + '.' + pad2(d.getMonth() + 1) + '.' + pad2(d.getDate());
+      return '' +
+        '<a href="' + (item.link || '#') + '" target="_blank" rel="noopener" class="info-row reveal reveal-' + ((i % 6) + 1) + '">' +
+          '<div class="info-thumb">' + thumb + '</div>' +
+          '<div>' +
+            '<div class="info-meta">' +
+              '<span class="info-date">' + dateText + '</span>' +
+              '<span class="cat-box" style="--tag:' + tagColor(item.tag) + ';">' + (item.tag || 'News') + '</span>' +
+            '</div>' +
+            '<p class="info-title">' + (item.title || '') + (isRecent(item.date) ? '<span class="new-mark">New!</span>' : '') + '</p>' +
+          '</div>' +
+        '</a>';
     }
 
-    function renderTabs(items, activeTag) {
+    function filtered() {
+      return activeTag === 'all' ? allItems : allItems.filter(function (it) { return (it.tag || '').trim().toLowerCase() === activeTag; });
+    }
+
+    function renderTabs() {
       var tabsEl = document.getElementById('newsTabs');
-      var tagOrder = tagOrderFrom(items);
-      var seen = {};
-      var tags = [];
-      items.forEach(function (item) {
+      var seen = {}; var tags = [];
+      allItems.forEach(function (item) {
         var raw = (item.tag || '').trim();
-        var key = raw.toLowerCase();
-        if (key && !seen[key]) { seen[key] = true; tags.push(raw); }
+        if (raw && !seen[raw.toLowerCase()]) { seen[raw.toLowerCase()] = true; tags.push(raw); }
       });
-
-      if (!tags.length) { tabsEl.style.display = 'none'; return; }
-      tabsEl.style.display = 'flex';
-
-      var buttons = [{ label: 'All', tag: 'all', color: 'var(--blm-ink)' }]
-        .concat(tags.map(function (t) { return { label: t, tag: t.toLowerCase(), color: tagColor(t, tagOrder) }; }));
+      if (!tags.length) return;
+      tabsEl.hidden = false;
+      var buttons = [{ label: 'All', key: 'all', color: 'var(--blm-ink)' }]
+        .concat(tags.map(function (t) { return { label: t, key: t.toLowerCase(), color: tagColor(t) }; }));
       tabsEl.innerHTML = buttons.map(function (b) {
-        return `<button type="button" class="news-tab${b.tag === activeTag ? ' active' : ''}" data-filter="${b.tag}" style="--blm-tab-color:${b.color};">${b.label}</button>`;
+        return '<button type="button" class="' + (b.key === activeTag ? 'is-current' : '') + '" data-key="' + b.key + '" style="--tag:' + b.color + ';">' + b.label + '</button>';
       }).join('');
-
-      tabsEl.querySelectorAll('.news-tab').forEach(function (btn) {
+      tabsEl.querySelectorAll('button').forEach(function (btn) {
         btn.addEventListener('click', function () {
-          renderList(items, btn.getAttribute('data-filter'));
-          renderTabs(items, btn.getAttribute('data-filter'));
+          activeTag = btn.getAttribute('data-key');
+          page = 1;
+          renderTabs();
+          renderList();
         });
       });
     }
 
-    function renderList(items, activeTag) {
-      var listEl = document.getElementById('newsList');
-      var tagOrder = tagOrderFrom(items);
-      var filtered = (!activeTag || activeTag === 'all')
-        ? items
-        : items.filter(function (item) { return (item.tag || '').toLowerCase() === activeTag; });
+    var ARROW_PREV = '<svg viewBox="0 0 44 10" aria-hidden="true"><path d="M44 9H1L9 1" fill="none" stroke="currentColor"/></svg>';
+    var ARROW_NEXT = '<svg viewBox="0 0 44 10" aria-hidden="true"><path d="M0 9h43L35 1" fill="none" stroke="currentColor"/></svg>';
 
-      if (!filtered.length) {
-        listEl.innerHTML = '<p style="color:var(--blm-ink-faint);font-weight:600;padding:20px 4px;">No news in this category yet.</p>';
+    function renderPager(total) {
+      var pagerEl = document.getElementById('newsPager');
+      var pages = Math.ceil(total / PER_PAGE);
+      pagerEl.hidden = pages <= 1;
+      if (pages <= 1) { pagerEl.innerHTML = ''; return; }
+      var html = '<button type="button" class="pager-arrow" data-page="' + (page - 1) + '" aria-label="Previous page"' + (page === 1 ? ' disabled' : '') + '>' + ARROW_PREV + '</button>';
+      for (var p = 1; p <= pages; p++) {
+        html += '<button type="button" data-page="' + p + '"' + (p === page ? ' class="is-current" aria-current="page"' : '') + '>' + p + '</button>';
+      }
+      html += '<button type="button" class="pager-arrow" data-page="' + (page + 1) + '" aria-label="Next page"' + (page === pages ? ' disabled' : '') + '>' + ARROW_NEXT + '</button>';
+      pagerEl.innerHTML = html;
+      pagerEl.querySelectorAll('button').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          page = Number(btn.getAttribute('data-page'));
+          renderList();
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      });
+    }
+
+    function renderList() {
+      var listEl = document.getElementById('newsList');
+      var items = filtered();
+      if (!items.length) {
+        listEl.innerHTML = '<p class="status-line">No news in this category yet.</p>';
+        renderPager(0);
         return;
       }
-      listEl.innerHTML = filtered.map(function (item, i) { return newsRowHTML(item, tagOrder, i); }).join('');
+      var start = (page - 1) * PER_PAGE;
+      listEl.innerHTML = items.slice(start, start + PER_PAGE).map(rowHTML).join('');
+      renderPager(items.length);
     }
 
-    async function renderNews() {
-      const listEl = document.getElementById('newsList');
+    (async function renderNews() {
+      var listEl = document.getElementById('newsList');
       try {
-        const rows = await BLM48Data.fetchSheet('News');
-        const items = rows
-          .map(r => ({ ...r, _date: BLM48Data.fmtDate(r.date) }))
-          .sort((a, b) => b._date.time - a._date.time);
+        var rows = await BLM48Data.fetchSheet('News');
+        allItems = rows
+          .map(function (r) { return Object.assign({}, r, { _date: BLM48Data.fmtDate(r.date) }); })
+          .sort(function (a, b) { return b._date.time - a._date.time; });
+        tagOrder = [];
+        allItems.forEach(function (it) {
+          var key = (it.tag || '').trim().toLowerCase();
+          if (key && tagOrder.indexOf(key) < 0) tagOrder.push(key);
+        });
+        tagOrder.sort();
 
-        if (!items.length) {
-          listEl.innerHTML = '<p style="color:var(--blm-ink-faint);font-weight:600;padding:20px 4px;">No news yet.</p>';
-          return;
-        }
-
-        renderTabs(items, 'all');
-        renderList(items, 'all');
+        if (!allItems.length) { listEl.innerHTML = '<p class="status-line">No news yet.</p>'; return; }
+        renderTabs();
+        renderList();
       } catch (err) {
-        listEl.innerHTML = '<p style="color:var(--blm-ink-faint);font-weight:600;padding:20px 4px;">Unable to load news right now.</p>';
+        listEl.innerHTML = '<p class="status-line">Unable to load news right now.</p>';
       }
-    }
-    renderNews();
+    })();
   </script>
 
 </body>
