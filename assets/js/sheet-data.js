@@ -18,7 +18,8 @@ window.BLM48_STATIC_SHEETS = {
   LinkBanners: [
     {"image":"https://lh3.googleusercontent.com/d/1CjxVjPiX4dRvYJOSxdRuW0t9bRRnYuLM=s1000","link":"https://blm48-app.vercel.app/","title":"","ggDrive":"https://drive.google.com/file/d/1CjxVjPiX4dRvYJOSxdRuW0t9bRRnYuLM/view?usp=drive_link"},
     {"image":"https://lh3.googleusercontent.com/d/1NMgPrz7lKM1GICLBpHS2v4ji3LGrjOex=s1000","link":"https://www.youtube.com/@blm48official","title":"","ggDrive":"https://drive.google.com/file/d/1NMgPrz7lKM1GICLBpHS2v4ji3LGrjOex/view?usp=drive_link"},
-    {"image":"https://lh3.googleusercontent.com/d/1-fTdfoXaYSZCqRgzxQ0Dvl6P3RsrFEvd=s1000","link":"https://www.instagram.com/blm48thecampus/","title":"","ggDrive":"https://drive.google.com/file/d/1-fTdfoXaYSZCqRgzxQ0Dvl6P3RsrFEvd/view?usp=drive_link"}
+    {"image":"https://lh3.googleusercontent.com/d/1-fTdfoXaYSZCqRgzxQ0Dvl6P3RsrFEvd=s1000","link":"https://www.instagram.com/blm48thecampus/","title":"","ggDrive":"https://drive.google.com/file/d/1-fTdfoXaYSZCqRgzxQ0Dvl6P3RsrFEvd/view?usp=drive_link"},
+    {"image":"assets/img/banner-official-shop.webp","link":"https://blm48-membership.vercel.app/shop","title":"BLM48 Official Shop","ggDrive":""}
   ],
   Discography: [
     {"category":"concert","kicker":"Concert","kickerStyle":"live","date":"2026-09-26","title":"BLM48 & NPT48 Concert This Letter Says <Marry Me>","coverImage":"https://lh3.googleusercontent.com/d/1ldpEY5sgtfoJP-gzqcsoh8dTIjjrD8jD=s1000","link":""},
