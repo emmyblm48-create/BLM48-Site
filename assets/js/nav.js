@@ -15,15 +15,14 @@
     { href: 'profile', page: 'profile', label: 'Profile' },
     { href: 'discography', page: 'discography', label: 'Discography' },
     { href: 'about', page: 'about', label: 'About BLM48' },
-    { href: 'champ', page: 'champ', label: 'Champ' },
     { href: 'cafe', page: 'cafe', label: 'Cafe' },
     { href: 'token', page: 'token', label: 'Token' },
     { href: 'https://blm48-membership.vercel.app/', page: '', label: 'Membership' },
-    { href: 'shop', page: 'shop', label: 'Official Shop' }
+    { href: 'https://blm48-membership.vercel.app/shop', page: '', label: 'Official Shop' }
   ];
 
   function currentPage() {
-    // Links are clean URLs (/shop, not /shop.html); the site root and index redirect to /home.
+    // Links are clean URLs (/news, not /news.html); the site root and index redirect to /home.
     var name = window.location.pathname.split('/').pop().replace('.html', '');
     return (name === '' || name === 'index') ? 'home' : name;
   }

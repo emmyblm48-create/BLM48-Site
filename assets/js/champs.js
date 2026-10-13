@@ -1,6 +1,6 @@
 /* =========================================================
    BLM48 — Champ of the Month data (from the Membership app)
-   Shared by the Home page (hero + Champ grid) and champ.html.
+   Used by the Home page key visual.
    ========================================================= */
 (function () {
   // Same public anon key the Membership app (blm48-membership.vercel.app) ships client-side.
