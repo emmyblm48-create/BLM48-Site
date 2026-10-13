@@ -26,16 +26,17 @@
     .kv-logo { position: absolute; z-index: 3; top: 12vh; left: 50%; transform: translateX(-50%); text-align: center; white-space: nowrap; }
     .kv-logo h1 { font-family: var(--font-display); font-weight: 300; font-size: clamp(56px, 7.4vw, 110px); line-height: 1; letter-spacing: 0.03em; color: #fff; }
     .kv-logo span { display: block; margin-top: 18px; font-size: 11px; letter-spacing: 0.2em; color: rgba(255, 255, 255, 0.95); }
-    .kv-visual { position: absolute; z-index: 2; left: 50%; bottom: 0; transform: translateX(-50%); height: 62%; }
-    .kv-visual img { display: block; height: 100%; width: auto; max-width: 86vw; object-fit: cover; object-position: top; border-radius: 26px 26px 0 0; }
-    .kv-cap {
-      position: absolute; z-index: 3; left: clamp(16px, 4vw, 57px); bottom: 32px;
-      display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--blm-ink); max-width: 40%;
+    /* the banner pictures take turns here, cross-fading one into the next */
+    .kv-visual {
+      position: absolute; z-index: 2; left: 50%; top: clamp(250px, 36vh, 340px); transform: translateX(-50%);
+      height: calc(100% - clamp(250px, 36vh, 340px) - 110px); max-width: 86vw; aspect-ratio: 1445 / 820;
+      border-radius: 20px; overflow: hidden; box-shadow: 0 24px 50px rgba(150, 110, 0, 0.18);
     }
-    .kv-cap img { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; border: 2px solid #fff; flex-shrink: 0; }
-    .kv-cap small { display: block; font-size: 9px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--blm-ink-soft); }
-    .kv-cap b { display: block; font-weight: 400; font-size: 13px; margin-top: 2px; }
-    .kv-champ[hidden] { display: none; }
+    .kv-visual[hidden] { display: none; }
+    .kv-slide { position: absolute; inset: 0; opacity: 0; transition: opacity 1.2s ease; }
+    .kv-slide.is-on { opacity: 1; z-index: 1; }
+    .kv-slide img { width: 100%; height: 100%; object-fit: cover; display: block; transform: scale(1.04); transition: transform 6s ease-out; }
+    .kv-slide.is-on img { transform: scale(1); }
     .kv-scroll { position: absolute; z-index: 3; left: 50%; bottom: 0; width: 1px; height: 80px; background: rgba(255, 255, 255, 0.5); overflow: hidden; }
     .kv-scroll::after { content: ''; position: absolute; left: 0; top: -80px; width: 1px; height: 80px; background: #fff; animation: kv-scroll 2s ease-in-out infinite; }
     @keyframes kv-scroll { to { top: 80px; } }
@@ -45,8 +46,7 @@
     @keyframes kv-rise { from { opacity: 0; transform: translate(-50%, 30px); } to { opacity: 1; transform: translate(-50%, 0); } }
     @media (max-width: 760px) {
       .kv-logo { top: 16vh; }
-      .kv-visual { height: 50%; }
-      .kv-cap { max-width: 70%; bottom: 96px; }
+      .kv-visual { top: 38vh; height: auto; width: 88vw; }
     }
 
     /* ---------- 2. BANNER SLIDER ---------- */
@@ -56,7 +56,9 @@
     .bnr-swiper a { display: block; aspect-ratio: 1445 / 820; overflow: hidden; background: var(--blm-paper-soft); transition: opacity 0.3s; }
     .bnr-swiper a:hover { opacity: 0.8; }
     .bnr-swiper img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .bnr-swiper .swiper-pagination { bottom: 0; }
+    /* the dots are built by hand (one per real banner), so Swiper's own
+       horizontal-pagination classes that centre them never get added */
+    .bnr-swiper .swiper-pagination { bottom: 0; left: 0; right: 0; width: 100%; text-align: center; }
     .bnr-swiper .swiper-pagination-bullet { width: 6px; height: 6px; margin: 0 6px !important; background: #ccc; opacity: 1; }
     .bnr-swiper .swiper-pagination-bullet-active { background: #777; }
 
@@ -106,7 +108,6 @@
   <div id="site-header"></div>
   <script src="assets/js/nav.js"></script>
   <script src="assets/js/sheet-data.js"></script>
-  <script src="assets/js/champs.js"></script>
 
   <!-- 1. KEY VISUAL -->
   <section class="kv">
@@ -114,13 +115,7 @@
       <h1>BLM48</h1>
       <span>Official Site</span>
     </div>
-    <div class="kv-champ" id="heroChamp">
-      <div class="kv-visual"><img id="heroChampPost" alt=""></div>
-      <a class="kv-cap" id="heroChampTicket" href="#" target="_blank" rel="noopener">
-        <img id="heroChampImg" alt="">
-        <span><small>Champ of the Month</small><b id="heroChampName"></b></span>
-      </a>
-    </div>
+    <div class="kv-visual" id="kvVisual" hidden></div>
     <span class="kv-scroll" aria-hidden="true"></span>
   </section>
 
@@ -320,6 +315,8 @@
       try { rows = await BLM48Data.fetchSheet('HeroBanner'); } catch (err) { rows = []; }
       if (!rows.length) { document.getElementById('bnrSection').hidden = true; return; }
 
+      renderKeyVisual(rows);
+
       // Repeat short lists so the looping strip always fills wide screens.
       let slides = rows.slice();
       while (slides.length < 8) slides = slides.concat(rows);
@@ -345,15 +342,24 @@
       dots.forEach((d, i) => d.addEventListener('click', () => swiper.slideToLoop(i)));
     }
 
-    // Key visual: the latest Champ of the Month, linking to their special-thanks post.
-    async function renderHeroChamp() {
-      const champ = (await BLM48Champs.fetch())[0];
-      if (!champ) { document.getElementById('heroChamp').hidden = true; return; }
-      document.getElementById('heroChampPost').src = BLM48Data.driveImg(champ.postImage || champ.profileImage);
-      document.getElementById('heroChampPost').alt = champ.name ? champ.name + ' — Champ of the Month' : 'Champ of the Month';
-      document.getElementById('heroChampImg').src = BLM48Data.driveImg(champ.profileImage || champ.postImage);
-      document.getElementById('heroChampName').textContent = (champ.name || '') + (champ.monthYear ? ' · ' + champ.monthYear : '');
-      document.getElementById('heroChampTicket').href = BLM48Champs.postHref(champ);
+    // Key visual: the same banner pictures as the strip below, taking turns
+    // (cross-fade every 5s); each one links where its banner does.
+    function renderKeyVisual(rows) {
+      const box = document.getElementById('kvVisual');
+      box.innerHTML = rows.map((item, i) => `
+        <a class="kv-slide${i === 0 ? ' is-on' : ''}" href="${item.link || '#'}" ${item.link ? 'target="_blank" rel="noopener"' : ''} aria-label="${item.title || 'BLM48'}">
+          <img src="${BLM48Data.driveImg(item.image || item.thumbnail)}" alt="" onerror="BLM48Data.imgRetry(this, 'https://via.placeholder.com/1445x820?text=BLM48')">
+        </a>
+      `).join('');
+      box.hidden = false;
+      const slides = Array.from(box.children);
+      if (slides.length < 2 || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      let current = 0;
+      setInterval(() => {
+        slides[current].classList.remove('is-on');
+        current = (current + 1) % slides.length;
+        slides[current].classList.add('is-on');
+      }, 5000);
     }
 
     async function renderLinkBanners() {
@@ -368,7 +374,6 @@
       `).join('');
     }
 
-    renderHeroChamp();
     renderBanners();
     renderHomeNews();
     renderHomeSchedule();
