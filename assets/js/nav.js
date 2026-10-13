@@ -36,9 +36,10 @@
   ];
 
   function navLinksHTML() {
-    return NAV_LINKS.map(function (l) {
+    // --i orders the staggered fade-in when the menu opens (see site.css .drawer).
+    return NAV_LINKS.map(function (l, i) {
       var ext = /^https?:/.test(l.href) ? ' target="_blank" rel="noopener"' : '';
-      return '<a href="' + l.href + '" data-page="' + l.page + '"' + ext + '>' + l.label + '</a>';
+      return '<a href="' + l.href + '" data-page="' + l.page + '" style="--i:' + (i + 1) + '"' + ext + '>' + l.label + '</a>';
     }).join('');
   }
 
@@ -69,7 +70,7 @@
         '</a>' +
         '<div class="drawer-inner">' +
           '<nav class="drawer-links" aria-label="Main navigation">' + navLinksHTML() + '</nav>' +
-          '<div class="drawer-sns">' + socialIconsHTML('') + '</div>' +
+          '<div class="drawer-sns" style="--i:' + (NAV_LINKS.length + 1) + '">' + socialIconsHTML('') + '</div>' +
           '<div class="drawer-bnr" id="drawerBnr"></div>' +
         '</div>' +
       '</div>';
@@ -125,8 +126,8 @@
     var box = document.getElementById('drawerBnr');
     var rows = window.BLM48_STATIC_SHEETS && window.BLM48_STATIC_SHEETS.LinkBanners;
     if (!box || box.childElementCount || !rows) return;
-    box.innerHTML = rows.slice(0, 3).map(function (r) {
-      return '<a href="' + (r.link || '#') + '" target="_blank" rel="noopener"><img src="' + r.image + '" alt="' + (r.title || 'BLM48') + '" loading="lazy"></a>';
+    box.innerHTML = rows.slice(0, 3).map(function (r, i) {
+      return '<a href="' + (r.link || '#') + '" target="_blank" rel="noopener" style="--i:' + (NAV_LINKS.length + 2 + i) + '"><img src="' + r.image + '" alt="' + (r.title || 'BLM48') + '" loading="lazy"></a>';
     }).join('');
   }
 

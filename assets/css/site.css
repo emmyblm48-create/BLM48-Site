@@ -261,9 +261,36 @@ h1, h2, h3, .font-display { font-family: var(--font-display); }
   background: var(--blm-gold);
   display: flex; align-items: center; justify-content: center; gap: clamp(40px, 12vw, 200px);
   padding: 80px 6vw 40px; overflow-y: auto;
-  opacity: 0; visibility: hidden; transition: opacity 0.4s ease, visibility 0.4s;
+  /* Open/close: the yellow panel sweeps in from the right edge (and back
+     out), then its contents rise in one after another (see below). */
+  --ease-drawer: cubic-bezier(0.77, 0, 0.18, 1);
+  clip-path: inset(0 0 0 100%); visibility: hidden;
+  transition: clip-path 0.6s var(--ease-drawer) 0.12s, visibility 0s linear 0.72s;
 }
-.drawer.open { opacity: 1; visibility: visible; }
+.drawer.open {
+  clip-path: inset(0 0 0 0); visibility: visible;
+  transition: clip-path 0.65s var(--ease-drawer), visibility 0s;
+}
+/* Contents: hidden and nudged down while closed; on open each piece fades
+   up with a growing delay (--i), on close they all fade out at once. */
+.drawer-logo, .drawer-links a, .drawer-sns, .drawer-bnr a, .drawer-close {
+  opacity: 0; transform: translateY(14px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+.drawer-logo { transform: translateX(-24px); }
+.drawer-close { transform: rotate(-90deg); }
+.drawer.open .drawer-logo, .drawer.open .drawer-links a, .drawer.open .drawer-sns,
+.drawer.open .drawer-bnr a, .drawer.open .drawer-close {
+  opacity: 1; transform: none;
+  transition: opacity 0.6s ease, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: calc(0.35s + var(--i, 0) * 0.05s);
+}
+.drawer.open .drawer-logo { --i: 0; }
+.drawer.open .drawer-close { --i: 2; }
+@media (prefers-reduced-motion: reduce) {
+  .drawer, .drawer.open { clip-path: none; transition: visibility 0s; }
+  .drawer-logo, .drawer-links a, .drawer-sns, .drawer-bnr a, .drawer-close { transform: none !important; transition-duration: 0.01s !important; transition-delay: 0s !important; }
+}
 .drawer-close {
   position: absolute; top: clamp(18px, 3vw, 34px); right: clamp(18px, 4vw, 50px);
   width: 44px; height: 44px; background: none; border: none; cursor: pointer;
@@ -274,13 +301,13 @@ h1, h2, h3, .font-display { font-family: var(--font-display); }
 .drawer-logo { display: flex; flex-direction: column; align-items: center; gap: 12px; text-decoration: none; color: var(--blm-ink); }
 .drawer-logo-word { font-size: clamp(40px, 4.6vw, 64px); }
 .drawer-logo small { font-size: 10px; letter-spacing: 0.25em; color: var(--blm-ink-soft); }
-.drawer-inner { display: flex; flex-direction: column; gap: 22px; min-width: 200px; }
-.drawer-links { display: flex; flex-direction: column; gap: 14px; }
+.drawer-inner { display: flex; flex-direction: column; gap: 36px; min-width: 200px; }
+.drawer-links { display: flex; flex-direction: column; gap: 24px; }
 .drawer-links a {
   font-family: var(--font-display); font-size: 13px; letter-spacing: 0.2em; text-transform: uppercase;
-  color: var(--blm-ink); text-decoration: none; transition: opacity 0.2s;
+  color: var(--blm-ink); text-decoration: none; align-self: flex-start;
 }
-.drawer-links a:hover { opacity: 0.55; }
+.drawer.open .drawer-links a:hover { opacity: 0.55; transition-delay: 0s; transition-duration: 0.2s; }
 .drawer-links a.active { text-decoration: underline; text-underline-offset: 6px; }
 .drawer-sns { display: flex; gap: 14px; align-items: center; }
 .drawer-sns a { color: var(--blm-ink); font-size: 15px; text-decoration: none; display: inline-flex; }
@@ -291,7 +318,8 @@ h1, h2, h3, .font-display { font-family: var(--font-display); }
 @media (max-width: 760px) {
   .drawer { flex-direction: column; justify-content: flex-start; gap: 34px; }
   .drawer-inner { align-items: center; }
-  .drawer-links { align-items: center; }
+  .drawer-links { align-items: center; gap: 20px; }
+  .drawer-links a { align-self: center; }
 }
 body.menu-open { overflow: hidden; }
 
