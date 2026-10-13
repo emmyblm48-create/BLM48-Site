@@ -38,7 +38,8 @@
 
   <script src="assets/js/sheet-data.js"></script>
   <script>
-    var LOGO_SRC = 'https://lh3.googleusercontent.com/d/12PFpDx6bOmQpf_UMhhh6ltZwvOAkVyvW=s1000';
+    // Fallback for a missing/broken news picture: the BLM48 wordmark on band yellow.
+    var THUMB_LOGO = '<span class="wordmark" role="img" aria-label="BLM48"></span>';
     var PER_PAGE = 10;
 
     // One colour per tag, assigned by alphabetical position so the same tag
@@ -68,8 +69,8 @@
     function rowHTML(item, i) {
       var imgSrc = item.image || item.thumbnail || item.thumb || '';
       var thumb = imgSrc
-        ? '<img src="' + BLM48Data.driveImg(imgSrc) + '" alt="" loading="lazy" onerror="if (!this.dataset.retried) { BLM48Data.imgRetry(this); } else { this.onerror = null; this.src = \'' + LOGO_SRC + '\'; this.className = \'is-logo\'; }">'
-        : '<img class="is-logo" src="' + LOGO_SRC + '" alt="">';
+        ? '<img src="' + BLM48Data.driveImg(imgSrc) + '" alt="" loading="lazy" onerror="if (!this.dataset.retried) { BLM48Data.imgRetry(this); } else { this.onerror = null; this.outerHTML = THUMB_LOGO; }">'
+        : THUMB_LOGO;
       var d = new Date(item.date);
       var dateText = isNaN(d) ? item._date.full : d.getFullYear() + '.' + pad2(d.getMonth() + 1) + '.' + pad2(d.getDate());
       return '' +

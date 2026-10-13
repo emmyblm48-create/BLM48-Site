@@ -24,8 +24,8 @@
       background: linear-gradient(180deg, #ffe16b 0%, #ffe680 55%, #fff4c4 100%);
     }
     .kv-logo { position: absolute; z-index: 3; top: 12vh; left: 50%; transform: translateX(-50%); text-align: center; white-space: nowrap; }
-    .kv-logo h1 { font-family: var(--font-display); font-weight: 300; font-size: clamp(56px, 7.4vw, 110px); line-height: 1; letter-spacing: 0.03em; color: #fff; }
-    .kv-logo span { display: block; margin-top: 18px; font-size: 11px; letter-spacing: 0.2em; color: rgba(255, 255, 255, 0.95); }
+    .kv-logo h1 { font-size: clamp(64px, 8.4vw, 124px); line-height: 1; color: #fff; }
+    .kv-logo > span { display: block; margin-top: 18px; font-size: 11px; letter-spacing: 0.2em; color: rgba(255, 255, 255, 0.95); }
     /* the banner pictures take turns here, cross-fading one into the next */
     .kv-visual {
       position: absolute; z-index: 2; left: 50%; top: clamp(250px, 36vh, 340px); transform: translateX(-50%);
@@ -112,7 +112,7 @@
   <!-- 1. KEY VISUAL -->
   <section class="kv">
     <div class="kv-logo">
-      <h1>BLM48</h1>
+      <h1><span class="wordmark" role="img" aria-label="BLM48"></span></h1>
       <span>Official Site</span>
     </div>
     <div class="kv-visual" id="kvVisual" hidden></div>
@@ -181,7 +181,8 @@
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
   <script>
-    const LOGO_SRC = 'https://lh3.googleusercontent.com/d/12PFpDx6bOmQpf_UMhhh6ltZwvOAkVyvW=s1000';
+    // Fallback for a missing/broken news picture: the BLM48 wordmark on band yellow.
+    const THUMB_LOGO = '<span class="wordmark" role="img" aria-label="BLM48"></span>';
 
     function homeIsRecent(dateValue) {
       const d = dateValue instanceof Date ? dateValue : new Date(dateValue);
@@ -223,8 +224,8 @@
         listEl.innerHTML = items.map((item, i) => {
           const imgSrc = item.image || item.thumbnail || item.thumb || '';
           const thumb = imgSrc
-            ? `<img src="${BLM48Data.driveImg(imgSrc)}" alt="" loading="lazy" onerror="if (!this.dataset.retried) { BLM48Data.imgRetry(this); } else { this.onerror = null; this.src = '${LOGO_SRC}'; this.className = 'is-logo'; }">`
-            : `<img class="is-logo" src="${LOGO_SRC}" alt="">`;
+            ? `<img src="${BLM48Data.driveImg(imgSrc)}" alt="" loading="lazy" onerror="if (!this.dataset.retried) { BLM48Data.imgRetry(this); } else { this.onerror = null; this.outerHTML = THUMB_LOGO; }">`
+            : THUMB_LOGO;
           const d = new Date(item.date);
           const dateText = isNaN(d) ? item._date.full : `${d.getFullYear()}.${pad2(d.getMonth() + 1)}.${pad2(d.getDate())}`;
           return `

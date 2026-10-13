@@ -55,8 +55,7 @@
     mount.innerHTML =
       '<header class="site-header">' +
         '<a href="home" class="site-logo" aria-label="BLM48 Home">' +
-          '<img class="logo-img" src="' + LOGO_SRC + '" alt="">' +
-          '<span class="logo-word">BLM48</span>' +
+          '<span class="wordmark" role="img" aria-label="BLM48"></span>' +
         '</a>' +
         '<button type="button" class="drawer-btn" id="navHamburger" aria-label="Open menu" aria-expanded="false" aria-controls="mobileNavPanel">' +
           '<span></span><span></span>' +
@@ -65,7 +64,7 @@
       '<div class="drawer" id="mobileNavPanel" role="dialog" aria-modal="true" aria-label="Menu">' +
         '<button type="button" class="drawer-close" id="mobileNavClose" aria-label="Close menu"></button>' +
         '<a href="home" class="drawer-logo">' +
-          '<span class="drawer-logo-word">BLM48</span>' +
+          '<span class="wordmark drawer-logo-word" role="img" aria-label="BLM48"></span>' +
           '<small>Official Site</small>' +
         '</a>' +
         '<div class="drawer-inner">' +
