@@ -136,20 +136,21 @@
         <button type="button" class="cafe-pop-close" id="cafePopClose" aria-label="Close"><i class="fas fa-xmark"></i></button>
         <img class="cafe-pop-img" id="cafePopImg" alt="">
         <div class="cafe-pop-body">
-          <span class="cafe-pop-tag">BLM48 Cafe</span>
+          <span class="cafe-pop-tag" id="cafePopTag">BLM48 Cafe</span>
           <div class="cafe-pop-name" id="cafePopName"></div>
           <div class="cafe-pop-sub" id="cafePopSub"></div>
           <div class="cafe-pop-row">
             <div class="cafe-pop-price" id="cafePopPrice"></div>
-            <a class="cafe-btn cafe-btn-green" href="https://blm48-membership.vercel.app/shop#section-cafe" target="_blank" rel="noopener">สั่งในแอป ›</a>
+            <a class="cafe-btn cafe-btn-green" id="cafePopLink" href="https://blm48-membership.vercel.app/shop#section-cafe" target="_blank" rel="noopener">สั่งในแอป ›</a>
           </div>
         </div>
       </div>
 
       <div class="cafe-hud">
-        <div class="cafe-hint"><i class="fas fa-hand-pointer" aria-hidden="true"></i><span>ลากเพื่อหมุน · เลื่อนเพื่อซูม · แตะแก้วหรือเมนูเพื่อดูรายละเอียด</span></div>
+        <div class="cafe-hint"><i class="fas fa-hand-pointer" aria-hidden="true"></i><span>ลากเพื่อหมุน · คลิกขวาลากเพื่อเลื่อน · เลื่อนเพื่อซูม · แตะแก้ว เมนู หรือรูปเมมเบอร์เพื่อดูรายละเอียด</span></div>
         <div class="cafe-hud-actions">
-          <button type="button" class="cafe-btn" id="cafeReset"><i class="fas fa-rotate-left" aria-hidden="true"></i> Reset</button>
+          <button type="button" class="cafe-btn" id="cafeTheater"><i class="fas fa-masks-theater" aria-hidden="true"></i> Theater</button>
+          <button type="button" class="cafe-btn" id="cafeReset"><i class="fas fa-rotate-left" aria-hidden="true"></i> Cafe</button>
           <a class="cafe-btn cafe-btn-green" href="shop#section-cafe"><i class="fas fa-bag-shopping" aria-hidden="true"></i> Shop</a>
         </div>
       </div>
@@ -167,6 +168,7 @@
 
   <div id="site-footer"></div>
 
+  <script src="assets/js/sheet-data.js"></script>
   <script>
     // Same fixed drink catalog as the Cafe section on shop.html / the Membership app.
     // `color` tints the menu board panel; `cup` is the 800x1000 cup photo the Membership app
@@ -188,6 +190,9 @@
       'https://lh3.googleusercontent.com/d/1NlFzsvfhexq2-XqMkcbC9QjyX_zdFEv-=s1000'
     ];
 
+    // Members for the light-box wall on the theater side.
+    window.CAFE_MEMBERS = BLM48Data.fetchMembers().catch(() => []);
+
     (function cafePopup() {
       const pop = document.getElementById('cafePop');
       const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -198,8 +203,32 @@
         document.getElementById('cafePopName').textContent = item.name;
         document.getElementById('cafePopSub').textContent = item.sub;
         document.getElementById('cafePopPrice').innerHTML = `<i class="fas fa-coins"></i>${item.price} Token`;
+        setTag('BLM48 Cafe', '');
+        setLink('https://blm48-membership.vercel.app/shop#section-cafe', 'สั่งในแอป ›', true);
         pop.classList.add('is-open');
       };
+      // Same card for a member on the light-box wall.
+      window.openMemberCard = function (m, image) {
+        document.getElementById('cafePopImg').src = image;
+        document.getElementById('cafePopImg').alt = m.name;
+        document.getElementById('cafePopName').textContent = m.name;
+        document.getElementById('cafePopSub').textContent = m.fullNameEN || '';
+        document.getElementById('cafePopPrice').textContent = m.generation || '';
+        setTag(m.team || 'BLM48', /bloom/i.test(m.team || '') ? '#f5629e' : '#e0a400');
+        setLink('profile', 'ดูโปรไฟล์ ›', false);
+        pop.classList.add('is-open');
+      };
+      function setTag(text, color) {
+        const tag = document.getElementById('cafePopTag');
+        tag.textContent = text;
+        tag.style.background = color;
+      }
+      function setLink(href, text, external) {
+        const link = document.getElementById('cafePopLink');
+        link.href = href;
+        link.textContent = text;
+        link.target = external ? '_blank' : '';
+      }
       window.closeCafeItem = () => pop.classList.remove('is-open');
       document.getElementById('cafePopClose').addEventListener('click', closeCafeItem);
       document.addEventListener('keydown', e => { if (e.key === 'Escape') closeCafeItem(); });
@@ -245,15 +274,15 @@
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.05;
+    renderer.toneMappingExposure = 0.86;
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     stage.prepend(renderer.domElement);
     renderer.domElement.setAttribute('aria-hidden', 'true');
 
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color('#fbeef3');
-    scene.fog = new THREE.Fog('#fbeef3', 18, 34);
+    scene.background = new THREE.Color('#ecd3dd');
+    scene.fog = new THREE.Fog('#ecd3dd', 20, 38);
     // Soft studio reflections so chrome and glass read as shiny instead of black.
     const envMap = new THREE.PMREMGenerator(renderer).fromScene(new RoomEnvironment(), 0.04).texture;
     setupCups({ envMap, maxAniso: renderer.capabilities.getMaxAnisotropy() });
@@ -270,7 +299,16 @@
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.dampingFactor = 0.08;
-    controls.enablePan = false;
+    // Sideways panning (right-drag / two fingers) runs along the storefront; the target is
+    // kept between the theater front on the left and the cafe on the right.
+    controls.enablePan = true;
+    controls.screenSpacePanning = true;
+    const TARGET_MIN = new THREE.Vector3(-16.5, 1.4, -1.6), TARGET_MAX = new THREE.Vector3(2.5, 3.2, 0.5);
+    controls.addEventListener('change', () => {
+      const t = controls.target, before = t.clone();
+      t.clamp(TARGET_MIN, TARGET_MAX);
+      camera.position.add(t.clone().sub(before));
+    });
     controls.minDistance = 3.5;
     controls.maxDistance = 18;
     controls.minPolarAngle = Math.PI * 0.28;
@@ -279,16 +317,17 @@
     controls.maxAzimuthAngle = Math.PI * 0.32;
 
     // ---------- Lights ----------
-    scene.add(new THREE.HemisphereLight('#fff8ef', '#f3d9a4', 1.6));
-    const sun = new THREE.DirectionalLight('#ffffff', 1.8);
+    // General mall light is kept soft; the ceiling downlights (built further down) light the shopfronts.
+    scene.add(new THREE.HemisphereLight('#fff8ef', '#e8c98c', 0.8));
+    const sun = new THREE.DirectionalLight('#ffffff', 0.85);
     sun.position.set(4, 9, 8);
     sun.castShadow = true;
     sun.shadow.mapSize.set(2048, 2048);
-    Object.assign(sun.shadow.camera, { left: -12, right: 12, top: 10, bottom: -4, near: 1, far: 30 });
+    Object.assign(sun.shadow.camera, { left: -26, right: 12, top: 12, bottom: -6, near: 1, far: 40 });
     sun.shadow.bias = -0.0005;
     sun.shadow.radius = 4;
     scene.add(sun);
-    const fill = new THREE.DirectionalLight('#ffe3ef', 0.6);
+    const fill = new THREE.DirectionalLight('#ffe3ef', 0.3);
     fill.position.set(-8, 4, 6);
     scene.add(fill);
 
@@ -323,9 +362,12 @@
     loader.setCrossOrigin('anonymous');
     let pending = 0, queued = 0;
     function settle() { if (--pending === 0) loading.classList.add('is-done'); }
-    function coverTexture(url, aspect, fallbackColor) {
+    // glow = true: a backlit light-box picture (self-lit, full brightness) instead of a printed one.
+    function coverTexture(url, aspect, fallbackColor, glow) {
       const placeholder = canvasTexture(64, 64, (g, w, h) => { g.fillStyle = fallbackColor || '#f4e3ea'; g.fillRect(0, 0, w, h); });
-      const mat = new THREE.MeshStandardMaterial({ map: placeholder, roughness: 0.55 });
+      const mat = glow
+        ? new THREE.MeshBasicMaterial({ map: placeholder, toneMapped: false })
+        : new THREE.MeshStandardMaterial({ map: placeholder, roughness: 0.55 });
       const src = url.replace(/=s\d+$/, '=s640');
       pending++;
       const attempt = n => loader.load(n ? src + '?r=' + n : src, tex => {
@@ -345,28 +387,49 @@
       return mat;
     }
 
+    // Picture from this site's own files, cropped like object-fit: cover for a surface of `aspect`.
+    // crop = [x0, y0, x1, y1] of the image (0..1) to use before fitting.
+    function localMaterial(url, aspect, crop, lit) {
+      const mat = lit ? new THREE.MeshStandardMaterial({ color: '#d4a63c', metalness: 0.55, roughness: 0.3, envMap }) : new THREE.MeshBasicMaterial({ color: '#fbe7ef', toneMapped: false });
+      loader.load(url, tex => {
+        tex.colorSpace = THREE.SRGBColorSpace;
+        tex.anisotropy = maxAniso;
+        const [cx0, cy0, cx1, cy1] = crop || [0, 0, 1, 1];
+        const imgAspect = (tex.image.width * (cx1 - cx0)) / (tex.image.height * (cy1 - cy0));
+        let rx = cx1 - cx0, ry = cy1 - cy0;
+        if (imgAspect > aspect) rx *= aspect / imgAspect; else ry *= imgAspect / aspect;
+        tex.repeat.set(rx, ry);
+        tex.offset.set(cx0 + ((cx1 - cx0) - rx) / 2, (1 - cy1) + ((cy1 - cy0) - ry) / 2);
+        mat.map = tex;
+        mat.color.set('#ffffff');
+        mat.needsUpdate = true;
+      });
+      return mat;
+    }
+
+    // Light boxes: the picture is self-lit and a white diffuser rim sits between it and the
+    // frame, so the light stays inside the frame.
+    const rimMat = new THREE.MeshBasicMaterial({ color: '#ffffff', toneMapped: false });
+    function lightRim(w, h, x, y, z, rim = 0.025, parent = scene) {
+      const m = new THREE.Mesh(new THREE.PlaneGeometry(w + rim * 2, h + rim * 2), rimMat);
+      m.position.set(x, y, z);
+      parent.add(m);
+      return m;
+    }
+
     const pickables = [];
 
-    // ---------- Floor: butter-yellow tiles with the faint crown watermark ----------
+    // ---------- Floor: plain butter-yellow tiles ----------
     const floorTex = canvasTexture(512, 512, (g, w, h) => {
-      g.fillStyle = '#f4cf5d'; g.fillRect(0, 0, w, h);
+      g.fillStyle = '#e9bd3f'; g.fillRect(0, 0, w, h);
       const grad = g.createLinearGradient(0, 0, w, h);
-      grad.addColorStop(0, 'rgba(255,255,255,0.18)'); grad.addColorStop(1, 'rgba(255,255,255,0)');
+      grad.addColorStop(0, 'rgba(255,255,255,0.12)'); grad.addColorStop(1, 'rgba(255,255,255,0)');
       g.fillStyle = grad; g.fillRect(0, 0, w, h);
-      g.strokeStyle = 'rgba(255,248,225,0.9)'; g.lineWidth = 6; g.strokeRect(0, 0, w, h);
-      g.strokeStyle = 'rgba(255,255,255,0.55)'; g.lineWidth = 4;
-      g.beginPath(); g.arc(w / 2, h / 2, 120, 0, Math.PI * 2); g.stroke();
-      g.fillStyle = 'rgba(255,255,255,0.6)'; g.textAlign = 'center';
-      g.font = 'italic 700 68px Georgia, serif'; g.fillText('BLM', w / 2, h / 2 + 10);
-      g.font = '600 26px Georgia, serif'; g.fillText('48', w / 2 + 70, h / 2 + 50);
-      g.font = '22px Georgia, serif'; g.fillText('Since 2024', w / 2, h / 2 + 88);
-      // little crown
-      g.beginPath(); g.moveTo(w / 2 - 40, h / 2 - 50); g.lineTo(w / 2 - 28, h / 2 - 90); g.lineTo(w / 2 - 12, h / 2 - 62);
-      g.lineTo(w / 2, h / 2 - 100); g.lineTo(w / 2 + 12, h / 2 - 62); g.lineTo(w / 2 + 28, h / 2 - 90); g.lineTo(w / 2 + 40, h / 2 - 50); g.closePath(); g.fill();
-    }, [10, 6]);
-    const floor = new THREE.Mesh(new THREE.PlaneGeometry(40, 24), new THREE.MeshStandardMaterial({ map: floorTex, roughness: 0.35, metalness: 0.05 }));
+      g.strokeStyle = 'rgba(255,244,215,0.85)'; g.lineWidth = 6; g.strokeRect(0, 0, w, h);
+    }, [14, 6]);
+    const floor = new THREE.Mesh(new THREE.PlaneGeometry(56, 24), new THREE.MeshStandardMaterial({ map: floorTex, roughness: 0.35, metalness: 0.05 }));
     floor.rotation.x = -Math.PI / 2;
-    floor.position.set(0, 0, 4);
+    floor.position.set(-8, 0, 4);
     floor.receiveShadow = true;
     scene.add(floor);
 
@@ -452,7 +515,7 @@
     scene.add(menuGroup);
     box(PANEL_W * 4 + 0.12, PANEL_H + 0.12, 0.06, std('#ffffff'), 0, 0, -0.04, { parent: menuGroup });
     const panels = CAFE_MENU.map((item, i) => {
-      const mat = coverTexture(item.image, PANEL_W / PANEL_H, item.color);
+      const mat = coverTexture(item.image, PANEL_W / PANEL_H, item.color, true);
       const p = new THREE.Mesh(new THREE.PlaneGeometry(PANEL_W, PANEL_H), mat);
       p.position.set((i - 1.5) * PANEL_W, 0, 0.001);
       p.userData.item = i;
@@ -585,21 +648,32 @@
     box(wallW, 6.2, 0.25, new THREE.MeshStandardMaterial({ map: wallTex, roughness: 0.8 }), (WALL_X0 + WALL_X1) / 2, 3.1, WALL_Z);
     box(0.25, 6.2, 3.5, std('#fff6dc'), WALL_X1 + 0.12, 3.1, WALL_Z - 1.6);
 
-    const neonTex = canvasTexture(1400, 260, (g, w, h) => {
+    // The theater front (built below) continues the wall to the left, so the neon
+    // band runs over both: "SOPHISTICATED SHOW PRESENTED BY THE BLM48".
+    const TH_X0 = -21.5;
+    const NEON = { x0: TH_X0, x1: WALL_X1, h: 0.96, text: 'SOPHISTICATED SHOW PRESENTED BY THE BLM48' };
+    const neonW = NEON.x1 - NEON.x0;
+    const neonTex = canvasTexture(4096, Math.round(4096 * NEON.h / neonW), (g, w, h) => {
       g.fillStyle = '#111014'; g.fillRect(0, 0, w, h);
       g.textAlign = 'center'; g.textBaseline = 'middle';
-      g.font = '300 150px Comfortaa, sans-serif';
-      g.shadowColor = '#ffcf6b'; g.shadowBlur = 40; g.fillStyle = '#fff1c4';
-      g.fillText('BY THE BLM48', w / 2, h / 2 + 6);
-      g.shadowBlur = 12; g.fillText('BY THE BLM48', w / 2, h / 2 + 6);
+      let size = h * 0.66;
+      g.font = `300 ${size}px Comfortaa, sans-serif`;
+      const tw = g.measureText(NEON.text).width;
+      if (tw > w * 0.97) { size *= (w * 0.97) / tw; g.font = `300 ${size}px Comfortaa, sans-serif`; }
+      g.shadowColor = '#ffcf6b'; g.shadowBlur = 30; g.fillStyle = '#fff1c4';
+      g.fillText(NEON.text, w / 2, h / 2 + 4);
+      g.shadowBlur = 9; g.fillText(NEON.text, w / 2, h / 2 + 4);
     });
-    const neon = new THREE.Mesh(new THREE.BoxGeometry(5.2, 0.96, 0.12),
+    const neon = new THREE.Mesh(new THREE.BoxGeometry(neonW, NEON.h, 0.12),
       [std('#111'), std('#111'), std('#111'), std('#111'), new THREE.MeshBasicMaterial({ map: neonTex, toneMapped: false }), std('#111')]);
-    neon.position.set((WALL_X0 + WALL_X1) / 2, 5.0, WALL_Z + 0.2);
+    neon.position.set((NEON.x0 + NEON.x1) / 2, 5.0, WALL_Z + 0.2);
     scene.add(neon);
     const neonGlow = new THREE.PointLight('#ffcf6b', 2.5, 5, 2);
-    neonGlow.position.set(neon.position.x, 4.8, WALL_Z + 1.2);
+    neonGlow.position.set((WALL_X0 + WALL_X1) / 2, 4.8, WALL_Z + 1.2);
     scene.add(neonGlow);
+    const neonGlow2 = new THREE.PointLight('#ffcf6b', 2.5, 6, 2);
+    neonGlow2.position.set(-15.5, 4.8, WALL_Z + 1.2);
+    scene.add(neonGlow2);
 
     const POSTER_W = 1.25, POSTER_H = 1.5;
     CAFE_POSTERS.forEach((url, i) => {
@@ -607,14 +681,166 @@
       const x = WALL_X0 + 1.0 + POSTER_W / 2 + col * (POSTER_W + 0.55);
       const y = 3.45 - row * (POSTER_H + 0.35);
       box(POSTER_W + 0.1, POSTER_H + 0.1, 0.06, std('#2b2626', { roughness: 0.4 }), x, y, WALL_Z + 0.16);
-      const p = new THREE.Mesh(new THREE.PlaneGeometry(POSTER_W, POSTER_H), coverTexture(url, POSTER_W / POSTER_H, '#f6e6ee'));
+      lightRim(POSTER_W, POSTER_H, x, y, WALL_Z + 0.192, 0.03);
+      const p = new THREE.Mesh(new THREE.PlaneGeometry(POSTER_W, POSTER_H), coverTexture(url, POSTER_W / POSTER_H, '#f6e6ee', true));
       p.position.set(x, y, WALL_Z + 0.195);
       scene.add(p);
     });
 
+    // ---------- Theater front: member light boxes, gold plaque, heart doors ----------
+    // Laid out from the design picture (1920 px wide = 11.9 m, ground at its pixel row 940).
+    const PX = 0.0062, FRONT = WALL_Z + 0.125;
+    const px = x => TH_X0 + x * PX, py = y => (940 - y) * PX;
+    const PANEL_X = px(1312);                          // striped wall | pale yellow door panel
+    const stripeTex = canvasTexture(1024, 512, (g, w, h) => {
+      g.fillStyle = '#ffd1e3'; g.fillRect(0, 0, w, h);
+      g.fillStyle = '#fff4c6';
+      for (let i = -2; i < 6; i++) { g.beginPath(); g.moveTo(i * 300, h); g.lineTo(i * 300 + 150, h); g.lineTo(i * 300 + 330, 0); g.lineTo(i * 300 + 180, 0); g.closePath(); g.fill(); }
+    });
+    box(PANEL_X - TH_X0, 6.2, 0.25, new THREE.MeshStandardMaterial({ map: stripeTex, roughness: 0.8 }), (TH_X0 + PANEL_X) / 2, 3.1, WALL_Z);
+    box(0.25, 6.2, 3.5, std('#fff6dc'), TH_X0 - 0.12, 3.1, WALL_Z - 1.6);   // return wall at the left end
+    // door panel with the thin "BLM48" lettering; the doors are cut out of it
+    const DOOR = { x0: px(1330), x1: px(1910), h: py(330) };
+    const doorPanel = std('#f6f1b9', { roughness: 0.4 });
+    box(DOOR.x0 - PANEL_X, 6.2, 0.25, doorPanel, (PANEL_X + DOOR.x0) / 2, 3.1, WALL_Z);
+    box(WALL_X0 - DOOR.x1, 6.2, 0.25, doorPanel, (DOOR.x1 + WALL_X0) / 2, 3.1, WALL_Z);
+    box(DOOR.x1 - DOOR.x0, 6.2 - DOOR.h, 0.25, doorPanel, (DOOR.x0 + DOOR.x1) / 2, (DOOR.h + 6.2) / 2, WALL_Z);
+    const blmText = canvasTexture(1024, 300, (g, w, h) => {
+      g.clearRect(0, 0, w, h); g.fillStyle = '#ffffff'; g.textAlign = 'center'; g.textBaseline = 'middle';
+      g.font = '300 250px Comfortaa, sans-serif'; g.fillText('BLM48', w / 2, h / 2 + 12);
+    });
+    const blmSign = new THREE.Mesh(new THREE.PlaneGeometry(1.9, 0.55), new THREE.MeshBasicMaterial({ map: blmText, transparent: true }));
+    blmSign.position.set((PANEL_X + WALL_X0) / 2, py(262), FRONT + 0.002);
+    scene.add(blmSign);
+    // pink strip over the theater, mauve block over the door panel
+    box(WALL_X0 - TH_X0, 0.7, 0.27, std('#ffd0e6'), (TH_X0 + WALL_X0) / 2, 5.85, WALL_Z + 0.01);
+    box(WALL_X0 - PANEL_X, 0.7, 0.29, std('#d6aac6'), (PANEL_X + WALL_X0) / 2, 5.85, WALL_Z + 0.02);
+    // Solid doors in the pale-yellow panel colour, with one heart of white triangles
+    // centred on the pair (each leaf carries its half, so they meet at the seam).
+    const heartDoors = canvasTexture(1024, 960, (g, w, h) => {
+      g.fillStyle = '#ece0a2'; g.fillRect(0, 0, w, h);
+      const shade = g.createLinearGradient(0, 0, 0, h);
+      shade.addColorStop(0, 'rgba(255,255,255,0.10)'); shade.addColorStop(1, 'rgba(150,120,40,0.10)');
+      g.fillStyle = shade; g.fillRect(0, 0, w, h);
+      // angular heart: two flat-topped lobes, point at the bottom
+      const cx = w / 2, cy = h * 0.52, sx = w * 0.4, sy = h * 0.34;
+      const heart = new Path2D();
+      [[0, -0.6], [0.24, -1], [0.66, -1], [1, -0.58], [1, -0.12], [0, 1], [-1, -0.12], [-1, -0.58], [-0.66, -1], [-0.24, -1]]
+        .forEach(([x, y], i) => (i ? heart.lineTo(cx + x * sx, cy + y * sy) : heart.moveTo(cx + x * sx, cy + y * sy)));
+      heart.closePath();
+      g.save(); g.clip(heart);
+      const s = 74;
+      g.fillStyle = '#ffffff'; g.strokeStyle = '#ece0a2'; g.lineWidth = 7;
+      for (let y = cy - sy - s; y < cy + sy + s; y += s) for (let x = cx - sx - s; x < cx + sx + s; x += s) {
+        g.beginPath(); g.moveTo(x + 3, y + 3); g.lineTo(x + s - 3, y + 3); g.lineTo(x + 3, y + s - 3); g.closePath(); g.fill(); g.stroke();
+        g.beginPath(); g.moveTo(x + s - 3, y + 6); g.lineTo(x + s - 3, y + s - 3); g.lineTo(x + 6, y + s - 3); g.closePath(); g.fill(); g.stroke();
+      }
+      g.restore();
+      // centre seam + a pull handle on each leaf
+      g.fillStyle = 'rgba(120,100,40,0.35)'; g.fillRect(cx - 2, 0, 4, h);
+      g.fillStyle = '#c9c9cf'; g.fillRect(cx - 46, 330, 12, 300); g.fillRect(cx + 34, 330, 12, 300);
+    });
+    const leafW = (DOOR.x1 - DOOR.x0) / 2;
+    const doorFrame = std('#d6d4d0', { metalness: 0.85, roughness: 0.25, envMap });
+    [-1, 1].forEach(side => {
+      const half = heartDoors.clone();
+      half.needsUpdate = true;
+      half.repeat.set(0.5, 1);
+      half.offset.set(side < 0 ? 0 : 0.5, 0);
+      const face = new THREE.MeshStandardMaterial({ map: half, roughness: 0.45, envMap, envMapIntensity: 0.25 });
+      const back = std('#ece0a2', { roughness: 0.45 });
+      const leaf = new THREE.Mesh(new THREE.BoxGeometry(leafW, DOOR.h - 0.04, 0.06), [doorFrame, doorFrame, doorFrame, doorFrame, face, back]);
+      leaf.position.set((DOOR.x0 + DOOR.x1) / 2 + side * leafW / 2, (DOOR.h - 0.04) / 2, WALL_Z);
+      leaf.castShadow = true; leaf.receiveShadow = true;
+      scene.add(leaf);
+    });
+    box(DOOR.x1 - DOOR.x0 + 0.08, 0.06, 0.08, doorFrame, (DOOR.x0 + DOOR.x1) / 2, DOOR.h, WALL_Z + 0.02);
+    [-1, 1].forEach(s => box(0.24, 0.035, 0.035, doorFrame, (DOOR.x0 + DOOR.x1) / 2 + s * (leafW - 0.2), DOOR.h - 0.12, FRONT + 0.03, { cast: false }));
+
+    // Gold plaque (the provided artwork, cropped to the plate)
+    const PLAQUE = { x: px(1168), y: (py(380) + py(848)) / 2, w: 1.24, h: py(380) - py(848) };
+    box(PLAQUE.w + 0.08, PLAQUE.h + 0.08, 0.06, std('#5d5a58', { metalness: 0.5, roughness: 0.4, envMap }), PLAQUE.x, PLAQUE.y, FRONT + 0.03);
+    const plaque = new THREE.Mesh(new THREE.PlaneGeometry(PLAQUE.w, PLAQUE.h), localMaterial('assets/img/cafe/plaque.png', PLAQUE.w / PLAQUE.h, [0.295, 0, 0.705, 1], true));
+    plaque.position.set(PLAQUE.x, PLAQUE.y, FRONT + 0.065);
+    scene.add(plaque);
+
+    // Member light boxes: 11 x 5 — BLOOM tile + Bloom, TRAINEE tile + trainees, BLM48 tile, then empty lights
+    const LB = { w: 70 * PX, h: 95 * PX, cols: 11, colX: c => px(143 + c * 81), rowY: [378, 491, 605, 720, 836].map(py) };
+    const lightBox = new THREE.MeshBasicMaterial({ color: '#fbfaf3', toneMapped: false });
+    const blackFrame = std('#141214', { roughness: 0.4 });
+    const slots = [];
+    LB.rowY.forEach(y => { for (let c = 0; c < LB.cols; c++) {
+      const x = LB.colX(c);
+      box(LB.w + 0.05, LB.h + 0.05, 0.04, blackFrame, x, y, FRONT + 0.02, { cast: false });
+      lightRim(LB.w, LB.h, x, y, FRONT + 0.041, 0.012);
+      const m = new THREE.Mesh(new THREE.PlaneGeometry(LB.w, LB.h), lightBox);
+      m.position.set(x, y, FRONT + 0.042);
+      scene.add(m);
+      slots.push(m);
+    } });
+    // the group logo (yellow card with BLM / 48), cropped to the card
+    const blmTile = localMaterial('assets/img/cafe/blm48-logo.png', LB.w / LB.h, [0.17, 0, 0.83, 1], false);
+    const tileCrop = [0.155, 0, 0.845, 1];
+    const driveImg = (url, size) => {
+      const m = String(url || '').match(/[-\w]{25,}/);
+      return m ? `https://lh3.googleusercontent.com/d/${m[0]}=s${size}` : '';
+    };
+    CAFE_MEMBERS.then(members => {
+      const bloom = members.filter(m => /bloom/i.test(m.team || ''));
+      const trainee = members.filter(m => !/bloom/i.test(m.team || ''));
+      const layout = [{ tile: 'assets/img/cafe/team-bloom.png' }, ...bloom.slice(0, 10).map(m => ({ m }))];
+      while (layout.length < LB.cols) layout.push({});
+      layout.push({ tile: 'assets/img/cafe/trainee.png' }, ...trainee.map(m => ({ m })), { blm: true });
+      layout.slice(0, slots.length).forEach((slot, i) => {
+        const mesh = slots[i];
+        if (slot.tile) mesh.material = localMaterial(slot.tile, LB.w / LB.h, tileCrop, false);
+        if (slot.blm) mesh.material = blmTile;
+        if (!slot.m) return;
+        const url = driveImg(slot.m.image, 1000);
+        if (!url) return;
+        mesh.material = coverTexture(url, LB.w / LB.h, '#f3eee6', true);
+        mesh.userData.member = slot.m;
+        mesh.userData.memberImage = driveImg(slot.m.image, 800);
+        pickables.push(mesh);
+      });
+    });
+
+    // Low glass screen in front of the member wall and the plaque
+    const glassPanel = new THREE.MeshPhysicalMaterial({ color: '#eaf6fb', roughness: 0.05, transparent: true, opacity: 0.3, envMap, depthWrite: false, side: THREE.DoubleSide });
+    box(DOOR.x0 - 0.15 - TH_X0, 1.0, 0.025, glassPanel, (TH_X0 + DOOR.x0 - 0.15) / 2, 0.52, WALL_Z + 0.75, { cast: false });
+    box(DOOR.x0 - 0.15 - TH_X0, 0.04, 0.05, doorFrame, (TH_X0 + DOOR.x0 - 0.15) / 2, 1.03, WALL_Z + 0.75);
+
+    // ---------- Mall ceiling + downlights ----------
+    const CEIL_Y = 7.0;
+    const ceil = new THREE.Mesh(new THREE.PlaneGeometry(60, 22), std('#f6f0ea', { roughness: 0.9, emissive: '#4a443e' }));
+    ceil.rotation.x = Math.PI / 2;
+    ceil.position.set(-8, CEIL_Y, 6);
+    scene.add(ceil);
+    // bulkhead between the top of the shopfront and the ceiling
+    box(11.3 - (TH_X0 - 0.25), CEIL_Y - 6.2, 4.6, std('#f6efe9', { roughness: 0.85 }), (TH_X0 - 0.25 + 11.3) / 2, (6.2 + CEIL_Y) / 2, -2.05, { cast: false });
+    // recessed downlights: a row over the shopfront (each a real spotlight) and a dimmer row further out
+    const lampMat = new THREE.MeshBasicMaterial({ color: new THREE.Color(1.6, 1.55, 1.45), toneMapped: false });
+    const trimMat = std('#d9d6d2', { metalness: 0.6, roughness: 0.3, envMap });
+    for (let x = -20; x <= 8; x += 3.5) {
+      [[1.4, true], [7.2, false]].forEach(([z, spot]) => {
+        const trim = new THREE.Mesh(new THREE.CylinderGeometry(0.24, 0.24, 0.03, 28), trimMat);
+        trim.position.set(x, CEIL_Y - 0.015, z);
+        scene.add(trim);
+        const lamp = new THREE.Mesh(new THREE.CircleGeometry(0.17, 28), lampMat);
+        lamp.rotation.x = Math.PI / 2;
+        lamp.position.set(x, CEIL_Y - 0.035, z);
+        scene.add(lamp);
+        if (!spot) return;
+        const light = new THREE.SpotLight('#fff3e2', 130, 16, 0.6, 0.7, 1.6);
+        light.position.set(x, CEIL_Y - 0.05, z);
+        light.target.position.set(x, 0, -0.6);
+        scene.add(light, light.target);
+      });
+    }
+
     // ---------- Queue poles with a pink belt ----------
     const chrome = std('#e7e7ea', { metalness: 0.95, roughness: 0.18, envMap });
-    const poleXs = [-8, -5.6, -3.2, -0.8, 1.6, 4.0, 6.4];
+    const poleXs = [-20.0, -17.6, -15.2, -12.8, -10.4, -8, -5.6, -3.2, -0.8, 1.6, 4.0, 6.4];
     poleXs.forEach(x => {
       const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.045, 0.045, 1.05, 16), chrome);
       pole.position.set(x, 0.55, 2.4); pole.castShadow = true; scene.add(pole);
@@ -632,23 +858,6 @@
       scene.add(belt);
     }
 
-    // ---------- Floating sparkles ----------
-    const sparkleGeo = new THREE.BufferGeometry();
-    const SPARKS = 60;
-    const sparkPos = new Float32Array(SPARKS * 3);
-    for (let i = 0; i < SPARKS; i++) {
-      sparkPos[i * 3] = -9 + Math.random() * 17;
-      sparkPos[i * 3 + 1] = 0.5 + Math.random() * 6;
-      sparkPos[i * 3 + 2] = -3 + Math.random() * 6;
-    }
-    sparkleGeo.setAttribute('position', new THREE.BufferAttribute(sparkPos, 3));
-    const sparkTex = canvasTexture(64, 64, (g, w, h) => {
-      const grad = g.createRadialGradient(w / 2, h / 2, 0, w / 2, h / 2, w / 2);
-      grad.addColorStop(0, 'rgba(255,255,255,1)'); grad.addColorStop(0.4, 'rgba(255,214,230,0.6)'); grad.addColorStop(1, 'rgba(255,214,230,0)');
-      g.fillStyle = grad; g.fillRect(0, 0, w, h);
-    });
-    const sparkles = new THREE.Points(sparkleGeo, new THREE.PointsMaterial({ size: 0.14, map: sparkTex, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }));
-    scene.add(sparkles);
 
     // ---------- Interaction ----------
     const raycaster = new THREE.Raycaster();
@@ -660,18 +869,22 @@
       pointer.set(((ev.clientX - r.left) / r.width) * 2 - 1, -((ev.clientY - r.top) / r.height) * 2 + 1);
       raycaster.setFromCamera(pointer, camera);
       const hit = raycaster.intersectObjects(pickables, false)[0];
-      return hit ? hit.object.userData.item : -1;
+      return hit ? hit.object : null;
     }
+    const itemOf = o => (o && o.userData.item != null ? o.userData.item : -1);
     renderer.domElement.addEventListener('pointermove', ev => {
       if (ev.pointerType !== 'mouse') return;
-      hovered = pick(ev);
-      stage.classList.toggle('is-hover', hovered >= 0);
+      const o = pick(ev);
+      hovered = itemOf(o);
+      stage.classList.toggle('is-hover', !!o);
     });
     renderer.domElement.addEventListener('pointerleave', () => { hovered = -1; stage.classList.remove('is-hover'); });
     renderer.domElement.addEventListener('pointerdown', ev => { downAt = { x: ev.clientX, y: ev.clientY }; });
     renderer.domElement.addEventListener('pointerup', ev => {
       if (!downAt || Math.hypot(ev.clientX - downAt.x, ev.clientY - downAt.y) > 6) return;
-      const i = pick(ev);
+      const o = pick(ev);
+      if (o && o.userData.member) { selected = -1; openMemberCard(o.userData.member, o.userData.memberImage); return; }
+      const i = itemOf(o);
       if (i >= 0) focusCafeItem(i);
       else { selected = -1; closeCafeItem(); }
     });
@@ -689,6 +902,13 @@
       const cup = cups[i].position;
       flyTo(new THREE.Vector3(cup.x - 0.4, 2.3, 3.6), new THREE.Vector3(cup.x - 0.6, 1.9, -0.2));
     };
+    // Theater button: glide over to the theater front on the left.
+    document.getElementById('cafeTheater').addEventListener('click', () => {
+      selected = -1;
+      closeCafeItem();
+      const narrow = Math.max(0, 1.2 - camera.aspect);
+      flyTo(new THREE.Vector3(-15.6, 2.6 + narrow, 9.2 + narrow * 7), new THREE.Vector3(-15.6, 2.4, -1), 1500);
+    });
     document.getElementById('cafeReset').addEventListener('click', () => {
       selected = -1;
       closeCafeItem();
@@ -753,8 +973,6 @@
         p.position.z = THREE.MathUtils.lerp(p.position.z, z, 0.15);
       });
       if (!reduceMotion) {
-        sparkles.rotation.y = Math.sin(t * 0.1) * 0.05;
-        sparkles.position.y = Math.sin(t * 0.5) * 0.08;
         neonGlow.intensity = 2.4 + Math.sin(t * 3) * 0.15 + (Math.random() < 0.01 ? -1 : 0);
       }
       renderer.render(scene, camera);
