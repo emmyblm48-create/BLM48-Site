@@ -179,8 +179,19 @@ window.BLM48_STATIC_SHEETS = {
     if (fallback) img.src = fallback;
   }
 
+  // Stable id for a Discography row, used by discography-detail?id=...
+  // An "id" column in the sheet wins; otherwise it is built from date + kicker + title.
+  function discoId(row) {
+    if (row.id) return String(row.id).trim();
+    return [row.date, row.kicker, row.title].join(' ')
+      .toLowerCase()
+      .replace(/[^\p{L}\p{M}\p{N}]+/gu, '-')
+      .replace(/^-+|-+$/g, '');
+  }
+
   window.BLM48Data = {
     fetchSheet: fetchSheet,
+    discoId: discoId,
     fetchMembers: fetchMembers,
     tagClass: tagClass,
     styleClass: styleClass,

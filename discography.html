@@ -109,7 +109,7 @@
             : d.getFullYear() + '.' + String(d.getMonth() + 1).padStart(2, '0') + '.' + String(d.getDate()).padStart(2, '0');
           return `
           <div class="disco-item cat-${key} reveal reveal-${(i % 6) + 1}">
-            <a href="${item.link || '#'}" target="_blank" rel="noopener" class="cover-link">
+            <a href="discography-detail?id=${encodeURIComponent(BLM48Data.discoId(item))}" class="cover-link">
               <div class="cover-box">
                 <img src="${BLM48Data.driveImg(item.coverImage)}" alt="${item.title || ''}" loading="lazy" onerror="BLM48Data.imgRetry(this, 'https://via.placeholder.com/600x600?text=BLM48')">
               </div>

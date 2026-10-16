@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="google-site-verification" content="nUjG8w2pz2CXK7Uvg8EMmn2S6hvwQOCNbg_IDFtMRcg" />
+  <title>BLM48 Official - Discography</title>
+  <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1flevUZLFmIodF1RHG0QgRJkCMpgW1KM7=s1000">
+
+  <link href="https://fonts.googleapis.com/css?family=Comfortaa:300,400" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=K2D:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/site.css">
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+
+    .disco-detail { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(28px, 5vw, 70px); align-items: start; }
+    @media (max-width: 760px) { .disco-detail { grid-template-columns: 1fr; gap: 30px; } }
+
+    .detail-cover { width: 100%; aspect-ratio: 1; overflow: hidden; background: var(--blm-paper-soft); }
+    .detail-cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    @media (min-width: 761px) { .detail-cover { position: sticky; top: 100px; } }
+
+    .cat-single { --tag: var(--blm-cat-single); }
+    .cat-album { --tag: var(--blm-cat-album); }
+    .cat-special { --tag: var(--blm-cat-special); }
+    .cat-concert { --tag: var(--blm-cat-concert); }
+
+    .detail-meta { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 18px; }
+    .detail-kicker { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--blm-ink-soft); }
+    .detail-title { font-family: var(--font-body); font-size: clamp(19px, 2.4vw, 24px); font-weight: 400; line-height: 1.55; margin-bottom: 14px; overflow-wrap: anywhere; }
+    .detail-release { font-size: 11px; letter-spacing: 0.15em; color: var(--blm-ink-soft); margin-bottom: 34px; }
+
+    .detail-specs { display: grid; grid-template-columns: auto 1fr; gap: 10px 22px; font-size: 13px; line-height: 1.7; margin-bottom: 30px; }
+    .detail-specs dt { color: var(--blm-ink-soft); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; padding-top: 2px; }
+
+    .detail-text { font-size: 13px; line-height: 1.95; white-space: pre-line; margin-bottom: 30px; }
+
+    .tracklist { border-top: 1px solid var(--blm-line); padding-top: 26px; margin-bottom: 36px; }
+    .track-disc { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--blm-ink-soft); margin: 22px 0 8px; }
+    .track-disc:first-child { margin-top: 0; }
+    .tracklist ol { list-style: none; }
+    .tracklist li { display: flex; gap: 16px; padding: 9px 0; border-bottom: 1px dashed var(--blm-line); font-size: 13.5px; line-height: 1.6; }
+    .track-no { width: 1.6em; flex-shrink: 0; color: var(--blm-ink-soft); font-variant-numeric: tabular-nums; }
+
+    .detail-back { text-align: center; margin-top: clamp(60px, 8vw, 100px); }
+    .detail-back .arrow-link::after { display: none; }
+    .detail-back .arrow-link::before { content: ''; width: 30px; height: 1px; background: currentColor; }
+  </style>
+</head>
+<body>
+
+  <div id="site-header"></div>
+  <script src="assets/js/nav.js"></script>
+
+  <main class="page-shell">
+
+    <div class="page-hero"><p class="page-hero-title">Discography</p></div>
+
+    <div id="detail">
+      <p class="status-line">Loading...</p>
+    </div>
+
+    <div class="detail-back"><a href="discography" class="arrow-link">Back</a></div>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="assets/js/sheet-data.js"></script>
+  <script>
+    const esc = s => String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+    // "tracks" cell: one line per entry. Lines starting with a number are tracks
+    // ("1. Song" / "1 Song"); any other line starts a new disc section ("CD", "DVD", "Blu-ray").
+    function renderTracks(text) {
+      const groups = [];
+      String(text || '').split(/\r?\n/).map(l => l.trim()).filter(Boolean).forEach(line => {
+        const m = line.match(/^(\d+)[.)]?\s+(.+)$/);
+        if (m) {
+          if (!groups.length) groups.push({ name: '', tracks: [] });
+          groups[groups.length - 1].tracks.push({ no: m[1], title: m[2] });
+        } else {
+          groups.push({ name: line, tracks: [] });
+        }
+      });
+      if (!groups.length) return '';
+      return '<div class="tracklist">' + groups.map(g =>
+        (g.name ? `<p class="track-disc">${esc(g.name)}</p>` : '') +
+        (g.tracks.length ? '<ol>' + g.tracks.map(t =>
+          `<li><span class="track-no">${esc(t.no)}</span><span>${esc(t.title)}</span></li>`).join('') + '</ol>' : '')
+      ).join('') + '</div>';
+    }
+
+    async function renderDetail() {
+      const el = document.getElementById('detail');
+      const id = new URLSearchParams(location.search).get('id');
+      try {
+        const rows = await BLM48Data.fetchSheet('Discography');
+        const item = rows.find(r => BLM48Data.discoId(r) === id);
+        if (!item) {
+          el.innerHTML = '<p class="status-line">This release could not be found.</p>';
+          return;
+        }
+
+        const key = String(item.category || 'single').trim().toLowerCase();
+        const catLabel = key.charAt(0).toUpperCase() + key.slice(1);
+        const d = new Date(item.date);
+        const dateText = isNaN(d) ? BLM48Data.fmtDate(item.date).full
+          : d.getFullYear() + '.' + String(d.getMonth() + 1).padStart(2, '0') + '.' + String(d.getDate()).padStart(2, '0');
+        document.title = 'BLM48 Official - ' + (item.title || 'Discography');
+
+        const specs = [['Catalog No.', item.catalogNo]].filter(s => s[1]);
+
+        el.innerHTML = `
+          <article class="disco-detail cat-${esc(key)}">
+            <div class="detail-cover">
+              <img src="${esc(BLM48Data.driveImg(item.coverImage))}" alt="${esc(item.title)}" referrerpolicy="no-referrer" onerror="BLM48Data.imgRetry(this, 'https://via.placeholder.com/600x600?text=BLM48')">
+            </div>
+            <div class="detail-body">
+              <div class="detail-meta">
+                <span class="cat-box">${esc(catLabel)}</span>
+                ${item.kicker && item.kicker.toLowerCase() !== key ? `<span class="detail-kicker">${esc(item.kicker)}</span>` : ''}
+              </div>
+              <h1 class="detail-title">${esc(item.title)}</h1>
+              <p class="detail-release">RELEASE ${esc(dateText)}</p>
+              ${specs.length ? '<dl class="detail-specs">' + specs.map(s => `<dt>${s[0]}</dt><dd>${esc(s[1])}</dd>`).join('') + '</dl>' : ''}
+              ${item.description ? `<p class="detail-text">${esc(item.description)}</p>` : ''}
+              ${renderTracks(item.tracks)}
+              ${item.link ? `<a href="${esc(item.link)}" target="_blank" rel="noopener" class="btn"><i class="fab fa-youtube"></i>Watch / Listen</a>` : ''}
+            </div>
+          </article>
+        `;
+      } catch (err) {
+        el.innerHTML = '<p class="status-line">Unable to load this release right now.</p>';
+      }
+    }
+    renderDetail();
+  </script>
+
+</body>
+</html>

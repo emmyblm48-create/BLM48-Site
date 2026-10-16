@@ -24,6 +24,7 @@
   function currentPage() {
     // Links are clean URLs (/news, not /news.html); the site root and index redirect to /home.
     var name = window.location.pathname.split('/').pop().replace('.html', '');
+    if (name === 'discography-detail') return 'discography';
     return (name === '' || name === 'index') ? 'home' : name;
   }
 
