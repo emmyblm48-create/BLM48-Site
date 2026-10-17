@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Fredoka:wght@600;700&display=swap');
 
 /* =========================================================
    BLM48 — Design System (v3, ≒JOY-style official site)
@@ -383,4 +383,76 @@ body.menu-open { overflow: hidden; }
 .reveal-6 { --reveal-delay: 360ms; }
 @media (prefers-reduced-motion: reduce) {
   .reveal { opacity: 1; transform: none; transition: none; }
+}
+
+/* ---------------- Pop title (fan-club logo type) ----------------
+   White rounded letters, an orange outline and two stacked offset copies
+   behind them. nav.js splits every .pop-title into one <span data-ch> per
+   letter, so the copies come from ::before/::after and each letter can
+   bounce in. Size it with font-size. */
+.pop-title {
+  --pop-line: #ffa21f;
+  --pop-shade: #ffe3a3;
+  position: relative; z-index: 0; display: inline-block;
+  font-family: 'Fredoka', 'K2D', sans-serif; font-weight: 700; line-height: 1.1; letter-spacing: 0.03em;
+  color: #fff;
+  -webkit-text-stroke: 0.075em var(--pop-line);
+  paint-order: stroke fill;
+}
+.pop-title .pop-ch { position: relative; display: inline-block; white-space: pre; }
+.pop-title .pop-ch::before, .pop-title .pop-ch::after {
+  content: attr(data-ch); position: absolute; left: 0; top: 0;
+  color: var(--pop-shade); -webkit-text-stroke: 0.075em var(--pop-line); paint-order: stroke fill;
+}
+.pop-title .pop-ch::before { transform: translate(0.06em, 0.06em); z-index: -1; }
+.pop-title .pop-ch::after { transform: translate(0.12em, 0.12em); z-index: -2; color: #fff1cf; }
+
+.pop-title.is-split .pop-ch { opacity: 0; }
+.pop-title.is-in .pop-ch { opacity: 1; animation: pop-in 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both; animation-delay: calc(0.15s + var(--i, 0) * 0.06s); }
+.pop-title.is-in.is-floating .pop-ch { animation: pop-float 2.8s ease-in-out infinite; animation-delay: calc(var(--i, 0) * -0.18s); }
+@keyframes pop-in {
+  0% { opacity: 0; transform: translateY(0.6em) scale(0.4) rotate(-12deg); }
+  60% { opacity: 1; }
+  100% { opacity: 1; transform: none; }
+}
+@keyframes pop-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-0.07em); }
+}
+
+/* ---------------- Site-wide motion ----------------
+   Page enter: header slides down, the page title wipes in and its dots pop.
+   Page leave: nav.js adds html.is-leaving before following an internal link.
+   Cards and rows get .reveal from nav.js (see AUTO_REVEAL there). */
+.site-header { animation: head-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) both; }
+@keyframes head-in { from { opacity: 0; transform: translateY(-24px); } to { opacity: 1; transform: none; } }
+
+main { animation: page-in 0.6s ease-out both; }
+@keyframes page-in { from { opacity: 0; } to { opacity: 1; } }
+
+.page-hero-title, .sec-ttl.is-visible {
+  animation: ttl-wipe 1s cubic-bezier(0.65, 0, 0.35, 1) 0.15s both;
+}
+.page-hero-title::before, .page-hero-title::after, .sec-ttl.is-visible::before, .sec-ttl.is-visible::after {
+  animation: dot-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.9s both;
+}
+@keyframes ttl-wipe { from { clip-path: inset(-10px 100% -10px 0); letter-spacing: 0.9em; } to { clip-path: inset(-10px -10px -10px 0); } }
+@keyframes dot-pop { from { transform: scale(0); } to { transform: scale(1); } }
+
+html.is-leaving main, html.is-leaving .site-foot { opacity: 0; transform: translateY(-10px); transition: opacity 0.22s ease-in, transform 0.22s ease-in; }
+
+/* hover: thumbnails zoom a little, gold buttons lift */
+.info-thumb img { transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1); }
+.info-row:hover .info-thumb img { transform: scale(1.08); }
+.btn { transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.2s; }
+.btn:hover { transform: translateY(-2px); }
+.foot-sns a, .drawer-sns a { transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.foot-sns a:hover, .drawer-sns a:hover { transform: translateY(-3px) scale(1.08); }
+
+@media (prefers-reduced-motion: reduce) {
+  .site-header, main, .page-hero-title, .sec-ttl, .pop-title .pop-ch,
+  .page-hero-title::before, .page-hero-title::after, .sec-ttl::before, .sec-ttl::after { animation: none !important; }
+  .pop-title.is-split .pop-ch { opacity: 1; }
+  html.is-leaving main, html.is-leaving .site-foot { opacity: 1; transform: none; transition: none; }
+  .btn:hover, .foot-sns a:hover, .drawer-sns a:hover, .info-row:hover .info-thumb img { transform: none; }
 }

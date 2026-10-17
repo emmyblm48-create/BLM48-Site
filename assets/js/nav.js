@@ -17,7 +17,7 @@
     { href: 'about', page: 'about', label: 'About BLM48' },
     { href: 'cafe', page: 'cafe', label: 'Cafe' },
     { href: 'token', page: 'token', label: 'Token' },
-    { href: 'app', page: 'app', label: 'Application' },
+    { href: 'app', page: 'app', label: 'Fan Club' },
     { href: 'https://blm48-membership.vercel.app/', page: '', label: 'Membership' },
     { href: 'https://blm48-membership.vercel.app/shop', page: '', label: 'Official Shop' }
   ];
@@ -219,6 +219,7 @@
     }
 
     function observeWithin(root) {
+      tagAutoReveal(root);
       root.querySelectorAll('.reveal:not(.is-visible)').forEach(revealOrWatch);
     }
 
@@ -228,6 +229,7 @@
       mutations.forEach(function (m) {
         m.addedNodes.forEach(function (node) {
           if (node.nodeType !== 1) return;
+          if (node.matches && node.matches(AUTO_REVEAL)) tagAutoReveal(node.parentNode);
           if (node.classList && node.classList.contains('reveal')) revealOrWatch(node);
           if (node.querySelectorAll) observeWithin(node);
         });
@@ -253,6 +255,74 @@
     window.addEventListener('resize', scheduleScrollCheck, { passive: true });
   }
 
+  // Common blocks on every page that fade/lift in as they scroll into view,
+  // without each page having to add class="reveal" itself. Siblings get a
+  // small stagger (up to 6 steps) unless the page already set reveal-N.
+  var AUTO_REVEAL = [
+    '.sec-ttl', '.more-link', '.info-row', '.sch-row', '.member-card', '.disco-item',
+    '.about-lead', '.about-text p', '.about-slogan', '.detail-cover', '.detail-body',
+    '.token-benefit', '.cafe-menu-head', '.foot-sns', '.foot-logo', '.foot-links', '.foot-company'
+  ].join(', ');
+
+  function tagAutoReveal(root) {
+    if (!root || !root.querySelectorAll) return;
+    root.querySelectorAll(AUTO_REVEAL).forEach(function (el) {
+      if (el.classList.contains('reveal') || el.closest('.swiper, .drawer')) return;
+      if (!/\breveal-\d/.test(el.className)) {
+        var idx = Array.prototype.indexOf.call(el.parentNode.children, el);
+        el.style.setProperty('--reveal-delay', (Math.min(idx, 6) * 60) + 'ms');
+      }
+      el.classList.add('reveal');
+    });
+  }
+
+  // .pop-title: one span per letter (data-ch feeds the stacked outline copies
+  // in site.css) so the letters bounce in one by one, then float gently.
+  function splitPopTitles() {
+    document.querySelectorAll('.pop-title:not(.is-split)').forEach(function (el) {
+      var text = el.textContent.trim();
+      el.setAttribute('aria-label', text);
+      el.innerHTML = Array.from(text).map(function (ch, i) {
+        var safe = ch.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+        return '<span class="pop-ch" aria-hidden="true" data-ch="' + safe + '" style="--i:' + i + '">' + safe + '</span>';
+      }).join('');
+      el.classList.add('is-split');
+      var last = el.lastElementChild;
+      if (last) last.addEventListener('animationend', function () { el.classList.add('is-floating'); }, { once: true });
+      // Bounce in once the title is on screen (and its .reveal parent has shown).
+      if (!('IntersectionObserver' in window)) { el.classList.add('is-in'); return; }
+      var io = new IntersectionObserver(function (entries) {
+        if (!entries[0].isIntersecting) return;
+        var wrap = el.closest('.reveal');
+        setTimeout(function () { el.classList.add('is-in'); }, wrap && !wrap.classList.contains('is-visible') ? 250 : 0);
+        io.disconnect();
+      }, { threshold: 0.4 });
+      io.observe(el);
+    });
+  }
+
+  // Fade the page out before following an internal link, so pages hand over
+  // softly instead of cutting. Skipped for new tabs, modified clicks, in-page
+  // anchors, downloads and reduced motion.
+  function setupPageLeave() {
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    document.addEventListener('click', function (e) {
+      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      var a = e.target.closest && e.target.closest('a[href]');
+      if (!a || a.target || a.hasAttribute('download')) return;
+      var url = new URL(a.href, location.href);
+      if (url.origin !== location.origin || /^(mailto|tel):/.test(a.href)) return;
+      if (url.pathname === location.pathname && url.search === location.search) return;
+      e.preventDefault();
+      document.documentElement.classList.add('is-leaving');
+      setTimeout(function () { location.href = url.href; }, 220);
+    });
+    // Coming back through the back/forward cache restores the faded page.
+    window.addEventListener('pageshow', function (e) {
+      if (e.persisted) document.documentElement.classList.remove('is-leaving');
+    });
+  }
+
   // Header can be injected immediately (its placeholder is right after <body>).
   injectHeader();
 
@@ -264,4 +334,10 @@
   }
 
   setupRevealAnimations();
+  setupPageLeave();
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', splitPopTitles);
+  } else {
+    splitPopTitles();
+  }
 })();

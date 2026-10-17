@@ -71,11 +71,7 @@
     .app-hero-brand { display: flex; align-items: baseline; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; color: var(--blm-ink); }
     .app-hero-brand .wordmark { font-size: clamp(30px, 6vw, 42px); }
     .app-hero-brand small { font-family: var(--font-display); font-size: clamp(14px, 2.6vw, 18px); letter-spacing: 0.08em; }
-    .app-hero-title {
-      font-family: 'K2D', sans-serif; font-weight: 800; color: var(--orange-title);
-      font-size: clamp(30px, 7vw, 46px); line-height: 1.25; letter-spacing: 0.04em;
-      text-shadow: 3px 3px 0 #fff3c4;
-    }
+    .app-hero-title { font-size: clamp(44px, 11vw, 76px); margin: 4px 0 2px; }
     .app-hero-free {
       display: inline-flex; align-items: baseline; gap: 6px; margin: 16px 0 26px;
       padding: 6px 18px; border-radius: 999px; background: var(--blm-gold-pale);
@@ -131,7 +127,7 @@
       display: inline-block; font-family: var(--font-display); font-weight: 700; color: var(--orange-deep);
       font-size: 13px; letter-spacing: 0.25em; margin-bottom: 10px;
     }
-    .pickup-label b { font-size: 34px; letter-spacing: 0.04em; margin-left: 4px; }
+    .pickup-label .pop-title { font-size: 44px; margin-left: 8px; vertical-align: -4px; }
     .pickup h2 { font-family: 'K2D', sans-serif; font-size: clamp(22px, 3.4vw, 30px); font-weight: 800; line-height: 1.45; margin-bottom: 16px; }
     .pickup h2 em { font-style: normal; color: var(--orange-deep); background: linear-gradient(transparent 62%, #fff 62%); }
     .app-band.is-alt .pickup h2 em { background: linear-gradient(transparent 62%, var(--blm-gold-pale) 62%); }
@@ -167,7 +163,7 @@
     .app-howto::before { content: ''; position: absolute; inset: 0; background: var(--band); clip-path: polygon(0 5%, 100% 0, 100% 100%, 0 100%); }
     .app-howto > * { position: relative; }
     .app-howto-head { text-align: center; margin-bottom: 40px; }
-    .app-howto-head small { display: block; font-family: var(--font-display); font-size: 11px; letter-spacing: 0.4em; color: var(--orange-deep); margin-bottom: 6px; }
+    .app-howto-head .pop-title { display: table; margin: 0 auto 10px; font-size: clamp(38px, 8vw, 56px); }
     .app-howto-head h2 { font-family: 'K2D', sans-serif; font-size: clamp(24px, 4vw, 32px); font-weight: 800; }
 
     .app-steps { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 30px; counter-reset: step; }
@@ -249,7 +245,7 @@
               <span class="wordmark" role="img" aria-label="BLM48"></span>
               <small>Application</small>
             </div>
-            <h1 class="app-hero-title">เปิดรับสมาชิกใหม่</h1>
+            <h1 class="app-hero-title pop-title">Membership</h1>
             <div class="app-hero-free">ค่าสมัคร <strong>ฟรี</strong> ไม่มีค่าใช้จ่าย</div>
             <div>
               <a href="#join" class="app-btn">สมัครสมาชิก <i class="fas fa-chevron-right" aria-hidden="true"></i></a>
@@ -282,7 +278,7 @@
           <img class="pickup-phone" src="assets/img/blm48-app-phone.webp" alt="หน้าจอ Discover ในแอป BLM48 แสดง Champ of the Month และ Special Fans Day" loading="lazy">
         </div>
         <div class="reveal reveal-1">
-          <span class="pickup-label">PICK UP<b>#01</b></span>
+          <span class="pickup-label">PICK UP<span class="pop-title">#01</span></span>
           <h2>ส่งใจให้เมมเบอร์<br>ขึ้นเป็น <em>Champ of the Month</em></h2>
           <p>ติดตามโพสต์และความเคลื่อนไหวของเมมเบอร์ได้ในหน้า Discover ส่ง Cookie ให้โพสต์ที่ชอบ ร่วมลุ้นอันดับใน Special Fans Day และ Top Today VIP ทุกวัน เมมเบอร์ที่ได้รับการสนับสนุนมากที่สุดจะได้เป็น Champ of the Month</p>
           <div class="pickup-tags"><span>Discover</span><span>Special Fans Day</span><span>Top Today VIP</span></div>
@@ -305,7 +301,7 @@
           </div>
         </div>
         <div class="reveal reveal-1">
-          <span class="pickup-label">PICK UP<b>#02</b></span>
+          <span class="pickup-label">PICK UP<span class="pop-title">#02</span></span>
           <h2>เช็คอินทุกวัน รับ <em>BLM Token</em><br>ไว้โหวต Major Vote</h2>
           <p>เช็คอินในแอปครบทั้งเดือนรับฟรี 100 Token นำไปร่วมโหวตให้เมมเบอร์ที่ชื่นชอบในกิจกรรม BLM48 Major Vote ทุกคะแนนตรวจสอบได้ด้วย wallet code ของคุณ</p>
           <div class="pickup-tags"><span>Check-in</span><span>Major Vote</span><span>Wallet</span></div>
@@ -330,7 +326,7 @@
           </div>
         </div>
         <div class="reveal reveal-1">
-          <span class="pickup-label">PICK UP<b>#03</b></span>
+          <span class="pickup-label">PICK UP<span class="pop-title">#03</span></span>
           <h2>ใช้ Token ใน <em>BLM48 Shop</em><br>สุ่ม Gacha สั่งเมนู Café</h2>
           <p>นำ Token ไปแลกเป็น Cookie สุ่ม Gacha ไอเท็มพิเศษ หรือสั่งเครื่องดื่มจาก BLM48 Café ให้เมมเบอร์คนโปรด ของสะสมทั้งหมดเก็บไว้ในกระเป๋าของคุณในแอป</p>
           <div class="pickup-tags"><span>Gacha</span><span>Café</span><span>Cookie</span></div>
@@ -353,7 +349,7 @@
     <section class="app-howto" id="join">
       <div class="app-inner">
         <div class="app-howto-head reveal">
-          <small>HOW TO JOIN</small>
+          <p class="pop-title">How to join</p>
           <h2>วิธีสมัครและใช้งาน</h2>
         </div>
 
