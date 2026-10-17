@@ -78,8 +78,10 @@
     .mem-photo { aspect-ratio: 1; border-radius: 26%; overflow: hidden; background: var(--blm-gold-pale); margin-bottom: 14px; }
     .mem-photo img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s ease; }
     .mem-card:hover .mem-photo img { transform: scale(1.05); }
-    .mem-name { font-size: 14px; letter-spacing: 0.08em; }
-    .mem-sub { margin-top: 5px; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--blm-ink-soft); overflow-wrap: anywhere; }
+    .mem-name { font-size: 14px; letter-spacing: 0.06em; line-height: 1.5; }
+    .mem-name span { display: block; font-size: 12px; color: var(--blm-ink-soft); }
+    .mem-bday { margin-top: 6px; font-size: 11.5px; letter-spacing: 0.06em; color: var(--blm-ink-soft); }
+    .mem-bday i { margin-right: 6px; color: var(--blm-ink); }
     .mem .more-link { width: var(--inner); margin: 50px auto 0; }
 
     /* ---------- 6. YOUTUBE: one big video at a time on a light grey band ---------- */
@@ -157,7 +159,7 @@
 
   <!-- 5. MEMBERS -->
   <section class="mem" id="memSection">
-    <div class="mem-head"><h2 class="sec-ttl">Members</h2></div>
+    <div class="mem-head"><h2 class="sec-ttl">Profile</h2></div>
     <div class="swiper mem-swiper">
       <div class="swiper-wrapper" id="memWrapper"></div>
     </div>
@@ -343,6 +345,8 @@
       members = members.filter(m => m && m.name);
       if (!members.length) { section.hidden = true; return; }
 
+      // "Bloom" -> "Team Bloom"; "Trainee" stays as is (same labels as the profile tabs)
+      const teamLabel = t => /^trainee$/i.test(t) ? t : `Team ${t}`;
       const esc = s => String(s || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
       // Repeat short lists so the loop always fills wide screens.
       let slides = members.slice();
@@ -353,8 +357,8 @@
             <div class="mem-photo">
               <img src="${BLM48Data.driveImg(m.image, 'https://via.placeholder.com/400x400?text=BLM48')}" alt="${esc(m.name)}" loading="lazy" onerror="BLM48Data.imgRetry(this, 'https://via.placeholder.com/400x400?text=BLM48')">
             </div>
-            <p class="mem-name">${esc(m.name)}</p>
-            <p class="mem-sub">${esc(m.fullNameEN || m.team || '')}</p>
+            <p class="mem-name">${esc(m.name)} <span>BLM48${m.team ? ' ' + esc(teamLabel(m.team)) : ''}</span></p>
+            ${m.birthday && m.birthday !== '-' ? `<p class="mem-bday"><i class="fa-solid fa-cake-candles" aria-hidden="true"></i>${esc(m.birthday)}</p>` : ''}
           </a>
         </div>
       `).join('');
