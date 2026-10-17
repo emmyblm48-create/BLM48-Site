@@ -52,8 +52,8 @@
     /* ---------- 2. BANNER SLIDER ---------- */
     .bnr { padding: 50px 0; overflow: hidden; }
     .bnr-swiper { overflow: visible; padding-bottom: 40px; }
-    .bnr-swiper .swiper-slide { width: clamp(280px, 46vw, 680px); }
-    .bnr-swiper a { display: block; aspect-ratio: 1445 / 820; overflow: hidden; background: var(--blm-paper-soft); transition: opacity 0.3s; }
+    .bnr-swiper .swiper-slide { width: clamp(300px, 62vw, 900px); }
+    .bnr-swiper a { display: block; aspect-ratio: 2000 / 533; border-radius: 10px; overflow: hidden; background: var(--blm-paper-soft); transition: opacity 0.3s; }
     .bnr-swiper a:hover { opacity: 0.8; }
     .bnr-swiper img { width: 100%; height: 100%; object-fit: cover; display: block; }
     /* the dots are built by hand (one per real banner), so Swiper's own
@@ -372,20 +372,26 @@
     }
     const clamp = (min, v, max) => Math.min(max, Math.max(min, v));
 
-    async function renderBanners() {
-      let rows = [];
-      try { rows = await BLM48Data.fetchSheet('HeroBanner'); } catch (err) { rows = []; }
-      if (!rows.length) { document.getElementById('bnrSection').hidden = true; return; }
+    // Banners that point at this site's own pages open in place; other sites get a new tab.
+    const newTab = link => /^https?:/i.test(link || '') ? 'target="_blank" rel="noopener"' : '';
 
-      renderKeyVisual(rows);
+    // The key visual cycles the HeroBanner pictures; the strip below it shows the PromoBanners.
+    async function renderBanners() {
+      let heroRows = [];
+      try { heroRows = await BLM48Data.fetchSheet('HeroBanner'); } catch (err) { heroRows = []; }
+      if (heroRows.length) renderKeyVisual(heroRows);
+
+      let rows = [];
+      try { rows = await BLM48Data.fetchSheet('PromoBanners'); } catch (err) { rows = []; }
+      if (!rows.length) { document.getElementById('bnrSection').hidden = true; return; }
 
       // Repeat short lists so the looping strip always fills wide screens.
       let slides = rows.slice();
       while (slides.length < 8) slides = slides.concat(rows);
       document.getElementById('bnrWrapper').innerHTML = slides.map(item => `
         <div class="swiper-slide">
-          <a href="${item.link || '#'}" ${item.link ? 'target="_blank" rel="noopener"' : ''}>
-            <img src="${BLM48Data.driveImg(item.image || item.thumbnail)}" alt="${item.title || 'BLM48'}" onerror="BLM48Data.imgRetry(this, 'https://via.placeholder.com/1445x820?text=BLM48')">
+          <a href="${item.link || '#'}" ${newTab(item.link)}>
+            <img src="${BLM48Data.driveImg(item.image || item.thumbnail)}" alt="${item.title || 'BLM48'}" onerror="BLM48Data.imgRetry(this, 'https://via.placeholder.com/2000x533?text=BLM48')">
           </a>
         </div>
       `).join('');
@@ -404,12 +410,12 @@
       dots.forEach((d, i) => d.addEventListener('click', () => swiper.slideToLoop(i)));
     }
 
-    // Key visual: the same banner pictures as the strip below, taking turns
-    // (cross-fade every 5s); each one links where its banner does.
+    // Key visual: the HeroBanner pictures taking turns (cross-fade every 5s);
+    // each one links where its banner does.
     function renderKeyVisual(rows) {
       const box = document.getElementById('kvVisual');
       box.innerHTML = rows.map((item, i) => `
-        <a class="kv-slide${i === 0 ? ' is-on' : ''}" href="${item.link || '#'}" ${item.link ? 'target="_blank" rel="noopener"' : ''} aria-label="${item.title || 'BLM48'}">
+        <a class="kv-slide${i === 0 ? ' is-on' : ''}" href="${item.link || '#'}" ${newTab(item.link)} aria-label="${item.title || 'BLM48'}">
           <img src="${BLM48Data.driveImg(item.image || item.thumbnail)}" alt="" onerror="BLM48Data.imgRetry(this, 'https://via.placeholder.com/1445x820?text=BLM48')">
         </a>
       `).join('');

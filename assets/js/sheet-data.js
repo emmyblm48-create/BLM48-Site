@@ -5,7 +5,7 @@
    ========================================================= */
 window.BLM48_DATA_URL = 'https://script.google.com/macros/s/AKfycbyKX1fncf8dJuPWadPk9w-4t0pPnkNPZlFDvUqllC1aJwbqQ4vVdepMcU6fjbTIOHqz/exec';
 
-/* Sheets baked into the code below (HeroBanner / LinkBanners / Discography / Movie) —
+/* Sheets baked into the code below (HeroBanner / PromoBanners / LinkBanners / Discography / Movie) —
    these no longer hit the Apps Script endpoint. Profile, News and Schedule still fetch live.
    To update, re-copy the tab's data from the "BLM48 Information" Google Sheet. */
 window.BLM48_STATIC_SHEETS = {
@@ -14,6 +14,13 @@ window.BLM48_STATIC_SHEETS = {
     {"image":"https://lh3.googleusercontent.com/d/1PROUWSWJ5CldeAGPtRt09-f53UcvQzbU=s1000","title":"","subtitle":"","link":"https://blm48-app.vercel.app/postdetail?id=POST_1790878216131","ggDrive":""},
     {"image":"https://lh3.googleusercontent.com/d/1HcFyA1Wj70W1H_DXcjQP1Gui1Xv260WM=s1000","title":"","subtitle":"","link":"https://youtu.be/euoIySADf2c?si=NDHOgZ6sifpKzZ5-","ggDrive":""},
     {"image":"https://lh3.googleusercontent.com/d/1UfiAb17cBmh0ArobQ29aqRnn6NCRXPQi=s1000","title":"","subtitle":"","link":"https://blm48-app.vercel.app/","ggDrive":"https://drive.google.com/file/d/1UfiAb17cBmh0ArobQ29aqRnn6NCRXPQi/view?usp=drive_link"}
+  ],
+  // Promo strip under the key visual (Home): the four wide 2000x533 banners.
+  PromoBanners: [
+    {"image":"assets/img/hero/rapsodi.webp","title":"Rapsodi — BLM48 Special Song","subtitle":"","link":"rapsodi","ggDrive":""},
+    {"image":"assets/img/hero/official-shop.webp","title":"BLM48 Official Shop","subtitle":"","link":"https://blm48-membership.vercel.app/shop","ggDrive":""},
+    {"image":"assets/img/hero/fanclub-membership.webp","title":"BLM48 Official Fan Club — now accepting new memberships","subtitle":"","link":"app","ggDrive":""},
+    {"image":"assets/img/hero/official-app.webp","title":"BLM48 Official App has arrived","subtitle":"","link":"app-introduction","ggDrive":""}
   ],
   LinkBanners: [
     {"image":"https://lh3.googleusercontent.com/d/1CjxVjPiX4dRvYJOSxdRuW0t9bRRnYuLM=s1000","link":"https://blm48-app.vercel.app/","title":"","ggDrive":"https://drive.google.com/file/d/1CjxVjPiX4dRvYJOSxdRuW0t9bRRnYuLM/view?usp=drive_link"},

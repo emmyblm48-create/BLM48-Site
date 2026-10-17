@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="google-site-verification" content="nUjG8w2pz2CXK7Uvg8EMmn2S6hvwQOCNbg_IDFtMRcg" />
+  <title>BLM48 Special Song「Rapsodi」Special Site</title>
+  <meta name="description" content="BLM48 Special Song「Rapsodi」— 2026.9.26 Release! Music video, release details and specials.">
+  <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1flevUZLFmIodF1RHG0QgRJkCMpgW1KM7=s1000">
+
+  <link href="https://fonts.googleapis.com/css?family=Comfortaa:300,400,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=K2D:wght@300;400;500;600;700;800&family=Great+Vibes&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/site.css">
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+
+    /* Single special site (after equal-love.jp's 21st single site): key visual,
+       a sticky Music Video / Product / Special bar, then one section each.
+       Colours come from the Rapsodi artwork: dusty rose, ivory and pearl white. */
+    .rp-page {
+      --rose: #cbb1a5;
+      --rose-soft: #e9ddd6;
+      --rose-pale: #f7f1ed;
+      --rose-deep: #7d5c50;
+      --pearl: #fffdfb;
+      background: var(--rose-pale); color: var(--blm-ink);
+    }
+    .rp-inner { width: min(1000px, calc(100% - 32px)); margin: 0 auto; }
+    .rp-script { font-family: 'Great Vibes', cursive; font-weight: 400; letter-spacing: 0.01em; }
+
+    /* ---------- Key visual ---------- */
+    .rp-kv { background: linear-gradient(180deg, var(--rose) 0, var(--rose) 45%, var(--rose-pale) 45%); padding: clamp(18px, 3vw, 34px) 0 clamp(40px, 6vw, 70px); }
+    .rp-kv-art { width: min(1200px, calc(100% - 32px)); margin: 0 auto; border-radius: 14px; overflow: hidden; box-shadow: 0 24px 50px rgba(90, 60, 50, 0.22); }
+    .rp-kv-art img { display: block; width: 100%; height: auto; aspect-ratio: 2000 / 533; object-fit: cover; }
+    .rp-kv-copy { text-align: center; color: var(--rose-deep); margin-top: clamp(30px, 5vw, 50px); }
+    .rp-kv-copy h1 { font-size: clamp(64px, 12vw, 132px); line-height: 1; }
+    .rp-kv-badge { display: inline-block; margin-top: 18px; padding: 7px 26px; border: 1px solid currentColor; border-radius: 999px; font-size: clamp(12px, 1.6vw, 15px); letter-spacing: 0.08em; font-style: italic; }
+    .rp-kv-date { margin-top: 14px; font-family: var(--font-display); font-size: clamp(22px, 3.6vw, 38px); letter-spacing: 0.12em; }
+
+    /* ---------- Sticky section bar ---------- */
+    .rp-nav { position: sticky; top: var(--header-h, 64px); z-index: 50; background: rgba(255, 253, 251, 0.92); backdrop-filter: blur(8px); border-bottom: 1px solid var(--rose-soft); }
+    .rp-nav ul { list-style: none; display: flex; justify-content: center; gap: clamp(22px, 6vw, 70px); padding: 16px 0; }
+    .rp-nav a { font-family: var(--font-display); font-size: 12px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--rose-deep); text-decoration: none; padding-bottom: 4px; border-bottom: 1px solid transparent; transition: border-color 0.2s; }
+    .rp-nav a:hover, .rp-nav a.is-current { border-bottom-color: currentColor; }
+
+    /* ---------- Shared section heading ---------- */
+    .rp-sec { padding: clamp(80px, 11vw, 130px) 0; scroll-margin-top: 110px; }
+    .rp-sec.is-pearl { background: var(--pearl); }
+    .rp-head { text-align: center; margin-bottom: clamp(40px, 6vw, 60px); }
+    .rp-head .rp-script { display: block; font-size: clamp(46px, 8vw, 72px); line-height: 1; color: #9a786b; }
+    .rp-head h2 { margin-top: 6px; font-family: var(--font-display); font-weight: 400; font-size: 12px; letter-spacing: 0.4em; text-transform: uppercase; color: var(--rose-deep); }
+
+    /* ---------- Music video ---------- */
+    .rp-mv { position: relative; aspect-ratio: 16 / 9; border-radius: 12px; overflow: hidden; background: #000; box-shadow: 0 20px 44px rgba(90, 60, 50, 0.18); }
+    .rp-mv iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+    .rp-mv-cap { text-align: center; margin-top: 22px; font-size: 14px; letter-spacing: 0.06em; }
+    .rp-mv-cap small { display: block; margin-top: 6px; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--rose-deep); }
+
+    /* ---------- Product ---------- */
+    .rp-product { display: grid; grid-template-columns: minmax(0, 400px) 1fr; gap: clamp(30px, 6vw, 70px); align-items: start; }
+    .rp-cover { aspect-ratio: 1; border-radius: 10px; overflow: hidden; background: var(--rose-soft); box-shadow: 0 18px 40px rgba(90, 60, 50, 0.16); }
+    .rp-cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .rp-type { display: inline-block; padding: 4px 16px; border-radius: 999px; background: var(--rose-deep); color: #fff; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; }
+    .rp-product h3 { margin: 16px 0 6px; font-family: var(--font-display); font-size: clamp(26px, 3.4vw, 34px); font-weight: 400; letter-spacing: 0.06em; }
+    .rp-spec { margin: 22px 0 30px; border-top: 1px solid var(--rose-soft); }
+    .rp-spec div { display: grid; grid-template-columns: 130px 1fr; gap: 10px; padding: 13px 0; border-bottom: 1px solid var(--rose-soft); font-size: 14px; }
+    .rp-spec dt { font-size: 10.5px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--rose-deep); padding-top: 2px; }
+    .rp-tracks-ttl { font-family: var(--font-display); font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--rose-deep); margin-bottom: 10px; }
+    .rp-tracks { list-style: none; counter-reset: trk; }
+    .rp-tracks li { counter-increment: trk; display: flex; gap: 18px; align-items: baseline; padding: 10px 0; border-bottom: 1px dashed var(--rose-soft); font-size: 15px; }
+    .rp-tracks li::before { content: counter(trk, decimal-leading-zero); font-family: var(--font-display); font-size: 12px; color: var(--rose-deep); }
+    .rp-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+    .rp-btn {
+      display: inline-flex; align-items: center; gap: 10px; padding: 14px 28px; border-radius: 999px;
+      background: var(--rose-deep); color: #fff; text-decoration: none; font-size: 13px; letter-spacing: 0.08em;
+      transition: transform 0.2s, background 0.2s;
+    }
+    .rp-btn:hover { transform: translateY(-2px); background: #694b40; }
+    .rp-btn.is-ghost { background: transparent; color: var(--rose-deep); border: 1px solid var(--rose-deep); }
+    .rp-btn.is-ghost:hover { background: var(--rose-soft); }
+    @media (max-width: 760px) {
+      .rp-product { grid-template-columns: 1fr; }
+      .rp-cover { width: min(340px, 100%); margin: 0 auto; }
+      .rp-spec div { grid-template-columns: 110px 1fr; }
+    }
+
+    /* ---------- Special ---------- */
+    .rp-specials { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .rp-card {
+      display: flex; flex-direction: column; padding: 30px 26px 26px; border-radius: 14px; background: #fff;
+      border: 1px solid var(--rose-soft); text-decoration: none; color: var(--blm-ink);
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    a.rp-card:hover { transform: translateY(-4px); box-shadow: 0 16px 34px rgba(90, 60, 50, 0.14); }
+    .rp-card i { font-size: 24px; color: var(--rose); margin-bottom: 16px; }
+    .rp-card small { font-size: 10.5px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--rose-deep); }
+    .rp-card h3 { margin: 8px 0 10px; font-size: 16px; font-weight: 700; line-height: 1.5; }
+    .rp-card p { font-size: 13px; line-height: 1.8; color: var(--blm-ink-soft); flex: 1; }
+    .rp-card .rp-more { margin-top: 18px; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--rose-deep); }
+    .rp-card .rp-more::after { content: ' \2192'; }
+    @media (max-width: 860px) { .rp-specials { grid-template-columns: 1fr; } }
+
+    .rp-back { text-align: center; padding: 0 0 clamp(70px, 9vw, 100px); background: var(--rose-pale); }
+  </style>
+</head>
+<body>
+
+  <div id="site-header"></div>
+  <script src="assets/js/nav.js"></script>
+
+  <main class="rp-page">
+
+    <section class="rp-kv">
+      <div class="rp-kv-art">
+        <img src="assets/img/hero/rapsodi.webp" alt="BLM48 Special Song「Rapsodi」key visual">
+      </div>
+      <div class="rp-kv-copy">
+        <h1 class="rp-script">Rapsodi</h1>
+        <p class="rp-kv-badge">BLM48 Special Song</p>
+        <p class="rp-kv-date">2026.9.26 Release!</p>
+      </div>
+    </section>
+
+    <nav class="rp-nav" aria-label="Rapsodi sections">
+      <ul>
+        <li><a href="#mv">Music Video</a></li>
+        <li><a href="#product">Product</a></li>
+        <li><a href="#special">Special</a></li>
+      </ul>
+    </nav>
+
+    <section class="rp-sec is-pearl" id="mv">
+      <div class="rp-inner">
+        <div class="rp-head reveal">
+          <span class="rp-script">Music Video</span>
+          <h2>Promotional Video</h2>
+        </div>
+        <div class="rp-mv reveal">
+          <iframe src="https://www.youtube-nocookie.com/embed/g-IiXvDfBRg" title="BLM48「Rapsodi」Promotional Video" loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
+        <p class="rp-mv-cap reveal">「Rapsodi」Promotional Video<small>Special Song &amp; 3rd Album c/w</small></p>
+      </div>
+    </section>
+
+    <section class="rp-sec" id="product">
+      <div class="rp-inner">
+        <div class="rp-head reveal">
+          <span class="rp-script">Product</span>
+          <h2>Release Information</h2>
+        </div>
+        <div class="rp-product">
+          <div class="rp-cover reveal">
+            <img src="https://lh3.googleusercontent.com/d/1TMm-8nP3gXMmO7Dz90hFaAVyEQg18ka4=s1000" alt="「Rapsodi」cover" onerror="this.onerror=null; this.src='assets/img/hero/rapsodi.webp'">
+          </div>
+          <div class="reveal reveal-1">
+            <span class="rp-type">Special Song</span>
+            <h3>Rapsodi</h3>
+            <dl class="rp-spec">
+              <div><dt>Release</dt><dd>2026.09.26</dd></div>
+              <div><dt>Catalog No.</dt><dd>BLM48-029</dd></div>
+              <div><dt>Artist</dt><dd>BLM48</dd></div>
+            </dl>
+            <p class="rp-tracks-ttl">Tracklist</p>
+            <ol class="rp-tracks">
+              <li>Rapsodi</li>
+            </ol>
+            <div class="rp-actions">
+              <a class="rp-btn" href="https://www.youtube.com/playlist?list=PLHVDYyubKdY8" target="_blank" rel="noopener"><i class="fab fa-youtube" aria-hidden="true"></i> Listen on YouTube</a>
+              <a class="rp-btn is-ghost" href="discography-detail?id=2026-09-26-special-song-rapsodi">Discography</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="rp-sec is-pearl" id="special">
+      <div class="rp-inner">
+        <div class="rp-head reveal">
+          <span class="rp-script">Special</span>
+          <h2>Related Contents</h2>
+        </div>
+        <div class="rp-specials">
+          <a class="rp-card reveal" href="https://youtu.be/rdWq9BKqpBU" target="_blank" rel="noopener">
+            <i class="fas fa-star" aria-hidden="true"></i>
+            <small>2026.06.12 · Announcement</small>
+            <h3>「Rapsodi」Senbatsu Announcement</h3>
+            <p>The members chosen to perform the special song, revealed on BLM48's YouTube channel.</p>
+            <span class="rp-more">Watch</span>
+          </a>
+          <a class="rp-card reveal reveal-1" href="https://www.instagram.com/p/DdQqcjZCSOC/" target="_blank" rel="noopener">
+            <i class="fas fa-microphone" aria-hidden="true"></i>
+            <small>2026.09.15 · 20:00 (ICT)</small>
+            <h3>Concert「This Letter Says “Marry Me”」Special Live Talk</h3>
+            <p>A live talk ahead of the BLM48 &amp; NPT48 concert.</p>
+            <span class="rp-more">Instagram</span>
+          </a>
+          <div class="rp-card reveal reveal-2">
+            <i class="fas fa-ring" aria-hidden="true"></i>
+            <small>2026.09.26 · 19:00 (ICT)</small>
+            <h3>BLM48 × NPT48 Concert「This Letter Says “Marry Me”」</h3>
+            <p>The joint concert held on Rapsodi's release day.</p>
+            <a class="rp-more" href="schedule" style="text-decoration:none">Schedule</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="rp-back"><p class="more-link" style="justify-content:center"><a href="home">Back to Home</a></p></div>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script>
+    // Underline the section bar link for whichever section is on screen.
+    (function () {
+      var links = Array.from(document.querySelectorAll('.rp-nav a'));
+      if (!('IntersectionObserver' in window)) return;
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (!e.isIntersecting) return;
+          links.forEach(function (a) { a.classList.toggle('is-current', a.getAttribute('href') === '#' + e.target.id); });
+        });
+      }, { rootMargin: '-45% 0px -50% 0px' });
+      ['mv', 'product', 'special'].forEach(function (id) { io.observe(document.getElementById(id)); });
+    })();
+  </script>
+</body>
+</html>
