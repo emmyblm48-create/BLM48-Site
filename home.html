@@ -69,7 +69,8 @@
     /* row styles (.info-row / .sch-row) live in site.css, shared with news.html */
 
     /* ---------- 5. MEMBERS: a gliding strip of squircle portraits ---------- */
-    .mem { padding: 0 0 clamp(90px, 10vw, 140px); overflow: hidden; }
+    /* overflow-x only: the strip may bleed sideways, but the title dot above must not be cut */
+    .mem { padding: 0 0 clamp(90px, 10vw, 140px); overflow-x: clip; }
     .mem-head { width: var(--inner); margin: 0 auto 50px; }
     .mem-swiper { overflow: visible; }
     .mem-swiper .swiper-wrapper { transition-timing-function: linear; }
