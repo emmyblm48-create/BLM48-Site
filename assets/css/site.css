@@ -444,6 +444,33 @@ html.is-leaving main, html.is-leaving .site-foot { opacity: 0; transform: transl
 /* hover: thumbnails zoom a little, gold buttons lift */
 .info-thumb img { transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1); }
 .info-row:hover .info-thumb img { transform: scale(1.08); }
+
+/* News / schedule rows on hover: a thin arrow slides in from the left of the
+   thumbnail or date, and the news thumbnail wobbles into a soft blob.
+   The arrow starts at zero width with a negative margin that cancels the
+   row's gap, so nothing moves until it grows. */
+a.info-row, a.sch-row { --row-gap: 20px; }
+a.sch-row { --row-gap: 22px; }
+a.info-row::before, a.sch-row::before {
+  content: ''; flex-shrink: 0; align-self: center;
+  width: 0; height: 10px; margin-right: calc(var(--row-gap) * -1); opacity: 0;
+  background: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 34 10'%3E%3Cpath d='M0 5h33M28 1l5 4-5 4' fill='none' stroke='%23000'/%3E%3C/svg%3E") right center / 34px 10px no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 34 10'%3E%3Cpath d='M0 5h33M28 1l5 4-5 4' fill='none' stroke='%23000'/%3E%3C/svg%3E") right center / 34px 10px no-repeat;
+  transition: width 0.45s cubic-bezier(0.22, 1, 0.36, 1), margin 0.45s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s;
+}
+a.info-row:hover::before, a.sch-row:hover::before,
+a.info-row:focus-visible::before, a.sch-row:focus-visible::before { width: 34px; margin-right: 0; opacity: 1; }
+
+.info-thumb { transition: border-radius 0.5s ease; }
+a.info-row:hover .info-thumb, a.info-row:focus-visible .info-thumb { animation: thumb-blob 2.4s ease-in-out infinite; }
+@keyframes thumb-blob {
+  0%, 100% { border-radius: 38% 46% 42% 48% / 44% 40% 48% 42%; }
+  33%      { border-radius: 46% 38% 48% 40% / 40% 48% 40% 46%; }
+  66%      { border-radius: 42% 48% 38% 46% / 48% 42% 46% 40%; }
+}
+@media (max-width: 600px) { a.info-row { --row-gap: 20px; } a.sch-row { --row-gap: 14px; } }
+@media (hover: none) { a.info-row::before, a.sch-row::before { display: none; } }
 .btn { transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.2s; }
 .btn:hover { transform: translateY(-2px); }
 .foot-sns a, .drawer-sns a { transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1); }
@@ -455,4 +482,6 @@ html.is-leaving main, html.is-leaving .site-foot { opacity: 0; transform: transl
   .pop-title.is-split .pop-ch { opacity: 1; }
   html.is-leaving main, html.is-leaving .site-foot { opacity: 1; transform: none; transition: none; }
   .btn:hover, .foot-sns a:hover, .drawer-sns a:hover, .info-row:hover .info-thumb img { transform: none; }
+  a.info-row::before, a.sch-row::before { transition: none; }
+  a.info-row:hover .info-thumb, a.info-row:focus-visible .info-thumb { animation: none; border-radius: 42%; }
 }
