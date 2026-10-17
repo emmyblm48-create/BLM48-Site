@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="google-site-verification" content="nUjG8w2pz2CXK7Uvg8EMmn2S6hvwQOCNbg_IDFtMRcg" />
+  <title>BLM48 Official - Application</title>
+  <meta name="description" content="BLM48 Application — แอปสมาชิกอย่างเป็นทางการของ BLM48 สมัครฟรี ไม่มีค่าใช้จ่าย">
+  <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1flevUZLFmIodF1RHG0QgRJkCMpgW1KM7=s1000">
+
+  <link href="https://fonts.googleapis.com/css?family=Comfortaa:300,400,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=K2D:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/site.css">
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+
+    /* Fan-club style landing (after sp.nearly-equal-joy.jp): cream grid paper,
+       scalloped white cards, slanted yellow bands and "PICK UP" features. */
+    .app-page {
+      --cream: #fffbe8;
+      --band: #ffeea6;
+      --orange: #ffae2e;
+      --orange-deep: #9a5800;
+      --orange-title: #d46e00;
+      background:
+        linear-gradient(rgba(255, 225, 107, 0.16) 1px, transparent 1px) 0 0 / 28px 28px,
+        linear-gradient(90deg, rgba(255, 225, 107, 0.16) 1px, transparent 1px) 0 0 / 28px 28px,
+        var(--cream);
+      overflow: hidden;
+    }
+    .app-inner { width: min(960px, calc(100% - 32px)); margin: 0 auto; }
+
+    /* Scalloped edge: circles of diameter 2r tiled round the box, the middle filled in. */
+    .scallop {
+      --r: 14px;
+      background: #fff;
+      -webkit-mask:
+        linear-gradient(#000 0 0) 50% / calc(100% - 2 * var(--r)) calc(100% - 2 * var(--r)) no-repeat,
+        radial-gradient(farthest-side, #000 97%, #0000) 0 0 / calc(2 * var(--r)) calc(2 * var(--r)) round;
+      mask:
+        linear-gradient(#000 0 0) 50% / calc(100% - 2 * var(--r)) calc(100% - 2 * var(--r)) no-repeat,
+        radial-gradient(farthest-side, #000 97%, #0000) 0 0 / calc(2 * var(--r)) calc(2 * var(--r)) round;
+    }
+    .scallop.is-small, .app-more-item, .app-step, .app-info-box { --r: 10px; }
+    @media (max-width: 760px) { .scallop { --r: 10px; } }
+    .scallop-shadow { filter: drop-shadow(0 10px 24px rgba(201, 150, 0, 0.16)); }
+
+    .app-btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      min-width: min(300px, 100%); padding: 17px 34px; border-radius: 999px;
+      background: var(--blm-gold); color: var(--blm-ink); text-decoration: none;
+      font-family: var(--font-body); font-size: 15px; font-weight: 700; letter-spacing: 0.04em;
+      box-shadow: 0 6px 0 var(--blm-gold-deep);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .app-btn:hover { transform: translateY(3px); box-shadow: 0 3px 0 var(--blm-gold-deep); }
+    .app-btn.is-line { background: #00843b; color: #fff; box-shadow: 0 6px 0 #005c29; }
+    .app-btn.is-line:hover { box-shadow: 0 3px 0 #005c29; }
+
+    /* ---------- Hero ---------- */
+    .app-hero { position: relative; padding: 10px 0 clamp(70px, 10vw, 110px); }
+    .app-hero-card {
+      position: relative; z-index: 1;
+      width: min(560px, 100%); margin: 0 auto; padding: clamp(44px, 7vw, 64px) clamp(26px, 6vw, 56px);
+      text-align: center;
+    }
+    .app-hero-brand { display: flex; align-items: baseline; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; color: var(--blm-ink); }
+    .app-hero-brand .wordmark { font-size: clamp(30px, 6vw, 42px); }
+    .app-hero-brand small { font-family: var(--font-display); font-size: clamp(14px, 2.6vw, 18px); letter-spacing: 0.08em; }
+    .app-hero-title {
+      font-family: 'K2D', sans-serif; font-weight: 800; color: var(--orange-title);
+      font-size: clamp(30px, 7vw, 46px); line-height: 1.25; letter-spacing: 0.04em;
+      text-shadow: 3px 3px 0 #fff3c4;
+    }
+    .app-hero-free {
+      display: inline-flex; align-items: baseline; gap: 6px; margin: 16px 0 26px;
+      padding: 6px 18px; border-radius: 999px; background: var(--blm-gold-pale);
+      font-size: 14px; color: var(--blm-ink);
+    }
+    .app-hero-free strong { font-size: 24px; color: var(--blm-ink); font-family: var(--font-display); }
+    .app-hero-qr { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 26px; text-align: left; font-size: 12px; color: var(--blm-ink-soft); line-height: 1.7; }
+    .app-hero-qr img { width: 84px; height: 84px; border-radius: 10px; border: 1px solid var(--blm-line); padding: 6px; background: #fff; }
+
+    /* floating polaroids either side of the card */
+    .app-hero-deco { position: absolute; inset: 0; pointer-events: none; }
+    .app-hero-deco span {
+      position: absolute; width: clamp(90px, 16vw, 170px); aspect-ratio: 1; border-radius: 26px;
+      display: grid; place-items: center; font-size: clamp(28px, 5vw, 50px); color: #fff;
+      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.08);
+    }
+    .app-hero-deco span:nth-child(1) { left: -2%; top: 8%; background: var(--blm-pink); transform: rotate(-9deg); }
+    .app-hero-deco span:nth-child(2) { right: -1%; top: 2%; background: #ffd04d; transform: rotate(8deg); }
+    .app-hero-deco span:nth-child(3) { left: 4%; bottom: 14%; background: #8fd3ee; transform: rotate(6deg); }
+    .app-hero-deco span:nth-child(4) { right: 3%; bottom: 10%; background: #b79ae6; transform: rotate(-7deg); }
+    @media (max-width: 700px) {
+      .app-hero-deco span:nth-child(1) { left: -30px; top: -10px; }
+      .app-hero-deco span:nth-child(2) { right: -30px; top: auto; bottom: 30px; }
+      .app-hero-deco span:nth-child(3), .app-hero-deco span:nth-child(4) { display: none; }
+    }
+
+    .app-quick { display: flex; justify-content: center; gap: clamp(22px, 6vw, 48px); margin-top: 34px; position: relative; z-index: 1; }
+    .app-quick a { display: flex; flex-direction: column; align-items: center; gap: 8px; text-decoration: none; color: var(--orange-deep); font-size: 11px; letter-spacing: 0.08em; }
+    .app-quick i {
+      width: 62px; height: 62px; border-radius: 50%; display: grid; place-items: center;
+      background: #fff; border: 2px solid var(--blm-gold); font-size: 22px; color: var(--orange-title);
+      transition: transform 0.2s;
+    }
+    .app-quick a:hover i { transform: translateY(-3px); }
+
+    /* ---------- Intro ---------- */
+    .app-intro { text-align: center; padding: 0 0 clamp(60px, 9vw, 100px); }
+    .app-intro p { font-size: clamp(14px, 1.6vw, 16px); line-height: 2.1; color: var(--blm-ink); }
+    .app-intro p + p { margin-top: 14px; }
+
+    /* ---------- PICK UP blocks on slanted bands ---------- */
+    .app-band { position: relative; padding: clamp(80px, 12vw, 140px) 0; }
+    .app-band::before {
+      content: ''; position: absolute; inset: 0; background: var(--band);
+      clip-path: polygon(0 7%, 100% 0, 100% 93%, 0 100%);
+    }
+    .app-band.is-alt::before { background: #fff; clip-path: polygon(0 0, 100% 7%, 100% 100%, 0 93%); }
+    .app-band > * { position: relative; }
+
+    .pickup { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(30px, 6vw, 70px); align-items: center; }
+    .app-band.is-alt .pickup-media { order: 2; }
+    .pickup-label {
+      display: inline-block; font-family: var(--font-display); font-weight: 700; color: var(--orange-deep);
+      font-size: 13px; letter-spacing: 0.25em; margin-bottom: 10px;
+    }
+    .pickup-label b { font-size: 34px; letter-spacing: 0.04em; margin-left: 4px; }
+    .pickup h2 { font-family: 'K2D', sans-serif; font-size: clamp(22px, 3.4vw, 30px); font-weight: 800; line-height: 1.45; margin-bottom: 16px; }
+    .pickup h2 em { font-style: normal; color: var(--orange-deep); background: linear-gradient(transparent 62%, #fff 62%); }
+    .app-band.is-alt .pickup h2 em { background: linear-gradient(transparent 62%, var(--blm-gold-pale) 62%); }
+    .pickup .more-link a { font-size: 11px; }
+    .pickup p { font-size: 14px; line-height: 2; color: var(--blm-ink-soft); }
+    .pickup-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+    .pickup-tags span { padding: 5px 14px; border-radius: 999px; background: #fff; border: 1px solid var(--blm-gold); font-size: 12px; }
+    .app-band.is-alt .pickup-tags span { background: var(--blm-gold-pale); }
+
+    .pickup-media { display: flex; justify-content: center; }
+    .pickup-phone { width: min(270px, 70vw); filter: drop-shadow(16px 24px 26px rgba(80, 60, 0, 0.2)); transform: rotate(-4deg); }
+    .pickup-tile { width: min(340px, 100%); padding: 38px 30px; text-align: center; }
+    .pickup-tile-icons { display: flex; justify-content: center; gap: 14px; margin-bottom: 18px; }
+    .pickup-tile-icons i { width: 64px; height: 64px; border-radius: 20px; display: grid; place-items: center; font-size: 26px; color: #fff; }
+    .pickup-tile strong { display: block; font-family: var(--font-display); font-size: 30px; color: var(--blm-ink); }
+    .pickup-tile small { font-size: 12px; color: var(--blm-ink-soft); letter-spacing: 0.02em; }
+
+    /* ---------- More contents ---------- */
+    .app-more { padding: clamp(70px, 10vw, 110px) 0; text-align: center; }
+    .app-more-ttl {
+      display: inline-block; padding: 12px 34px; border-radius: 999px; background: var(--orange-deep); color: #fff;
+      font-size: 15px; font-weight: 700; letter-spacing: 0.04em; margin-bottom: 40px;
+    }
+    .app-more-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .app-more-item { padding: 30px 24px 26px; }
+    .app-more-item i { font-size: 28px; color: var(--orange-title); margin-bottom: 14px; }
+    .app-more-item h3 { font-family: var(--font-display); font-size: 13px; letter-spacing: 0.12em; margin-bottom: 8px; }
+    .app-more-item p { font-size: 12px; line-height: 1.8; color: var(--blm-ink-soft); }
+    @media (max-width: 760px) { .app-more-grid { grid-template-columns: 1fr 1fr; gap: 10px; } }
+
+    /* ---------- How to join / usage ---------- */
+    .app-howto { position: relative; padding: clamp(80px, 12vw, 130px) 0 clamp(70px, 10vw, 110px); }
+    .app-howto::before { content: ''; position: absolute; inset: 0; background: var(--band); clip-path: polygon(0 5%, 100% 0, 100% 100%, 0 100%); }
+    .app-howto > * { position: relative; }
+    .app-howto-head { text-align: center; margin-bottom: 40px; }
+    .app-howto-head small { display: block; font-family: var(--font-display); font-size: 11px; letter-spacing: 0.4em; color: var(--orange-deep); margin-bottom: 6px; }
+    .app-howto-head h2 { font-family: 'K2D', sans-serif; font-size: clamp(24px, 4vw, 32px); font-weight: 800; }
+
+    .app-steps { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 30px; counter-reset: step; }
+    .app-step { position: relative; padding: 34px 28px 26px; text-align: center; counter-increment: step; }
+    .app-step::before {
+      content: 'STEP ' counter(step); display: inline-block; margin-bottom: 14px;
+      font-family: var(--font-display); font-size: 11px; font-weight: 700; letter-spacing: 0.2em; color: var(--orange-deep);
+    }
+    .app-step i { display: block; font-size: 30px; color: var(--orange-title); margin-bottom: 12px; }
+    .app-step h3 { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+    .app-step p { font-size: 12.5px; line-height: 1.8; color: var(--blm-ink-soft); }
+    .app-step p a { color: #00733a; font-weight: 700; }
+    @media (max-width: 860px) { .app-steps { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 480px) { .app-steps { grid-template-columns: 1fr; } }
+
+    .app-info { display: grid; gap: 14px; }
+    .app-info-box { padding: 32px clamp(30px, 5vw, 48px); }
+    .app-info-box h3 {
+      display: table; margin: 0 auto 16px; padding: 4px 22px; border-radius: 999px; border: 1px solid var(--orange);
+      font-size: 13px; font-weight: 700; color: var(--orange-deep); letter-spacing: 0.04em;
+    }
+    .app-price { text-align: center; }
+    .app-price strong { font-family: var(--font-display); font-size: clamp(38px, 7vw, 52px); color: var(--blm-ink); }
+    .app-price span { font-size: 15px; margin-left: 4px; }
+    .app-info-box ul { list-style: none; font-size: 13.5px; line-height: 2; color: var(--blm-ink); }
+    .app-info-box li { padding-left: 1em; text-indent: -1em; }
+    .app-info-box li::before { content: '・'; }
+    .app-info-box .note { margin-top: 10px; font-size: 12px; color: var(--blm-ink-soft); line-height: 1.8; text-align: center; }
+
+    .app-final { text-align: center; margin-top: 44px; display: flex; flex-direction: column; align-items: center; gap: 22px; }
+
+    /* ---------- Floating join badge ---------- */
+    .app-float {
+      position: fixed; right: clamp(12px, 3vw, 36px); bottom: clamp(12px, 3vw, 36px); z-index: 2400;
+      width: 104px; height: 104px; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center;
+      background: #fff; border: 4px solid var(--blm-gold); box-shadow: 0 0 0 4px #fff, 0 8px 20px rgba(0, 0, 0, 0.12);
+      text-decoration: none; color: var(--orange-deep); line-height: 1.3; text-align: center;
+      opacity: 0; transform: scale(0.8); pointer-events: none; transition: opacity 0.3s, transform 0.3s;
+    }
+    .app-float.show { opacity: 1; transform: scale(1); pointer-events: auto; }
+    .app-float small { font-family: var(--font-display); font-size: 11px; letter-spacing: 0.15em; }
+    .app-float b { font-size: 16px; }
+    .app-float:hover { transform: scale(1.05); }
+    /* keep the shared page-top button clear of the badge */
+    .page-top-btn { bottom: calc(clamp(12px, 3vw, 36px) + 124px); }
+
+    @media (max-width: 760px) {
+      .pickup { grid-template-columns: 1fr; text-align: center; }
+      .app-band.is-alt .pickup-media { order: 0; }
+      .pickup-tags { justify-content: center; }
+      .app-float { width: 88px; height: 88px; }
+      .app-float b { font-size: 14px; }
+      .page-top-btn { bottom: calc(clamp(12px, 3vw, 36px) + 106px); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .app-btn, .app-float, .app-quick i { transition: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="site-header"></div>
+  <script src="assets/js/nav.js"></script>
+
+  <main class="app-page">
+
+    <section class="app-hero">
+      <div class="app-inner" style="position:relative">
+        <div class="app-hero-deco" aria-hidden="true">
+          <span><i class="fas fa-heart"></i></span>
+          <span><i class="fas fa-crown"></i></span>
+          <span><i class="fas fa-cookie-bite"></i></span>
+          <span><i class="fas fa-star"></i></span>
+        </div>
+
+        <div class="scallop-shadow">
+          <div class="app-hero-card scallop">
+            <div class="app-hero-brand">
+              <span class="wordmark" role="img" aria-label="BLM48"></span>
+              <small>Application</small>
+            </div>
+            <h1 class="app-hero-title">เปิดรับสมาชิกใหม่</h1>
+            <div class="app-hero-free">ค่าสมัคร <strong>ฟรี</strong> ไม่มีค่าใช้จ่าย</div>
+            <div>
+              <a href="#join" class="app-btn">สมัครสมาชิก <i class="fas fa-chevron-right" aria-hidden="true"></i></a>
+            </div>
+            <div class="app-hero-qr">
+              <img src="assets/img/blm48-app-qr.png" alt="QR code สำหรับเปิดแอป BLM48">
+              <span>สแกนเพื่อเปิดแอป<br>ใช้งานผ่านเบราว์เซอร์<br>บนสมาร์ทโฟนได้ทันที</span>
+            </div>
+          </div>
+        </div>
+
+        <nav class="app-quick" aria-label="Application highlights">
+          <a href="#pickup1"><i class="fas fa-crown" aria-hidden="true"></i>CHAMP</a>
+          <a href="#pickup2"><i class="fas fa-coins" aria-hidden="true"></i>TOKEN</a>
+          <a href="#pickup3"><i class="fas fa-store" aria-hidden="true"></i>SHOP</a>
+        </nav>
+      </div>
+    </section>
+
+    <section class="app-intro">
+      <div class="app-inner">
+        <p class="reveal"><strong>BLM48 Application</strong> คือแอปสมาชิกอย่างเป็นทางการของ BLM48<br>พื้นที่ที่แฟน ๆ ได้ใกล้ชิดเมมเบอร์ และเติบโตไปพร้อมกับวง</p>
+        <p class="reveal reveal-1">สมัครฟรี ใช้งานได้ทันทีบนสมาร์ทโฟน<br>ไม่ต้องดาวน์โหลด ไม่มีค่าบริการรายเดือน</p>
+      </div>
+    </section>
+
+    <section class="app-band" id="pickup1">
+      <div class="app-inner pickup">
+        <div class="pickup-media reveal">
+          <img class="pickup-phone" src="assets/img/blm48-app-phone.webp" alt="หน้าจอ Discover ในแอป BLM48 แสดง Champ of the Month และ Special Fans Day" loading="lazy">
+        </div>
+        <div class="reveal reveal-1">
+          <span class="pickup-label">PICK UP<b>#01</b></span>
+          <h2>ส่งใจให้เมมเบอร์<br>ขึ้นเป็น <em>Champ of the Month</em></h2>
+          <p>ติดตามโพสต์และความเคลื่อนไหวของเมมเบอร์ได้ในหน้า Discover ส่ง Cookie ให้โพสต์ที่ชอบ ร่วมลุ้นอันดับใน Special Fans Day และ Top Today VIP ทุกวัน เมมเบอร์ที่ได้รับการสนับสนุนมากที่สุดจะได้เป็น Champ of the Month</p>
+          <div class="pickup-tags"><span>Discover</span><span>Special Fans Day</span><span>Top Today VIP</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="app-band is-alt" id="pickup2">
+      <div class="app-inner pickup">
+        <div class="pickup-media reveal">
+          <div class="scallop-shadow">
+            <div class="pickup-tile scallop">
+              <div class="pickup-tile-icons" aria-hidden="true">
+                <i class="fas fa-calendar-check" style="background:#ffc93c"></i>
+                <i class="fas fa-check-to-slot" style="background:var(--blm-pink)"></i>
+              </div>
+              <strong>100 Token</strong>
+              <small>รับฟรีทุกเดือน เมื่อเช็คอินครบ</small>
+            </div>
+          </div>
+        </div>
+        <div class="reveal reveal-1">
+          <span class="pickup-label">PICK UP<b>#02</b></span>
+          <h2>เช็คอินทุกวัน รับ <em>BLM Token</em><br>ไว้โหวต Major Vote</h2>
+          <p>เช็คอินในแอปครบทั้งเดือนรับฟรี 100 Token นำไปร่วมโหวตให้เมมเบอร์ที่ชื่นชอบในกิจกรรม BLM48 Major Vote ทุกคะแนนตรวจสอบได้ด้วย wallet code ของคุณ</p>
+          <div class="pickup-tags"><span>Check-in</span><span>Major Vote</span><span>Wallet</span></div>
+          <div class="more-link" style="justify-content:inherit;margin-top:22px"><a href="token">About BLM Token</a></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="app-band" id="pickup3">
+      <div class="app-inner pickup">
+        <div class="pickup-media reveal">
+          <div class="scallop-shadow">
+            <div class="pickup-tile scallop">
+              <div class="pickup-tile-icons" aria-hidden="true">
+                <i class="fas fa-gift" style="background:#b79ae6"></i>
+                <i class="fas fa-mug-hot" style="background:#8fd3ee"></i>
+                <i class="fas fa-cookie-bite" style="background:#ffae2e"></i>
+              </div>
+              <strong>Shop &amp; Café</strong>
+              <small>Gacha · เมนูเครื่องดื่ม · แลก Cookie</small>
+            </div>
+          </div>
+        </div>
+        <div class="reveal reveal-1">
+          <span class="pickup-label">PICK UP<b>#03</b></span>
+          <h2>ใช้ Token ใน <em>BLM48 Shop</em><br>สุ่ม Gacha สั่งเมนู Café</h2>
+          <p>นำ Token ไปแลกเป็น Cookie สุ่ม Gacha ไอเท็มพิเศษ หรือสั่งเครื่องดื่มจาก BLM48 Café ให้เมมเบอร์คนโปรด ของสะสมทั้งหมดเก็บไว้ในกระเป๋าของคุณในแอป</p>
+          <div class="pickup-tags"><span>Gacha</span><span>Café</span><span>Cookie</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="app-more">
+      <div class="app-inner">
+        <p class="app-more-ttl reveal">ยังมีคอนเทนต์สำหรับสมาชิกอีกมากมาย!</p>
+        <div class="app-more-grid">
+          <div class="scallop-shadow reveal"><div class="app-more-item scallop"><i class="fas fa-images" aria-hidden="true"></i><h3>MEMBER POST</h3><p>โพสต์และรูปภาพจากเมมเบอร์</p></div></div>
+          <div class="scallop-shadow reveal reveal-1"><div class="app-more-item scallop"><i class="fas fa-ranking-star" aria-hidden="true"></i><h3>RANKING</h3><p>อันดับแฟนคลับและเมมเบอร์รายวัน</p></div></div>
+          <div class="scallop-shadow reveal reveal-2"><div class="app-more-item scallop"><i class="fas fa-briefcase" aria-hidden="true"></i><h3>MY BAG</h3><p>เก็บไอเท็มและของสะสมของคุณ</p></div></div>
+          <div class="scallop-shadow reveal reveal-3"><div class="app-more-item scallop"><i class="fas fa-bell" aria-hidden="true"></i><h3>EVENT</h3><p>กิจกรรมพิเศษเฉพาะสมาชิก</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="app-howto" id="join">
+      <div class="app-inner">
+        <div class="app-howto-head reveal">
+          <small>HOW TO JOIN</small>
+          <h2>วิธีสมัครและใช้งาน</h2>
+        </div>
+
+        <ol class="app-steps">
+          <li class="scallop-shadow reveal"><div class="app-step scallop"><i class="fab fa-line" aria-hidden="true"></i><h3>เพิ่มเพื่อน LINE</h3><p>แอด BLM48 LINE Official<br><a href="https://line.me/R/ti/p/@569rnpsj" target="_blank" rel="noopener">@569rnpsj</a></p></div></li>
+          <li class="scallop-shadow reveal reveal-1"><div class="app-step scallop"><i class="fas fa-comment-dots" aria-hidden="true"></i><h3>แจ้งสมัครสมาชิก</h3><p>ส่งข้อความแจ้งขอสมัคร BLM48 Membership ฟรี</p></div></li>
+          <li class="scallop-shadow reveal reveal-2"><div class="app-step scallop"><i class="fas fa-id-card" aria-hidden="true"></i><h3>รับ Membership ID</h3><p>ทีมงานส่ง Membership ID และรหัสผ่านให้ทาง LINE</p></div></li>
+          <li class="scallop-shadow reveal reveal-3"><div class="app-step scallop"><i class="fas fa-right-to-bracket" aria-hidden="true"></i><h3>เข้าสู่ระบบ</h3><p>เปิดแอป กรอก ID และรหัสผ่าน แล้วเริ่มใช้งานได้เลย</p></div></li>
+        </ol>
+
+        <div class="app-info">
+          <div class="scallop-shadow reveal"><div class="app-info-box scallop">
+            <h3>ค่าบริการ</h3>
+            <p class="app-price"><strong>0</strong><span>บาท</span></p>
+            <p class="note">สมัครฟรี ไม่มีค่าสมัคร และไม่มีค่าบริการรายเดือน</p>
+          </div></div>
+
+          <div class="scallop-shadow reveal"><div class="app-info-box scallop">
+            <h3>การใช้งาน</h3>
+            <ul>
+              <li>ใช้งานผ่านเว็บเบราว์เซอร์ ไม่ต้องดาวน์โหลดจาก App Store หรือ Google Play</li>
+              <li>แนะนำให้กด "เพิ่มไปยังหน้าจอโฮม" (Add to Home Screen) เพื่อเปิดแอปได้ในแตะเดียว</li>
+              <li>เช็คอินทุกวันเพื่อสะสมสิทธิ์รับ 100 Token ฟรีในแต่ละเดือน</li>
+              <li>หากลืมรหัสผ่าน หรือพบปัญหาการใช้งาน ติดต่อทีมงานทาง LINE @569rnpsj</li>
+            </ul>
+          </div></div>
+
+          <div class="scallop-shadow reveal"><div class="app-info-box scallop">
+            <h3>สภาพแวดล้อมที่แนะนำ</h3>
+            <ul>
+              <li>iOS: Safari เวอร์ชันล่าสุด</li>
+              <li>Android: Google Chrome เวอร์ชันล่าสุด</li>
+              <li>เปิดบนคอมพิวเตอร์ได้เช่นกัน แต่ออกแบบมาเพื่อสมาร์ทโฟนเป็นหลัก</li>
+            </ul>
+          </div></div>
+        </div>
+
+        <div class="app-final reveal">
+          <a href="https://line.me/R/ti/p/@569rnpsj" target="_blank" rel="noopener" class="app-btn is-line"><i class="fab fa-line" aria-hidden="true"></i> สมัครฟรีผ่าน LINE</a>
+          <a href="https://blm48-membership.vercel.app/" target="_blank" rel="noopener" class="app-btn">มีบัญชีแล้ว · เข้าสู่ระบบ <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <a href="#join" class="app-float" id="appFloat"><small>FREE</small><b>สมัครฟรี</b></a>
+
+  <div id="site-footer"></div>
+
+  <script>
+    // The join badge appears once the hero card has scrolled away, and hides
+    // again while the How-to-join section itself is on screen.
+    (function () {
+      var badge = document.getElementById('appFloat');
+      var join = document.getElementById('join');
+      function update() {
+        var r = join.getBoundingClientRect();
+        var inJoin = r.top < window.innerHeight * 0.6 && r.bottom > 0;
+        badge.classList.toggle('show', window.scrollY > 500 && !inJoin);
+      }
+      update();
+      window.addEventListener('scroll', update, { passive: true });
+      window.addEventListener('resize', update, { passive: true });
+    })();
+  </script>
+</body>
+</html>

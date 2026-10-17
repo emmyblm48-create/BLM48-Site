@@ -17,6 +17,7 @@
     { href: 'about', page: 'about', label: 'About BLM48' },
     { href: 'cafe', page: 'cafe', label: 'Cafe' },
     { href: 'token', page: 'token', label: 'Token' },
+    { href: 'app', page: 'app', label: 'Application' },
     { href: 'https://blm48-membership.vercel.app/', page: '', label: 'Membership' },
     { href: 'https://blm48-membership.vercel.app/shop', page: '', label: 'Official Shop' }
   ];
