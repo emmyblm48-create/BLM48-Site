@@ -15,7 +15,9 @@
     { href: 'profile', page: 'profile', label: 'Profile' },
     { href: 'discography', page: 'discography', label: 'Discography' },
     { href: 'about', page: 'about', label: 'About BLM48' },
-    { href: 'cafe', page: 'cafe', label: 'Cafe' },
+    // Cafe is still in development: hidden from the menu and footer for now
+    // (cafe.html itself is untouched). Uncomment to bring it back.
+    // { href: 'cafe', page: 'cafe', label: 'Cafe' },
     { href: 'token', page: 'token', label: 'Token' },
     { href: 'app', page: 'app', label: 'Fan Club' },
     { href: 'https://blm48-membership.vercel.app/', page: '', label: 'Membership' },
