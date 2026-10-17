@@ -23,7 +23,6 @@ window.BLM48_STATIC_SHEETS = {
     {"image":"assets/img/hero/official-app.webp","title":"BLM48 Official App has arrived","subtitle":"","link":"app-introduction","ggDrive":""}
   ],
   LinkBanners: [
-    {"image":"https://lh3.googleusercontent.com/d/1CjxVjPiX4dRvYJOSxdRuW0t9bRRnYuLM=s1000","link":"https://blm48-app.vercel.app/","title":"","ggDrive":"https://drive.google.com/file/d/1CjxVjPiX4dRvYJOSxdRuW0t9bRRnYuLM/view?usp=drive_link"},
     {"image":"https://lh3.googleusercontent.com/d/1NMgPrz7lKM1GICLBpHS2v4ji3LGrjOex=s1000","link":"https://www.youtube.com/@blm48official","title":"","ggDrive":"https://drive.google.com/file/d/1NMgPrz7lKM1GICLBpHS2v4ji3LGrjOex/view?usp=drive_link"},
     {"image":"https://lh3.googleusercontent.com/d/1-fTdfoXaYSZCqRgzxQ0Dvl6P3RsrFEvd=s1000","link":"https://www.instagram.com/blm48thecampus/","title":"","ggDrive":"https://drive.google.com/file/d/1-fTdfoXaYSZCqRgzxQ0Dvl6P3RsrFEvd/view?usp=drive_link"},
     {"image":"assets/img/banner-official-shop.webp","link":"https://blm48-membership.vercel.app/shop","title":"BLM48 Official Shop","ggDrive":""}

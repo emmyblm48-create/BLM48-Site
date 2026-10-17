@@ -186,7 +186,9 @@
   <!-- 6. FOOTER: social circles + logo come from nav.js; this slot goes in under the logo -->
   <div id="site-footer">
     <div class="footer-slot">
-      <div class="foot-bnr" id="linkBannersGrid"></div>
+      <div class="foot-bnr" id="linkBannersGrid">
+        <a href="https://npt48.vercel.app/" target="_blank" rel="noopener"><img src="assets/img/banner-npt48.webp" alt="NPT48 Official Web Site" loading="lazy"></a>
+      </div>
       <div class="group-row" aria-label="AKB48 Group">
         <a href="https://www.akb48.co.jp/" target="_blank" rel="noopener"><img src="https://s.akb48.co.jp/v2/index/img/g_akb48.png?ver=53" alt="AKB48"></a>
         <a href="https://www.ske48.co.jp/" target="_blank" rel="noopener"><img src="https://s.akb48.co.jp/v2/index/img/g_ske48.png?ver=53" alt="SKE48"></a>
@@ -435,12 +437,13 @@
       const gridEl = document.getElementById('linkBannersGrid');
       let rows = [];
       try { rows = await BLM48Data.fetchSheet('LinkBanners'); } catch (err) { rows = []; }
-      if (!rows.length) { gridEl.remove(); return; }
-      gridEl.innerHTML = rows.map(item => `
+      // The NPT48 banner is fixed in the markup as the first tile; sheet banners follow it.
+      if (!rows.length) return;
+      gridEl.insertAdjacentHTML('beforeend', rows.map(item => `
         <a href="${item.link || '#'}" ${item.link ? 'target="_blank" rel="noopener"' : ''}>
           <img src="${BLM48Data.driveImg(item.image || item.thumbnail)}" alt="${item.title || 'BLM48'}" loading="lazy" onerror="BLM48Data.imgRetry(this)">
         </a>
-      `).join('');
+      `).join(''));
     }
 
     renderBanners();
