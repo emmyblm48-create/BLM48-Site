@@ -128,6 +128,9 @@
         renderGrid('ALL');
         document.getElementById('loading-overlay').style.display = 'none';
         document.getElementById('main-view').style.display = 'block';
+        // profile?member=<name> (the Home page member strip) opens straight on that member
+        const wanted = new URLSearchParams(location.search).get('member');
+        if (wanted) viewDetail(wanted);
       } catch (err) {
         document.getElementById('loading-overlay').innerHTML = "Error loading data";
       }
