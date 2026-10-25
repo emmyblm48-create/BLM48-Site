@@ -69,8 +69,8 @@ window.BLM48_STATIC_SHEETS = {
     {"date":"2026-06-20","note":"10th single C/W","title":"「Dakishimecha Ikenai - กอดเธอไม่ได้หรอก」 Music Video","thumbnail":"https://lh3.googleusercontent.com/d/12oY6a47NtLHsAyqsavAPUw6TSPbYYwRa=s1000","link":"https://youtu.be/f9t5C4K3Wk0?si=pq9u-E0zRNnhRW7H"},
     {"date":"2026-04-25","note":"10th single","title":"「Sustainable」 Music Video","thumbnail":"https://lh3.googleusercontent.com/d/1WXp1ZbzQ8ib1gb3imrDGQ7KjnFJZUaOO=s1000","link":"https://youtu.be/1Vwg1iQUDtc?si=MhOKdpthQEuVebdK"},
     {"date":"2026-04-04","note":"BLM48 3rd Generation Special Single","title":"「Celebration」 Music Video","thumbnail":"https://lh3.googleusercontent.com/d/11zU0OJFxJ9WFzqQvfrqPJrCUUyG-KJZJ=s1000","link":"https://youtu.be/TAPlWWZMGFQ?si=__iqu3sD3ys8ORsh"},
-    {"date":"2025-03-21","note":"9th single C/W","title":"「Sekai no Hito e - ถึงบรรเลง..ถ้อยเพลงของเรา」 Music Video","thumbnail":"https://lh3.googleusercontent.com/d/1wD34e9W6bHHuf9SJ_qBf6I_4e-c_oLen=s1000","link":"https://youtu.be/tqFr0QPgqR0?si=Tbdpd6Qz27KNgbXu"},
-    {"date":"2025-02-28","note":"9th single C/W","title":"「Eien Pressure - ผูกพันนิรันดร์」 Music Video","thumbnail":"https://lh3.googleusercontent.com/d/1-GMwAgsjKBORWgEHNKPUyecvDRo1w-Gc=s1000","link":"https://youtu.be/-rhmBTZoZk0?si=sPfBNaZs5arpLAnn"}
+    {"date":"2026-03-21","note":"9th single C/W","title":"「Sekai no Hito e - ถึงบรรเลง..ถ้อยเพลงของเรา」 Music Video","thumbnail":"https://lh3.googleusercontent.com/d/1wD34e9W6bHHuf9SJ_qBf6I_4e-c_oLen=s1000","link":"https://youtu.be/tqFr0QPgqR0?si=Tbdpd6Qz27KNgbXu"},
+    {"date":"2026-02-28","note":"9th single C/W","title":"「Eien Pressure - ผูกพันนิรันดร์」 Music Video","thumbnail":"https://lh3.googleusercontent.com/d/1-GMwAgsjKBORWgEHNKPUyecvDRo1w-Gc=s1000","link":"https://youtu.be/-rhmBTZoZk0?si=sPfBNaZs5arpLAnn"}
   ]
 };
 
